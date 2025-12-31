@@ -1,0 +1,1546 @@
+{
+    "year": 2026,
+    "category": "training",
+    "region": "indonesia",
+    "programs": [
+        {
+            "id": 1,
+            "name": "First Aid Training - Kemenaker",
+            "reference": "Certification",
+            "plan_type": "Annually",
+            "months": {
+                "jan": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "apr": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "oct": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 2,
+            "name": "Fire Training (DAMKAR D) - Kemenaker",
+            "reference": "Certification",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 2,
+                    "actual": 3
+                },
+                "feb": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "mar": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "apr": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "may": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "jun": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "jul": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "aug": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "sep": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "oct": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "nov": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "dec": {
+                    "plan": 2,
+                    "actual": 0
+                }
+            },
+            "progress": 96
+        },
+        {
+            "id": 3,
+            "name": "AK3 Umum Training - Kemenaker",
+            "reference": "Certification",
+            "plan_type": "Annually",
+            "months": {
+                "jan": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "apr": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 4,
+            "name": "K3 MIGAS Training - BNSP",
+            "reference": "Certification",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 2
+                },
+                "may": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "jun": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "sep": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "dec": {
+                    "plan": 1,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 5,
+            "name": "POPAL - BNSP",
+            "reference": "Certification",
+            "plan_type": "Quarterly",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 6,
+            "name": "PAA Lifting Equipment Operator",
+            "reference": "Certification",
+            "plan_type": "Quarterly",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 7,
+            "name": "TKBT 2 - Working At Height Certification",
+            "reference": "Certification",
+            "plan_type": "Quarterly",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 8,
+            "name": "Safety 101 Training and HSE Minimum",
+            "reference": "Training Modules",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "feb": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "mar": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "apr": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "may": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "jun": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "jul": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "aug": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "sep": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "oct": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "nov": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "dec": {
+                    "plan": 4,
+                    "actual": 0
+                }
+            },
+            "progress": 92
+        },
+        {
+            "id": 9,
+            "name": "Safety 201 Training for Supv Level",
+            "reference": "Training Modules",
+            "plan_type": "Annually",
+            "months": {
+                "jan": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "apr": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "oct": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 10,
+            "name": "HSE Induction / Orientation for New Employee",
+            "reference": "Training Modules",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 2,
+                    "actual": 3
+                },
+                "feb": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "mar": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "apr": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "may": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "jun": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "jul": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "aug": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "sep": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "oct": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "nov": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "dec": {
+                    "plan": 2,
+                    "actual": 0
+                }
+            },
+            "progress": 96
+        },
+        {
+            "id": 11,
+            "name": "Hand & Finger Injury Prevention Campaign",
+            "reference": "Training Modules",
+            "plan_type": "Annually",
+            "months": {
+                "jan": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "apr": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 12,
+            "name": "Lifting & Rigging Operator Coaching",
+            "reference": "Training Modules",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 2
+                },
+                "may": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "jun": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "sep": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "dec": {
+                    "plan": 1,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 13,
+            "name": "Basic Fire Safety Training",
+            "reference": "Training Modules",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 14,
+            "name": "Hands Off Lifting Campaign",
+            "reference": "Training Modules",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 15,
+            "name": "Health Talk by Doctor",
+            "reference": "Training Modules",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "feb": {
+                    "plan": 2,
+                    "actual": 3
+                },
+                "mar": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "apr": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "may": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "jun": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "jul": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "aug": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "sep": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "oct": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "nov": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "dec": {
+                    "plan": 2,
+                    "actual": 0
+                }
+            },
+            "progress": 96
+        },
+        {
+            "id": 16,
+            "name": "Risk Management and SWA Training",
+            "reference": "Training Modules",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "feb": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "mar": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "apr": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "may": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "jun": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "jul": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "aug": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "sep": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "oct": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "nov": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "dec": {
+                    "plan": 3,
+                    "actual": 0
+                }
+            },
+            "progress": 92
+        },
+        {
+            "id": 17,
+            "name": "Waste Management",
+            "reference": "Training Modules",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 2
+                },
+                "feb": {
+                    "plan": 1,
+                    "actual": 3
+                },
+                "mar": {
+                    "plan": 1,
+                    "actual": 3
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 2
+                },
+                "may": {
+                    "plan": 1,
+                    "actual": 2
+                },
+                "jun": {
+                    "plan": 1,
+                    "actual": 2
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 2
+                },
+                "aug": {
+                    "plan": 1,
+                    "actual": 2
+                },
+                "sep": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "dec": {
+                    "plan": 1,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 18,
+            "name": "DROPS",
+            "reference": "Training Modules",
+            "plan_type": "Quarterly",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 3
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 3
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 4
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 2
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 2
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 2
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 2
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 19,
+            "name": "Move SMART / Manual Handling",
+            "reference": "Training Modules",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "jul": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "sep": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 2
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 20,
+            "name": "SWC Refreshment Training",
+            "reference": "Training Modules",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "jun": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "sep": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "dec": {
+                    "plan": 1,
+                    "actual": 0
+                }
+            },
+            "progress": 92
+        },
+        {
+            "id": 21,
+            "name": "H2S Awareness",
+            "reference": "Training Modules",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "jun": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "sep": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "dec": {
+                    "plan": 1,
+                    "actual": 0
+                }
+            },
+            "progress": 92
+        },
+        {
+            "id": 22,
+            "name": "Motor Vehicle Safety and Commentary Drive",
+            "reference": "Training Modules",
+            "plan_type": "Annually",
+            "months": {
+                "jan": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "apr": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "aug": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 23,
+            "name": "Spotter Training (PHR)",
+            "reference": "Training Modules",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "feb": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "mar": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "apr": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "may": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "jun": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "jul": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "aug": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "sep": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "oct": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "nov": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "dec": {
+                    "plan": 3,
+                    "actual": 0
+                }
+            },
+            "progress": 92
+        },
+        {
+            "id": 24,
+            "name": "RA Awareness",
+            "reference": "Training Modules",
+            "plan_type": "Quarterly",
+            "months": {
+                "jan": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "apr": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "oct": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 25,
+            "name": "Lithium Battery Awareness",
+            "reference": "Training Modules",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "feb": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "mar": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "apr": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "may": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "jun": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "jul": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "aug": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "sep": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "oct": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "nov": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "dec": {
+                    "plan": 3,
+                    "actual": 0
+                }
+            },
+            "progress": 92
+        },
+        {
+            "id": 26,
+            "name": "Lock Out Tag Out (LOTO) Awareness",
+            "reference": "Training Modules",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "feb": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "mar": {
+                    "plan": 3,
+                    "actual": 4
+                },
+                "apr": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "may": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "jun": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "jul": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "aug": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "sep": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "oct": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "nov": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "dec": {
+                    "plan": 3,
+                    "actual": 0
+                }
+            },
+            "progress": 94
+        },
+        {
+            "id": 27,
+            "name": "CLSR",
+            "reference": "Training Modules",
+            "plan_type": "Quarterly",
+            "months": {
+                "jan": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "aug": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "oct": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "nov": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        }
+    ]
+}

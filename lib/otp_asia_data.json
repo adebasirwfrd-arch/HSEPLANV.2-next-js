@@ -1,0 +1,1373 @@
+{
+    "year": 2026,
+    "programs": [
+        {
+            "id": 1,
+            "name": "EIP and reduction plan",
+            "plan_type": "Monthly",
+            "due_date": "2025-02-14",
+            "months": {
+                "jan": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "feb": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "mar": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "apr": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "may": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "jun": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "jul": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "aug": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "sep": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "oct": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "nov": {
+                    "plan": 4,
+                    "actual": 4
+                },
+                "dec": {
+                    "plan": 4,
+                    "actual": 0
+                }
+            },
+            "progress": 92
+        },
+        {
+            "id": 2,
+            "name": "12 Facility Inspections",
+            "plan_type": "Monthly",
+            "due_date": "2025-12-31",
+            "months": {
+                "jan": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "apr": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "oct": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 3,
+            "name": "Incident Management",
+            "plan_type": "Monthly",
+            "due_date": "2025-12-01",
+            "months": {
+                "jan": {
+                    "plan": 2,
+                    "actual": 3
+                },
+                "feb": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "mar": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "apr": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "may": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "jun": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "jul": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "aug": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "sep": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "oct": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "nov": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "dec": {
+                    "plan": 2,
+                    "actual": 0
+                }
+            },
+            "progress": 96
+        },
+        {
+            "id": 4,
+            "name": "Leadership Site Engagement (LSE) Country",
+            "plan_type": "Annually",
+            "due_date": "2025-12-31",
+            "months": {
+                "jan": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "apr": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 5,
+            "name": "Close All HSSE Audits from 2023-2024",
+            "plan_type": "Monthly",
+            "due_date": "2025-12-31",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 2
+                },
+                "may": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "jun": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "sep": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "dec": {
+                    "plan": 1,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 6,
+            "name": "Country/ facility Legal Register",
+            "plan_type": "Quarterly",
+            "due_date": "2025-12-31",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 7,
+            "name": "HSSE Competency",
+            "plan_type": "Monthly",
+            "due_date": "2025-12-31",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 8,
+            "name": "Driving Operations Risk Management",
+            "plan_type": "Monthly",
+            "due_date": "2025-12-31",
+            "months": {
+                "jan": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "feb": {
+                    "plan": 2,
+                    "actual": 3
+                },
+                "mar": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "apr": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "may": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "jun": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "jul": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "aug": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "sep": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "oct": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "nov": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "dec": {
+                    "plan": 2,
+                    "actual": 0
+                }
+            },
+            "progress": 96
+        },
+        {
+            "id": 9,
+            "name": "Fire Risk Assessment",
+            "plan_type": "Monthly",
+            "due_date": "2025-12-31",
+            "months": {
+                "jan": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "feb": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "mar": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "apr": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "may": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "jun": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "jul": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "aug": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "sep": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "oct": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "nov": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "dec": {
+                    "plan": 3,
+                    "actual": 0
+                }
+            },
+            "progress": 92
+        },
+        {
+            "id": 10,
+            "name": "Electrical Risk Assessment",
+            "plan_type": "Monthly",
+            "due_date": "2025-12-31",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 2
+                },
+                "feb": {
+                    "plan": 1,
+                    "actual": 3
+                },
+                "mar": {
+                    "plan": 1,
+                    "actual": 3
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 2
+                },
+                "may": {
+                    "plan": 1,
+                    "actual": 2
+                },
+                "jun": {
+                    "plan": 1,
+                    "actual": 2
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 2
+                },
+                "aug": {
+                    "plan": 1,
+                    "actual": 2
+                },
+                "sep": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "dec": {
+                    "plan": 1,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 11,
+            "name": "Machine guarding review and inspection",
+            "plan_type": "Quarterly",
+            "due_date": "2025-12-31",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 3
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 3
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 4
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 2
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 2
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 2
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 2
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 12,
+            "name": "Emergency Response process",
+            "plan_type": "Annually",
+            "due_date": "2025-12-31",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "jul": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "sep": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 2
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 13,
+            "name": "Hazard Hunt",
+            "plan_type": "Monthly",
+            "due_date": "2025-12-31",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "jun": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "sep": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "dec": {
+                    "plan": 1,
+                    "actual": 0
+                }
+            },
+            "progress": 92
+        },
+        {
+            "id": 14,
+            "name": "Short Service Employee Program",
+            "plan_type": "Quarterly",
+            "due_date": "2025-12-31",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "jun": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "sep": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "dec": {
+                    "plan": 1,
+                    "actual": 0
+                }
+            },
+            "progress": 92
+        },
+        {
+            "id": 15,
+            "name": "Safety 101",
+            "plan_type": "Annually",
+            "due_date": "2025-12-31",
+            "months": {
+                "jan": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "apr": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "aug": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 16,
+            "name": "Safety 201",
+            "plan_type": "Annually",
+            "due_date": "2025-08-31",
+            "months": {
+                "jan": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "apr": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "may": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "oct": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 17,
+            "name": "Work Planning",
+            "plan_type": "Monthly",
+            "due_date": "2025-12-31",
+            "months": {
+                "jan": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "feb": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "mar": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "apr": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "may": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "jun": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "jul": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "aug": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "sep": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "oct": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "nov": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "dec": {
+                    "plan": 3,
+                    "actual": 0
+                }
+            },
+            "progress": 92
+        },
+        {
+            "id": 18,
+            "name": "LOTO Program",
+            "plan_type": "Quarterly",
+            "due_date": "2025-12-31",
+            "months": {
+                "jan": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "apr": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "oct": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 19,
+            "name": "HSE OEPS Full Audit",
+            "plan_type": "Monthly",
+            "due_date": "2025-12-31",
+            "months": {
+                "jan": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "feb": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "mar": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "apr": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "may": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "jun": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "jul": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "aug": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "sep": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "oct": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "nov": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "dec": {
+                    "plan": 3,
+                    "actual": 0
+                }
+            },
+            "progress": 92
+        },
+        {
+            "id": 20,
+            "name": "Asia Local Documents",
+            "plan_type": "Annually",
+            "due_date": "2025-12-30",
+            "months": {
+                "jan": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "feb": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "mar": {
+                    "plan": 3,
+                    "actual": 4
+                },
+                "apr": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "may": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "jun": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "jul": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "aug": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "sep": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "oct": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "nov": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "dec": {
+                    "plan": 3,
+                    "actual": 0
+                }
+            },
+            "progress": 94
+        },
+        {
+            "id": 21,
+            "name": "Air Emissions Inventory",
+            "plan_type": "Quarterly",
+            "due_date": "2025-11-01",
+            "months": {
+                "jan": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "aug": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "oct": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "nov": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 22,
+            "name": "Hazardous Waste Register",
+            "plan_type": "Quarterly",
+            "due_date": "2025-12-31",
+            "months": {
+                "jan": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "mar": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "oct": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "nov": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 23,
+            "name": "Hazmat Self-Assessment - Country",
+            "plan_type": "Monthly",
+            "due_date": "2025-02-14",
+            "months": {
+                "jan": {
+                    "plan": 3,
+                    "actual": 3
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "apr": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "may": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "oct": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 24,
+            "name": "HAZMAT Competency",
+            "plan_type": "Annually",
+            "due_date": "2025-12-31",
+            "months": {
+                "jan": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "apr": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "aug": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "oct": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        }
+    ]
+}

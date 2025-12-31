@@ -1,0 +1,1125 @@
+{
+  "year": 2026,
+  "programs": [
+    {
+      "id": 1,
+      "name": "Provide weekly Driver driving performance report (RAG) for review",
+      "plan_type": "4 report/Month",
+      "due_date": null,
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 2,
+      "name": "Conduct Driver and Vehicle Safety Standard Audit for Duri, Narogong & Balikpapan",
+      "plan_type": "3 Base in a Year",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 4, "actual": 4},
+        "feb": {"plan": 4, "actual": 4},
+        "mar": {"plan": 4, "actual": 4},
+        "apr": {"plan": 4, "actual": 4},
+        "may": {"plan": 4, "actual": 4},
+        "jun": {"plan": 4, "actual": 4},
+        "jul": {"plan": 4, "actual": 4},
+        "aug": {"plan": 4, "actual": 4},
+        "sep": {"plan": 4, "actual": 4},
+        "oct": {"plan": 4, "actual": 4},
+        "nov": {"plan": 4, "actual": 0},
+        "dec": {"plan": 4, "actual": 0}
+      }
+    },
+    {
+      "id": 3,
+      "name": "Conduct vehicle compliance spot check for Duri and Narogong",
+      "plan_type": "Monthly",
+      "due_date": "2025-02-14",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 1, "actual": 1},
+        "aug": {"plan": 1, "actual": 1},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 4,
+      "name": "Driving Safety Campaign for All Indonesia Base (Duri, Narogong & Balikpapan)",
+      "plan_type": "One time in year",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 2, "actual": 3},
+        "feb": {"plan": 2, "actual": 2},
+        "mar": {"plan": 2, "actual": 2},
+        "apr": {"plan": 2, "actual": 2},
+        "may": {"plan": 2, "actual": 2},
+        "jun": {"plan": 2, "actual": 2},
+        "jul": {"plan": 2, "actual": 2},
+        "aug": {"plan": 2, "actual": 2},
+        "sep": {"plan": 2, "actual": 2},
+        "oct": {"plan": 2, "actual": 2},
+        "nov": {"plan": 2, "actual": 2},
+        "dec": {"plan": 2, "actual": 0}
+      }
+    },
+    {
+      "id": 5,
+      "name": "Review Driver Driving performance for all driver in Indonesia",
+      "plan_type": "Monthly",
+      "due_date": "2025-12-01",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 1, "actual": 1},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 6,
+      "name": "Conduct Driver Coaching (offline or Online Meeting) for Yellow and Red Driver in Indonesia",
+      "plan_type": "Quarterly",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 1, "actual": 1},
+        "feb": {"plan": 1, "actual": 1},
+        "mar": {"plan": 1, "actual": 1},
+        "apr": {"plan": 1, "actual": 2},
+        "may": {"plan": 1, "actual": 1},
+        "jun": {"plan": 1, "actual": 1},
+        "jul": {"plan": 1, "actual": 1},
+        "aug": {"plan": 1, "actual": 1},
+        "sep": {"plan": 1, "actual": 1},
+        "oct": {"plan": 1, "actual": 1},
+        "nov": {"plan": 1, "actual": 1},
+        "dec": {"plan": 1, "actual": 0}
+      }
+    },
+    {
+      "id": 7,
+      "name": "Motor Vehicle Safety Training / Commentary Drive",
+      "plan_type": "Quarterly",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 1, "actual": 1},
+        "feb": {"plan": 0, "actual": 1},
+        "mar": {"plan": 0, "actual": 1},
+        "apr": {"plan": 1, "actual": 1},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 1, "actual": 1},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 1},
+        "oct": {"plan": 1, "actual": 1},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 8,
+      "name": "Submit RADAR Card intervention (average 2 RADAR / emp / month, Based on WPTS Report)",
+      "plan_type": "24 cards/employee/year",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 1, "actual": 1},
+        "feb": {"plan": 0, "actual": 1},
+        "mar": {"plan": 0, "actual": 1},
+        "apr": {"plan": 1, "actual": 1},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 1, "actual": 1},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 1},
+        "oct": {"plan": 1, "actual": 1},
+        "nov": {"plan": 0, "actual": 1},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 9,
+      "name": "Conduct HSE Monthly Meeting per Base",
+      "plan_type": "Monthly / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 2, "actual": 2},
+        "feb": {"plan": 2, "actual": 3},
+        "mar": {"plan": 2, "actual": 2},
+        "apr": {"plan": 2, "actual": 2},
+        "may": {"plan": 2, "actual": 2},
+        "jun": {"plan": 2, "actual": 2},
+        "jul": {"plan": 2, "actual": 2},
+        "aug": {"plan": 2, "actual": 2},
+        "sep": {"plan": 2, "actual": 2},
+        "oct": {"plan": 2, "actual": 2},
+        "nov": {"plan": 2, "actual": 2},
+        "dec": {"plan": 2, "actual": 0}
+      }
+    },
+    {
+      "id": 10,
+      "name": "Conduct Facility Inspection (combined report for Indonesia / month)",
+      "plan_type": "Monthly",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 3, "actual": 3},
+        "feb": {"plan": 3, "actual": 3},
+        "mar": {"plan": 3, "actual": 3},
+        "apr": {"plan": 3, "actual": 3},
+        "may": {"plan": 3, "actual": 3},
+        "jun": {"plan": 3, "actual": 3},
+        "jul": {"plan": 3, "actual": 3},
+        "aug": {"plan": 3, "actual": 3},
+        "sep": {"plan": 3, "actual": 3},
+        "oct": {"plan": 3, "actual": 3},
+        "nov": {"plan": 3, "actual": 3},
+        "dec": {"plan": 3, "actual": 0}
+      }
+    },
+    {
+      "id": 11,
+      "name": "Conduct Field Inspection / MWT (the report is combined from Leadership in Indonesia)",
+      "plan_type": "Quarterly",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 1, "actual": 2},
+        "feb": {"plan": 1, "actual": 3},
+        "mar": {"plan": 1, "actual": 3},
+        "apr": {"plan": 1, "actual": 2},
+        "may": {"plan": 1, "actual": 2},
+        "jun": {"plan": 1, "actual": 2},
+        "jul": {"plan": 1, "actual": 2},
+        "aug": {"plan": 1, "actual": 2},
+        "sep": {"plan": 1, "actual": 1},
+        "oct": {"plan": 1, "actual": 1},
+        "nov": {"plan": 1, "actual": 1},
+        "dec": {"plan": 1, "actual": 0}
+      }
+    },
+    {
+      "id": 12,
+      "name": "Leadership Safety Engagement (LSE) to cover 3 Bases (Duri, Narogong, Balikpapan)",
+      "plan_type": "Quarterly",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 1, "actual": 3},
+        "feb": {"plan": 0, "actual": 3},
+        "mar": {"plan": 0, "actual": 4},
+        "apr": {"plan": 1, "actual": 1},
+        "may": {"plan": 0, "actual": 1},
+        "jun": {"plan": 0, "actual": 1},
+        "jul": {"plan": 1, "actual": 2},
+        "aug": {"plan": 0, "actual": 2},
+        "sep": {"plan": 0, "actual": 1},
+        "oct": {"plan": 1, "actual": 2},
+        "nov": {"plan": 0, "actual": 2},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 13,
+      "name": "HSE Reward program for best employees in Indonesia",
+      "plan_type": "3 reward/month/base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 1, "actual": 1},
+        "feb": {"plan": 0, "actual": 1},
+        "mar": {"plan": 0, "actual": 1},
+        "apr": {"plan": 0, "actual": 1},
+        "may": {"plan": 1, "actual": 1},
+        "jun": {"plan": 0, "actual": 1},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 0, "actual": 1},
+        "sep": {"plan": 1, "actual": 1},
+        "oct": {"plan": 0, "actual": 1},
+        "nov": {"plan": 0, "actual": 2},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 14,
+      "name": "Conduct HSE induction/orientation training for new visitors and new hired employees/contractors",
+      "plan_type": "100% new visitors/comers inducted",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 1, "actual": 1},
+        "feb": {"plan": 1, "actual": 1},
+        "mar": {"plan": 1, "actual": 1},
+        "apr": {"plan": 1, "actual": 1},
+        "may": {"plan": 1, "actual": 1},
+        "jun": {"plan": 1, "actual": 1},
+        "jul": {"plan": 1, "actual": 1},
+        "aug": {"plan": 1, "actual": 1},
+        "sep": {"plan": 1, "actual": 1},
+        "oct": {"plan": 1, "actual": 1},
+        "nov": {"plan": 1, "actual": 1},
+        "dec": {"plan": 1, "actual": 0}
+      }
+    },
+    {
+      "id": 15,
+      "name": "Conduct Contractor Audit for High Risk Contractors",
+      "plan_type": "Annually",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 1, "actual": 1},
+        "feb": {"plan": 1, "actual": 1},
+        "mar": {"plan": 1, "actual": 1},
+        "apr": {"plan": 1, "actual": 1},
+        "may": {"plan": 1, "actual": 1},
+        "jun": {"plan": 1, "actual": 1},
+        "jul": {"plan": 1, "actual": 1},
+        "aug": {"plan": 1, "actual": 1},
+        "sep": {"plan": 1, "actual": 1},
+        "oct": {"plan": 1, "actual": 1},
+        "nov": {"plan": 1, "actual": 1},
+        "dec": {"plan": 1, "actual": 0}
+      }
+    },
+    {
+      "id": 16,
+      "name": "Conduct Contractor SQM Meeting for High Risk Contractors and Discuss progress HSE KPI",
+      "plan_type": "Annually",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 1, "actual": 1},
+        "sep": {"plan": 0, "actual": 1},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 17,
+      "name": "Conduct Management Review Meeting",
+      "plan_type": "Annually",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 1, "actual": 1},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 1},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 18,
+      "name": "Conduct P2K3 / safety committee team meeting for each Base in Indonesia",
+      "plan_type": "3 times / Month / Base",
+      "due_date": "2025-08-31",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 1, "actual": 1},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 19,
+      "name": "Provide P2K3 report to Disnaker Provinsi Riau, Jawa Barat and Kalimantan Timur",
+      "plan_type": "3 report / Quarter / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 3, "actual": 3},
+        "feb": {"plan": 3, "actual": 3},
+        "mar": {"plan": 3, "actual": 3},
+        "apr": {"plan": 3, "actual": 3},
+        "may": {"plan": 3, "actual": 3},
+        "jun": {"plan": 3, "actual": 3},
+        "jul": {"plan": 3, "actual": 3},
+        "aug": {"plan": 3, "actual": 3},
+        "sep": {"plan": 3, "actual": 3},
+        "oct": {"plan": 3, "actual": 3},
+        "nov": {"plan": 3, "actual": 3},
+        "dec": {"plan": 3, "actual": 0}
+      }
+    },
+    {
+      "id": 20,
+      "name": "Conduct Facility device inspection (FE, FAK, Eye wash, Emergency light, stretcher, Smoke Detector, Spill Kit)",
+      "plan_type": "Monthly / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 3, "actual": 3},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 3, "actual": 3},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 3, "actual": 3},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 3, "actual": 3},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 21,
+      "name": "Conduct facility hazard hunt / Workshop inspection for 3 Base",
+      "plan_type": "Monthly / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 3, "actual": 3},
+        "feb": {"plan": 3, "actual": 3},
+        "mar": {"plan": 3, "actual": 3},
+        "apr": {"plan": 3, "actual": 3},
+        "may": {"plan": 3, "actual": 3},
+        "jun": {"plan": 3, "actual": 3},
+        "jul": {"plan": 3, "actual": 3},
+        "aug": {"plan": 3, "actual": 3},
+        "sep": {"plan": 3, "actual": 3},
+        "oct": {"plan": 3, "actual": 3},
+        "nov": {"plan": 3, "actual": 3},
+        "dec": {"plan": 3, "actual": 0}
+      }
+    },
+    {
+      "id": 22,
+      "name": "Annual maintenance of Firex for 3 Bases",
+      "plan_type": "Annually / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 3, "actual": 3},
+        "feb": {"plan": 3, "actual": 3},
+        "mar": {"plan": 3, "actual": 4},
+        "apr": {"plan": 3, "actual": 3},
+        "may": {"plan": 3, "actual": 3},
+        "jun": {"plan": 3, "actual": 3},
+        "jul": {"plan": 3, "actual": 3},
+        "aug": {"plan": 3, "actual": 3},
+        "sep": {"plan": 3, "actual": 3},
+        "oct": {"plan": 3, "actual": 3},
+        "nov": {"plan": 3, "actual": 3},
+        "dec": {"plan": 3, "actual": 0}
+      }
+    },
+    {
+      "id": 23,
+      "name": "Annual Tool Rack Inspection for 3 Base",
+      "plan_type": "Annually / Base",
+      "due_date": "2025-12-30",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 1, "actual": 1},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 1, "actual": 1},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 1, "actual": 1},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 24,
+      "name": "Conduct DROPS Survey for 3 Bases (per Semester)",
+      "plan_type": "Per Semester / Base",
+      "due_date": "2025-11-01",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 1, "actual": 1},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 1, "actual": 1},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 1, "actual": 1},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 25,
+      "name": "Conduct Facility Safety Standard Audit for 3 Bases",
+      "plan_type": "Annually / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 3, "actual": 3},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 1, "actual": 1},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 0, "actual": 1},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 26,
+      "name": "Conduct Safety 101, HSE Orientation & Minimum Training (3 Base, Online or Offline)",
+      "plan_type": "Per Semester / Base",
+      "due_date": "2025-02-14",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 1, "actual": 1},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 27,
+      "name": "Conduct DAMKAR D Training for fire team for Duri Base (Disnaker certification)",
+      "plan_type": "Annually / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 1, "actual": 1},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 1},
+        "apr": {"plan": 1, "actual": 1},
+        "may": {"plan": 1, "actual": 1},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 0, "actual": 1},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 1},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 28,
+      "name": "Manual Handling Training and Practical review on field site",
+      "plan_type": "Annually / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 29,
+      "name": "Refresh First Aid Training by 3rd party (Disnaker Certification) for 3 Base",
+      "plan_type": "Annually / Base",
+      "due_date": "2025-06-30",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 1, "actual": 1},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 1},
+        "oct": {"plan": 0, "actual": 1},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 30,
+      "name": "Internal Basic Fire Training (annually / Base)",
+      "plan_type": "Annually / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 1, "actual": 1},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 1, "actual": 1},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 1, "actual": 0}
+      }
+    },
+    {
+      "id": 31,
+      "name": "DROPS Object Awareness Training (annually per Base)",
+      "plan_type": "Annually / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 1, "actual": 1},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 1},
+        "apr": {"plan": 1, "actual": 1},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 0, "actual": 1},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 1, "actual": 1},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 32,
+      "name": "Lifting & Rigging Operator Coaching (Duri Operation)",
+      "plan_type": "Quarterly / Base",
+      "due_date": "2025-06-30",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 1, "actual": 1},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 1, "actual": 1},
+        "sep": {"plan": 1, "actual": 1},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 33,
+      "name": "Hand and Finger Injury Prevention Training (annually per Base)",
+      "plan_type": "Annually / Base",
+      "due_date": "2025-06-30",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 1, "actual": 1},
+        "mar": {"plan": 0, "actual": 1},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 1, "actual": 1},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 1, "actual": 1},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 34,
+      "name": "Review Legal Business and Client Requirement matrix",
+      "plan_type": "Annually / Base",
+      "due_date": "2025-06-30",
+      "months": {
+        "jan": {"plan": 1, "actual": 1},
+        "feb": {"plan": 1, "actual": 1},
+        "mar": {"plan": 1, "actual": 1},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 35,
+      "name": "Review of Generic Risk Assessment (TRA) for Indonesia",
+      "plan_type": "Annually / Base",
+      "due_date": "2025-12-30",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 1, "actual": 1},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 36,
+      "name": "Review Emergency Response Procedure for 3 Base",
+      "plan_type": "Annually / Base",
+      "due_date": "2025-03-15",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 1, "actual": 1},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 1},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 37,
+      "name": "Review RADAR Observation and closing action item for 3 Base",
+      "plan_type": "Monthly / Base",
+      "due_date": "2025-08-05",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 3, "actual": 3},
+        "mar": {"plan": 0, "actual": 3},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 38,
+      "name": "Provide HSE Campaign Banner (3 banner / quarter / Base)",
+      "plan_type": "Quarterly / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 3, "actual": 3},
+        "feb": {"plan": 3, "actual": 3},
+        "mar": {"plan": 3, "actual": 3},
+        "apr": {"plan": 3, "actual": 3},
+        "may": {"plan": 3, "actual": 3},
+        "jun": {"plan": 3, "actual": 3},
+        "jul": {"plan": 3, "actual": 3},
+        "aug": {"plan": 3, "actual": 3},
+        "sep": {"plan": 3, "actual": 3},
+        "oct": {"plan": 3, "actual": 3},
+        "nov": {"plan": 3, "actual": 3},
+        "dec": {"plan": 3, "actual": 0}
+      }
+    },
+    {
+      "id": 39,
+      "name": "Conduct Emergency Drill for 3 Base (refer to Drill plan 2025 Indonesia)",
+      "plan_type": "Quarterly / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 1, "actual": 1},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 1, "actual": 1},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 1, "actual": 1},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 1, "actual": 1},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 40,
+      "name": "Conduct Lifting gear/accessories inspection (as per Lifting color code) per semester",
+      "plan_type": "Per Semester",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 1, "actual": 2},
+        "feb": {"plan": 1, "actual": 3},
+        "mar": {"plan": 1, "actual": 3},
+        "apr": {"plan": 1, "actual": 3},
+        "may": {"plan": 1, "actual": 1},
+        "jun": {"plan": 1, "actual": 1},
+        "jul": {"plan": 1, "actual": 1},
+        "aug": {"plan": 1, "actual": 2},
+        "sep": {"plan": 1, "actual": 1},
+        "oct": {"plan": 1, "actual": 1},
+        "nov": {"plan": 1, "actual": 1},
+        "dec": {"plan": 1, "actual": 0}
+      }
+    },
+    {
+      "id": 41,
+      "name": "Lifting Gear Inspection report (monthly per Base)",
+      "plan_type": "Monthly / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 1, "actual": 1},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 1, "actual": 1},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 42,
+      "name": "SQM Meeting with TMC crane supplier (Duri Base)",
+      "plan_type": "Annually",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 3, "actual": 3},
+        "feb": {"plan": 3, "actual": 3},
+        "mar": {"plan": 3, "actual": 3},
+        "apr": {"plan": 3, "actual": 3},
+        "may": {"plan": 3, "actual": 3},
+        "jun": {"plan": 3, "actual": 3},
+        "jul": {"plan": 3, "actual": 3},
+        "aug": {"plan": 3, "actual": 3},
+        "sep": {"plan": 3, "actual": 3},
+        "oct": {"plan": 3, "actual": 3},
+        "nov": {"plan": 3, "actual": 3},
+        "dec": {"plan": 3, "actual": 0}
+      }
+    },
+    {
+      "id": 43,
+      "name": "Lifting Awareness Campaign for 3 base",
+      "plan_type": "Annually / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 1, "actual": 1},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 44,
+      "name": "Refresh Mechanical Lifting SWC Training for 3 base",
+      "plan_type": "Annually / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 3, "actual": 3},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 45,
+      "name": "Lifting Equipment and Operation Standard Audit for 3 Base",
+      "plan_type": "Annually / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 1, "actual": 1},
+        "aug": {"plan": 1, "actual": 1},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 1, "actual": 0}
+      }
+    },
+    {
+      "id": 46,
+      "name": "Review Current Chemical MSDS base on Chemical Inventory data for 3 base",
+      "plan_type": "Annually / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 1, "actual": 1},
+        "aug": {"plan": 1, "actual": 1},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 1, "actual": 1},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 47,
+      "name": "Conduct Monthly waste water analysis for 3 Base",
+      "plan_type": "Monthly / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 1, "actual": 1},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 1, "actual": 1},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 1, "actual": 1},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 48,
+      "name": "Conduct Environmental Monitoring Program for 3 Base",
+      "plan_type": "Per Semester / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 3, "actual": 3},
+        "feb": {"plan": 3, "actual": 3},
+        "mar": {"plan": 3, "actual": 3},
+        "apr": {"plan": 3, "actual": 3},
+        "may": {"plan": 3, "actual": 3},
+        "jun": {"plan": 3, "actual": 3},
+        "jul": {"plan": 3, "actual": 3},
+        "aug": {"plan": 3, "actual": 3},
+        "sep": {"plan": 3, "actual": 3},
+        "oct": {"plan": 3, "actual": 3},
+        "nov": {"plan": 3, "actual": 3},
+        "dec": {"plan": 3, "actual": 0}
+      }
+    },
+    {
+      "id": 49,
+      "name": "Dispose Hazardous waste to Approved disposal company for 3 Base",
+      "plan_type": "Per Semester / Base",
+      "due_date": "2025-12-30",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 3, "actual": 3},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 3, "actual": 0}
+      }
+    },
+    {
+      "id": 50,
+      "name": "Conduct Industrial Hygiene Test for 3 Base",
+      "plan_type": "Annually / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 1, "actual": 1},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 1, "actual": 1},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 51,
+      "name": "Indonesia Environment Improvement Plan 2025",
+      "plan_type": "Annual report / year",
+      "due_date": "2025-09-30",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 3, "actual": 3},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 52,
+      "name": "Conduct Emergency Spill Drill for 3 Base",
+      "plan_type": "Annually / Base",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 1, "actual": 1},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 53,
+      "name": "Conduct Medical Check-Up (tracking report for Duri Operation)",
+      "plan_type": "Annually",
+      "due_date": "2025-12-01",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 1, "actual": 1},
+        "mar": {"plan": 1, "actual": 1},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 54,
+      "name": "Required by PHR_Drug and Alcohol test (sampling min 10% peoples) for Duri Operation",
+      "plan_type": "Annually",
+      "due_date": "2025-12-31",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 1, "actual": 1},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 55,
+      "name": "Conduct Health Campaign for 3 base (online or offline meeting)",
+      "plan_type": "Per Semester",
+      "due_date": "2025-05-01",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 1, "actual": 1},
+        "mar": {"plan": 0, "actual": 0},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    },
+    {
+      "id": 56,
+      "name": "Conduct Health Campaign for 3 base (additional)",
+      "plan_type": "Per Semester",
+      "due_date": "2025-08-30",
+      "months": {
+        "jan": {"plan": 0, "actual": 0},
+        "feb": {"plan": 0, "actual": 0},
+        "mar": {"plan": 2, "actual": 2},
+        "apr": {"plan": 0, "actual": 0},
+        "may": {"plan": 0, "actual": 0},
+        "jun": {"plan": 0, "actual": 0},
+        "jul": {"plan": 0, "actual": 0},
+        "aug": {"plan": 0, "actual": 0},
+        "sep": {"plan": 0, "actual": 0},
+        "oct": {"plan": 0, "actual": 0},
+        "nov": {"plan": 0, "actual": 0},
+        "dec": {"plan": 0, "actual": 0}
+      }
+    }
+  ]
+}

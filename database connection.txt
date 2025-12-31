@@ -1,0 +1,24 @@
+Great, the frontend environment is set up. Now let's refactor the Python backend (`app.py`) to stop using local JSON files and start using Supabase.
+
+1.  **Install Supabase Library**:
+    Run the command: `pip install supabase`
+
+2.  **Modify `app.py` Initialization**:
+    - Import `create_client` from `supabase`.
+    - Initialize the Supabase client using `os.getenv("NEXT_PUBLIC_SUPABASE_URL")` and `os.getenv("NEXT_PUBLIC_SUPABASE_ANON_KEY")`.
+
+3.  **Rewrite Data Loading (`load_otp_data` & `load_matrix_data`)**:
+    - Delete the code that reads `otp_data.json` and `matrix_*.json`.
+    - Instead, write a query to fetch data from the `master_programs` table (joined with `program_progress`).
+    - **Crucial**: Transform the flat SQL response back into the nested JSON structure currently used by the frontend (grouping by program ID, then nesting month data). This ensures we don't break the UI.
+
+4.  **Rewrite Data Saving (`save_otp_data` & `save_matrix_data`)**:
+    - Delete the `json.dump` code.
+    - Implement `upsert` logic:
+      - First, upsert into `master_programs`.
+      - Then, upsert into `program_progress` for the specific month data.
+
+5.  **Audit Logging**:
+    - In the save functions, add a call to insert a record into `audit_logs` whenever data is updated via the API.
+
+Please provide the code changes for `app.py`.

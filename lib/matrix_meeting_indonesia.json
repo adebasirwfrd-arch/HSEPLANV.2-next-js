@@ -1,0 +1,463 @@
+{
+    "year": 2026,
+    "category": "meeting",
+    "region": "indonesia",
+    "programs": [
+        {
+            "id": 1,
+            "name": "HSE MONTHLY MEETING",
+            "reference": "",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "apr": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "oct": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 2,
+            "name": "P2K3 MEETING",
+            "reference": "",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 2,
+                    "actual": 3
+                },
+                "feb": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "mar": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "apr": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "may": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "jun": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "jul": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "aug": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "sep": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "oct": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "nov": {
+                    "plan": 2,
+                    "actual": 2
+                },
+                "dec": {
+                    "plan": 2,
+                    "actual": 0
+                }
+            },
+            "progress": 96
+        },
+        {
+            "id": 3,
+            "name": "RISK ASSESSMENT MEETING",
+            "reference": "",
+            "plan_type": "Quarterly",
+            "months": {
+                "jan": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "apr": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 4,
+            "name": "LEARNING GROUP DISCUSSION",
+            "reference": "",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 2
+                },
+                "may": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "jun": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "sep": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "dec": {
+                    "plan": 1,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 5,
+            "name": "HSE UPDATE MEETING",
+            "reference": "",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 6,
+            "name": "HSE PLAN MEETING",
+            "reference": "",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 7,
+            "name": "HSE PREMOB BRIEFING",
+            "reference": "",
+            "plan_type": "Monthly",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        },
+        {
+            "id": 8,
+            "name": "HSE QUARTERLY PLAN MEETING",
+            "reference": "",
+            "plan_type": "Quarterly",
+            "months": {
+                "jan": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "feb": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "mar": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "apr": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "may": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jun": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "jul": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "aug": {
+                    "plan": 0,
+                    "actual": 0
+                },
+                "sep": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "oct": {
+                    "plan": 1,
+                    "actual": 1
+                },
+                "nov": {
+                    "plan": 0,
+                    "actual": 1
+                },
+                "dec": {
+                    "plan": 0,
+                    "actual": 0
+                }
+            },
+            "progress": 100
+        }
+    ]
+}

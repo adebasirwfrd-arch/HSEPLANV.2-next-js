@@ -1,0 +1,161 @@
+{
+    "man_hours": {
+        "2021": 0,
+        "2022": 283286,
+        "2023": 0,
+        "2024": 0,
+        "2025": 0
+    },
+    "kpi": {
+        "2021": {
+            "fatality": {
+                "target": 0,
+                "result": 0
+            },
+            "trir": {
+                "target": 0,
+                "result": 0
+            },
+            "pvir": {
+                "target": 0,
+                "result": 0
+            },
+            "environment": {
+                "target": 0,
+                "result": 0
+            },
+            "fire": {
+                "target": 0,
+                "result": 0
+            },
+            "firstaid": {
+                "target": 0,
+                "result": 0
+            },
+            "occupational": {
+                "target": 0,
+                "result": 0
+            }
+        },
+        "2022": {
+            "fatality": {
+                "target": 0,
+                "result": 0
+            },
+            "trir": {
+                "target": 0,
+                "result": 3.53
+            },
+            "pvir": {
+                "target": 0,
+                "result": 0
+            },
+            "environment": {
+                "target": 0,
+                "result": 0
+            },
+            "fire": {
+                "target": 0,
+                "result": 0
+            },
+            "firstaid": {
+                "target": 0,
+                "result": 0
+            },
+            "occupational": {
+                "target": 0,
+                "result": 0
+            }
+        },
+        "2023": {
+            "fatality": {
+                "target": 0,
+                "result": 0
+            },
+            "trir": {
+                "target": 0,
+                "result": 1.77
+            },
+            "pvir": {
+                "target": 0,
+                "result": 0
+            },
+            "environment": {
+                "target": 0,
+                "result": 0
+            },
+            "fire": {
+                "target": 0,
+                "result": 0
+            },
+            "firstaid": {
+                "target": 0,
+                "result": 0
+            },
+            "occupational": {
+                "target": 0,
+                "result": 0
+            }
+        },
+        "2024": {
+            "fatality": {
+                "target": 0,
+                "result": 0
+            },
+            "trir": {
+                "target": 0,
+                "result": 0.89
+            },
+            "pvir": {
+                "target": 0,
+                "result": 0
+            },
+            "environment": {
+                "target": 0,
+                "result": 0
+            },
+            "fire": {
+                "target": 0,
+                "result": 0
+            },
+            "firstaid": {
+                "target": 0,
+                "result": 0
+            },
+            "occupational": {
+                "target": 0,
+                "result": 0
+            }
+        },
+        "2025": {
+            "fatality": {
+                "target": 0,
+                "result": 0
+            },
+            "trir": {
+                "target": 0.44,
+                "result": 0
+            },
+            "pvir": {
+                "target": 0,
+                "result": 0
+            },
+            "environment": {
+                "target": 0,
+                "result": 0
+            },
+            "fire": {
+                "target": 0,
+                "result": 0
+            },
+            "firstaid": {
+                "target": 0,
+                "result": 0
+            },
+            "occupational": {
+                "target": 0,
+                "result": 0
+            }
+        }
+    }
+}

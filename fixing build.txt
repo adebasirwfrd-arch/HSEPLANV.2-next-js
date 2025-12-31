@@ -1,0 +1,26 @@
+I reviewed the "Testing and Debugging Report". The build failed because `@react-pdf/renderer` is incompatible with Turbopack bundling on the server.
+
+Please fix this by updating `next.config.ts`.
+
+1.  **Modify `nextConfig` object**:
+    Add `serverExternalPackages`:
+    ```typescript
+    const nextConfig: NextConfig = {
+      // Keep existing config...
+      experimental: {
+        serverActions: {
+          bodySizeLimit: '2mb',
+        },
+      },
+      // THIS IS THE FIX:
+      serverExternalPackages: ['@react-pdf/renderer'], 
+      
+      webpack: (config) => {
+        config.resolve.alias.canvas = false;
+        return config;
+      },
+    };
+    ```
+
+2.  **Verify Build**:
+    After updating the config, please run `npm run build` in the terminal to confirm the error is gone.

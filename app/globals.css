@@ -1,0 +1,183 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Ocean Trust Theme - Refined & Professional */
+:root {
+  /* Ocean Trust Primary Palette */
+  --ocean-start: #a1c4fd;
+  --ocean-end: #c2e9fb;
+  --glass-white: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(255, 255, 255, 0.8);
+
+  /* Refined accent colors for Ocean Trust */
+  --accent-blue: #3b82f6;
+  --accent-dark: #2563eb;
+  --accent-light: #60a5fa;
+  --accent-sky: #0ea5e9;
+
+  /* Softer secondary accents */
+  --accent-purple: #6366f1;
+  --accent-violet: #8b5cf6;
+  --accent-teal: #14b8a6;
+  --accent-coral: #f87171;
+  --accent-peach: #fb923c;
+
+  /* Updated backgrounds - Light blue-gray for Ocean Trust */
+  --bg-primary: #f0f9ff;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #e0f2fe;
+  --bg-card: rgba(255, 255, 255, 0.92);
+
+  /* Text Colors */
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+
+  /* Status Colors */
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --info-color: #3b82f6;
+
+  /* Enhanced shadows with blue tints */
+  --card-shadow: 0 4px 24px rgba(59, 130, 246, 0.08);
+  --shadow-hover: 0 12px 40px rgba(59, 130, 246, 0.15);
+  --shadow-glow-blue: 0 8px 32px rgba(59, 130, 246, 0.25);
+  --shadow-glow-accent: 0 8px 32px rgba(14, 165, 233, 0.2);
+  --card-radius: 20px;
+  --border-light: #e0f2fe;
+
+  /* Chart colors */
+  --chart-1: #3b82f6;
+  --chart-2: #10b981;
+  --chart-3: #f59e0b;
+  --chart-4: #0ea5e9;
+  --chart-5: #14b8a6;
+
+  --radius: 0.75rem;
+
+  /* Netflix-style accent for compatibility */
+  --netflix-red: #C41E3A;
+  --weatherford-red: #C41E3A;
+}
+
+.dark {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --bg-card: rgba(30, 41, 59, 0.92);
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+  --glass-white: rgba(30, 41, 59, 0.95);
+  --glass-border: rgba(71, 85, 105, 0.5);
+  --border-light: #334155;
+  --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+@layer base {
+  * {
+    @apply border-[var(--border-light)];
+  }
+
+  body {
+    background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 50%, #e0f7fa 100%);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    min-height: 100vh;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  .dark body {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  }
+}
+
+/* Utility classes for Ocean Trust theme */
+@layer utilities {
+  .glass-card {
+    background: var(--glass-white);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--card-shadow);
+    border-radius: var(--card-radius);
+  }
+
+  .glass-card:hover {
+    box-shadow: var(--shadow-hover);
+  }
+
+  .gradient-border {
+    position: relative;
+  }
+
+  .gradient-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.4), rgba(14, 165, 233, 0.4));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-sky));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .btn-gradient {
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-sky));
+    transition: all 0.3s ease;
+  }
+
+  .btn-gradient:hover {
+    box-shadow: var(--shadow-glow-blue);
+    transform: translateY(-2px);
+  }
+
+  /* Status badge colors */
+  .badge-upcoming {
+    background: var(--warning-color);
+    color: #000;
+  }
+
+  .badge-inprogress {
+    background: var(--success-color);
+    color: #fff;
+  }
+
+  .badge-completed {
+    background: #4A90D9;
+    color: #fff;
+  }
+
+  .badge-onhold {
+    background: #9B59B6;
+    color: #fff;
+  }
+
+  .badge-canceled {
+    background: var(--text-muted);
+    color: #fff;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}

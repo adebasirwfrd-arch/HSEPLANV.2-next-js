@@ -1,0 +1,20 @@
+The UI is looking great. Now let's build the Enterprise "Audit Trail" feature.
+The `audit_logs` table is already populated automatically by Supabase Triggers. I need a page to view these logs.
+
+1.  **Create Hook**: `hooks/useAuditLogs.ts`
+    - Fetch data from `audit_logs` table.
+    - Sort by `created_at` descending (newest first).
+    - Limit to last 100 logs by default.
+
+2.  **Create Page**: `app/audit-logs/page.tsx`
+    - Use the existing `AppShell`.
+    - Display a clean table with columns: Date/Time, Actor (User Email), Action (INSERT/UPDATE/DELETE), Target (Program Name), and Details.
+    - **Visuals**:
+      - Use badges for Actions (Green for INSERT, Blue for UPDATE, Red for DELETE).
+      - Make it look professional (Glassmorphism style like other pages).
+    - **Filtering**: Add a simple search bar to filter logs by description or email.
+
+3.  **Update Navigation**:
+    - Add the "Audit Logs" link to the Sidebar or Settings page so I can access it.
+
+Please provide the code for the Hook and the Page.

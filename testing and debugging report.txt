@@ -1,0 +1,212 @@
+# Testing and Debugging Report
+## HSE Management System - Next.js
+**Date:** 2026-01-01
+**Session:** Supabase Migration & UI Enhancement
+
+---
+
+## 1. Features Implemented This Session
+
+### 1.1 Framer Motion Animations ✅
+- **Table Rows**: Staggered fade-in animation (slide up + opacity, 0.05s delay between rows)
+- **Progress Bars**: Width animates from 0% to actual percentage (1s ease-out)
+- **Modals**: Spring scale (0.95→1) + backdrop fade for Edit, Create, Delete modals
+
+### 1.2 Mobile Responsiveness ✅
+- **Created**: `components/otp/MobileProgramCard.tsx`
+- **Implementation**: Desktop table view (`hidden md:block`), Mobile card view (`block md:hidden`)
+- **Features**: Compact cards with month pills, progress bars, edit/delete actions
+
+### 1.3 Bento Grid Dashboard ✅
+- **File**: `app/page.tsx` (complete rewrite)
+- **Widgets**:
+  - Safety Compliance Ring (animated gauge)
+  - Action Required panel (real overdue data from Supabase)
+  - 12-Month Trend chart (animated bars)
+  - Quick Action links
+
+### 1.4 Audit Logs Feature ✅
+- **Hook**: `hooks/useAuditLogs.ts`
+- **Page**: `app/audit-logs/page.tsx`
+- **Features**: Action badges (INSERT/UPDATE/DELETE), search filter, animated table rows
+- **Navigation**: Added to sidebar with "Admin" badge
+
+### 1.5 PDF Reporting ✅
+- **Package**: `@react-pdf/renderer` installed
+- **Component**: `components/reports/HSEMonthlyReport.tsx`
+- **Button**: `components/otp/PDFDownloadButton.tsx` (isolated for SSR compatibility)
+
+---
+
+## 2. Bug Encountered & Debugging
+
+### 2.1 Turbopack Build Error 🔴
+**Error Message:**
+```
+Code generation for chunk item errored
+An error occurred while generating the chunk item [project]/app/otp/page.tsx [app-ssr] (ecmascript)
+Caused by: Unexpected type in cell
+```
+
+**Root Cause:**
+- Next.js 16.1.1 uses Turbopack by default
+- `@react-pdf/renderer` has compatibility issues with Turbopack's code generation
+- The `next/dynamic` with `{ ssr: false }` was not preventing the issue
+
+**Debugging Steps Taken:**
+1. Created isolated `PDFDownloadButton.tsx` component
+2. Tried `next/dynamic` with SSR disabled - **Failed**
+3. Tried `React.lazy` + `Suspense` - **Needs verification**
+4. Added `turbopack: {}` to next.config.ts to silence webpack config warning
+5. Added `webpack` config with `canvas: false` alias for production builds
+
+**Current Status:** Partially Fixed
+- Homepage loads ✅
+- Audit Logs page loads ✅
+- OTP page - **Needs verification after latest changes**
+
+### 2.2 TypeScript Lint Errors (Fixed)
+- `numberOfLines` prop removed from react-pdf Text component (not valid in react-pdf)
+- Modal closing tags fixed (`</div>` → `</motion.div>`)
+
+---
+
+## 3. Files Modified/Created
+
+### Created:
+| File | Purpose |
+|------|---------|
+| `components/otp/MobileProgramCard.tsx` | Mobile card layout |
+| `components/otp/PDFDownloadButton.tsx` | Isolated PDF button (SSR-safe) |
+| `components/reports/HSEMonthlyReport.tsx` | PDF document template |
+| `hooks/useAuditLogs.ts` | Audit logs data hook |
+| `app/audit-logs/page.tsx` | Audit logs page |
+
+### Modified:
+| File | Changes |
+|------|---------|
+| `app/page.tsx` | Bento Grid dashboard |
+| `app/otp/page.tsx` | Framer Motion, mobile view, PDF button |
+| `components/layout/app-shell.tsx` | Added Audit Logs nav link |
+| `next.config.ts` | Added turbopack + webpack config |
+
+---
+
+## 4. Recommended Next Steps
+
+### Immediate:
+1. **Test OTP Page** - Verify if `React.lazy` + `Suspense` approach fixed the Turbopack error
+2. **If still failing** - Consider using webpack explicitly with `npm run dev -- --webpack`
+3. **Alternative** - Use `html2pdf.js` instead of `@react-pdf/renderer` (browser-native)
+
+### Future:
+1. Apply similar refactoring to Matrix page
+2. Add real-time notifications for overdue items
+3. Implement user authentication with Supabase Auth
+
+---
+
+## 5. Configuration Changes
+
+### next.config.ts
+```typescript
+const nextConfig: NextConfig = {
+  turbopack: {},  // Acknowledge Turbopack is in use
+  webpack: (config) => {
+    config.resolve.alias.canvas = false;  // For react-pdf in production
+    return config;
+  }
+};
+```
+
+### Package.json additions
+```json
+"@react-pdf/renderer": "^4.3.2",
+"framer-motion": "^12.23.26",
+"@tanstack/react-query": "^5.90.16"
+```
+
+---
+
+## 6. Test Results Summary (Final)
+
+| Page | Status | Notes |
+|------|--------|-------|
+| Homepage (/) | ✅ Works | Bento Grid loads correctly |
+| Audit Logs (/audit-logs) | ✅ Works | Table renders, search works |
+| OTP (/otp) | ✅ Works | Page loads after cache clear |
+| Matrix (/matrix) | ❓ Not tested | Should work (no PDF) |
+| Calendar (/calendar) | ❓ Not tested | Should work (no PDF) |
+
+### OTP Page Verification:
+- **Page Status**: ✅ Loads successfully
+- **CSV Button**: ✅ Present and visible
+- **PDF Button**: ⚠️ Only appears when `programs.length > 0` (needs Supabase data)
+- **Download Report**: ✅ Present in sidebar navigation
+- **Hydration Warning**: Minor className mismatch (cosmetic, doesn't affect functionality)
+
+---
+
+**Report Generated:** 2026-01-01 02:09 UTC+7
+
+---
+
+## 7. Additional Issue: Turbopack Cache Corruption
+
+During dev server shutdown, multiple panic errors occurred:
+```
+Failed to lookup task id: ... from database failed
+Unable to open static sorted file 00000373.sst
+No such file or directory (os error 2)
+```
+
+**Resolution:** Clear the Turbopack cache:
+```bash
+rm -rf .next
+npm run dev
+```
+
+This is a known Turbopack issue when the cache becomes corrupted during development.
+
+---
+
+## 8. Final Build Verification ✅
+
+**Date:** 2026-01-01 02:20 UTC+7
+
+### Production Build Command:
+```bash
+rm -rf .next && npm run build
+```
+
+### Result: SUCCESS ✅
+```
+✓ Compiled successfully in 5.9s
+✓ Finished TypeScript in 6.3s
+✓ Generating static pages (18/18)
+```
+
+### Routes Generated:
+| Route | Type | Status |
+|-------|------|--------|
+| / | Static | ✅ |
+| /otp | Static | ✅ |
+| /audit-logs | Static | ✅ |
+| /api/* | Dynamic | ✅ |
+
+### Production Server Test:
+- **npm start**: ✅ Server starts successfully
+- **OTP Page**: ✅ Loads without errors
+- **Audit Logs**: ✅ Loads without errors
+- **CSV Button**: ✅ Present and functional
+- **PDF Button**: ⚠️ Appears when programs data exists
+
+### Fix Applied:
+Added to `next.config.ts`:
+```typescript
+serverExternalPackages: ['@react-pdf/renderer']
+```
+
+This excludes `@react-pdf/renderer` from server-side bundling, resolving Turbopack compatibility issues.
+
+

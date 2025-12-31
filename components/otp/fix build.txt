@@ -1,0 +1,24 @@
+I encountered a "Turbopack build failed" error related to `@react-pdf/renderer` in `app/otp/page.tsx`.
+This is a known issue where React-PDF cannot be rendered on the server during build time.
+
+Please refactor the code to fix this by isolating the PDF logic:
+
+1.  **Create a Client Component**: `components/otp/PDFDownloadButton.tsx`
+    - Move the imports: `PDFDownloadLink` and `HSEMonthlyReport` into this file.
+    - Props: Accept `data` (programs), `region`, `base`, `year`.
+    - Render: The `PDFDownloadLink` wrapping the "Download Report" button.
+    - IMPORTANT: If the document is loading, show a "Generating..." text.
+
+2.  **Update `app/otp/page.tsx`**:
+    - Remove imports of `@react-pdf/renderer` and `HSEMonthlyReport` from this file.
+    - Import the new button dynamically with SSR disabled:
+      ```tsx
+      import dynamic from 'next/dynamic'
+      const PDFDownloadButton = dynamic(
+        () => import('@/components/otp/PDFDownloadButton'),
+        { ssr: false }
+      )
+      ```
+    - Replace the old button code with `<PDFDownloadButton ... />`.
+
+This will ensure the PDF library is only loaded on the client-side, fixing the build error.
