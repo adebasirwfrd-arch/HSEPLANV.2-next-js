@@ -48,8 +48,9 @@ interface UpdateMonthParams {
     data: Partial<MonthData>
 }
 
+// FIX 1: Ubah title jadi name di parameter create
 interface CreateProgramParams {
-    title: string
+    name: string
     program_type: ProgramType
     region?: string
     base?: string
@@ -122,7 +123,8 @@ function transformToNestedFormat(
 
         return {
             id: program.id,
-            name: program.title,
+            // FIX 2: Mapping dari kolom 'name' database
+            name: program.name,
             plan_type: program.plan_type || '',
             due_date: program.due_date,
             reference: program.reference_doc || undefined,
@@ -166,7 +168,7 @@ export function useHSEPrograms({
                 .from('master_programs')
                 .select(`
           id,
-          title,
+          name, 
           program_type,
           region,
           base,
@@ -190,6 +192,7 @@ export function useHSEPrograms({
             status
           )
         `)
+                // FIX 3: Select 'name' diatas (lihat baris select) ^
                 .eq('program_type', programType)
                 .eq('region', region)
 
@@ -201,6 +204,7 @@ export function useHSEPrograms({
             const { data, error } = await queryBuilder
 
             if (error) {
+                console.error("Supabase Load Error:", error)
                 throw new Error(error.message)
             }
 
@@ -250,9 +254,6 @@ export function useHSEPrograms({
 // Mutation Hooks
 // ============================================================================
 
-/**
- * Update a specific month's progress for a program
- */
 export function useUpdateProgramMonth() {
     const supabase = createClient()
     const queryClient = useQueryClient()
@@ -285,15 +286,11 @@ export function useUpdateProgramMonth() {
             if (error) throw new Error(error.message)
         },
         onSuccess: () => {
-            // Invalidate all program queries to refresh UI
             queryClient.invalidateQueries({ queryKey: programKeys.all })
         }
     })
 }
 
-/**
- * Create a new program
- */
 export function useCreateProgram() {
     const supabase = createClient()
     const queryClient = useQueryClient()
@@ -304,7 +301,7 @@ export function useCreateProgram() {
             const { data, error } = await (supabase as any)
                 .from('master_programs')
                 .insert({
-                    title: params.title,
+                    name: params.name, // FIX 4: Insert ke 'name'
                     program_type: params.program_type,
                     region: params.region || 'indonesia',
                     base: params.base || 'all',
@@ -324,9 +321,6 @@ export function useCreateProgram() {
     })
 }
 
-/**
- * Delete a program
- */
 export function useDeleteProgram() {
     const supabase = createClient()
     const queryClient = useQueryClient()
@@ -369,7 +363,8 @@ export function useCalendarEvents(year: number = 2026) {
                 category: event.program_type.replace('matrix_', ''),
                 region: event.region,
                 base: event.base,
-                program_name: event.program_title,
+                // FIX 5: Fallback untuk nama program jika RPC masih mengembalikan format lama
+                program_name: event.program_name || event.program_title || 'Untitled',
                 month: event.month,
                 plan_date: event.plan_date || '',
                 impl_date: event.impl_date || '',
