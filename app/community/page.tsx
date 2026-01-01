@@ -1,10 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import dynamic from "next/dynamic"
 import { AppShell } from "@/components/layout/app-shell"
 import { GlassCard } from "@/components/ui/glass-card"
-import { LottieDisplay } from "@/components/ui/lottie-display"
 import { PageTransition, PageHeader, PageContent } from "@/components/ui/page-transition"
 import {
     MessageSquare,
@@ -13,36 +11,14 @@ import {
     Users,
     FileText,
     AlertTriangle,
-    Heart
+    Heart,
+    Send,
+    Clock,
+    ThumbsUp,
+    MessageCircle,
+    Share2
 } from "lucide-react"
-
-// Import Stream CSS
-import "react-activity-feed/dist/index.css"
-
-// Dynamically import Stream components to avoid SSR issues
-const StreamApp = dynamic(
-    () => import("react-activity-feed").then((mod) => mod.StreamApp),
-    { ssr: false }
-)
-const FlatFeed = dynamic(
-    () => import("react-activity-feed").then((mod) => mod.FlatFeed),
-    { ssr: false }
-)
-const StatusUpdateForm = dynamic(
-    () => import("react-activity-feed").then((mod) => mod.StatusUpdateForm),
-    { ssr: false }
-)
-const Activity = dynamic(
-    () => import("react-activity-feed").then((mod) => mod.Activity),
-    { ssr: false }
-)
-
-interface StreamCredentials {
-    token: string
-    apiKey: string
-    appId: string
-    userId: string
-}
+import { motion, AnimatePresence } from "framer-motion"
 
 // Static trending topics data
 const TRENDING_TOPICS = [
@@ -61,30 +37,148 @@ const SAFETY_GUIDELINES = [
     "Keep work areas clean",
 ]
 
-export default function CommunityPage() {
-    const [credentials, setCredentials] = useState<StreamCredentials | null>(null)
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState<string | null>(null)
+// Demo posts for fallback mode
+const DEMO_POSTS = [
+    {
+        id: 1,
+        author: "Safety Officer",
+        avatar: "🦺",
+        time: "2 hours ago",
+        content: "Great job team! Zero incidents this week. Let's keep up the excellent safety culture! 🎉",
+        likes: 15,
+        comments: 3
+    },
+    {
+        id: 2,
+        author: "HSE Manager",
+        avatar: "👷",
+        time: "5 hours ago",
+        content: "Reminder: Monthly safety inspection scheduled for next Monday. Please ensure all areas are compliant with PPE requirements.",
+        likes: 8,
+        comments: 2
+    },
+    {
+        id: 3,
+        author: "Field Supervisor",
+        avatar: "🔧",
+        time: "Yesterday",
+        content: "Completed toolbox talk on ladder safety this morning. Great participation from the crew! 👏",
+        likes: 22,
+        comments: 5
+    },
+    {
+        id: 4,
+        author: "Training Coordinator",
+        avatar: "📚",
+        time: "2 days ago",
+        content: "New fire safety training module now available. All personnel must complete by end of month.",
+        likes: 12,
+        comments: 1
+    }
+]
 
-    useEffect(() => {
-        const fetchCredentials = async () => {
-            try {
-                const response = await fetch("/api/stream-token")
-                if (!response.ok) {
-                    const data = await response.json()
-                    throw new Error(data.error || "Failed to fetch credentials")
-                }
-                const data = await response.json()
-                setCredentials(data)
-            } catch (err: any) {
-                setError(err.message)
-            } finally {
-                setLoading(false)
-            }
+// Demo Post Component
+function DemoPost({ post }: { post: typeof DEMO_POSTS[0] }) {
+    const [liked, setLiked] = useState(false)
+    const [likes, setLikes] = useState(post.likes)
+
+    const handleLike = () => {
+        setLiked(!liked)
+        setLikes(liked ? likes - 1 : likes + 1)
+    }
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="p-4 bg-[var(--bg-tertiary)] rounded-xl"
+        >
+            <div className="flex items-start gap-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-[var(--accent-blue)] to-[var(--accent-purple)] rounded-full flex items-center justify-center text-xl">
+                    {post.avatar}
+                </div>
+                <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                        <span className="font-semibold text-[var(--text-primary)]">{post.author}</span>
+                        <span className="text-xs text-[var(--text-muted)] flex items-center gap-1">
+                            <Clock className="w-3 h-3" /> {post.time}
+                        </span>
+                    </div>
+                    <p className="text-sm text-[var(--text-primary)] mt-2">{post.content}</p>
+                    <div className="flex items-center gap-4 mt-3">
+                        <button
+                            onClick={handleLike}
+                            className={`flex items-center gap-1 text-xs transition-colors ${liked ? 'text-[var(--accent-blue)]' : 'text-[var(--text-muted)] hover:text-[var(--accent-blue)]'
+                                }`}
+                        >
+                            <ThumbsUp className={`w-4 h-4 ${liked ? 'fill-current' : ''}`} />
+                            {likes}
+                        </button>
+                        <button className="flex items-center gap-1 text-xs text-[var(--text-muted)] hover:text-[var(--accent-blue)] transition-colors">
+                            <MessageCircle className="w-4 h-4" />
+                            {post.comments}
+                        </button>
+                        <button className="flex items-center gap-1 text-xs text-[var(--text-muted)] hover:text-[var(--accent-blue)] transition-colors">
+                            <Share2 className="w-4 h-4" />
+                            Share
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </motion.div>
+    )
+}
+
+// Demo Status Update Form
+function DemoStatusForm({ onPost }: { onPost: (content: string) => void }) {
+    const [content, setContent] = useState("")
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault()
+        if (content.trim()) {
+            onPost(content)
+            setContent("")
         }
+    }
 
-        fetchCredentials()
-    }, [])
+    return (
+        <form onSubmit={handleSubmit} className="space-y-3">
+            <textarea
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="Share a safety update, tip, or observation..."
+                className="w-full p-3 bg-[var(--bg-tertiary)] rounded-xl text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] border border-[var(--border-light)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-blue)]/50 resize-none"
+                rows={3}
+            />
+            <div className="flex justify-end">
+                <button
+                    type="submit"
+                    disabled={!content.trim()}
+                    className="px-4 py-2 bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-purple)] text-white rounded-lg text-sm font-semibold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
+                >
+                    <Send className="w-4 h-4" />
+                    Post Update
+                </button>
+            </div>
+        </form>
+    )
+}
+
+export default function CommunityPage() {
+    const [posts, setPosts] = useState(DEMO_POSTS)
+
+    const handleNewPost = (content: string) => {
+        const newPost = {
+            id: Date.now(),
+            author: "You",
+            avatar: "👤",
+            time: "Just now",
+            content,
+            likes: 0,
+            comments: 0
+        }
+        setPosts([newPost, ...posts])
+    }
 
     return (
         <AppShell>
@@ -100,186 +194,117 @@ export default function CommunityPage() {
                     </div>
                 </PageHeader>
 
-                {/* Loading State */}
-                {loading && (
-                    <div className="flex flex-col items-center justify-center py-20">
-                        <LottieDisplay type="loading" className="w-32 h-32" />
-                        <p className="text-sm text-[var(--text-muted)] mt-4">Connecting to community...</p>
+                {/* Demo Mode Banner */}
+                <GlassCard className="p-3 bg-[var(--accent-blue)]/10 border-[var(--accent-blue)]/30">
+                    <div className="flex items-center gap-2">
+                        <MessageSquare className="w-4 h-4 text-[var(--accent-blue)]" />
+                        <p className="text-sm text-[var(--text-primary)]">
+                            <span className="font-semibold">Demo Mode:</span> Community features work in local demo mode. Connect Stream.io for full functionality.
+                        </p>
                     </div>
-                )}
+                </GlassCard>
 
-                {/* Error State */}
-                {error && (
-                    <GlassCard className="p-6 text-center">
-                        <AlertTriangle className="w-12 h-12 text-[var(--danger-color)] mx-auto mb-3" />
-                        <h3 className="font-semibold text-[var(--text-primary)] mb-2">Connection Error</h3>
-                        <p className="text-sm text-[var(--text-muted)]">{error}</p>
-                        <button
-                            onClick={() => window.location.reload()}
-                            className="mt-4 px-4 py-2 bg-[var(--accent-blue)] text-white rounded-lg text-sm"
-                        >
-                            Retry
-                        </button>
-                    </GlassCard>
-                )}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    {/* Main Feed Column */}
+                    <div className="lg:col-span-2 space-y-4">
+                        {/* Status Update Form */}
+                        <GlassCard className="p-4">
+                            <h3 className="font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-2">
+                                <FileText className="w-4 h-4 text-[var(--accent-blue)]" />
+                                Share an Update
+                            </h3>
+                            <DemoStatusForm onPost={handleNewPost} />
+                        </GlassCard>
 
-                {/* Stream Feed Content */}
-                {credentials && !loading && !error && (
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        {/* Main Feed Column */}
-                        <div className="lg:col-span-2 space-y-4">
-                            <StreamApp
-                                apiKey={credentials.apiKey}
-                                appId={credentials.appId}
-                                token={credentials.token}
-                            >
-                                {/* Status Update Form */}
-                                <GlassCard className="p-4">
-                                    <h3 className="font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-2">
-                                        <FileText className="w-4 h-4 text-[var(--accent-blue)]" />
-                                        Share an Update
-                                    </h3>
-                                    <div className="stream-status-form">
-                                        <StatusUpdateForm
-                                            feedGroup="user"
-                                            userId={credentials.userId}
-                                        />
-                                    </div>
-                                </GlassCard>
+                        {/* Activity Feed */}
+                        <GlassCard className="p-4">
+                            <h3 className="font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-2">
+                                <TrendingUp className="w-4 h-4 text-[var(--success-color)]" />
+                                Activity Feed
+                            </h3>
+                            <div className="space-y-4">
+                                <AnimatePresence>
+                                    {posts.map((post) => (
+                                        <DemoPost key={post.id} post={post} />
+                                    ))}
+                                </AnimatePresence>
+                            </div>
+                        </GlassCard>
+                    </div>
 
-                                {/* Activity Feed */}
-                                <GlassCard className="p-4">
-                                    <h3 className="font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-2">
-                                        <TrendingUp className="w-4 h-4 text-[var(--success-color)]" />
-                                        Activity Feed
-                                    </h3>
-                                    <div className="stream-feed">
-                                        <FlatFeed
-                                            feedGroup="user"
-                                            userId={credentials.userId}
-                                            Activity={(props: any) => (
-                                                <div className="mb-4 p-3 bg-[var(--bg-tertiary)] rounded-xl">
-                                                    <Activity {...props} />
-                                                </div>
-                                            )}
-                                            notify
-                                        />
-                                    </div>
-                                </GlassCard>
-                            </StreamApp>
-                        </div>
-
-                        {/* Sidebar Column */}
-                        <div className="space-y-4">
-                            {/* Trending Topics */}
-                            <GlassCard className="p-4">
-                                <h3 className="font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-2">
-                                    <TrendingUp className="w-4 h-4 text-[var(--accent-blue)]" />
-                                    Trending Topics
-                                </h3>
-                                <div className="space-y-2">
-                                    {TRENDING_TOPICS.map((topic) => (
-                                        <div
-                                            key={topic.id}
-                                            className="flex items-center gap-3 p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors cursor-pointer"
-                                        >
-                                            <div className="w-8 h-8 bg-[var(--accent-blue)]/10 rounded-lg flex items-center justify-center">
-                                                <topic.icon className="w-4 h-4 text-[var(--accent-blue)]" />
-                                            </div>
-                                            <span className="flex-1 text-sm text-[var(--text-primary)]">{topic.title}</span>
-                                            <span className="text-xs text-[var(--text-muted)] bg-[var(--bg-tertiary)] px-2 py-0.5 rounded-full">
-                                                {topic.count}
-                                            </span>
+                    {/* Sidebar Column */}
+                    <div className="space-y-4">
+                        {/* Trending Topics */}
+                        <GlassCard className="p-4">
+                            <h3 className="font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-2">
+                                <TrendingUp className="w-4 h-4 text-[var(--accent-blue)]" />
+                                Trending Topics
+                            </h3>
+                            <div className="space-y-2">
+                                {TRENDING_TOPICS.map((topic) => (
+                                    <div
+                                        key={topic.id}
+                                        className="flex items-center gap-3 p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors cursor-pointer"
+                                    >
+                                        <div className="w-8 h-8 bg-[var(--accent-blue)]/10 rounded-lg flex items-center justify-center">
+                                            <topic.icon className="w-4 h-4 text-[var(--accent-blue)]" />
                                         </div>
-                                    ))}
-                                </div>
-                            </GlassCard>
+                                        <span className="flex-1 text-sm text-[var(--text-primary)]">{topic.title}</span>
+                                        <span className="text-xs text-[var(--text-muted)] bg-[var(--bg-tertiary)] px-2 py-0.5 rounded-full">
+                                            {topic.count}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                        </GlassCard>
 
-                            {/* Safety Guidelines */}
-                            <GlassCard className="p-4">
-                                <h3 className="font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-2">
-                                    <Shield className="w-4 h-4 text-[var(--success-color)]" />
-                                    Safety Guidelines
-                                </h3>
-                                <ul className="space-y-2">
-                                    {SAFETY_GUIDELINES.map((guideline, idx) => (
-                                        <li
-                                            key={idx}
-                                            className="flex items-start gap-2 text-sm text-[var(--text-secondary)]"
-                                        >
-                                            <span className="w-5 h-5 bg-[var(--success-color)]/10 text-[var(--success-color)] rounded-full flex items-center justify-center text-xs shrink-0 mt-0.5">
-                                                {idx + 1}
-                                            </span>
-                                            {guideline}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </GlassCard>
+                        {/* Safety Guidelines */}
+                        <GlassCard className="p-4">
+                            <h3 className="font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-2">
+                                <Shield className="w-4 h-4 text-[var(--success-color)]" />
+                                Safety Guidelines
+                            </h3>
+                            <ul className="space-y-2">
+                                {SAFETY_GUIDELINES.map((guideline, idx) => (
+                                    <li
+                                        key={idx}
+                                        className="flex items-center gap-2 text-sm text-[var(--text-muted)]"
+                                    >
+                                        <Heart className="w-3 h-3 text-[var(--danger-color)]" />
+                                        {guideline}
+                                    </li>
+                                ))}
+                            </ul>
+                        </GlassCard>
 
-                            {/* Community Stats */}
-                            <GlassCard className="p-4">
-                                <h3 className="font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-2">
-                                    <Users className="w-4 h-4 text-[var(--accent-purple)]" />
-                                    Community Stats
-                                </h3>
-                                <div className="grid grid-cols-2 gap-3">
-                                    <div className="text-center p-3 bg-[var(--bg-tertiary)] rounded-lg">
-                                        <div className="text-2xl font-bold text-[var(--accent-blue)]">156</div>
-                                        <div className="text-xs text-[var(--text-muted)]">Members</div>
-                                    </div>
-                                    <div className="text-center p-3 bg-[var(--bg-tertiary)] rounded-lg">
-                                        <div className="text-2xl font-bold text-[var(--success-color)]">42</div>
-                                        <div className="text-xs text-[var(--text-muted)]">Posts Today</div>
-                                    </div>
-                                    <div className="text-center p-3 bg-[var(--bg-tertiary)] rounded-lg">
-                                        <div className="text-2xl font-bold text-[var(--warning-color)]">128</div>
-                                        <div className="text-xs text-[var(--text-muted)]">Reactions</div>
-                                    </div>
-                                    <div className="text-center p-3 bg-[var(--bg-tertiary)] rounded-lg">
-                                        <div className="text-2xl font-bold text-[var(--accent-purple)]">18</div>
-                                        <div className="text-xs text-[var(--text-muted)]">Topics</div>
-                                    </div>
+                        {/* Community Stats */}
+                        <GlassCard className="p-4">
+                            <h3 className="font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-2">
+                                <Users className="w-4 h-4 text-[var(--accent-purple)]" />
+                                Community Stats
+                            </h3>
+                            <div className="grid grid-cols-2 gap-3">
+                                <div className="p-3 bg-[var(--bg-tertiary)] rounded-lg text-center">
+                                    <div className="text-2xl font-bold text-[var(--accent-blue)]">156</div>
+                                    <div className="text-xs text-[var(--text-muted)]">Members</div>
                                 </div>
-                            </GlassCard>
-                        </div>
+                                <div className="p-3 bg-[var(--bg-tertiary)] rounded-lg text-center">
+                                    <div className="text-2xl font-bold text-[var(--success-color)]">42</div>
+                                    <div className="text-xs text-[var(--text-muted)]">Posts Today</div>
+                                </div>
+                                <div className="p-3 bg-[var(--bg-tertiary)] rounded-lg text-center">
+                                    <div className="text-2xl font-bold text-[var(--accent-purple)]">89</div>
+                                    <div className="text-xs text-[var(--text-muted)]">Safety Tips</div>
+                                </div>
+                                <div className="p-3 bg-[var(--bg-tertiary)] rounded-lg text-center">
+                                    <div className="text-2xl font-bold text-[var(--warning-color)]">7</div>
+                                    <div className="text-xs text-[var(--text-muted)]">Days Streak</div>
+                                </div>
+                            </div>
+                        </GlassCard>
                     </div>
-                )}
+                </div>
             </PageTransition>
-
-            {/* Custom styles for Stream components */}
-            <style jsx global>{`
-        .stream-status-form .raf-panel-header {
-          display: none;
-        }
-        .stream-status-form textarea {
-          background: var(--bg-tertiary) !important;
-          border: 1px solid var(--border-light) !important;
-          border-radius: 12px !important;
-          color: var(--text-primary) !important;
-          padding: 12px !important;
-        }
-        .stream-status-form button[type="submit"] {
-          background: linear-gradient(135deg, var(--accent-blue), var(--accent-sky)) !important;
-          border-radius: 8px !important;
-        }
-        .stream-feed .raf-card {
-          background: transparent !important;
-          border: none !important;
-        }
-        .stream-feed img {
-          border-radius: 12px !important;
-          max-width: 100% !important;
-        }
-        .raf-activity {
-          background: transparent !important;
-        }
-        .raf-user-bar__username {
-          color: var(--text-primary) !important;
-        }
-        .raf-activity__content {
-          color: var(--text-secondary) !important;
-        }
-      `}</style>
         </AppShell>
     )
 }

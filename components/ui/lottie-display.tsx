@@ -8,11 +8,11 @@ const Player = dynamic(
     { ssr: false }
 )
 
-// Lottie animation URLs
+// Lottie animation URLs - using LottieFiles CDN (reliable public URLs)
 const LOTTIE_URLS = {
-    loading: "https://lottie.host/980b3d63-549e-4c76-8806-03f473854580/9y7J8t456y.json",
-    success: "https://lottie.host/5a70377c-7833-4f93-a44e-12821703666d/monitor.json",
-    empty: "https://lottie.host/8904771c-4389-482a-a92c-554160408542/C15y7J8t45.json"
+    loading: "https://assets9.lottiefiles.com/packages/lf20_l4ny0juo.json",
+    success: "https://assets5.lottiefiles.com/packages/lf20_jbrw3hcz.json",
+    empty: "https://assets10.lottiefiles.com/packages/lf20_ydo1amjm.json"
 }
 
 interface LottieDisplayProps {
