@@ -1,3 +1,10 @@
+The Vercel build is still failing with `Property 'id' does not exist on type 'never'`.
+We need to aggressively cast the Supabase response to `any` immediately upon retrieval to bypass Vercel's strict type inference.
+
+Please overwrite `lib/actions/kpi-actions.ts` with this EXACT code. 
+Notice how `existingYear` is cast to `any` immediately into a new variable`dataAny`.
+
+```typescript
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
@@ -37,7 +44,7 @@ export async function getKPIYear(year: number) {
     if (existingYear) {
         // VITAL FIX: Cast immediately to 'any' to stop TypeScript from complaining about 'never' type
         const dataAny = existingYear as any;
-
+        
         return {
             id: dataAny.id,
             year: dataAny.year,
