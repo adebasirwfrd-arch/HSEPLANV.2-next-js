@@ -56,6 +56,3 @@ export function useKPI(year: number) {
         deleteMetric: deleteMetricMutation.mutate,
     };
 }
-
-// Re-export types for convenience
-export type { KPIData, KPIMetric };
