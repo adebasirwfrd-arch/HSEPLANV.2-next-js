@@ -1,0 +1,8 @@
+Finally, integrate the AI Consultant into the Homepage.
+
+Open `app/page.tsx`:
+1.  Import `AIConsultant` from `@/components/dashboard/ai-consultant`.
+2.  Insert the `<AIConsultant />` component right below the Header (Welcome Message) and ABOVE the Tremor/Bento Grid cards.
+3.  Add a generic `<div className="mb-6">` wrapper if needed for spacing.
+
+This makes the AI analysis the first thing the user sees.

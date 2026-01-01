@@ -1,0 +1,36 @@
+Now let's build the frontend component that gathers all data.
+
+Create `components/dashboard/ai-consultant.tsx`.
+
+**Imports Required:**
+- `useHSEPrograms` from `@/hooks/useHSEPrograms` (for OTP/Matrix).
+- `loadKPIYear` from `@/lib/kpi-store`.
+- `loadTasks` from `@/lib/tasks-store`.
+- `loadLLData` from `@/lib/ll-indicator-store`.
+- `GlassCard`, `Button` components.
+- Icons from `lucide-react` (Bot, Sparkles, AlertTriangle, CheckCircle).
+
+**Component Logic:**
+1.  **State**: `isLoading`, `analysis` (type `AIAnalysisResult`), `snapshot` (type `DashboardSnapshot`).
+2.  **Data Fetching**:
+    - Use `useHSEPrograms` for OTP data.
+    - Use `useEffect` to load KPI, Tasks, and LL Data from localStorage on mount (to avoid hydration mismatch).
+3.  **Aggregation**:
+    - Create a function `gatherData()`:
+      - Combine `otpData` (compliance %), `kpiData` (TRIR), `taskData` (open counts) into a single `DashboardSnapshot` object.
+4.  **API Call**:
+    - Function `handleAnalyze`:
+      - Set loading true.
+      - Call `gatherData()`.
+      - POST the snapshot to `/api/ai-insight`.
+      - Save result to state.
+5.  **UI Design**:
+    - **Initial State**: A sleek banner "🤖 AI Safety Consultant". Button: "Analyze Dashboard".
+    - **Loading**: "Analyzing Safety Patterns..." with a simple pulse animation.
+    - **Result State**: 
+      - A high-level scorecard layout.
+      - Top: "Safety Health Score" (Large number with color coding).
+      - Middle: "Executive Summary" (Text).
+      - Bottom: "Recommended Actions" (List).
+
+Please write the robust React component code.
