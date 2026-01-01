@@ -1,0 +1,14 @@
+Now applying the design overhaul to `KPIPage` and `LLIndicatorPage`.
+
+**1. KPI Page (`app/hse-kpi/page.tsx`):**
+- Wrap with `PageTransition`.
+- **Animated Numbers:** Use `framer-motion` or a simple counter hook to make the big numbers (Man Hours, Achieved stats) count up from 0 to the final value over 1 second.
+- **Metrics Table:** Make rows animate in (staggered).
+- **Cards:** Add `whileHover={{ scale: 1.02 }}` to the summary cards so they feel tactile.
+
+**2. LL Indicator Page (`app/ll-indicator/page.tsx`):**
+- Use `PageTransition`.
+- The "Leading" and "Lagging" sections should be `GlassCard`s.
+- Animate the expand/collapse action (Accordion style) to be smoother.
+
+Please apply these specific UI polishes to both files.

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { motion, useSpring, useTransform } from "framer-motion"
 import { AppShell } from "@/components/layout/app-shell"
 import { cn } from "@/lib/utils"
 import { Download, Plus, X, Trash2, AlertTriangle, Calendar, Check } from "lucide-react"
@@ -21,6 +22,18 @@ const statusColors = {
     "achieved": "bg-[var(--success-color)] text-white",
     "on-track": "bg-[var(--warning-color)] text-black",
     "at-risk": "bg-[var(--danger-color)] text-white",
+}
+
+// Animated counter component
+function AnimatedNumber({ value, duration = 1 }: { value: number; duration?: number }) {
+    const spring = useSpring(0, { duration: duration * 1000 })
+    const display = useTransform(spring, (current) => Math.round(current).toLocaleString())
+
+    useEffect(() => {
+        spring.set(value)
+    }, [spring, value])
+
+    return <motion.span>{display}</motion.span>
 }
 
 export default function HSEKPIPage() {
@@ -137,37 +150,62 @@ export default function HSEKPIPage() {
                 </div>
 
                 {/* Man Hours Card */}
-                <div
-                    className="p-4 bg-gradient-to-br from-[#667eea] to-[#764ba2] text-white rounded-xl cursor-pointer"
+                <motion.div
+                    whileHover={{ scale: 1.02, y: -3 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                    className="p-4 bg-gradient-to-br from-[#667eea] to-[#764ba2] text-white rounded-2xl cursor-pointer shadow-lg shadow-purple-500/20"
                     onClick={() => setManHoursEdit(true)}
                 >
                     <div className="flex items-center justify-between">
                         <div>
                             <div className="text-xs opacity-80">Man Hours {selectedYear}</div>
-                            <div className="text-2xl font-bold">{data.manHours.toLocaleString()}</div>
+                            <div className="text-3xl font-bold"><AnimatedNumber value={data.manHours} /></div>
                         </div>
                         <div className="text-4xl opacity-50">⏱️</div>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Summary Cards */}
                 <PageContent className="grid grid-cols-3 gap-3">
-                    <div className="p-4 text-center bg-gradient-to-br from-[#27ae60] to-[#2ecc71] text-white rounded-xl">
-                        <div className="text-2xl font-bold">{achieved}</div>
-                        <div className="text-[10px] opacity-90">Achieved</div>
-                    </div>
-                    <div className="p-4 text-center bg-gradient-to-br from-[#f39c12] to-[#e67e22] text-white rounded-xl">
-                        <div className="text-2xl font-bold">{onTrack}</div>
-                        <div className="text-[10px] opacity-90">On Track</div>
-                    </div>
-                    <div className="p-4 text-center bg-gradient-to-br from-[#e74c3c] to-[#c0392b] text-white rounded-xl">
-                        <div className="text-2xl font-bold">{atRisk}</div>
-                        <div className="text-[10px] opacity-90">At Risk</div>
-                    </div>
+                    <motion.div
+                        whileHover={{ scale: 1.02, y: -3 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        className="p-4 text-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl cursor-pointer"
+                    >
+                        <div className="text-3xl font-bold bg-gradient-to-r from-[#27ae60] to-[#2ecc71] bg-clip-text text-transparent">
+                            <AnimatedNumber value={achieved} />
+                        </div>
+                        <div className="text-xs text-[var(--text-muted)] mt-1">Achieved</div>
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ scale: 1.02, y: -3 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        className="p-4 text-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl cursor-pointer"
+                    >
+                        <div className="text-3xl font-bold bg-gradient-to-r from-[#f39c12] to-[#e67e22] bg-clip-text text-transparent">
+                            <AnimatedNumber value={onTrack} />
+                        </div>
+                        <div className="text-xs text-[var(--text-muted)] mt-1">On Track</div>
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ scale: 1.02, y: -3 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        className="p-4 text-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl cursor-pointer"
+                    >
+                        <div className="text-3xl font-bold bg-gradient-to-r from-[#e74c3c] to-[#c0392b] bg-clip-text text-transparent">
+                            <AnimatedNumber value={atRisk} />
+                        </div>
+                        <div className="text-xs text-[var(--text-muted)] mt-1">At Risk</div>
+                    </motion.div>
                 </PageContent>
 
                 {/* KPI Table */}
-                <div className="bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-light)] overflow-hidden">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden shadow-xl"
+                >
                     <div className="flex items-center justify-between p-4 border-b border-[var(--border-light)]">
                         <h3 className="font-semibold text-[var(--text-primary)]">📈 Performance Metrics</h3>
                         <button
@@ -197,12 +235,15 @@ export default function HSEKPIPage() {
                                         </td>
                                     </tr>
                                 ) : (
-                                    data.metrics.map((metric) => {
+                                    data.metrics.map((metric, idx) => {
                                         const status = calculateKPIStatus(metric.target, metric.result, metric.id)
                                         return (
-                                            <tr
+                                            <motion.tr
                                                 key={metric.id}
-                                                className="border-b border-[var(--border-light)] hover:bg-[var(--bg-tertiary)]/50 cursor-pointer"
+                                                initial={{ opacity: 0, x: -20 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: idx * 0.05, duration: 0.3 }}
+                                                className="border-b border-white/5 hover:bg-white/5 cursor-pointer transition-colors"
                                                 onClick={() => { setSelectedIcon(metric.icon); setEditModal({ metric, isNew: false }) }}
                                             >
                                                 <td className="p-3 text-center text-lg">{metric.icon}</td>
@@ -228,14 +269,14 @@ export default function HSEKPIPage() {
                                                         <Trash2 className="w-3.5 h-3.5" />
                                                     </button>
                                                 </td>
-                                            </tr>
+                                            </motion.tr>
                                         )
                                     })
                                 )}
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Formula Reference */}
                 <div className="p-4 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-light)]">

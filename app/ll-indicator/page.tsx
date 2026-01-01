@@ -1,9 +1,11 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { AppShell } from "@/components/layout/app-shell"
 import { cn } from "@/lib/utils"
 import { Download, Plus, ChevronDown, ChevronUp, Check, X, Trash2, AlertTriangle, Calendar } from "lucide-react"
+import { PageTransition, PageHeader, PageContent } from "@/components/ui/page-transition"
 import {
     loadLLData,
     saveLLData,
@@ -108,68 +110,81 @@ export default function LLIndicatorPage() {
     }
 
     const IndicatorTable = ({ type, indicators, expanded }: { type: "lagging" | "leading"; indicators: LLIndicator[]; expanded: boolean }) => (
-        expanded && (
-            <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                    <thead className="bg-[var(--bg-tertiary)]">
-                        <tr>
-                            <th className="text-left p-3 font-semibold w-8">#</th>
-                            <th className="text-center p-3 font-semibold w-10">Icon</th>
-                            <th className="text-left p-3 font-semibold">Indicator</th>
-                            <th className="text-center p-3 font-semibold w-28">Target</th>
-                            <th className="text-center p-3 font-semibold w-20">Actual</th>
-                            <th className="text-center p-3 font-semibold w-12">Status</th>
-                            <th className="text-left p-3 font-semibold">Intent</th>
-                            <th className="text-center p-3 font-semibold w-16">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {indicators.length === 0 ? (
-                            <tr>
-                                <td colSpan={8} className="p-6 text-center text-[var(--text-muted)]">
-                                    No indicators. Click &quot;Add&quot; to create one.
-                                </td>
-                            </tr>
-                        ) : (
-                            indicators.map((row, idx) => (
-                                <tr
-                                    key={row.id}
-                                    className="border-b border-[var(--border-light)] hover:bg-[var(--bg-tertiary)]/50 cursor-pointer"
-                                    onClick={() => openEditModal(type, row)}
-                                >
-                                    <td className="p-3 text-[var(--text-muted)]">{idx + 1}</td>
-                                    <td className="p-3 text-center text-lg">{row.icon || "📊"}</td>
-                                    <td className="p-3 font-medium">{row.name}</td>
-                                    <td className="p-3 text-center text-xs">{row.target}</td>
-                                    <td className="p-3 text-center font-semibold">{row.actual}</td>
-                                    <td className="p-3 text-center"><StatusIcon target={row.target} actual={row.actual} /></td>
-                                    <td className="p-3 text-[var(--text-secondary)] text-xs">{row.intent}</td>
-                                    <td className="p-3 text-center">
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation()
-                                                setDeleteModal({ type, id: row.id, name: row.name })
-                                            }}
-                                            className="p-1.5 text-[var(--danger-color)] hover:bg-[var(--danger-color)]/10 rounded transition-colors"
-                                            title="Delete"
-                                        >
-                                            <Trash2 className="w-3.5 h-3.5" />
-                                        </button>
-                                    </td>
+        <AnimatePresence>
+            {expanded && (
+                <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="overflow-hidden"
+                >
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                            <thead className="bg-[var(--bg-tertiary)]">
+                                <tr>
+                                    <th className="text-left p-3 font-semibold w-8">#</th>
+                                    <th className="text-center p-3 font-semibold w-10">Icon</th>
+                                    <th className="text-left p-3 font-semibold">Indicator</th>
+                                    <th className="text-center p-3 font-semibold w-28">Target</th>
+                                    <th className="text-center p-3 font-semibold w-20">Actual</th>
+                                    <th className="text-center p-3 font-semibold w-12">Status</th>
+                                    <th className="text-left p-3 font-semibold">Intent</th>
+                                    <th className="text-center p-3 font-semibold w-16">Actions</th>
                                 </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
-            </div>
-        )
+                            </thead>
+                            <tbody>
+                                {indicators.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={8} className="p-6 text-center text-[var(--text-muted)]">
+                                            No indicators. Click &quot;Add&quot; to create one.
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    indicators.map((row, idx) => (
+                                        <motion.tr
+                                            key={row.id}
+                                            initial={{ opacity: 0, x: -20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: idx * 0.05, duration: 0.3 }}
+                                            className="border-b border-white/5 hover:bg-white/5 cursor-pointer transition-colors"
+                                            onClick={() => openEditModal(type, row)}
+                                        >
+                                            <td className="p-3 text-[var(--text-muted)]">{idx + 1}</td>
+                                            <td className="p-3 text-center text-lg">{row.icon || "📊"}</td>
+                                            <td className="p-3 font-medium">{row.name}</td>
+                                            <td className="p-3 text-center text-xs">{row.target}</td>
+                                            <td className="p-3 text-center font-semibold">{row.actual}</td>
+                                            <td className="p-3 text-center"><StatusIcon target={row.target} actual={row.actual} /></td>
+                                            <td className="p-3 text-[var(--text-secondary)] text-xs">{row.intent}</td>
+                                            <td className="p-3 text-center">
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        setDeleteModal({ type, id: row.id, name: row.name })
+                                                    }}
+                                                    className="p-1.5 text-[var(--danger-color)] hover:bg-[var(--danger-color)]/10 rounded transition-colors"
+                                                    title="Delete"
+                                                >
+                                                    <Trash2 className="w-3.5 h-3.5" />
+                                                </button>
+                                            </td>
+                                        </motion.tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </motion.div>
+            )}
+        </AnimatePresence>
     )
 
     return (
         <AppShell>
-            <div className="space-y-4">
+            <PageTransition className="space-y-4">
                 {/* Header */}
-                <div className="flex items-center gap-3 mb-4">
+                <PageHeader className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 bg-gradient-to-br from-[#e74c3c] to-[#27ae60] rounded-xl flex items-center justify-center text-2xl">
                         📈
                     </div>
@@ -203,35 +218,57 @@ export default function LLIndicatorPage() {
                             <Download className="w-3 h-3" /> Export CSV
                         </button>
                     </div>
-                </div>
+                </PageHeader>
 
                 {/* Stats Summary */}
-                <div className="grid grid-cols-4 gap-3">
-                    <div className="p-3 text-center bg-gradient-to-br from-[#e74c3c] to-[#c0392b] text-white rounded-xl">
-                        <div className="text-xl font-bold">{data.lagging.length}</div>
-                        <div className="text-[10px] opacity-90">Lagging Indicators</div>
-                    </div>
-                    <div className="p-3 text-center bg-gradient-to-br from-[#27ae60] to-[#2ecc71] text-white rounded-xl">
-                        <div className="text-xl font-bold">{data.leading.length}</div>
-                        <div className="text-[10px] opacity-90">Leading Indicators</div>
-                    </div>
-                    <div className="p-3 text-center bg-gradient-to-br from-[#3498db] to-[#2980b9] text-white rounded-xl">
-                        <div className="text-xl font-bold">
+                <PageContent className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <motion.div
+                        whileHover={{ scale: 1.02, y: -3 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        className="p-4 text-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl"
+                    >
+                        <div className="text-3xl font-bold bg-gradient-to-r from-[#e74c3c] to-[#c0392b] bg-clip-text text-transparent">{data.lagging.length}</div>
+                        <div className="text-xs text-[var(--text-muted)] mt-1">Lagging Indicators</div>
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ scale: 1.02, y: -3 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        className="p-4 text-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl"
+                    >
+                        <div className="text-3xl font-bold bg-gradient-to-r from-[#27ae60] to-[#2ecc71] bg-clip-text text-transparent">{data.leading.length}</div>
+                        <div className="text-xs text-[var(--text-muted)] mt-1">Leading Indicators</div>
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ scale: 1.02, y: -3 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        className="p-4 text-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl"
+                    >
+                        <div className="text-3xl font-bold bg-gradient-to-r from-[#3498db] to-[#2980b9] bg-clip-text text-transparent">
                             {[...data.lagging, ...data.leading].filter(i => calculateStatus(i.target, i.actual) === "achieved").length}
                         </div>
-                        <div className="text-[10px] opacity-90">Achieved</div>
-                    </div>
-                    <div className="p-3 text-center bg-gradient-to-br from-[#f39c12] to-[#e67e22] text-white rounded-xl">
-                        <div className="text-xl font-bold">
+                        <div className="text-xs text-[var(--text-muted)] mt-1">Achieved</div>
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ scale: 1.02, y: -3 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        className="p-4 text-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl"
+                    >
+                        <div className="text-3xl font-bold bg-gradient-to-r from-[#f39c12] to-[#e67e22] bg-clip-text text-transparent">
                             {[...data.lagging, ...data.leading].filter(i => calculateStatus(i.target, i.actual) === "on-track").length}
                         </div>
-                        <div className="text-[10px] opacity-90">On Track</div>
-                    </div>
-                </div>
+                        <div className="text-xs text-[var(--text-muted)] mt-1">On Track</div>
+                    </motion.div>
+                </PageContent>
 
                 {/* Lagging Indicators */}
-                <div className="bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-light)] overflow-hidden">
-                    <button
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden shadow-xl"
+                >
+                    <motion.button
+                        whileHover={{ scale: 1.005 }}
                         onClick={() => setLaggingExpanded(!laggingExpanded)}
                         className="w-full p-4 bg-gradient-to-r from-[#c0392b] to-[#e74c3c] text-white flex items-center justify-between"
                     >
@@ -243,15 +280,23 @@ export default function LLIndicatorPage() {
                             >
                                 <Plus className="w-3 h-3" /> Add
                             </button>
-                            {laggingExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+                            <motion.div animate={{ rotate: laggingExpanded ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                                <ChevronDown className="w-5 h-5" />
+                            </motion.div>
                         </div>
-                    </button>
+                    </motion.button>
                     <IndicatorTable type="lagging" indicators={data.lagging} expanded={laggingExpanded} />
-                </div>
+                </motion.div>
 
                 {/* Leading Indicators */}
-                <div className="bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-light)] overflow-hidden">
-                    <button
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden shadow-xl"
+                >
+                    <motion.button
+                        whileHover={{ scale: 1.005 }}
                         onClick={() => setLeadingExpanded(!leadingExpanded)}
                         className="w-full p-4 bg-gradient-to-r from-[#27ae60] to-[#2ecc71] text-white flex items-center justify-between"
                     >
@@ -263,11 +308,13 @@ export default function LLIndicatorPage() {
                             >
                                 <Plus className="w-3 h-3" /> Add
                             </button>
-                            {leadingExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+                            <motion.div animate={{ rotate: leadingExpanded ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                                <ChevronDown className="w-5 h-5" />
+                            </motion.div>
                         </div>
-                    </button>
+                    </motion.button>
                     <IndicatorTable type="leading" indicators={data.leading} expanded={leadingExpanded} />
-                </div>
+                </motion.div>
 
                 {/* Add Year Modal */}
                 {addYearModal && (
@@ -480,7 +527,7 @@ export default function LLIndicatorPage() {
                         </div>
                     </div>
                 )}
-            </div>
+            </PageTransition>
         </AppShell>
     )
 }
