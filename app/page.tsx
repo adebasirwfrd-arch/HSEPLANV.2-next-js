@@ -1,8 +1,6 @@
 "use client"
 
-import { useState, useEffect, useMemo, useRef } from "react"
-import { gsap } from "gsap"
-import { useGSAP } from "@gsap/react"
+import { useState, useEffect, useMemo } from "react"
 import { AppShell } from "@/components/layout/app-shell"
 import { loadSettings, type AppSettings } from "@/lib/settings-store"
 import { useHSEPrograms } from "@/hooks/useHSEPrograms"
@@ -32,7 +30,7 @@ import { LottieDisplay } from "@/components/ui/lottie-display"
 import { RightSidebar } from "@/components/dashboard/right-sidebar"
 import { SafetyMascot } from "@/components/dashboard/safety-mascot"
 
-gsap.registerPlugin(useGSAP)
+
 
 // GSAP Animated Bento Card wrapper
 function BentoCard({
@@ -64,7 +62,6 @@ const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'S
 
 export default function HomePage() {
   const [settings, setSettings] = useState<AppSettings | null>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
 
   // Fetch OTP data for dashboard metrics
   const { data: otpData, isLoading } = useHSEPrograms({
@@ -73,16 +70,6 @@ export default function HomePage() {
     category: 'otp',
     year: 2026
   })
-
-  // GSAP entrance animations
-  useGSAP(() => {
-    if (!containerRef.current) return
-    gsap.fromTo(
-      '.gsap-card',
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out' }
-    )
-  }, { scope: containerRef, dependencies: [isLoading] })
 
   useEffect(() => {
     setSettings(loadSettings())
@@ -163,7 +150,7 @@ export default function HomePage() {
     <AppShell>
       <div className="flex gap-6">
         {/* Main Content */}
-        <div ref={containerRef} className="flex-1 space-y-6 min-w-0">
+        <div className="flex-1 space-y-6 min-w-0">
           {/* Header */}
           <div className="flex items-center justify-between">
             <div>
