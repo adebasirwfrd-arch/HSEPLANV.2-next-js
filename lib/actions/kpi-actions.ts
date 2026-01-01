@@ -21,9 +21,9 @@ export interface KPIData {
 export async function getKPIYear(year: number) {
     const supabase = await createClient();
 
-    // 1. Try to fetch
-    const { data: existingYear, error: fetchError } = await supabase
-        .from("hse_kpi_years")
+    // Cast the entire from() call to any to bypass strict type inference
+    const { data: existingYear, error: fetchError } = await (supabase
+        .from("hse_kpi_years") as any)
         .select("*, hse_kpi_metrics(*)")
         .eq("year", year)
         .single();
@@ -33,24 +33,19 @@ export async function getKPIYear(year: number) {
         return null;
     }
 
-    // 2. If exists, return formatted
     if (existingYear) {
-        // VITAL FIX: Cast immediately to 'any' to stop TypeScript from complaining about 'never' type
-        const dataAny = existingYear as any;
-
         return {
-            id: dataAny.id,
-            year: dataAny.year,
-            man_hours: dataAny.man_hours,
-            metrics: dataAny.hse_kpi_metrics || [],
+            id: existingYear.id,
+            year: existingYear.year,
+            man_hours: existingYear.man_hours,
+            metrics: existingYear.hse_kpi_metrics || [],
         } as KPIData;
     }
 
-    // 3. Create if not exists
-    // We pass the object cast as any directly to insert
-    const { data: newYear, error: insertError } = await supabase
-        .from("hse_kpi_years")
-        .insert([{ year, man_hours: 0 }] as any)
+    // Create if not exists
+    const { data: newYear, error: insertError } = await (supabase
+        .from("hse_kpi_years") as any)
+        .insert([{ year, man_hours: 0 }])
         .select()
         .single();
 
@@ -59,23 +54,22 @@ export async function getKPIYear(year: number) {
         return null;
     }
 
-    // VITAL FIX: Cast immediately
-    const newDataAny = newYear as any;
-
     return {
-        id: newDataAny.id,
-        year: newDataAny.year,
-        man_hours: newDataAny.man_hours,
+        id: newYear.id,
+        year: newYear.year,
+        man_hours: newYear.man_hours,
         metrics: [],
     } as KPIData;
 }
 
 export async function updateManHours(year: number, hours: number) {
     const supabase = await createClient();
-    await supabase
-        .from("hse_kpi_years")
-        .update({ man_hours: hours } as any)
+
+    // Cast entire from() to any to bypass 'never' type
+    await (supabase.from("hse_kpi_years") as any)
+        .update({ man_hours: hours })
         .eq("year", year);
+
     revalidatePath("/kpi");
 }
 
@@ -83,30 +77,25 @@ export async function saveMetric(year: number, metric: any) {
     const supabase = await createClient();
 
     // Get Year ID
-    const { data: yearData } = await supabase
-        .from("hse_kpi_years")
+    const { data: yearData } = await (supabase
+        .from("hse_kpi_years") as any)
         .select("id")
         .eq("year", year)
         .single();
 
     if (!yearData) throw new Error("Year not found");
 
-    // VITAL FIX: Cast to any
-    const yearDataAny = yearData as any;
-    const yearId = yearDataAny.id;
-
     const payload = {
-        year_id: yearId,
+        year_id: yearData.id,
         name: metric.name,
         target: metric.target,
         result: metric.result,
         icon: metric.icon,
     };
 
-    // Upsert Metric
-    const { error } = await supabase
-        .from("hse_kpi_metrics")
-        .upsert(metric.id ? { ...payload, id: metric.id } : payload as any)
+    // Upsert Metric - cast from() to any
+    const { error } = await (supabase.from("hse_kpi_metrics") as any)
+        .upsert(metric.id ? { ...payload, id: metric.id } : payload)
         .select();
 
     if (error) throw new Error(error.message);
@@ -115,6 +104,11 @@ export async function saveMetric(year: number, metric: any) {
 
 export async function deleteMetric(id: string) {
     const supabase = await createClient();
-    await supabase.from("hse_kpi_metrics").delete().eq("id", id);
+
+    // Cast from() to any
+    await (supabase.from("hse_kpi_metrics") as any)
+        .delete()
+        .eq("id", id);
+
     revalidatePath("/kpi");
 }
