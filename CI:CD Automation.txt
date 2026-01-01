@@ -1,0 +1,17 @@
+We are entering Phase 4: Infrastructure Automation.
+Let's set up **GitHub Actions** for CI/CD to ensure code quality.
+
+1.  **Create Workflow File:** `.github/workflows/production.yml`
+2.  **Logic:**
+    - **Trigger:** On `push` to `main` branch.
+    - **Jobs:**
+      - `build-and-test`:
+        - Runs on `ubuntu-latest`.
+        - Checkout code.
+        - Setup Node.js 18.
+        - Install dependencies (`npm ci`).
+        - Run Linting (`npm run lint`).
+        - Run Build (`npm run build`).
+    - **Notification:** (Optional) If build fails, it will notify via GitHub email.
+
+Please provide the complete YAML code for `.github/workflows/production.yml`.

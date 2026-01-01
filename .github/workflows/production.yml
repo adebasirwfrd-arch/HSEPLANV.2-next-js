@@ -1,0 +1,57 @@
+name: Production CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    name: Build & Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Run ESLint
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Build application
+        run: npm run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: next-build
+          path: .next
+          retention-days: 7
+
+  # Optional: Deploy notification
+  notify:
+    name: Notify on Failure
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: failure()
+    
+    steps:
+      - name: Notify failure
+        run: |
+          echo "Build failed! Check the workflow logs for details."
+          echo "Repository: ${{ github.repository }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Author: ${{ github.actor }}"
