@@ -10,12 +10,22 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: "HSE Plan Management",
+  title: "HSE Dashboard Pro",
   description: "Health, Safety & Environment Management Dashboard",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "HSE Pro",
+  },
+  icons: {
+    icon: "/icons/icon-192.png",
+    apple: "/icons/icon-192.png",
+  },
 }
 
 export const viewport: Viewport = {
-  themeColor: "#A1C4FD",
+  themeColor: "#3b82f6",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
