@@ -1,0 +1,15 @@
+I do NOT want to fallback to local JSON. I want to proceed with full migration to Supabase.
+
+The issue with the current seed API is likely RLS blocking the inserts.
+To fix this, please create a dedicated Python migration script: `scripts/migrate_json_to_supabase.py`.
+
+**Requirements:**
+1.  **Reuse Logic**: Import/Copy the `load_otp_data` and `load_matrix_data` logic from `app.py` so we correctly parse the complex JSON structures (merging bases, handling months).
+2.  **Admin Access**: The script should initialize the Supabase client using `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` (I will provide this key in my .env). Using the Service Key will bypass RLS policies automatically.
+3.  **Idempotency**: The script should check if a program exists (by title) before inserting, or use `upsert`, to avoid duplicates if I run it twice.
+4.  **Relationships**: 
+    - First, insert/upsert into `master_programs`.
+    - Get the returned `id`.
+    - Then, insert/upsert all monthly data into `program_progress` linked to that `id`.
+
+Please provide the full code for this script and tell me how to run it.
