@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import { motion } from "framer-motion"
 import { AppShell } from "@/components/layout/app-shell"
 import { GlassCard } from "@/components/ui/glass-card"
 import { cn } from "@/lib/utils"
@@ -428,37 +429,45 @@ export default function TasksPage() {
 
                 {/* Dashboard Cards */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <GlassCard className="p-4 bg-gradient-to-br from-[var(--accent-blue)] to-[var(--accent-sky)]">
-                        <div className="flex items-center gap-2 mb-2">
-                            <CheckCircle className="w-5 h-5 text-white opacity-80" />
-                            <span className="text-sm text-white opacity-80">Completion</span>
-                        </div>
-                        <div className="text-2xl font-bold text-[#1e7a3d]">{completionRate}%</div>
-                        <div className="w-full h-2 bg-white/20 rounded-full mt-2">
-                            <div className="h-full bg-white rounded-full transition-all" style={{ width: `${completionRate}%` }} />
-                        </div>
-                    </GlassCard>
-                    <GlassCard className="p-4">
-                        <div className="flex items-center gap-2 mb-2">
-                            <CheckCircle className="w-5 h-5 text-[#27ae60]" />
-                            <span className="text-xs text-[var(--text-muted)]">Completed</span>
-                        </div>
-                        <div className="text-xl font-bold text-[#27ae60]">{completedTasks}</div>
-                    </GlassCard>
-                    <GlassCard className="p-4">
-                        <div className="flex items-center gap-2 mb-2">
-                            <PlayCircle className="w-5 h-5 text-[#3498db]" />
-                            <span className="text-xs text-[var(--text-muted)]">In Progress</span>
-                        </div>
-                        <div className="text-xl font-bold text-[#3498db]">{inProgressTasks}</div>
-                    </GlassCard>
-                    <GlassCard className="p-4">
-                        <div className="flex items-center gap-2 mb-2">
-                            <Clock className="w-5 h-5 text-[#f39c12]" />
-                            <span className="text-xs text-[var(--text-muted)]">Upcoming</span>
-                        </div>
-                        <div className="text-xl font-bold text-[#f39c12]">{upcomingTasks}</div>
-                    </GlassCard>
+                    <motion.div whileHover={{ y: -5, scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }}>
+                        <GlassCard className="p-4 bg-gradient-to-br from-[var(--accent-blue)] to-[var(--accent-sky)] cursor-pointer">
+                            <div className="flex items-center gap-2 mb-2">
+                                <CheckCircle className="w-5 h-5 text-white opacity-80" />
+                                <span className="text-sm text-white opacity-80">Completion</span>
+                            </div>
+                            <div className="text-2xl font-bold text-[#1e7a3d]">{completionRate}%</div>
+                            <div className="w-full h-2 bg-white/20 rounded-full mt-2">
+                                <div className="h-full bg-white rounded-full transition-all" style={{ width: `${completionRate}%` }} />
+                            </div>
+                        </GlassCard>
+                    </motion.div>
+                    <motion.div whileHover={{ y: -5, scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }}>
+                        <GlassCard className="p-4 cursor-pointer">
+                            <div className="flex items-center gap-2 mb-2">
+                                <CheckCircle className="w-5 h-5 text-[#27ae60]" />
+                                <span className="text-xs text-[var(--text-muted)]">Completed</span>
+                            </div>
+                            <div className="text-xl font-bold text-[#27ae60]">{completedTasks}</div>
+                        </GlassCard>
+                    </motion.div>
+                    <motion.div whileHover={{ y: -5, scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }}>
+                        <GlassCard className="p-4 cursor-pointer">
+                            <div className="flex items-center gap-2 mb-2">
+                                <PlayCircle className="w-5 h-5 text-[#3498db]" />
+                                <span className="text-xs text-[var(--text-muted)]">In Progress</span>
+                            </div>
+                            <div className="text-xl font-bold text-[#3498db]">{inProgressTasks}</div>
+                        </GlassCard>
+                    </motion.div>
+                    <motion.div whileHover={{ y: -5, scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }}>
+                        <GlassCard className="p-4 cursor-pointer">
+                            <div className="flex items-center gap-2 mb-2">
+                                <Clock className="w-5 h-5 text-[#f39c12]" />
+                                <span className="text-xs text-[var(--text-muted)]">Upcoming</span>
+                            </div>
+                            <div className="text-xl font-bold text-[#f39c12]">{upcomingTasks}</div>
+                        </GlassCard>
+                    </motion.div>
                 </div>
 
                 {/* Filter Bar */}

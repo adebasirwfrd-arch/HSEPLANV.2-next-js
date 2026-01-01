@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import { motion } from "framer-motion"
 import { AppShell } from "@/components/layout/app-shell"
 import { GlassCard } from "@/components/ui/glass-card"
 import { FileText, ExternalLink, Download, Search, Plus, X, Upload, Trash2, AlertTriangle } from "lucide-react"
@@ -219,12 +220,14 @@ export default function RelatedDocsPage() {
                             <p className="text-xs text-[var(--text-muted)]">HSE Documents & Resources</p>
                         </div>
                     </div>
-                    <button
+                    <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                         onClick={() => setCreateModal(true)}
-                        className="bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-sky)] text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2"
+                        className="bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-sky)] text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 shadow-lg shadow-[var(--accent-blue)]/20"
                     >
                         <Plus className="w-4 h-4" /> Create
-                    </button>
+                    </motion.button>
                 </div>
 
                 {/* Search */}
@@ -248,51 +251,59 @@ export default function RelatedDocsPage() {
                             </p>
                         </GlassCard>
                     ) : (
-                        filteredDocuments.map((doc) => (
-                            <GlassCard key={doc.id} className="p-4 cursor-pointer hover:translate-x-1 transition-transform">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 bg-[var(--bg-tertiary)] rounded-lg flex items-center justify-center">
-                                        <FileText className="w-5 h-5 text-[var(--accent-blue)]" />
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <h3 className="font-semibold text-[var(--text-primary)] truncate">{doc.name}</h3>
-                                        <p className="text-xs text-[var(--text-muted)]">
-                                            {getTypeLabel(doc.type)} • {doc.size} • {doc.createdAt}
-                                            {doc.wptsId && <span className="ml-2 text-[var(--success-color)]">WPTS: {doc.wptsId}</span>}
-                                        </p>
-                                    </div>
-                                    <div className="flex gap-1">
-                                        {doc.attachment?.driveUrl && (
-                                            <a
-                                                href={doc.attachment.driveUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={(e) => e.stopPropagation()}
-                                                className="p-2 hover:bg-[var(--bg-tertiary)] rounded-lg transition-colors"
+                        filteredDocuments.map((doc, idx) => (
+                            <motion.div
+                                key={doc.id}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: idx * 0.05 }}
+                                whileHover={{ x: 5, scale: 1.01 }}
+                            >
+                                <GlassCard className="p-4 cursor-pointer">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 bg-[var(--bg-tertiary)] rounded-lg flex items-center justify-center">
+                                            <FileText className="w-5 h-5 text-[var(--accent-blue)]" />
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <h3 className="font-semibold text-[var(--text-primary)] truncate">{doc.name}</h3>
+                                            <p className="text-xs text-[var(--text-muted)]">
+                                                {getTypeLabel(doc.type)} • {doc.size} • {doc.createdAt}
+                                                {doc.wptsId && <span className="ml-2 text-[var(--success-color)]">WPTS: {doc.wptsId}</span>}
+                                            </p>
+                                        </div>
+                                        <div className="flex gap-1">
+                                            {doc.attachment?.driveUrl && (
+                                                <a
+                                                    href={doc.attachment.driveUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    onClick={(e) => e.stopPropagation()}
+                                                    className="p-2 hover:bg-[var(--bg-tertiary)] rounded-lg transition-colors"
+                                                >
+                                                    <ExternalLink className="w-4 h-4 text-[var(--text-muted)]" />
+                                                </a>
+                                            )}
+                                            {doc.attachment?.downloadUrl && (
+                                                <a
+                                                    href={doc.attachment.downloadUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    onClick={(e) => e.stopPropagation()}
+                                                    className="p-2 hover:bg-[var(--bg-tertiary)] rounded-lg transition-colors"
+                                                >
+                                                    <Download className="w-4 h-4 text-[var(--accent-blue)]" />
+                                                </a>
+                                            )}
+                                            <button
+                                                onClick={(e) => { e.stopPropagation(); setDeleteModal({ id: doc.id, name: doc.name }) }}
+                                                className="p-2 hover:bg-[var(--danger-color)]/10 rounded-lg transition-colors"
                                             >
-                                                <ExternalLink className="w-4 h-4 text-[var(--text-muted)]" />
-                                            </a>
-                                        )}
-                                        {doc.attachment?.downloadUrl && (
-                                            <a
-                                                href={doc.attachment.downloadUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={(e) => e.stopPropagation()}
-                                                className="p-2 hover:bg-[var(--bg-tertiary)] rounded-lg transition-colors"
-                                            >
-                                                <Download className="w-4 h-4 text-[var(--accent-blue)]" />
-                                            </a>
-                                        )}
-                                        <button
-                                            onClick={(e) => { e.stopPropagation(); setDeleteModal({ id: doc.id, name: doc.name }) }}
-                                            className="p-2 hover:bg-[var(--danger-color)]/10 rounded-lg transition-colors"
-                                        >
-                                            <Trash2 className="w-4 h-4 text-[var(--text-muted)] hover:text-[var(--danger-color)]" />
-                                        </button>
+                                                <Trash2 className="w-4 h-4 text-[var(--text-muted)] hover:text-[var(--danger-color)]" />
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            </GlassCard>
+                                </GlassCard>
+                            </motion.div>
                         ))
                     )}
                 </div>

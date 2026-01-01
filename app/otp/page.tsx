@@ -297,23 +297,39 @@ export default function OTPPage() {
                 </div>
 
                 {/* Summary Cards */}
-                <div className="grid grid-cols-4 gap-3">
-                    <div className="p-3 text-center rounded-xl shadow-lg bg-gradient-to-br from-[#27ae60] to-[#2ecc71] text-white">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <motion.div
+                        whileHover={{ y: -5, scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        className="p-3 text-center rounded-xl shadow-lg bg-gradient-to-br from-[#27ae60] to-[#2ecc71] text-white cursor-pointer"
+                    >
                         <div className="text-2xl font-bold">{isLoading ? '-' : stats.total}</div>
                         <div className="text-[10px] opacity-90">Total Programs</div>
-                    </div>
-                    <div className="p-3 text-center rounded-xl shadow-lg bg-gradient-to-br from-[#3498db] to-[#2980b9] text-white">
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ y: -5, scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        className="p-3 text-center rounded-xl shadow-lg bg-gradient-to-br from-[#3498db] to-[#2980b9] text-white cursor-pointer"
+                    >
                         <div className="text-2xl font-bold">{isLoading ? '-' : stats.completed}</div>
                         <div className="text-[10px] opacity-90">Completed</div>
-                    </div>
-                    <div className="p-3 text-center rounded-xl shadow-lg bg-gradient-to-br from-[#f39c12] to-[#e67e22] text-white">
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ y: -5, scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        className="p-3 text-center rounded-xl shadow-lg bg-gradient-to-br from-[#f39c12] to-[#e67e22] text-white cursor-pointer"
+                    >
                         <div className="text-2xl font-bold">{isLoading ? '-' : stats.inProgress}</div>
                         <div className="text-[10px] opacity-90">In Progress</div>
-                    </div>
-                    <div className="p-3 text-center rounded-xl shadow-lg bg-gradient-to-br from-[#e74c3c] to-[#c0392b] text-white">
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ y: -5, scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        className="p-3 text-center rounded-xl shadow-lg bg-gradient-to-br from-[#e74c3c] to-[#c0392b] text-white cursor-pointer"
+                    >
                         <div className="text-2xl font-bold">{isLoading ? '-' : stats.avgProgress}%</div>
                         <div className="text-[10px] opacity-90">Avg Progress</div>
-                    </div>
+                    </motion.div>
                 </div>
 
                 {/* Filter Controls */}

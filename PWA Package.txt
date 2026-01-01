@@ -1,0 +1,19 @@
+I want to transform this application into a PWA (Progressive Web App) so it feels like a native app on Android/iOS.
+
+1.  **Create Manifest**: Generate a file `public/manifest.json`.
+    - Name: "HSE Dashboard Pro"
+    - Short Name: "HSE Pro"
+    - Start URL: "/"
+    - Display: "standalone" (This creates the native app feel)
+    - Background Color: "#f0f9ff"
+    - Theme Color: "#3b82f6"
+    - Orientation: "any"
+    - Icons: Define arrays for `icon-192.png` and `icon-512.png` (assume they are in `/icons/`).
+
+2.  **Update Metadata**: Modify `app/layout.tsx`.
+    - Add Apple specific meta tags in the `metadata` export:
+      - `appleWebApp`: { capable: true, statusBarStyle: 'default', title: 'HSE Pro' }
+    - Ensure `viewport` is set to:
+      - `width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0` (Prevents accidental zooming on buttons).
+
+Please provide the code for `public/manifest.json` and the updated `app/layout.tsx`.

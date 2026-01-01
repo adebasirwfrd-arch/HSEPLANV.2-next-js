@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
+import { motion } from "framer-motion"
 import { AppShell } from "@/components/layout/app-shell"
 import { GlassCard } from "@/components/ui/glass-card"
 import { cn } from "@/lib/utils"
@@ -238,29 +239,54 @@ export default function ProgramsPage() {
 
                 {/* Dashboard Cards */}
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                    <GlassCard className="p-3 text-center">
-                        <div className="text-2xl font-bold text-[var(--accent-blue)]">{stats.completionRate}%</div>
-                        <div className="text-xs text-[var(--text-muted)]">Completion</div>
-                        <div className="mt-2 h-1.5 bg-[var(--bg-tertiary)] rounded-full overflow-hidden">
-                            <div className="h-full bg-[var(--accent-blue)] rounded-full" style={{ width: `${stats.completionRate}%` }} />
-                        </div>
-                    </GlassCard>
-                    <GlassCard className="p-3 text-center">
-                        <div className="text-2xl font-bold text-[var(--text-primary)]">{stats.total}</div>
-                        <div className="text-xs text-[var(--text-muted)]">Total Programs</div>
-                    </GlassCard>
-                    <GlassCard className="p-3 text-center">
-                        <div className="text-2xl font-bold text-[#3498db]">{stats.otpCount}</div>
-                        <div className="text-xs text-[var(--text-muted)]">🎯 OTP</div>
-                    </GlassCard>
-                    <GlassCard className="p-3 text-center">
-                        <div className="text-2xl font-bold text-[#9b59b6]">{stats.matrixCount}</div>
-                        <div className="text-xs text-[var(--text-muted)]">📊 Matrix</div>
-                    </GlassCard>
-                    <GlassCard className="p-3 text-center">
-                        <div className="text-2xl font-bold text-[var(--success-color)]">{stats.completed}</div>
-                        <div className="text-xs text-[var(--text-muted)]">✅ Completed</div>
-                    </GlassCard>
+                    <motion.div
+                        whileHover={{ y: -5, scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                    >
+                        <GlassCard className="p-3 text-center cursor-pointer">
+                            <div className="text-2xl font-bold text-[var(--accent-blue)]">{stats.completionRate}%</div>
+                            <div className="text-xs text-[var(--text-muted)]">Completion</div>
+                            <div className="mt-2 h-1.5 bg-[var(--bg-tertiary)] rounded-full overflow-hidden">
+                                <div className="h-full bg-[var(--accent-blue)] rounded-full" style={{ width: `${stats.completionRate}%` }} />
+                            </div>
+                        </GlassCard>
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ y: -5, scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                    >
+                        <GlassCard className="p-3 text-center cursor-pointer">
+                            <div className="text-2xl font-bold text-[var(--text-primary)]">{stats.total}</div>
+                            <div className="text-xs text-[var(--text-muted)]">Total Programs</div>
+                        </GlassCard>
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ y: -5, scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                    >
+                        <GlassCard className="p-3 text-center cursor-pointer">
+                            <div className="text-2xl font-bold text-[#3498db]">{stats.otpCount}</div>
+                            <div className="text-xs text-[var(--text-muted)]">🎯 OTP</div>
+                        </GlassCard>
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ y: -5, scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                    >
+                        <GlassCard className="p-3 text-center cursor-pointer">
+                            <div className="text-2xl font-bold text-[#9b59b6]">{stats.matrixCount}</div>
+                            <div className="text-xs text-[var(--text-muted)]">📊 Matrix</div>
+                        </GlassCard>
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ y: -5, scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                    >
+                        <GlassCard className="p-3 text-center cursor-pointer">
+                            <div className="text-2xl font-bold text-[var(--success-color)]">{stats.completed}</div>
+                            <div className="text-xs text-[var(--text-muted)]">✅ Completed</div>
+                        </GlassCard>
+                    </motion.div>
                 </div>
 
                 {/* Status Filters */}

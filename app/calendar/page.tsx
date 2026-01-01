@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react"
 import { useRouter } from "next/navigation"
+import { motion } from "framer-motion"
 import { AppShell } from "@/components/layout/app-shell"
 import { GlassCard } from "@/components/ui/glass-card"
 import { cn } from "@/lib/utils"
@@ -168,9 +169,13 @@ export default function CalendarPage() {
                         <h1 className="text-xl font-bold text-[var(--text-primary)]">HSE Plan</h1>
                         <p className="text-xs text-[var(--text-muted)]">OTP & Matrix Program Schedule</p>
                     </div>
-                    <div className="text-xs text-[var(--text-muted)] bg-[var(--bg-secondary)] px-3 py-1.5 rounded-lg">
+                    <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        className="text-xs text-[var(--text-muted)] bg-[var(--bg-secondary)] px-3 py-1.5 rounded-lg cursor-pointer"
+                    >
                         📊 {currentMonthEvents.length} events this month
-                    </div>
+                    </motion.div>
                 </div>
 
                 {/* Calendar Card */}
