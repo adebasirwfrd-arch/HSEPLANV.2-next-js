@@ -1,0 +1,44 @@
+@CurrentFile (app/(dashboard)/matrix/page.tsx)
+@File (lib/matrix-store.ts)
+@File (globals.css)
+
+I want to implement the **Planby (Timeline View)** for the Matrix Page, similar to the OTP page. This allows users to toggle between the "Table View" and "Timeline View".
+
+Please execute the following steps precisely:
+
+### 1. Create Timeline Component (`components/matrix/MatrixTimeline.tsx`)
+Create a new client component `MatrixTimeline`.
+* **Imports:** `useEpg`, `Epg`, `Layout` from `planby`.
+* **Props:** Accept `programs` (Array of MatrixProgram) and `year` (number).
+* **Helper:** Define a color mapping helper based on the logic:
+    * `actual >= plan && plan > 0` -> Emerald (#10b981)
+    * `actual > 0 && actual < plan` -> Amber (#f59e0b)
+    * `plan > 0 && actual === 0` -> Red (#ef4444)
+    * Default/Empty -> Gray (#e2e8f0)
+* **Data Transformation:**
+    * **Channels:** Map `program.id` -> `uuid`, `program.name` -> `title`, `program.reference` -> `description` (show the reference doc here).
+    * **Events:** Iterate through `program.months`. Create an event for each month where `plan > 0` or `actual > 0`.
+        * *Start:* First day of the month (`${year}-MM-01T00:00:00`).
+        * *End:* Last day of the month.
+        * *Title:* `${actual} / ${plan}`.
+        * *Color:* Use the helper above.
+* **Configuration:**
+    * `startDate`: `${year}-01-01T00:00:00`
+    * `endDate`: `${year}-12-31T23:59:59`
+    * Theme: Use "Ocean Trust" colors (primary: #16a085 to match Matrix teal theme).
+
+### 2. Refactor `MatrixPage` (`app/(dashboard)/matrix/page.tsx`)
+* **State:** Add state `viewMode`: `'table' | 'timeline'` (default: 'table').
+* **UI Update:**
+    * Locate the "Action Buttons" section (where "Add Program" and "Export CSV" are).
+    * Add a Toggle Switch (or two icon buttons) to switch between Table (List Icon) and Timeline (Calendar Icon).
+    * *Style:* Make the active toggle look pressed/highlighted with the teal accent color (`var(--accent-teal)`).
+* **Render Logic:**
+    * Wrap the existing Table `<GlassCard>` in a conditional: `{viewMode === 'table' && ( ... )}`.
+    * Add the Timeline view: `{viewMode === 'timeline' && <MatrixTimeline programs={filteredPrograms} year={year} />}`.
+* **Container:** Ensure the Timeline container has a fixed height (e.g., `h-[600px]`) for proper virtualization.
+
+### 3. Constraints
+* The timeline must react to the existing `search` and `category` filters (since we are passing `filteredPrograms`).
+* Ensure the timeline fits the "Glassmorphism" aesthetic (transparent backgrounds if possible, or clean white/dark).
+* Handle the case where a program has no activity in a specific month (don't create an event block to keep it clean).

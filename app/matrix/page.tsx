@@ -4,8 +4,9 @@ import { useState, useEffect, useCallback } from "react"
 import { motion } from "framer-motion"
 import { AppShell } from "@/components/layout/app-shell"
 import { cn } from "@/lib/utils"
-import { Download, Plus, Search, X, Check, Trash2, AlertTriangle, Mail } from "lucide-react"
+import { Download, Plus, Search, X, Check, Trash2, AlertTriangle, Mail, List, CalendarDays } from "lucide-react"
 import { PageTransition, PageHeader, PageContent } from "@/components/ui/page-transition"
+import { MatrixTimeline } from "@/components/matrix/MatrixTimeline"
 import {
     getMatrixData,
     calculateProgress,
@@ -49,6 +50,7 @@ export default function MatrixPage() {
     const [createModal, setCreateModal] = useState(false)
     const [deleteModal, setDeleteModal] = useState<{ programId: number; programName: string } | null>(null)
     const [emailSent, setEmailSent] = useState(false)
+    const [viewMode, setViewMode] = useState<'table' | 'timeline'>('table')
 
     // Load data based on category and base
     const loadData = useCallback(() => {
@@ -216,6 +218,33 @@ export default function MatrixPage() {
                     >
                         <Download className="w-4 h-4" /> Export CSV
                     </motion.button>
+                    {/* View Mode Toggle */}
+                    <div className="flex rounded-lg overflow-hidden border border-[var(--border-light)]">
+                        <button
+                            onClick={() => setViewMode('table')}
+                            className={cn(
+                                "px-3 py-2.5 text-xs font-semibold flex items-center gap-1 transition-colors",
+                                viewMode === 'table'
+                                    ? "bg-[#16a085] text-white"
+                                    : "bg-[var(--bg-secondary)] text-[var(--text-muted)] hover:bg-[var(--bg-tertiary)]"
+                            )}
+                            title="Table View"
+                        >
+                            <List className="w-4 h-4" />
+                        </button>
+                        <button
+                            onClick={() => setViewMode('timeline')}
+                            className={cn(
+                                "px-3 py-2.5 text-xs font-semibold flex items-center gap-1 transition-colors",
+                                viewMode === 'timeline'
+                                    ? "bg-[#16a085] text-white"
+                                    : "bg-[var(--bg-secondary)] text-[var(--text-muted)] hover:bg-[var(--bg-tertiary)]"
+                            )}
+                            title="Timeline View"
+                        >
+                            <CalendarDays className="w-4 h-4" />
+                        </button>
+                    </div>
                 </div>
 
                 {/* Dashboard Cards */}
@@ -277,12 +306,17 @@ export default function MatrixPage() {
                     </label>
                 </div>
 
+                {/* Timeline View */}
+                {viewMode === 'timeline' && (
+                    <MatrixTimeline programs={filteredPrograms} year={year} />
+                )}
+
                 {/* Matrix Table */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden shadow-xl"
+                    className={cn("bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden shadow-xl", viewMode === 'timeline' && "hidden")}
                 >
                     <div className="overflow-x-auto">
                         <table className="w-full text-xs min-w-[900px]">
