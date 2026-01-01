@@ -1,0 +1,365 @@
+# 🏛️ HSE MANAGEMENT SYSTEM - ENTERPRISE BLUEPRINT
+
+## Application Overview
+
+| Property | Value |
+|----------|-------|
+| **Platform** | Web Application (SaaS) |
+| **Framework** | Next.js 16.1.1 |
+| **Language** | TypeScript |
+| **Runtime** | React 19.2.3 |
+| **Hosting** | Vercel (Edge-optimized) |
+| **Database** | Supabase (PostgreSQL) |
+| **Authentication** | Supabase Auth (Planned) |
+| **PWA** | Yes - Installable on Mobile |
+
+---
+
+## 📁 PROJECT STRUCTURE
+
+```
+hse-management-system-nextjs/
+├── app/                          # Next.js App Router (Pages)
+│   ├── api/                      # Backend API Routes
+│   │   ├── ai-insight/           # OpenAI GPT-4o Integration
+│   │   ├── calendar/             # Calendar Events API
+│   │   ├── drive/                # Google Drive Integration
+│   │   ├── programs/             # Program CRUD Operations
+│   │   ├── seed-otp/             # Database Seeding
+│   │   └── stream-token/         # Stream Feeds Token Generator
+│   ├── audit-logs/               # Audit Trail Page
+│   ├── calendar/                 # Calendar View
+│   ├── community/                # Social Feed (Stream.io)
+│   ├── hse-kpi/                  # KPI Dashboard
+│   ├── hse-programs/             # HSE Programs Management
+│   ├── ll-indicator/             # Leading/Lagging Indicators
+│   ├── matrix/                   # Audit/Training/Drill Matrix
+│   ├── otp/                      # Objective Target Program
+│   ├── related-docs/             # Document Repository
+│   ├── settings/                 # User Settings
+│   ├── statistics/               # Analytics Dashboard
+│   └── tasks/                    # Task Management
+├── components/                   # Reusable UI Components
+│   ├── charts/                   # Data Visualization
+│   ├── dashboard/                # Dashboard Widgets
+│   ├── feed/                     # Social Feed Components
+│   ├── layout/                   # App Shell, Sidebar
+│   ├── otp/                      # OTP-Specific Components
+│   ├── providers/                # Context Providers
+│   ├── reports/                  # PDF Report Generators
+│   └── ui/                       # Core UI Kit (GlassCard, etc.)
+├── hooks/                        # Custom React Hooks
+│   ├── useAuditLogs.ts           # Audit Log Queries
+│   ├── useHSEPrograms.ts         # Program CRUD + Realtime
+│   └── useKPI.ts                 # KPI Mutations
+├── lib/                          # Business Logic & Utilities
+│   ├── actions/                  # Server Actions (Supabase)
+│   ├── email/                    # Email Integration (SES, Brevo)
+│   ├── supabase/                 # Supabase Client Config
+│   └── *-store.ts                # Data Stores
+├── supabase/
+│   └── migrations/               # Database Schema SQL
+├── types/                        # TypeScript Types
+├── public/                       # Static Assets
+│   └── manifest.json             # PWA Configuration
+└── .github/workflows/            # CI/CD Automation
+```
+
+---
+
+## 🎨 FRONTEND ARCHITECTURE
+
+### Pages (13 Total)
+
+| Route | Page | Description |
+|-------|------|-------------|
+| `/` | Home | Dashboard with metrics, AI Consultant, charts |
+| `/otp` | OTP | Objective Target Program tracking |
+| `/matrix` | Matrix | Audit, Training, Drill, Meeting matrices |
+| `/hse-programs` | Programs | Full program management |
+| `/hse-kpi` | KPI | Key Performance Indicators |
+| `/ll-indicator` | LL Indicator | Leading/Lagging Indicator trends |
+| `/tasks` | Tasks | Task management with priorities |
+| `/calendar` | Calendar | Unified calendar from OTP + Tasks |
+| `/statistics` | Statistics | Data analytics dashboard |
+| `/related-docs` | Documents | File storage with Google Drive |
+| `/community` | Community | Social feed (Stream.io) |
+| `/settings` | Settings | Theme, language, branding |
+| `/audit-logs` | Audit Logs | System activity tracking |
+
+### Component Library
+
+| Component | Location | Description |
+|-----------|----------|-------------|
+| `AppShell` | `components/layout/` | Responsive sidebar, mobile nav, drawer |
+| `GlassCard` | `components/ui/` | Glassmorphism card with blur |
+| `PageTransition` | `components/ui/` | Framer Motion page animations |
+| `LottieDisplay` | `components/ui/` | Loading/success/empty animations |
+| `AIConsultant` | `components/dashboard/` | AI-powered insights panel |
+| `RightSidebar` | `components/dashboard/` | Safety moments gallery |
+| `MobileProgramCard` | `components/otp/` | Mobile-optimized cards |
+| `PDFDownloadButton` | `components/otp/` | PDF report generation |
+
+---
+
+## ⚙️ BACKEND ARCHITECTURE
+
+### API Routes (6 Endpoints)
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/ai-insight` | POST | AI analysis of dashboard data (GPT-4o-mini) |
+| `/api/calendar` | GET | Fetch calendar events from Supabase |
+| `/api/drive/*` | ALL | Google Drive file operations |
+| `/api/programs` | ALL | Program CRUD with Supabase |
+| `/api/seed-otp` | POST | Seed OTP data to database |
+| `/api/stream-token` | GET | Generate Stream Feeds user token |
+
+### Server Actions (Supabase)
+
+| Action | File | Description |
+|--------|------|-------------|
+| `getKPIYear()` | `lib/actions/kpi-actions.ts` | Fetch/create KPI year data |
+| `updateManHours()` | `lib/actions/kpi-actions.ts` | Update man hours |
+| `saveMetric()` | `lib/actions/kpi-actions.ts` | Create/update KPI metric |
+| `deleteMetric()` | `lib/actions/kpi-actions.ts` | Delete KPI metric |
+
+---
+
+## 🗄️ DATABASE SCHEMA (Supabase)
+
+### Tables
+
+| Table | Purpose | Key Columns |
+|-------|---------|-------------|
+| `master_programs` | Program definitions | id, name, program_type, region, base, plan_type |
+| `program_progress` | Monthly progress | program_id, month, year, plan_value, actual_value, status |
+| `hse_kpi_years` | KPI year records | id, year, man_hours |
+| `hse_kpi_metrics` | KPI metrics | year_id, name, target, result, icon |
+
+### Row Level Security (RLS)
+- All tables have RLS enabled
+- Public read/write policies (auth to be implemented)
+
+---
+
+## 📦 DEPENDENCIES
+
+### Core Framework
+| Package | Version | Purpose |
+|---------|---------|---------|
+| `next` | 16.1.1 | React Framework |
+| `react` | 19.2.3 | UI Library |
+| `typescript` | ^5 | Type Safety |
+
+### Database & Backend
+| Package | Version | Purpose |
+|---------|---------|---------|
+| `@supabase/supabase-js` | ^2.89.0 | Database Client |
+| `@supabase/ssr` | ^0.8.0 | Server-Side Rendering |
+| `@tanstack/react-query` | ^5.90.16 | Data Fetching & Caching |
+
+### UI & Visualization
+| Package | Version | Purpose |
+|---------|---------|---------|
+| `@tremor/react` | ^3.18.7 | Dashboard Charts |
+| `framer-motion` | ^12.23.26 | Animations |
+| `lucide-react` | ^0.562.0 | Icons |
+| `recharts` | ^3.6.0 | Charts |
+| `react-lottie-player` | ^2.1.0 | Lottie Animations |
+| `tailwindcss` | ^4 | Styling |
+| `clsx` | ^2.1.1 | Class Utilities |
+
+### AI & Integrations
+| Package | Version | Purpose |
+|---------|---------|---------|
+| `openai` | ^6.15.0 | GPT-4o AI Analysis |
+| `getstream` | ^8.8.0 | Social Feed Backend |
+| `react-activity-feed` | ^1.4.0 | Social Feed UI |
+| `googleapis` | ^169.0.0 | Google Drive API |
+
+### Email & Notifications
+| Package | Version | Purpose |
+|---------|---------|---------|
+| `@aws-sdk/client-ses` | ^3.958.0 | AWS SES Email |
+| `sonner` | ^2.0.7 | Toast Notifications |
+
+### Export & Reports
+| Package | Version | Purpose |
+|---------|---------|---------|
+| `@react-pdf/renderer` | ^4.3.2 | PDF Generation |
+| `xlsx` | ^0.18.5 | Excel Export |
+
+---
+
+## 🔧 KEY FEATURES
+
+### 1. OTP (Objective Target Program)
+- Multi-region support (Indonesia, Asia)
+- Multi-base filtering (Duri, Narogong, Balikpapan)
+- Monthly plan vs actual tracking
+- Progress visualization
+- CSV/PDF export
+- Email reminders
+
+### 2. HSE Matrix
+- 4 categories: Audit, Training, Drill, Meeting
+- Regional breakdown
+- Program assignment tracking
+
+### 3. KPI Dashboard
+- Man hours tracking
+- Custom metric creation
+- Target vs Result comparison
+- Tremor charts visualization
+
+### 4. Leading/Lagging Indicators
+- 12 indicator types
+- Trend analysis
+- Year-over-year comparison
+
+### 5. AI Consultant
+- GPT-4o-mini integration
+- Executive summary generation
+- Risk identification
+- Action recommendations
+- Health score calculation
+
+### 6. Social Community Feed
+- Stream.io integration
+- Activity posting
+- Real-time updates
+- Trending topics
+
+### 7. Document Management
+- Google Drive integration
+- File upload/download
+- Category organization
+
+### 8. Email System
+- AWS SES integration
+- Brevo fallback
+- OTP reminder templates
+- HTML email generation
+
+### 9. PWA Support
+- Installable on mobile
+- Offline-ready manifest
+- Touch-optimized UI
+
+### 10. Responsive Design
+- Desktop sidebar (250px)
+- Tablet collapsed sidebar (70px)
+- Mobile bottom nav + drawer
+- Safe area insets (iPhone)
+
+---
+
+## 🔐 ENVIRONMENT VARIABLES
+
+```env
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+
+# OpenAI
+OPENAI_API_KEY=
+
+# Stream Feeds
+NEXT_PUBLIC_STREAM_APP_KEY=
+NEXT_PUBLIC_STREAM_APP_ID=
+STREAM_APP_SECRET=
+
+# AWS SES
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_REGION=
+SES_FROM_EMAIL=
+
+# Brevo (Fallback Email)
+BREVO_API_KEY=
+BREVO_FROM_EMAIL=
+BREVO_FROM_NAME=
+
+# App Config
+NEXT_PUBLIC_APP_URL=
+EMAIL_PROVIDER=ses|brevo|smtp
+```
+
+---
+
+## 🚀 CI/CD PIPELINE
+
+### GitHub Actions Workflow
+```yaml
+Triggers: push to main, pull_request
+Jobs:
+  - lint: ESLint check
+  - build: Next.js production build
+  - upload: Artifact storage
+  - notify: Failure notifications
+```
+
+---
+
+## 📊 DATA FLOW
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Next.js   │────▶│  Supabase   │
+│  (React)    │◀────│  API Routes │◀────│ PostgreSQL  │
+└─────────────┘     └─────────────┘     └─────────────┘
+       │                   │                   │
+       │           ┌───────┴───────┐           │
+       │           │               │           │
+       ▼           ▼               ▼           │
+  ┌─────────┐ ┌─────────┐   ┌─────────┐       │
+  │ OpenAI  │ │ Stream  │   │ Google  │       │
+  │ GPT-4o  │ │  Feeds  │   │ Drive   │       │
+  └─────────┘ └─────────┘   └─────────┘       │
+       │           │               │           │
+       └───────────┴───────────────┴───────────┘
+                Real-time Subscriptions
+```
+
+---
+
+## 🎯 USE CASES
+
+1. **HSE Manager** - Track program progress, set targets
+2. **Site Supervisor** - Update actual values, report incidents  
+3. **Executive** - View AI insights, KPI dashboards
+4. **Compliance Officer** - Audit trail, document management
+5. **Team Member** - Community updates, task assignments
+
+---
+
+## 📱 DEPLOYMENT
+
+| Environment | Platform | URL |
+|-------------|----------|-----|
+| Production | Vercel | hseplanv-2.vercel.app |
+| Database | Supabase | *.supabase.co |
+| Files | Google Drive | drive.google.com |
+| Email | AWS SES | us-east-1 |
+
+---
+
+## 🏆 ENTERPRISE CAPABILITIES
+
+- ✅ Multi-tenant architecture ready
+- ✅ Role-based access control (RLS)
+- ✅ Real-time data synchronization
+- ✅ AI-powered analytics
+- ✅ Audit trail logging
+- ✅ PDF/Excel export
+- ✅ Email automation
+- ✅ PWA mobile support
+- ✅ CI/CD automation
+- ✅ Type-safe codebase
+
+---
+
+**Version:** 0.1.0  
+**Last Updated:** 2026-01-01  
+**License:** Enterprise SaaS
