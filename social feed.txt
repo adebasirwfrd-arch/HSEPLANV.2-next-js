@@ -1,0 +1,20 @@
+Now let's build the **Social Feed UI** (`app/community/page.tsx`).
+
+**1. Imports:**
+   - Import components from `react-activity-feed`: `<StreamApp>`, `<FlatFeed>`, `<StatusUpdateForm>`, `<Activity>`, `<LikeButton>`, `<CommentField>`, `<CommentList>`.
+   - Import CSS: `import 'react-activity-feed/dist/index.css';`
+
+**2. Component Logic:**
+   - **State**: `client` (StreamClient instance).
+   - **Effect**: On mount, fetch the token from `/api/stream-token`.
+   - **Initialize**: `connect(apiKey, token, appId)`.
+
+**3. UI Layout (The "Instagram" Feel):**
+   - Wrap everything in `<AppShell>`.
+   - Layout: Two columns.
+     - **Left (Feed)**: The `<FlatFeed />` component. This lists all posts.
+       - Custom Activity UI: Ensure images rendered in the feed look good (rounded corners, shadows).
+     - **Right (Sidebar)**: A `<StatusUpdateForm />` fixed at the top or inside a card for posting new updates.
+   - **Customization**: Use the `Activity` prop to customize how a post looks (add `GlassCard` styling to each post if possible).
+
+Please provide the complete code for `app/community/page.tsx`.

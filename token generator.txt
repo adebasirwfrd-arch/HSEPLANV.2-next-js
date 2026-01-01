@@ -1,0 +1,15 @@
+We are entering Phase 3: Social Feed using **Stream (GetStream.io)**.
+
+**1. Install Dependencies:**
+   Run: `npm install getstream react-activity-feed`
+
+**2. Create Token API (`app/api/stream-token/route.ts`):**
+   - We need an endpoint to generate a User Token for Stream Feeds.
+   - **Import**: `connect` from `getstream`.
+   - **Logic**:
+     - Initialize Stream client using `process.env.NEXT_PUBLIC_STREAM_APP_KEY` and `process.env.STREAM_APP_SECRET`.
+     - Get `userId` (For now, use a hardcoded 'user_123' or get from request body if available. Ideally, use a consistent ID like 'admin').
+     - Generate token: `client.createUserToken(userId)`.
+     - Return JSON: `{ token, apiKey, appId }`.
+
+Please provide the code for `app/api/stream-token/route.ts`.

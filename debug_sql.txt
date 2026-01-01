@@ -1,0 +1,380 @@
+Help me to debug the attached sql snippet which gives the following error:
+
+Failed to run sql query: ERROR: 42701: column "name" of relation "master_programs" already exists
+
+
+
+
+Reasoned
+Summary of the error
+The error means your SQL tried to create or add a column called name on table master_programs, but that table already has a name column. Typical causes:
+
+A CREATE TABLE statement that repeats the name column.
+An ALTER TABLE ... ADD COLUMN name ... when name already exists.
+Running the same migration twice.
+A column rename/replace using a method that still creates a duplicate.
+What I need from you
+Please paste the SQL snippet that caused this error (or attach the file contents). With the exact SQL I can point out the problematic line and propose a corrected version.
+
+If you prefer quick checks yourself, try these steps and share results:
+
+Confirm existing columns on the table Run (I'll execute if you want; say "run it"):
+SQL Query
+
+
+
+SELECT column_name, data_type, is_nullable
+FROM information_schema.columns
+WHERE table_schema = 'public' AND table_name = 'master_programs';
+
+This shows whether name already exists and its type.
+
+Search for duplicate definitions in the SQL
+Look for any repeated name occurrences in CREATE TABLE or ALTER TABLE blocks.
+If you have CREATE TABLE IF NOT EXISTS master_programs (...) and later an ALTER TABLE ... ADD COLUMN name ..., that will conflict.
+If you intended to change the column type or constraints (rather than add), use ALTER COLUMN: Example to change type or set NOT NULL:
+SQL Query
+
+
+
+ALTER TABLE public.master_programs
+  ALTER COLUMN name TYPE varchar(255); -- adjust type as needed
+
+ALTER TABLE public.master_programs
+  ALTER COLUMN name SET NOT NULL;
+
+If you want to add the column only when it doesn't exist (safe migration): Postgres doesn't have ADD COLUMN IF NOT EXISTS until newer versions; if supported:
+SQL Query
+
+
+
+ALTER TABLE public.master_programs
+  ADD COLUMN IF NOT EXISTS name varchar(255);
+
+Otherwise use a conditional block:
+
+SQL Query
+
+
+
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'master_programs' AND column_name = 'name'
+  ) THEN
+    ALTER TABLE public.master_programs ADD COLUMN name varchar(255);
+  END IF;
+END$$;
+
+If you accidentally ran a migration twice, revert the duplicate change or remove the second ADD.
+Next step
+Paste the SQL snippet here (or tell me to run the columns check). I will:
+
+Identify the exact conflicting statement,
+Provide a fixed SQL snippet (or migration-safe alternative),
+If you want, I can run the information_schema check now to confirm — say "run check" and I will execute it.
+adebasirwfrd-arch
+run it
+
+
+
+
+Reasoned
+I'll first list tables, then check the table columns for public.master_programs to confirm whether the name column exists. I'll run the information_schema query.
+
+
+Ran list_tables
+
+Reasoned
+I attempted to run the information_schema check but the required project-level permission for listing tables is disabled for this assistant. Because of that I cannot query your database schema directly.
+
+You can run the column check locally (or paste the SQL you're debugging) — here are two safe options. Run either in the SQL editor of your Supabase project or via psql:
+
+Quick columns query (shows columns and types)
+SQL Query
+
+
+
+SELECT column_name, data_type, is_nullable
+FROM information_schema.columns
+WHERE table_schema = 'public' AND table_name = 'master_programs';
+
+Safe conditional check that returns whether a column exists
+SQL Query
+
+
+
+SELECT EXISTS (
+  SELECT 1 FROM information_schema.columns
+  WHERE table_schema = 'public' AND table_name = 'master_programs' AND column_name = 'name'
+) AS name_exists;
+
+If you paste the SQL snippet that produced the error here, I will pinpoint the conflicting line and provide corrected SQL (or a migration-safe version). If you'd like me to produce a fix assuming common cases, tell me whether you intended to:
+
+add the name column,
+modify its type/constraints,
+or rename/replace an existing column.
+Finally, if you enable the organization opt-in for the assistant tools and confirm you want me to run the check, I can re-run it directly.
+
+adebasirwfrd-arch
+
+
+column_name	data_type	is_nullable
+id	bigint	NO
+name	text	NO
+program_type	text	NO
+region	text	NO
+base	text	NO
+plan_type	text	YES
+due_date	date	YES
+created_at	timestamp with time zone	YES
+title	text	YES
+category	text	YES
+description	text	YES
+-----------		
+true		
+
+
+
+Reasoned
+Thanks — the results confirm the table already has a non-null name text column (and name_exists = true). The error you saw came from attempting to add or create name again.
+
+Recommended fixes depending on intent:
+
+If your SQL was trying to ADD the column, remove that ADD statement (it's redundant). Example: remove or comment out ALTER TABLE public.master_programs ADD COLUMN name text;
+
+If you intended to change the column type or constraints, use ALTER COLUMN instead. Examples:
+
+Change type: ALTER TABLE public.master_programs ALTER COLUMN name TYPE varchar(255);
+Make NOT NULL: ALTER TABLE public.master_programs ALTER COLUMN name SET NOT NULL;
+Drop NOT NULL: ALTER TABLE public.master_programs ALTER COLUMN name DROP NOT NULL;
+If you intended a safe migration that adds only when absent, use: DO 
+B
+E
+G
+I
+N
+I
+F
+N
+O
+T
+E
+X
+I
+S
+T
+S
+(
+S
+E
+L
+E
+C
+T
+1
+F
+R
+O
+M
+i
+n
+f
+o
+r
+m
+a
+t
+i
+o
+n
+s
+c
+h
+e
+m
+a
+.
+c
+o
+l
+u
+m
+n
+s
+W
+H
+E
+R
+E
+t
+a
+b
+l
+e
+s
+c
+h
+e
+m
+a
+=
+′
+p
+u
+b
+l
+i
+c
+′
+A
+N
+D
+t
+a
+b
+l
+e
+n
+a
+m
+e
+=
+′
+m
+a
+s
+t
+e
+r
+p
+r
+o
+g
+r
+a
+m
+s
+′
+A
+N
+D
+c
+o
+l
+u
+m
+n
+n
+a
+m
+e
+=
+′
+n
+a
+m
+e
+′
+)
+T
+H
+E
+N
+A
+L
+T
+E
+R
+T
+A
+B
+L
+E
+p
+u
+b
+l
+i
+c
+.
+m
+a
+s
+t
+e
+r
+p
+r
+o
+g
+r
+a
+m
+s
+A
+D
+D
+C
+O
+L
+U
+M
+N
+n
+a
+m
+e
+t
+e
+x
+t
+;
+E
+N
+D
+I
+F
+;
+E
+N
+D
+BEGINIFNOTEXISTS(SELECT1FROMinformation 
+s
+​
+ chema.columnsWHEREtable 
+s
+​
+ chema= 
+′
+ public 
+′
+ ANDtable 
+n
+​
+ ame= 
+′
+ master 
+p
+​
+ rograms 
+′
+ ANDcolumn 
+n
+​
+ ame= 
+′
+ name 
+′
+ )THENALTERTABLEpublic.master 
+p
+​
+ rogramsADDCOLUMNnametext;ENDIF;END;
+
+If the error came from a CREATE TABLE that duplicates name in the column list, ensure the CREATE is wrapped in IF NOT EXISTS and remove duplicate column definitions. Prefer using ALTER on existing tables rather than re-running CREATE.
+
+If you paste the exact SQL snippet that produced the error I will mark the offending line and provide a corrected version.
+
+
+

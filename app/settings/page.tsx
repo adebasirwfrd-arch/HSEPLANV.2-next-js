@@ -378,56 +378,6 @@ export default function SettingsPage() {
                     </div>
                 </GlassCard>
 
-                {/* Developer Zone */}
-                <GlassCard className="p-4 border-l-4 border-[var(--warning-color)]">
-                    <div className="flex items-center gap-2 mb-4">
-                        <span className="text-xl">🛠️</span>
-                        <h2 className="font-semibold text-[var(--text-primary)]">Developer Zone</h2>
-                    </div>
-
-                    <p className="text-xs text-[var(--text-muted)] mb-4">
-                        Advanced tools for development and testing
-                    </p>
-
-                    <div className="space-y-3">
-                        <button
-                            onClick={async () => {
-                                try {
-                                    const response = await fetch('/api/seed-otp', { method: 'POST' })
-                                    const data = await response.json()
-                                    if (response.ok) {
-                                        alert('✅ ' + (data.message || 'OTP data seeded successfully!'))
-                                    } else {
-                                        alert('❌ ' + (data.error || 'Failed to seed data'))
-                                    }
-                                } catch (error: any) {
-                                    alert('❌ Error: ' + error.message)
-                                }
-                            }}
-                            className="w-full py-3 bg-[var(--success-color)]/10 text-[var(--success-color)] rounded-xl font-medium flex items-center justify-center gap-2 hover:bg-[var(--success-color)]/20 transition-all"
-                        >
-                            🌱 Seed OTP Data
-                        </button>
-
-                        <button
-                            onClick={async () => {
-                                try {
-                                    const response = await fetch('/api/ai-insight')
-                                    const data = await response.json()
-                                    alert(data.configured
-                                        ? '✅ AI is configured and ready!'
-                                        : '⚠️ AI not configured. Set OPENAI_API_KEY in .env.local')
-                                } catch (error: any) {
-                                    alert('❌ Error: ' + error.message)
-                                }
-                            }}
-                            className="w-full py-3 bg-[var(--accent-purple)]/10 text-[var(--accent-purple)] rounded-xl font-medium flex items-center justify-center gap-2 hover:bg-[var(--accent-purple)]/20 transition-all"
-                        >
-                            🤖 Test AI Connection
-                        </button>
-                    </div>
-                </GlassCard>
-
                 {/* Action Buttons */}
                 <div className="flex gap-3">
                     <button
