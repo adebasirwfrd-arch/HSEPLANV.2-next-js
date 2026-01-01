@@ -1,0 +1,17 @@
+We are implementing **Phase 3: Social Community Features**.
+Please setup the backend for Stream Feeds.
+
+1.  **Install Dependencies:**
+    Run: `npm install getstream react-activity-feed`
+
+2.  **Create Token API (`app/api/stream-token/route.ts`):**
+    - Import `connect` from `getstream`.
+    - Create a GET handler.
+    - Initialize the client:
+      `const client = connect(process.env.NEXT_PUBLIC_STREAM_APP_KEY!, process.env.STREAM_APP_SECRET!)`
+    - Generate a user token:
+      `const userId = 'user_demo';` (Use a hardcoded ID for now since we don't have full Auth yet).
+      `const userToken = client.createUserToken(userId);`
+    - Return JSON: `{ token: userToken, apiKey: process.env.NEXT_PUBLIC_STREAM_APP_KEY, appId: process.env.NEXT_PUBLIC_STREAM_APP_ID, userId }`
+
+Please provide the code for the API route.
