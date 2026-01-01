@@ -27,6 +27,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { AIConsultant } from "@/components/dashboard/ai-consultant"
+import { LottieDisplay } from "@/components/ui/lottie-display"
 
 // Animated Bento Card wrapper
 function BentoCard({
@@ -272,7 +273,7 @@ export default function HomePage() {
             </div>
             {isLoading ? (
               <div className="h-48 flex items-center justify-center">
-                <SkeletonPulse className="w-full h-full" />
+                <LottieDisplay type="loading" className="w-24 h-24" />
               </div>
             ) : (
               <BarChart
@@ -312,8 +313,8 @@ export default function HomePage() {
                 ))}
               </div>
             ) : metrics.overdue.length === 0 ? (
-              <div className="text-center py-6 text-[var(--text-muted)]">
-                <Activity className="w-8 h-8 mx-auto mb-2 opacity-50" />
+              <div className="text-center py-4 text-[var(--text-muted)]">
+                <LottieDisplay type="success" className="w-24 h-24 mx-auto" loop={false} />
                 <p className="text-sm">All programs on track! 🎉</p>
               </div>
             ) : (

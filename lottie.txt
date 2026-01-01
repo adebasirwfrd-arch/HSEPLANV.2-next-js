@@ -1,0 +1,21 @@
+We are entering Phase 2: Premium Visuals. Let's implement **Lottie Animations** to replace standard loading states.
+
+1.  **Install Library:**
+    Run: `npm install react-lottie-player`
+
+2.  **Create Component (`components/ui/lottie-display.tsx`):**
+    - Props: `type` ('loading' | 'success' | 'empty'), `className`.
+    - Logic: 
+      - Use `react-lottie-player`.
+      - I will provide 3 public JSON URLs for the animation source:
+        - Loading: "https://lottie.host/980b3d63-549e-4c76-8806-03f473854580/9y7J8t456y.json" (Abstract Radar)
+        - Success: "https://lottie.host/5a70377c-7833-4f93-a44e-12821703666d/monitor.json" (Checkmark)
+        - Empty: "https://lottie.host/8904771c-4389-482a-a92c-554160408542/C15y7J8t45.json" (Empty Box)
+      - Render the player with `loop` and `play`.
+
+3.  **Integrate into `app/page.tsx`:**
+    - Import `LottieDisplay`.
+    - Replace the existing `SkeletonPulse` in the `metrics` loading state with `<LottieDisplay type="loading" className="w-24 h-24 mx-auto" />`.
+    - If `metrics.overdue.length === 0`, replace the "All programs on track" icon with `<LottieDisplay type="success" className="w-32 h-32 mx-auto" />`.
+
+Please provide the code for `lottie-display.tsx` and the update snippet for `page.tsx`.

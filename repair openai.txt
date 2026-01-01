@@ -1,0 +1,18 @@
+import { NextResponse } from 'next/server';
+import OpenAI from 'openai';
+
+// Jangan inisialisasi di sini
+
+export async function POST(req: Request) {
+  // Pindahkan inisialisasi ke DALAM fungsi
+  // Ini baru akan jalan kalau API dipanggil (Runtime), bukan saat Build
+  const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+
+  try {
+     // ... sisa kode Anda ...
+  } catch (error) {
+     // ... error handling ...
+  }
+}
