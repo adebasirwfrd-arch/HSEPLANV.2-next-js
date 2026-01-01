@@ -1,0 +1,49 @@
+@CurrentFile (app/(dashboard)/otp/page.tsx)
+@File (lib/otp-store.ts)
+@File (globals.css)
+
+I want to implement Feature #2: **Planby (Timeline View)** for the OTP Programs. This will allow users to toggle between the existing "Table View" and a new "Timeline View" (Gantt chart style).
+
+Please execute the following steps precisely:
+
+### 1. Install Dependencies
+Run the command:
+`npm install planby`
+
+### 2. Create Timeline Component (`components/otp/ProgramTimeline.tsx`)
+Create a new client component `ProgramTimeline`.
+* **Imports:** `useEpg`, `Epg`, `Layout` from `planby`.
+* **Props:** Accept `programs` (Array of OTPProgram) and `year` (number).
+* **Data Transformation (Critical):**
+    * Convert the `programs` into Planby's `channels` format.
+        * `uuid`: program.id
+        * `logo`: (Use a generic safety icon URL or empty string)
+        * `title`: program.name
+    * Convert the `programs.months` data into Planby's `epg` (events) format.
+        * Iterate through each program.
+        * If a program has a `plan > 0` or `actual > 0` in a specific month, create an event block for that month.
+        * *Start Time:* First day of that month (e.g., `2026-01-01T00:00:00`).
+        * *End Time:* Last day of that month.
+        * *Title:* Show the Plan/Actual values (e.g., "Plan: 4 / Act: 2").
+        * *Description:* `plan_type` or `pic_name`.
+        * *Color:* If `actual < plan` (behind schedule), use Red/Amber. If `actual >= plan`, use Emerald/Green.
+* **Configuration:**
+    * Set `startDate` to `${year}-01-01T00:00:00`.
+    * Set `endDate` to `${year}-12-31T23:59:59`.
+    * Theme: Use the "Ocean Trust" colors from `globals.css` (e.g., primary: `#3b82f6`).
+
+### 3. Integrate into OTP Page (`app/(dashboard)/otp/page.tsx`)
+* **State:** Add a state `viewMode`: `'table' | 'timeline'` (default: 'table').
+* **UI Controls:**
+    * In the header area (near the "Create Program" button), add a Toggle/Tab switcher:
+        * [Icon: List] Table
+        * [Icon: Calendar] Timeline
+* **Render:**
+    * If `viewMode === 'table'`: Render the existing program list/table.
+    * If `viewMode === 'timeline'`: Render the `<ProgramTimeline programs={filteredPrograms} year={2026} />`.
+* **Container:** Ensure the Timeline container has a fixed height (e.g., `h-[600px]`) and width to allow horizontal scrolling.
+
+### 4. Styling Constraints
+* Make sure the Timeline fits the "Glassmorphism" look.
+* Ensure the text inside the timeline bars is readable.
+* Disable the "Live/Now" line since this is a planning tool, not a TV guide (if possible via props, or just ignore it).

@@ -1,7 +1,8 @@
 "use client"
 
-import { useState, useEffect, useMemo } from "react"
-import { motion } from "framer-motion"
+import { useState, useEffect, useMemo, useRef } from "react"
+import { gsap } from "gsap"
+import { useGSAP } from "@gsap/react"
 import { AppShell } from "@/components/layout/app-shell"
 import { loadSettings, type AppSettings } from "@/lib/settings-store"
 import { useHSEPrograms } from "@/hooks/useHSEPrograms"
@@ -31,26 +32,23 @@ import { LottieDisplay } from "@/components/ui/lottie-display"
 import { RightSidebar } from "@/components/dashboard/right-sidebar"
 import { SafetyMascot } from "@/components/dashboard/safety-mascot"
 
-// Animated Bento Card wrapper
+gsap.registerPlugin(useGSAP)
+
+// GSAP Animated Bento Card wrapper
 function BentoCard({
   children,
   className = "",
-  delay = 0
 }: {
   children: React.ReactNode
   className?: string
   delay?: number
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay }}
-      whileHover={{ y: -4, boxShadow: "0 20px 40px -12px rgba(0,0,0,0.25)" }}
-      className={`bg-[var(--bg-secondary)]/80 backdrop-blur-xl rounded-2xl border border-[var(--border-light)] overflow-hidden transition-shadow ${className}`}
+    <div
+      className={`gsap-card bg-[var(--bg-secondary)]/80 backdrop-blur-xl rounded-2xl border border-[var(--border-light)] overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1 ${className}`}
     >
       {children}
-    </motion.div>
+    </div>
   )
 }
 
@@ -66,6 +64,7 @@ const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'S
 
 export default function HomePage() {
   const [settings, setSettings] = useState<AppSettings | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   // Fetch OTP data for dashboard metrics
   const { data: otpData, isLoading } = useHSEPrograms({
@@ -74,6 +73,16 @@ export default function HomePage() {
     category: 'otp',
     year: 2026
   })
+
+  // GSAP entrance animations
+  useGSAP(() => {
+    if (!containerRef.current) return
+    gsap.fromTo(
+      '.gsap-card',
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out' }
+    )
+  }, { scope: containerRef, dependencies: [isLoading] })
 
   useEffect(() => {
     setSettings(loadSettings())
@@ -154,7 +163,7 @@ export default function HomePage() {
     <AppShell>
       <div className="flex gap-6">
         {/* Main Content */}
-        <div className="flex-1 space-y-6 min-w-0">
+        <div ref={containerRef} className="flex-1 space-y-6 min-w-0">
           {/* Header */}
           <div className="flex items-center justify-between">
             <div>
@@ -382,15 +391,10 @@ export default function HomePage() {
               { title: 'Calendar', href: '/calendar', icon: Calendar, color: 'warning-color' },
               { title: 'Settings', href: '/settings', icon: Shield, color: 'accent-purple' },
             ].map((action, idx) => (
-              <motion.div
-                key={action.href}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 + idx * 0.05 }}
-              >
+              <div key={action.href} className="gsap-card">
                 <Link
                   href={action.href}
-                  className="flex items-center gap-3 p-4 bg-[var(--bg-secondary)]/60 backdrop-blur rounded-xl border border-[var(--border-light)] hover:bg-[var(--bg-tertiary)] transition-colors group"
+                  className="flex items-center gap-3 p-4 bg-[var(--bg-secondary)]/60 backdrop-blur rounded-xl border border-[var(--border-light)] hover:bg-[var(--bg-tertiary)] transition-all hover:-translate-y-1 group"
                 >
                   <div className={`w-10 h-10 rounded-xl bg-[var(--${action.color})]/10 flex items-center justify-center`}>
                     <action.icon className={`w-5 h-5 text-[var(--${action.color})]`} />
@@ -398,7 +402,7 @@ export default function HomePage() {
                   <span className="flex-1 font-medium text-sm text-[var(--text-primary)]">{action.title}</span>
                   <ChevronRight className="w-4 h-4 text-[var(--text-muted)] group-hover:translate-x-1 transition-transform" />
                 </Link>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
