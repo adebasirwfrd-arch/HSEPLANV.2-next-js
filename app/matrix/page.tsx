@@ -1,9 +1,11 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
+import { motion } from "framer-motion"
 import { AppShell } from "@/components/layout/app-shell"
 import { cn } from "@/lib/utils"
 import { Download, Plus, Search, X, Check, Trash2, AlertTriangle, Mail } from "lucide-react"
+import { PageTransition, PageHeader, PageContent } from "@/components/ui/page-transition"
 import {
     getMatrixData,
     calculateProgress,
@@ -149,7 +151,7 @@ export default function MatrixPage() {
 
     return (
         <AppShell>
-            <div className="space-y-4">
+            <PageTransition className="space-y-4">
                 {/* Email sent notification */}
                 {emailSent && (
                     <div className="fixed top-4 right-4 z-[400] bg-[var(--success-color)] text-white px-4 py-2 rounded-lg flex items-center gap-2 animate-in fade-in slide-in-from-top-2">
@@ -158,7 +160,7 @@ export default function MatrixPage() {
                 )}
 
                 {/* Header */}
-                <div className="flex items-center gap-3 mb-4">
+                <PageHeader className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 bg-gradient-to-br from-[#16a085] to-[#1abc9c] rounded-xl flex items-center justify-center text-2xl">
                         {categoryIcons[category]}
                     </div>
@@ -194,43 +196,63 @@ export default function MatrixPage() {
                             {[2024, 2025, 2026, 2027].map(y => <option key={y} value={y}>{y}</option>)}
                         </select>
                     </div>
-                </div>
+                </PageHeader>
 
                 {/* Action Buttons */}
                 <div className="flex gap-2">
-                    <button
+                    <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         onClick={() => setCreateModal(true)}
-                        className="px-3 py-2 bg-[var(--accent-blue)] text-white rounded-lg text-xs font-semibold flex items-center gap-1"
+                        className="px-4 py-2.5 bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white rounded-xl text-xs font-semibold flex items-center gap-2 shadow-lg shadow-purple-500/25"
                     >
-                        <Plus className="w-3 h-3" /> Add Program
-                    </button>
-                    <button
+                        <Plus className="w-4 h-4" /> Add Program
+                    </motion.button>
+                    <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         onClick={handleExport}
-                        className="px-3 py-2 bg-[#27ae60] text-white rounded-lg text-xs font-semibold flex items-center gap-1"
+                        className="px-4 py-2.5 bg-gradient-to-r from-[#11998e] to-[#38ef7d] text-white rounded-xl text-xs font-semibold flex items-center gap-2 shadow-lg shadow-green-500/25"
                     >
-                        <Download className="w-3 h-3" /> Export CSV
-                    </button>
+                        <Download className="w-4 h-4" /> Export CSV
+                    </motion.button>
                 </div>
 
                 {/* Dashboard Cards */}
-                <div className="grid grid-cols-4 gap-3">
-                    <div className="p-3 text-center bg-gradient-to-br from-[#16a085] to-[#1abc9c] text-white rounded-xl">
-                        <div className="text-xl font-bold">{totalPrograms}</div>
-                        <div className="text-[10px] opacity-90">Total Programs</div>
-                    </div>
-                    <div className="p-3 text-center bg-gradient-to-br from-[#27ae60] to-[#2ecc71] text-white rounded-xl">
-                        <div className="text-xl font-bold">{completed}</div>
-                        <div className="text-[10px] opacity-90">Completed</div>
-                    </div>
-                    <div className="p-3 text-center bg-gradient-to-br from-[#3498db] to-[#2980b9] text-white rounded-xl">
-                        <div className="text-xl font-bold">{inProgress}</div>
-                        <div className="text-[10px] opacity-90">In Progress</div>
-                    </div>
-                    <div className="p-3 text-center bg-gradient-to-br from-[#9b59b6] to-[#8e44ad] text-white rounded-xl">
-                        <div className="text-xl font-bold">{avgProgress}%</div>
-                        <div className="text-[10px] opacity-90">Avg Progress</div>
-                    </div>
-                </div>
+                <PageContent className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <motion.div
+                        whileHover={{ y: -5, scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        className="p-4 text-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl cursor-pointer"
+                    >
+                        <div className="text-3xl font-bold bg-gradient-to-r from-[#16a085] to-[#1abc9c] bg-clip-text text-transparent">{totalPrograms}</div>
+                        <div className="text-xs text-[var(--text-muted)] mt-1">Total Programs</div>
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ y: -5, scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        className="p-4 text-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl cursor-pointer"
+                    >
+                        <div className="text-3xl font-bold bg-gradient-to-r from-[#27ae60] to-[#2ecc71] bg-clip-text text-transparent">{completed}</div>
+                        <div className="text-xs text-[var(--text-muted)] mt-1">Completed</div>
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ y: -5, scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        className="p-4 text-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl cursor-pointer"
+                    >
+                        <div className="text-3xl font-bold bg-gradient-to-r from-[#3498db] to-[#2980b9] bg-clip-text text-transparent">{inProgress}</div>
+                        <div className="text-xs text-[var(--text-muted)] mt-1">In Progress</div>
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ y: -5, scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        className="p-4 text-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl cursor-pointer"
+                    >
+                        <div className="text-3xl font-bold bg-gradient-to-r from-[#9b59b6] to-[#8e44ad] bg-clip-text text-transparent">{avgProgress}%</div>
+                        <div className="text-xs text-[var(--text-muted)] mt-1">Avg Progress</div>
+                    </motion.div>
+                </PageContent>
 
                 {/* Filters */}
                 <div className="flex gap-3 items-center">
@@ -256,7 +278,12 @@ export default function MatrixPage() {
                 </div>
 
                 {/* Matrix Table */}
-                <div className="bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-light)] overflow-hidden">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden shadow-xl"
+                >
                     <div className="overflow-x-auto">
                         <table className="w-full text-xs min-w-[900px]">
                             <thead className="bg-[var(--bg-tertiary)]">
@@ -278,7 +305,13 @@ export default function MatrixPage() {
                                     </tr>
                                 ) : (
                                     filteredPrograms.map((program, idx) => (
-                                        <tr key={program.id} className="border-b border-[var(--border-light)] hover:bg-[var(--bg-tertiary)]/50">
+                                        <motion.tr
+                                            key={program.id}
+                                            initial={{ opacity: 0, x: -20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: idx * 0.05, duration: 0.3 }}
+                                            className="border-b border-white/5 hover:bg-white/5 transition-colors"
+                                        >
                                             <td className="p-2 sticky left-0 bg-[var(--bg-secondary)] z-10">{idx + 1}</td>
                                             <td className="p-2 sticky left-8 bg-[var(--bg-secondary)] z-10 font-medium">{program.name}</td>
                                             <td className="p-2 text-[var(--text-muted)] text-[10px]">{program.reference || "-"}</td>
@@ -318,13 +351,13 @@ export default function MatrixPage() {
                                                     <Trash2 className="w-3.5 h-3.5" />
                                                 </button>
                                             </td>
-                                        </tr>
+                                        </motion.tr>
                                     ))
                                 )}
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Legend */}
                 <div className="flex flex-wrap gap-4 p-3 bg-[var(--bg-secondary)] rounded-lg text-xs text-[var(--text-secondary)]">
@@ -502,7 +535,7 @@ export default function MatrixPage() {
                         </div>
                     </div>
                 )}
-            </div>
+            </PageTransition>
         </AppShell>
     )
 }

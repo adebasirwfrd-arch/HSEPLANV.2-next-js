@@ -1,0 +1,16 @@
+Now let's overhaul the `MatrixPage` (`app/matrix/page.tsx`) to match the HomePage's "Glass & Motion" aesthetic.
+
+**Refactoring Instructions:**
+1.  **Use PageTransition:** Wrap the entire page with the new `PageTransition`, `PageHeader`, and `PageContent` components.
+2.  **Stats Cards:**
+    - Replace the current static stats grid with animated `GlassCard` components.
+    - Add `whileHover={{ y: -5 }}` to these cards so they lift up when touched.
+3.  **The Table:**
+    - Wrap the table container in a `GlassCard`.
+    - **Row Animation:** Use `motion.tr` for the table rows.
+    - **Effect:** Rows should slide in one by one (`custom={index}` delay).
+    - **Hover:** When hovering a row, give it a slight background tint change (`hover:bg-white/5`).
+4.  **Visual Polish:**
+    - Update the "Action Buttons" (Add/Export) to use the `GlassCard` style or a gradient button style like on the Homepage.
+
+Please rewrite `MatrixPage` with these visual upgrades.

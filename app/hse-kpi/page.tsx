@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { AppShell } from "@/components/layout/app-shell"
 import { cn } from "@/lib/utils"
 import { Download, Plus, X, Trash2, AlertTriangle, Calendar, Check } from "lucide-react"
+import { PageTransition, PageHeader, PageContent } from "@/components/ui/page-transition"
 import {
     loadKPIYear,
     saveKPIYear,
@@ -91,9 +92,9 @@ export default function HSEKPIPage() {
 
     return (
         <AppShell>
-            <div className="space-y-4">
+            <PageTransition className="space-y-4">
                 {/* Header */}
-                <div className="flex items-center gap-3 mb-4">
+                <PageHeader className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 bg-gradient-to-br from-[#27ae60] to-[#2ecc71] rounded-xl flex items-center justify-center text-2xl">
                         📊
                     </div>
@@ -115,7 +116,7 @@ export default function HSEKPIPage() {
                             <Download className="w-3 h-3" /> Export CSV
                         </button>
                     </div>
-                </div>
+                </PageHeader>
 
                 {/* Year Tabs */}
                 <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-1">
@@ -150,7 +151,7 @@ export default function HSEKPIPage() {
                 </div>
 
                 {/* Summary Cards */}
-                <div className="grid grid-cols-3 gap-3">
+                <PageContent className="grid grid-cols-3 gap-3">
                     <div className="p-4 text-center bg-gradient-to-br from-[#27ae60] to-[#2ecc71] text-white rounded-xl">
                         <div className="text-2xl font-bold">{achieved}</div>
                         <div className="text-[10px] opacity-90">Achieved</div>
@@ -163,7 +164,7 @@ export default function HSEKPIPage() {
                         <div className="text-2xl font-bold">{atRisk}</div>
                         <div className="text-[10px] opacity-90">At Risk</div>
                     </div>
-                </div>
+                </PageContent>
 
                 {/* KPI Table */}
                 <div className="bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-light)] overflow-hidden">
@@ -461,7 +462,7 @@ export default function HSEKPIPage() {
                         </div>
                     </div>
                 )}
-            </div>
+            </PageTransition>
         </AppShell>
     )
 }
