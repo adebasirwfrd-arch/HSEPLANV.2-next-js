@@ -1,0 +1,9 @@
+Finally, add the Community link to the Sidebar.
+
+Update `components/layout/app-shell.tsx`:
+1.  Import `Users` icon from `lucide-react`.
+2.  Add a new item to the navigation list:
+    `{ name: 'Community', href: '/community', icon: Users }`
+3.  Place it under the "Dashboard" or "KPI" section.
+
+This allows users to navigate to the new Social Feed.

@@ -1,0 +1,26 @@
+Now let's build the **Community Page** (`app/community/page.tsx`).
+
+1.  **Imports:**
+    - `import { AppShell } from "@/components/layout/app-shell"`
+    - Components from `react-activity-feed`: `<StreamApp>`, `<FlatFeed>`, `<StatusUpdateForm>`, `<Activity>`, `<LikeButton>`, `<CommentList>`, `<CommentField>`.
+    - CSS: `import 'react-activity-feed/dist/index.css';`
+
+2.  **Component Structure:**
+    - Use `useState` to store `token`, `apiKey`, `appId`.
+    - Use `useEffect` to fetch credentials from `/api/stream-token` on mount.
+    - If no token, show a `<LottieDisplay type="loading" />`.
+
+3.  **Render (The Feed Layout):**
+    - Wrap in `<AppShell>`.
+    - Render `<StreamApp apiKey={apiKey} appId={appId} token={token} userId="user_demo">`.
+    - **Layout Grid**: Use a 2-column grid (`grid-cols-1 lg:grid-cols-3 gap-6`).
+      - **Main Column (col-span-2)**:
+        - `<StatusUpdateForm />` (Styled nicely with GlassCard).
+        - `<FlatFeed Activity={(props) => <Activity {...props} /> } />`
+      - **Sidebar Column (col-span-1)**:
+        - A `GlassCard` showing "Trending Topics" or "Safety Guidelines" (Static content for now).
+
+4.  **Styling Fixes:**
+    - Add a global style in the component to ensure images in the feed are responsive and rounded.
+
+Please provide the complete code for `app/community/page.tsx`.
