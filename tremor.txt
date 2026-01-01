@@ -1,0 +1,9 @@
+I want to upgrade the UI visualization using **Tremor**.
+1.  **Install**: `npm install @tremor/react`
+2.  **Refactor Homepage (`app/page.tsx`)**:
+    - Replace the custom cards with Tremor `Card`, `Metric`, `Text`, and `Flex` components.
+    - Replace the custom progress ring with a Tremor `ProgressCircle` or `DonutChart`.
+    - Use Tremor `BadgeDelta` to show trends (e.g., "12% increase" in completion).
+3.  **Refactor KPI Page**: Use Tremor `BarChart` for the monthly statistics.
+
+Please verify if I need to update `tailwind.config.ts` to include Tremor content paths (usually required).

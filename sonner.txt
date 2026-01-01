@@ -1,0 +1,11 @@
+Now let's improve the UX interactions.
+1.  **Notifications (Sonner)**:
+    - Install `sonner`.
+    - Add `<Toaster />` to `app/layout.tsx`.
+    - Update `app/otp/page.tsx`: When a mutation (Save/Delete) finishes, replace the basic logic with `toast.success('Program updated')` or `toast.error(...)`.
+
+2.  **Command Palette (CMDK)**:
+    - Install `cmdk`.
+    - Create a component `components/ui/command-menu.tsx`.
+    - Implement a global search modal (triggered by `Cmd+K` or `Ctrl+K`) that allows navigation to: Home, OTP, Matrix, KPI, Audit Logs.
+    - Add this component to `app/layout.tsx` so it's available everywhere.

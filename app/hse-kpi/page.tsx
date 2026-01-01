@@ -1,11 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { motion, useSpring, useTransform } from "framer-motion"
 import { AppShell } from "@/components/layout/app-shell"
 import { cn } from "@/lib/utils"
 import { Download, Plus, X, Trash2, AlertTriangle, Calendar, Check } from "lucide-react"
 import { PageTransition, PageHeader, PageContent } from "@/components/ui/page-transition"
+import { BarChart, Card, Text, Flex, BadgeDelta } from "@tremor/react"
 import {
     loadKPIYear,
     saveKPIYear,
@@ -198,6 +199,41 @@ export default function HSEKPIPage() {
                         <div className="text-xs text-[var(--text-muted)] mt-1">At Risk</div>
                     </motion.div>
                 </PageContent>
+
+                {/* KPI Metrics Bar Chart - Tremor */}
+                {data.metrics.length > 0 && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.15 }}
+                        className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-4 shadow-xl"
+                    >
+                        <Flex alignItems="center" justifyContent="between" className="mb-4">
+                            <Text className="font-semibold text-[var(--text-primary)]">📊 Metrics Overview</Text>
+                            <BadgeDelta
+                                deltaType={achieved >= atRisk ? "increase" : "decrease"}
+                                size="xs"
+                            >
+                                {achieved} of {data.metrics.length} achieved
+                            </BadgeDelta>
+                        </Flex>
+                        <BarChart
+                            data={data.metrics.map(m => ({
+                                name: m.name.length > 20 ? m.name.substring(0, 20) + '...' : m.name,
+                                Target: m.target,
+                                Result: m.result,
+                            }))}
+                            index="name"
+                            categories={["Target", "Result"]}
+                            colors={["blue", "emerald"]}
+                            className="h-64"
+                            showAnimation={true}
+                            showLegend={true}
+                            showGridLines={false}
+                            yAxisWidth={48}
+                        />
+                    </motion.div>
+                )}
 
                 {/* KPI Table */}
                 <motion.div
