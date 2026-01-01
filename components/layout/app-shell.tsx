@@ -4,7 +4,7 @@ import { useState, createContext, useContext, type ReactNode } from "react"
 import {
     Home, FileText, ListChecks, BarChart3, Calendar,
     FolderOpen, TrendingUp, Target, Grid, ClipboardList,
-    Download, Settings, LogIn, LogOut, Menu, X, ChevronRight, Shield, User
+    Download, Settings, LogIn, LogOut, Menu, X, ChevronRight, Shield, User, Users
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -38,6 +38,7 @@ const navItems = [
     { href: "/ll-indicator", label: "LL Indicator", icon: Target },
     { href: "/otp", label: "HSE OTP", icon: ClipboardList },
     { href: "/matrix", label: "Matrix", icon: Grid },
+    { href: "/community", label: "Community", icon: Users },
 ]
 
 // Bottom nav for mobile - limited to key items
