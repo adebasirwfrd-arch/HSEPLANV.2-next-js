@@ -1,0 +1,449 @@
+id,name,program_type,region,base,plan_type,due_date
+1,Provide weekly Driver driving performance report (RAG) for review,otp,indonesia,narogong,4 report/Month,
+2,"Conduct Driver and Vehicle Safety Standard Audit for Duri, Narogong & Balikpapan",otp,indonesia,narogong,3 Base in a Year,2025-12-31
+3,Conduct vehicle compliance spot check for Duri and Narogong,otp,indonesia,narogong,Monthly,2025-02-14
+4,"Driving Safety Campaign for All Indonesia Base (Duri, Narogong & Balikpapan)",otp,indonesia,narogong,One time in year,2025-12-31
+5,Review Driver Driving performance for all driver in Indonesia,otp,indonesia,narogong,Monthly,2025-12-01
+6,Conduct Driver Coaching (offline or Online Meeting) for Yellow and Red Driver in Indonesia,otp,indonesia,narogong,Quarterly,2025-12-31
+7,Motor Vehicle Safety Training / Commentary Drive,otp,indonesia,narogong,Quarterly,2025-12-31
+8,"Submit RADAR Card intervention (average 2 RADAR / emp / month, Based on WPTS Report)",otp,indonesia,narogong,24 cards/employee/year,2025-12-31
+9,Conduct HSE Monthly Meeting per Base,otp,indonesia,narogong,Monthly / Base,2025-12-31
+10,Conduct Facility Inspection (combined report for Indonesia / month),otp,indonesia,narogong,Monthly,2025-12-31
+11,Conduct Field Inspection / MWT (the report is combined from Leadership in Indonesia),otp,indonesia,narogong,Quarterly,2025-12-31
+12,"Leadership Safety Engagement (LSE) to cover 3 Bases (Duri, Narogong, Balikpapan)",otp,indonesia,narogong,Quarterly,2025-12-31
+13,HSE Reward program for best employees in Indonesia,otp,indonesia,narogong,3 reward/month/base,2025-12-31
+14,Conduct HSE induction/orientation training for new visitors and new hired employees/contractors,otp,indonesia,narogong,100% new visitors/comers inducted,2025-12-31
+15,Conduct Contractor Audit for High Risk Contractors,otp,indonesia,narogong,Annually,2025-12-31
+16,Conduct Contractor SQM Meeting for High Risk Contractors and Discuss progress HSE KPI,otp,indonesia,narogong,Annually,2025-12-31
+17,Conduct Management Review Meeting,otp,indonesia,narogong,Annually,2025-12-31
+18,Conduct P2K3 / safety committee team meeting for each Base in Indonesia,otp,indonesia,narogong,3 times / Month / Base,2025-08-31
+19,"Provide P2K3 report to Disnaker Provinsi Riau, Jawa Barat and Kalimantan Timur",otp,indonesia,narogong,3 report / Quarter / Base,2025-12-31
+20,"Conduct Facility device inspection (FE, FAK, Eye wash, Emergency light, stretcher, Smoke Detector, Spill Kit)",otp,indonesia,narogong,Monthly / Base,2025-12-31
+21,Conduct facility hazard hunt / Workshop inspection for 3 Base,otp,indonesia,narogong,Monthly / Base,2025-12-31
+22,Annual maintenance of Firex for 3 Bases,otp,indonesia,narogong,Annually / Base,2025-12-31
+23,Annual Tool Rack Inspection for 3 Base,otp,indonesia,narogong,Annually / Base,2025-12-30
+24,Conduct DROPS Survey for 3 Bases (per Semester),otp,indonesia,narogong,Per Semester / Base,2025-11-01
+25,Conduct Facility Safety Standard Audit for 3 Bases,otp,indonesia,narogong,Annually / Base,2025-12-31
+26,"Conduct Safety 101, HSE Orientation & Minimum Training (3 Base, Online or Offline)",otp,indonesia,narogong,Per Semester / Base,2025-02-14
+27,Conduct DAMKAR D Training for fire team for Duri Base (Disnaker certification),otp,indonesia,narogong,Annually / Base,2025-12-31
+28,Manual Handling Training and Practical review on field site,otp,indonesia,narogong,Annually / Base,2025-12-31
+29,Refresh First Aid Training by 3rd party (Disnaker Certification) for 3 Base,otp,indonesia,narogong,Annually / Base,2025-06-30
+30,Internal Basic Fire Training (annually / Base),otp,indonesia,narogong,Annually / Base,2025-12-31
+31,DROPS Object Awareness Training (annually per Base),otp,indonesia,narogong,Annually / Base,2025-12-31
+32,Lifting & Rigging Operator Coaching (Duri Operation),otp,indonesia,narogong,Quarterly / Base,2025-06-30
+33,Hand and Finger Injury Prevention Training (annually per Base),otp,indonesia,narogong,Annually / Base,2025-06-30
+34,Review Legal Business and Client Requirement matrix,otp,indonesia,narogong,Annually / Base,2025-06-30
+35,Review of Generic Risk Assessment (TRA) for Indonesia,otp,indonesia,narogong,Annually / Base,2025-12-30
+36,Review Emergency Response Procedure for 3 Base,otp,indonesia,narogong,Annually / Base,2025-03-15
+37,Review RADAR Observation and closing action item for 3 Base,otp,indonesia,narogong,Monthly / Base,2025-08-05
+38,Provide HSE Campaign Banner (3 banner / quarter / Base),otp,indonesia,narogong,Quarterly / Base,2025-12-31
+39,Conduct Emergency Drill for 3 Base (refer to Drill plan 2025 Indonesia),otp,indonesia,narogong,Quarterly / Base,2025-12-31
+40,Conduct Lifting gear/accessories inspection (as per Lifting color code) per semester,otp,indonesia,narogong,Per Semester,2025-12-31
+41,Lifting Gear Inspection report (monthly per Base),otp,indonesia,narogong,Monthly / Base,2025-12-31
+42,SQM Meeting with TMC crane supplier (Duri Base),otp,indonesia,narogong,Annually,2025-12-31
+43,Lifting Awareness Campaign for 3 base,otp,indonesia,narogong,Annually / Base,2025-12-31
+44,Refresh Mechanical Lifting SWC Training for 3 base,otp,indonesia,narogong,Annually / Base,2025-12-31
+45,Lifting Equipment and Operation Standard Audit for 3 Base,otp,indonesia,narogong,Annually / Base,2025-12-31
+46,Review Current Chemical MSDS base on Chemical Inventory data for 3 base,otp,indonesia,narogong,Annually / Base,2025-12-31
+47,Conduct Monthly waste water analysis for 3 Base,otp,indonesia,narogong,Monthly / Base,2025-12-31
+48,Conduct Environmental Monitoring Program for 3 Base,otp,indonesia,narogong,Per Semester / Base,2025-12-31
+49,Dispose Hazardous waste to Approved disposal company for 3 Base,otp,indonesia,narogong,Per Semester / Base,2025-12-30
+50,Conduct Industrial Hygiene Test for 3 Base,otp,indonesia,narogong,Annually / Base,2025-12-31
+51,Indonesia Environment Improvement Plan 2025,otp,indonesia,narogong,Annual report / year,2025-09-30
+52,Conduct Emergency Spill Drill for 3 Base,otp,indonesia,narogong,Annually / Base,2025-12-31
+53,Conduct Medical Check-Up (tracking report for Duri Operation),otp,indonesia,narogong,Annually,2025-12-01
+54,Required by PHR_Drug and Alcohol test (sampling min 10% peoples) for Duri Operation,otp,indonesia,narogong,Annually,2025-12-31
+55,Conduct Health Campaign for 3 base (online or offline meeting),otp,indonesia,narogong,Per Semester,2025-05-01
+56,Conduct Health Campaign for 3 base (additional),otp,indonesia,narogong,Per Semester,2025-08-30
+57,Provide weekly Driver driving performance report (RAG) for review,otp,indonesia,duri,4 report/Month,
+58,"Conduct Driver and Vehicle Safety Standard Audit for Duri, Narogong & Balikpapan",otp,indonesia,duri,3 Base in a Year,2025-12-31
+59,Conduct vehicle compliance spot check for Duri and Narogong,otp,indonesia,duri,Monthly,2025-02-14
+60,"Driving Safety Campaign for All Indonesia Base (Duri, Narogong & Balikpapan)",otp,indonesia,duri,One time in year,2025-12-31
+61,Review Driver Driving performance for all driver in Indonesia,otp,indonesia,duri,Monthly,2025-12-01
+62,Conduct Driver Coaching (offline or Online Meeting) for Yellow and Red Driver in Indonesia,otp,indonesia,duri,Quarterly,2025-12-31
+63,Motor Vehicle Safety Training / Commentary Drive,otp,indonesia,duri,Quarterly,2025-12-31
+64,"Submit RADAR Card intervention (average 2 RADAR / emp / month, Based on WPTS Report)",otp,indonesia,duri,24 cards/employee/year,2025-12-31
+65,Conduct HSE Monthly Meeting per Base,otp,indonesia,duri,Monthly / Base,2025-12-31
+66,Conduct Facility Inspection (combined report for Indonesia / month),otp,indonesia,duri,Monthly,2025-12-31
+67,Conduct Field Inspection / MWT (the report is combined from Leadership in Indonesia),otp,indonesia,duri,Quarterly,2025-12-31
+68,"Leadership Safety Engagement (LSE) to cover 3 Bases (Duri, Narogong, Balikpapan)",otp,indonesia,duri,Quarterly,2025-12-31
+69,HSE Reward program for best employees in Indonesia,otp,indonesia,duri,3 reward/month/base,2025-12-31
+70,Conduct HSE induction/orientation training for new visitors and new hired employees/contractors,otp,indonesia,duri,100% new visitors/comers inducted,2025-12-31
+71,Conduct Contractor Audit for High Risk Contractors,otp,indonesia,duri,Annually,2025-12-31
+72,Conduct Contractor SQM Meeting for High Risk Contractors and Discuss progress HSE KPI,otp,indonesia,duri,Annually,2025-12-31
+73,Conduct Management Review Meeting,otp,indonesia,duri,Annually,2025-12-31
+74,Conduct P2K3 / safety committee team meeting for each Base in Indonesia,otp,indonesia,duri,3 times / Month / Base,2025-08-31
+75,"Provide P2K3 report to Disnaker Provinsi Riau, Jawa Barat and Kalimantan Timur",otp,indonesia,duri,3 report / Quarter / Base,2025-12-31
+76,"Conduct Facility device inspection (FE, FAK, Eye wash, Emergency light, stretcher, Smoke Detector, Spill Kit)",otp,indonesia,duri,Monthly / Base,2025-12-31
+77,Conduct facility hazard hunt / Workshop inspection for 3 Base,otp,indonesia,duri,Monthly / Base,2025-12-31
+78,Annual maintenance of Firex for 3 Bases,otp,indonesia,duri,Annually / Base,2025-12-31
+79,Annual Tool Rack Inspection for 3 Base,otp,indonesia,duri,Annually / Base,2025-12-30
+80,Conduct DROPS Survey for 3 Bases (per Semester),otp,indonesia,duri,Per Semester / Base,2025-11-01
+81,Conduct Facility Safety Standard Audit for 3 Bases,otp,indonesia,duri,Annually / Base,2025-12-31
+82,"Conduct Safety 101, HSE Orientation & Minimum Training (3 Base, Online or Offline)",otp,indonesia,duri,Per Semester / Base,2025-02-14
+83,Conduct DAMKAR D Training for fire team for Duri Base (Disnaker certification),otp,indonesia,duri,Annually / Base,2025-12-31
+84,Manual Handling Training and Practical review on field site,otp,indonesia,duri,Annually / Base,2025-12-31
+85,Refresh First Aid Training by 3rd party (Disnaker Certification) for 3 Base,otp,indonesia,duri,Annually / Base,2025-06-30
+86,Internal Basic Fire Training (annually / Base),otp,indonesia,duri,Annually / Base,2025-12-31
+87,DROPS Object Awareness Training (annually per Base),otp,indonesia,duri,Annually / Base,2025-12-31
+88,Lifting & Rigging Operator Coaching (Duri Operation),otp,indonesia,duri,Quarterly / Base,2025-06-30
+89,Hand and Finger Injury Prevention Training (annually per Base),otp,indonesia,duri,Annually / Base,2025-06-30
+90,Review Legal Business and Client Requirement matrix,otp,indonesia,duri,Annually / Base,2025-06-30
+91,Review of Generic Risk Assessment (TRA) for Indonesia,otp,indonesia,duri,Annually / Base,2025-12-30
+92,Review Emergency Response Procedure for 3 Base,otp,indonesia,duri,Annually / Base,2025-03-15
+93,Review RADAR Observation and closing action item for 3 Base,otp,indonesia,duri,Monthly / Base,2025-08-05
+94,Provide HSE Campaign Banner (3 banner / quarter / Base),otp,indonesia,duri,Quarterly / Base,2025-12-31
+95,Conduct Emergency Drill for 3 Base (refer to Drill plan 2025 Indonesia),otp,indonesia,duri,Quarterly / Base,2025-12-31
+96,Conduct Lifting gear/accessories inspection (as per Lifting color code) per semester,otp,indonesia,duri,Per Semester,2025-12-31
+97,Lifting Gear Inspection report (monthly per Base),otp,indonesia,duri,Monthly / Base,2025-12-31
+98,SQM Meeting with TMC crane supplier (Duri Base),otp,indonesia,duri,Annually,2025-12-31
+99,Lifting Awareness Campaign for 3 base,otp,indonesia,duri,Annually / Base,2025-12-31
+100,Refresh Mechanical Lifting SWC Training for 3 base,otp,indonesia,duri,Annually / Base,2025-12-31
+101,Lifting Equipment and Operation Standard Audit for 3 Base,otp,indonesia,duri,Annually / Base,2025-12-31
+102,Review Current Chemical MSDS base on Chemical Inventory data for 3 base,otp,indonesia,duri,Annually / Base,2025-12-31
+103,Conduct Monthly waste water analysis for 3 Base,otp,indonesia,duri,Monthly / Base,2025-12-31
+104,Conduct Environmental Monitoring Program for 3 Base,otp,indonesia,duri,Per Semester / Base,2025-12-31
+105,Dispose Hazardous waste to Approved disposal company for 3 Base,otp,indonesia,duri,Per Semester / Base,2025-12-30
+106,Conduct Industrial Hygiene Test for 3 Base,otp,indonesia,duri,Annually / Base,2025-12-31
+107,Indonesia Environment Improvement Plan 2025,otp,indonesia,duri,Annual report / year,2025-09-30
+108,Conduct Emergency Spill Drill for 3 Base,otp,indonesia,duri,Annually / Base,2025-12-31
+109,Conduct Medical Check-Up (tracking report for Duri Operation),otp,indonesia,duri,Annually,2025-12-01
+110,Required by PHR_Drug and Alcohol test (sampling min 10% peoples) for Duri Operation,otp,indonesia,duri,Annually,2025-12-31
+111,Conduct Health Campaign for 3 base (online or offline meeting),otp,indonesia,duri,Per Semester,2025-05-01
+112,Conduct Health Campaign for 3 base (additional),otp,indonesia,duri,Per Semester,2025-08-30
+113,Provide weekly Driver driving performance report (RAG) for review,otp,indonesia,balikpapan,4 report/Month,
+114,"Conduct Driver and Vehicle Safety Standard Audit for Duri, Narogong & Balikpapan",otp,indonesia,balikpapan,3 Base in a Year,2025-12-31
+115,Conduct vehicle compliance spot check for Duri and Narogong,otp,indonesia,balikpapan,Monthly,2025-02-14
+116,"Driving Safety Campaign for All Indonesia Base (Duri, Narogong & Balikpapan)",otp,indonesia,balikpapan,One time in year,2025-12-31
+117,Review Driver Driving performance for all driver in Indonesia,otp,indonesia,balikpapan,Monthly,2025-12-01
+118,Conduct Driver Coaching (offline or Online Meeting) for Yellow and Red Driver in Indonesia,otp,indonesia,balikpapan,Quarterly,2025-12-31
+119,Motor Vehicle Safety Training / Commentary Drive,otp,indonesia,balikpapan,Quarterly,2025-12-31
+120,"Submit RADAR Card intervention (average 2 RADAR / emp / month, Based on WPTS Report)",otp,indonesia,balikpapan,24 cards/employee/year,2025-12-31
+121,Conduct HSE Monthly Meeting per Base,otp,indonesia,balikpapan,Monthly / Base,2025-12-31
+122,Conduct Facility Inspection (combined report for Indonesia / month),otp,indonesia,balikpapan,Monthly,2025-12-31
+123,Conduct Field Inspection / MWT (the report is combined from Leadership in Indonesia),otp,indonesia,balikpapan,Quarterly,2025-12-31
+124,"Leadership Safety Engagement (LSE) to cover 3 Bases (Duri, Narogong, Balikpapan)",otp,indonesia,balikpapan,Quarterly,2025-12-31
+125,HSE Reward program for best employees in Indonesia,otp,indonesia,balikpapan,3 reward/month/base,2025-12-31
+126,Conduct HSE induction/orientation training for new visitors and new hired employees/contractors,otp,indonesia,balikpapan,100% new visitors/comers inducted,2025-12-31
+127,Conduct Contractor Audit for High Risk Contractors,otp,indonesia,balikpapan,Annually,2025-12-31
+128,Conduct Contractor SQM Meeting for High Risk Contractors and Discuss progress HSE KPI,otp,indonesia,balikpapan,Annually,2025-12-31
+129,Conduct Management Review Meeting,otp,indonesia,balikpapan,Annually,2025-12-31
+130,Conduct P2K3 / safety committee team meeting for each Base in Indonesia,otp,indonesia,balikpapan,3 times / Month / Base,2025-08-31
+131,"Provide P2K3 report to Disnaker Provinsi Riau, Jawa Barat and Kalimantan Timur",otp,indonesia,balikpapan,3 report / Quarter / Base,2025-12-31
+132,"Conduct Facility device inspection (FE, FAK, Eye wash, Emergency light, stretcher, Smoke Detector, Spill Kit)",otp,indonesia,balikpapan,Monthly / Base,2025-12-31
+133,Conduct facility hazard hunt / Workshop inspection for 3 Base,otp,indonesia,balikpapan,Monthly / Base,2025-12-31
+134,Annual maintenance of Firex for 3 Bases,otp,indonesia,balikpapan,Annually / Base,2025-12-31
+135,Annual Tool Rack Inspection for 3 Base,otp,indonesia,balikpapan,Annually / Base,2025-12-30
+136,Conduct DROPS Survey for 3 Bases (per Semester),otp,indonesia,balikpapan,Per Semester / Base,2025-11-01
+137,Conduct Facility Safety Standard Audit for 3 Bases,otp,indonesia,balikpapan,Annually / Base,2025-12-31
+138,"Conduct Safety 101, HSE Orientation & Minimum Training (3 Base, Online or Offline)",otp,indonesia,balikpapan,Per Semester / Base,2025-02-14
+139,Conduct DAMKAR D Training for fire team for Duri Base (Disnaker certification),otp,indonesia,balikpapan,Annually / Base,2025-12-31
+140,Manual Handling Training and Practical review on field site,otp,indonesia,balikpapan,Annually / Base,2025-12-31
+141,Refresh First Aid Training by 3rd party (Disnaker Certification) for 3 Base,otp,indonesia,balikpapan,Annually / Base,2025-06-30
+142,Internal Basic Fire Training (annually / Base),otp,indonesia,balikpapan,Annually / Base,2025-12-31
+143,DROPS Object Awareness Training (annually per Base),otp,indonesia,balikpapan,Annually / Base,2025-12-31
+144,Lifting & Rigging Operator Coaching (Duri Operation),otp,indonesia,balikpapan,Quarterly / Base,2025-06-30
+145,Hand and Finger Injury Prevention Training (annually per Base),otp,indonesia,balikpapan,Annually / Base,2025-06-30
+146,Review Legal Business and Client Requirement matrix,otp,indonesia,balikpapan,Annually / Base,2025-06-30
+147,Review of Generic Risk Assessment (TRA) for Indonesia,otp,indonesia,balikpapan,Annually / Base,2025-12-30
+148,Review Emergency Response Procedure for 3 Base,otp,indonesia,balikpapan,Annually / Base,2025-03-15
+149,Review RADAR Observation and closing action item for 3 Base,otp,indonesia,balikpapan,Monthly / Base,2025-08-05
+150,Provide HSE Campaign Banner (3 banner / quarter / Base),otp,indonesia,balikpapan,Quarterly / Base,2025-12-31
+151,Conduct Emergency Drill for 3 Base (refer to Drill plan 2025 Indonesia),otp,indonesia,balikpapan,Quarterly / Base,2025-12-31
+152,Conduct Lifting gear/accessories inspection (as per Lifting color code) per semester,otp,indonesia,balikpapan,Per Semester,2025-12-31
+153,Lifting Gear Inspection report (monthly per Base),otp,indonesia,balikpapan,Monthly / Base,2025-12-31
+154,SQM Meeting with TMC crane supplier (Duri Base),otp,indonesia,balikpapan,Annually,2025-12-31
+155,Lifting Awareness Campaign for 3 base,otp,indonesia,balikpapan,Annually / Base,2025-12-31
+156,Refresh Mechanical Lifting SWC Training for 3 base,otp,indonesia,balikpapan,Annually / Base,2025-12-31
+157,Lifting Equipment and Operation Standard Audit for 3 Base,otp,indonesia,balikpapan,Annually / Base,2025-12-31
+158,Review Current Chemical MSDS base on Chemical Inventory data for 3 base,otp,indonesia,balikpapan,Annually / Base,2025-12-31
+159,Conduct Monthly waste water analysis for 3 Base,otp,indonesia,balikpapan,Monthly / Base,2025-12-31
+160,Conduct Environmental Monitoring Program for 3 Base,otp,indonesia,balikpapan,Per Semester / Base,2025-12-31
+161,Dispose Hazardous waste to Approved disposal company for 3 Base,otp,indonesia,balikpapan,Per Semester / Base,2025-12-30
+162,Conduct Industrial Hygiene Test for 3 Base,otp,indonesia,balikpapan,Annually / Base,2025-12-31
+163,Indonesia Environment Improvement Plan 2025,otp,indonesia,balikpapan,Annual report / year,2025-09-30
+164,Conduct Emergency Spill Drill for 3 Base,otp,indonesia,balikpapan,Annually / Base,2025-12-31
+165,Conduct Medical Check-Up (tracking report for Duri Operation),otp,indonesia,balikpapan,Annually,2025-12-01
+166,Required by PHR_Drug and Alcohol test (sampling min 10% peoples) for Duri Operation,otp,indonesia,balikpapan,Annually,2025-12-31
+167,Conduct Health Campaign for 3 base (online or offline meeting),otp,indonesia,balikpapan,Per Semester,2025-05-01
+168,Conduct Health Campaign for 3 base (additional),otp,indonesia,balikpapan,Per Semester,2025-08-30
+169,EIP and reduction plan,otp,asia,all,Monthly,2025-02-14
+170,12 Facility Inspections,otp,asia,all,Monthly,2025-12-31
+171,Incident Management,otp,asia,all,Monthly,2025-12-01
+172,Leadership Site Engagement (LSE) Country,otp,asia,all,Annually,2025-12-31
+173,Close All HSSE Audits from 2023-2024,otp,asia,all,Monthly,2025-12-31
+174,Country/ facility Legal Register,otp,asia,all,Quarterly,2025-12-31
+175,HSSE Competency,otp,asia,all,Monthly,2025-12-31
+176,Driving Operations Risk Management,otp,asia,all,Monthly,2025-12-31
+177,Fire Risk Assessment,otp,asia,all,Monthly,2025-12-31
+178,Electrical Risk Assessment,otp,asia,all,Monthly,2025-12-31
+179,Machine guarding review and inspection,otp,asia,all,Quarterly,2025-12-31
+180,Emergency Response process,otp,asia,all,Annually,2025-12-31
+181,Hazard Hunt,otp,asia,all,Monthly,2025-12-31
+182,Short Service Employee Program,otp,asia,all,Quarterly,2025-12-31
+183,Safety 101,otp,asia,all,Annually,2025-12-31
+184,Safety 201,otp,asia,all,Annually,2025-08-31
+185,Work Planning,otp,asia,all,Monthly,2025-12-31
+186,LOTO Program,otp,asia,all,Quarterly,2025-12-31
+187,HSE OEPS Full Audit,otp,asia,all,Monthly,2025-12-31
+188,Asia Local Documents,otp,asia,all,Annually,2025-12-30
+189,Air Emissions Inventory,otp,asia,all,Quarterly,2025-11-01
+190,Hazardous Waste Register,otp,asia,all,Quarterly,2025-12-31
+191,Hazmat Self-Assessment - Country,otp,asia,all,Monthly,2025-02-14
+192,HAZMAT Competency,otp,asia,all,Annually,2025-12-31
+193,Risk Management,matrix_audit,indonesia,all,Monthly,
+194,Facility Safety,matrix_audit,indonesia,all,Monthly,
+195,Commitment & Intervention,matrix_audit,indonesia,all,Monthly,
+196,Hazardous Substance,matrix_audit,indonesia,all,Quarterly,
+197,Hazardous Environments,matrix_audit,indonesia,all,Monthly,
+198,Incident Management,matrix_audit,indonesia,all,Monthly,
+199,Driver and Vehicle Procedure,matrix_audit,indonesia,all,Monthly,
+200,Occupational Health Procedure,matrix_audit,indonesia,all,Monthly,
+201,Lifting Equipment and Operation,matrix_audit,indonesia,all,Monthly,
+202,Employee and Contractor HSSE Training,matrix_audit,indonesia,all,Monthly,
+203,Management of Short Service Employees,matrix_audit,indonesia,all,Quarterly,
+204,Facility Orientation and Induction,matrix_audit,indonesia,all,Monthly,
+205,Personnel Protective Equipment (PPE),matrix_audit,indonesia,all,Monthly,
+206,Contractor Management,matrix_audit,indonesia,all,Monthly,
+207,Global Radiation Protection,matrix_audit,indonesia,all,Annually,
+208,Lone Worker,matrix_audit,indonesia,all,Quarterly,
+209,Waste Management,matrix_audit,indonesia,all,Annually,
+210,Water Management,matrix_audit,indonesia,all,Monthly,
+211,Land Impact Management,matrix_audit,indonesia,all,Quarterly,
+212,QMS Audit (Internal),matrix_audit,indonesia,all,Monthly,
+213,ISO External Audit,matrix_audit,indonesia,all,Annually,
+214,Risk Management,matrix_audit,indonesia,narogong,Monthly,
+215,Facility Safety,matrix_audit,indonesia,narogong,Monthly,
+216,Commitment & Intervention,matrix_audit,indonesia,narogong,Monthly,
+217,Hazardous Substance,matrix_audit,indonesia,narogong,Quarterly,
+218,Hazardous Environments,matrix_audit,indonesia,narogong,Monthly,
+219,Incident Management,matrix_audit,indonesia,narogong,Monthly,
+220,Driver and Vehicle Procedure,matrix_audit,indonesia,narogong,Monthly,
+221,Occupational Health Procedure,matrix_audit,indonesia,narogong,Monthly,
+222,Lifting Equipment and Operation,matrix_audit,indonesia,narogong,Monthly,
+223,Employee and Contractor HSSE Training,matrix_audit,indonesia,narogong,Monthly,
+224,Management of Short Service Employees,matrix_audit,indonesia,narogong,Quarterly,
+225,Facility Orientation and Induction,matrix_audit,indonesia,narogong,Monthly,
+226,Personnel Protective Equipment (PPE),matrix_audit,indonesia,narogong,Monthly,
+227,Contractor Management,matrix_audit,indonesia,narogong,Monthly,
+228,Global Radiation Protection,matrix_audit,indonesia,narogong,Annually,
+229,Lone Worker,matrix_audit,indonesia,narogong,Quarterly,
+230,Waste Management,matrix_audit,indonesia,narogong,Annually,
+231,Water Management,matrix_audit,indonesia,narogong,Monthly,
+232,Land Impact Management,matrix_audit,indonesia,narogong,Quarterly,
+233,QMS Audit (Internal),matrix_audit,indonesia,narogong,Monthly,
+234,ISO External Audit,matrix_audit,indonesia,narogong,Annually,
+235,Risk Management,matrix_audit,indonesia,duri,Monthly,
+236,Facility Safety,matrix_audit,indonesia,duri,Monthly,
+237,Commitment & Intervention,matrix_audit,indonesia,duri,Monthly,
+238,Hazardous Substance,matrix_audit,indonesia,duri,Quarterly,
+239,Hazardous Environments,matrix_audit,indonesia,duri,Monthly,
+240,Incident Management,matrix_audit,indonesia,duri,Monthly,
+241,Driver and Vehicle Procedure,matrix_audit,indonesia,duri,Monthly,
+242,Occupational Health Procedure,matrix_audit,indonesia,duri,Monthly,
+243,Lifting Equipment and Operation,matrix_audit,indonesia,duri,Monthly,
+244,Employee and Contractor HSSE Training,matrix_audit,indonesia,duri,Monthly,
+245,Management of Short Service Employees,matrix_audit,indonesia,duri,Quarterly,
+246,Facility Orientation and Induction,matrix_audit,indonesia,duri,Monthly,
+247,Personnel Protective Equipment (PPE),matrix_audit,indonesia,duri,Monthly,
+248,Contractor Management,matrix_audit,indonesia,duri,Monthly,
+249,Global Radiation Protection,matrix_audit,indonesia,duri,Annually,
+250,Lone Worker,matrix_audit,indonesia,duri,Quarterly,
+251,Waste Management,matrix_audit,indonesia,duri,Annually,
+252,Water Management,matrix_audit,indonesia,duri,Monthly,
+253,Land Impact Management,matrix_audit,indonesia,duri,Quarterly,
+254,QMS Audit (Internal),matrix_audit,indonesia,duri,Monthly,
+255,ISO External Audit,matrix_audit,indonesia,duri,Annually,
+256,Risk Management,matrix_audit,indonesia,balikpapan,Monthly,
+257,Facility Safety,matrix_audit,indonesia,balikpapan,Monthly,
+258,Commitment & Intervention,matrix_audit,indonesia,balikpapan,Monthly,
+259,Hazardous Substance,matrix_audit,indonesia,balikpapan,Quarterly,
+260,Hazardous Environments,matrix_audit,indonesia,balikpapan,Monthly,
+261,Incident Management,matrix_audit,indonesia,balikpapan,Monthly,
+262,Driver and Vehicle Procedure,matrix_audit,indonesia,balikpapan,Monthly,
+263,Occupational Health Procedure,matrix_audit,indonesia,balikpapan,Monthly,
+264,Lifting Equipment and Operation,matrix_audit,indonesia,balikpapan,Monthly,
+265,Employee and Contractor HSSE Training,matrix_audit,indonesia,balikpapan,Monthly,
+266,Management of Short Service Employees,matrix_audit,indonesia,balikpapan,Quarterly,
+267,Facility Orientation and Induction,matrix_audit,indonesia,balikpapan,Monthly,
+268,Personnel Protective Equipment (PPE),matrix_audit,indonesia,balikpapan,Monthly,
+269,Contractor Management,matrix_audit,indonesia,balikpapan,Monthly,
+270,Global Radiation Protection,matrix_audit,indonesia,balikpapan,Annually,
+271,Lone Worker,matrix_audit,indonesia,balikpapan,Quarterly,
+272,Waste Management,matrix_audit,indonesia,balikpapan,Annually,
+273,Water Management,matrix_audit,indonesia,balikpapan,Monthly,
+274,Land Impact Management,matrix_audit,indonesia,balikpapan,Quarterly,
+275,QMS Audit (Internal),matrix_audit,indonesia,balikpapan,Monthly,
+276,ISO External Audit,matrix_audit,indonesia,balikpapan,Annually,
+277,First Aid Training - Kemenaker,matrix_training,indonesia,all,Annually,
+278,Fire Training (DAMKAR D) - Kemenaker,matrix_training,indonesia,all,Monthly,
+279,AK3 Umum Training - Kemenaker,matrix_training,indonesia,all,Annually,
+280,K3 MIGAS Training - BNSP,matrix_training,indonesia,all,Monthly,
+281,POPAL - BNSP,matrix_training,indonesia,all,Quarterly,
+282,PAA Lifting Equipment Operator,matrix_training,indonesia,all,Quarterly,
+283,TKBT 2 - Working At Height Certification,matrix_training,indonesia,all,Quarterly,
+284,Safety 101 Training and HSE Minimum,matrix_training,indonesia,all,Monthly,
+285,Safety 201 Training for Supv Level,matrix_training,indonesia,all,Annually,
+286,HSE Induction / Orientation for New Employee,matrix_training,indonesia,all,Monthly,
+287,Hand & Finger Injury Prevention Campaign,matrix_training,indonesia,all,Annually,
+288,Lifting & Rigging Operator Coaching,matrix_training,indonesia,all,Monthly,
+289,Basic Fire Safety Training,matrix_training,indonesia,all,Monthly,
+290,Hands Off Lifting Campaign,matrix_training,indonesia,all,Monthly,
+291,Health Talk by Doctor,matrix_training,indonesia,all,Monthly,
+292,Risk Management and SWA Training,matrix_training,indonesia,all,Monthly,
+293,Waste Management,matrix_training,indonesia,all,Monthly,
+294,DROPS,matrix_training,indonesia,all,Quarterly,
+295,Move SMART / Manual Handling,matrix_training,indonesia,all,Monthly,
+296,SWC Refreshment Training,matrix_training,indonesia,all,Monthly,
+297,H2S Awareness,matrix_training,indonesia,all,Monthly,
+298,Motor Vehicle Safety and Commentary Drive,matrix_training,indonesia,all,Annually,
+299,Spotter Training (PHR),matrix_training,indonesia,all,Monthly,
+300,RA Awareness,matrix_training,indonesia,all,Quarterly,
+301,Lithium Battery Awareness,matrix_training,indonesia,all,Monthly,
+302,Lock Out Tag Out (LOTO) Awareness,matrix_training,indonesia,all,Monthly,
+303,CLSR,matrix_training,indonesia,all,Quarterly,
+304,First Aid Training - Kemenaker,matrix_training,indonesia,narogong,Annually,
+305,Fire Training (DAMKAR D) - Kemenaker,matrix_training,indonesia,narogong,Monthly,
+306,AK3 Umum Training - Kemenaker,matrix_training,indonesia,narogong,Annually,
+307,K3 MIGAS Training - BNSP,matrix_training,indonesia,narogong,Monthly,
+308,POPAL - BNSP,matrix_training,indonesia,narogong,Quarterly,
+309,PAA Lifting Equipment Operator,matrix_training,indonesia,narogong,Quarterly,
+310,TKBT 2 - Working At Height Certification,matrix_training,indonesia,narogong,Quarterly,
+311,Safety 101 Training and HSE Minimum,matrix_training,indonesia,narogong,Monthly,
+312,Safety 201 Training for Supv Level,matrix_training,indonesia,narogong,Annually,
+313,HSE Induction / Orientation for New Employee,matrix_training,indonesia,narogong,Monthly,
+314,Hand & Finger Injury Prevention Campaign,matrix_training,indonesia,narogong,Annually,
+315,Lifting & Rigging Operator Coaching,matrix_training,indonesia,narogong,Monthly,
+316,Basic Fire Safety Training,matrix_training,indonesia,narogong,Monthly,
+317,Hands Off Lifting Campaign,matrix_training,indonesia,narogong,Monthly,
+318,Health Talk by Doctor,matrix_training,indonesia,narogong,Monthly,
+319,Risk Management and SWA Training,matrix_training,indonesia,narogong,Monthly,
+320,Waste Management,matrix_training,indonesia,narogong,Monthly,
+321,DROPS,matrix_training,indonesia,narogong,Quarterly,
+322,Move SMART / Manual Handling,matrix_training,indonesia,narogong,Monthly,
+323,SWC Refreshment Training,matrix_training,indonesia,narogong,Monthly,
+324,H2S Awareness,matrix_training,indonesia,narogong,Monthly,
+325,Motor Vehicle Safety and Commentary Drive,matrix_training,indonesia,narogong,Annually,
+326,Spotter Training (PHR),matrix_training,indonesia,narogong,Monthly,
+327,RA Awareness,matrix_training,indonesia,narogong,Quarterly,
+328,Lithium Battery Awareness,matrix_training,indonesia,narogong,Monthly,
+329,Lock Out Tag Out (LOTO) Awareness,matrix_training,indonesia,narogong,Monthly,
+330,CLSR,matrix_training,indonesia,narogong,Quarterly,
+331,First Aid Training - Kemenaker,matrix_training,indonesia,duri,Annually,
+332,Fire Training (DAMKAR D) - Kemenaker,matrix_training,indonesia,duri,Monthly,
+333,AK3 Umum Training - Kemenaker,matrix_training,indonesia,duri,Annually,
+334,K3 MIGAS Training - BNSP,matrix_training,indonesia,duri,Monthly,
+335,POPAL - BNSP,matrix_training,indonesia,duri,Quarterly,
+336,PAA Lifting Equipment Operator,matrix_training,indonesia,duri,Quarterly,
+337,TKBT 2 - Working At Height Certification,matrix_training,indonesia,duri,Quarterly,
+338,Safety 101 Training and HSE Minimum,matrix_training,indonesia,duri,Monthly,
+339,Safety 201 Training for Supv Level,matrix_training,indonesia,duri,Annually,
+340,HSE Induction / Orientation for New Employee,matrix_training,indonesia,duri,Monthly,
+341,Hand & Finger Injury Prevention Campaign,matrix_training,indonesia,duri,Annually,
+342,Lifting & Rigging Operator Coaching,matrix_training,indonesia,duri,Monthly,
+343,Basic Fire Safety Training,matrix_training,indonesia,duri,Monthly,
+344,Hands Off Lifting Campaign,matrix_training,indonesia,duri,Monthly,
+345,Health Talk by Doctor,matrix_training,indonesia,duri,Monthly,
+346,Risk Management and SWA Training,matrix_training,indonesia,duri,Monthly,
+347,Waste Management,matrix_training,indonesia,duri,Monthly,
+348,DROPS,matrix_training,indonesia,duri,Quarterly,
+349,Move SMART / Manual Handling,matrix_training,indonesia,duri,Monthly,
+350,SWC Refreshment Training,matrix_training,indonesia,duri,Monthly,
+351,H2S Awareness,matrix_training,indonesia,duri,Monthly,
+352,Motor Vehicle Safety and Commentary Drive,matrix_training,indonesia,duri,Annually,
+353,Spotter Training (PHR),matrix_training,indonesia,duri,Monthly,
+354,RA Awareness,matrix_training,indonesia,duri,Quarterly,
+355,Lithium Battery Awareness,matrix_training,indonesia,duri,Monthly,
+356,Lock Out Tag Out (LOTO) Awareness,matrix_training,indonesia,duri,Monthly,
+357,CLSR,matrix_training,indonesia,duri,Quarterly,
+358,First Aid Training - Kemenaker,matrix_training,indonesia,balikpapan,Annually,
+359,Fire Training (DAMKAR D) - Kemenaker,matrix_training,indonesia,balikpapan,Monthly,
+360,AK3 Umum Training - Kemenaker,matrix_training,indonesia,balikpapan,Annually,
+361,K3 MIGAS Training - BNSP,matrix_training,indonesia,balikpapan,Monthly,
+362,POPAL - BNSP,matrix_training,indonesia,balikpapan,Quarterly,
+363,PAA Lifting Equipment Operator,matrix_training,indonesia,balikpapan,Quarterly,
+364,TKBT 2 - Working At Height Certification,matrix_training,indonesia,balikpapan,Quarterly,
+365,Safety 101 Training and HSE Minimum,matrix_training,indonesia,balikpapan,Monthly,
+366,Safety 201 Training for Supv Level,matrix_training,indonesia,balikpapan,Annually,
+367,HSE Induction / Orientation for New Employee,matrix_training,indonesia,balikpapan,Monthly,
+368,Hand & Finger Injury Prevention Campaign,matrix_training,indonesia,balikpapan,Annually,
+369,Lifting & Rigging Operator Coaching,matrix_training,indonesia,balikpapan,Monthly,
+370,Basic Fire Safety Training,matrix_training,indonesia,balikpapan,Monthly,
+371,Hands Off Lifting Campaign,matrix_training,indonesia,balikpapan,Monthly,
+372,Health Talk by Doctor,matrix_training,indonesia,balikpapan,Monthly,
+373,Risk Management and SWA Training,matrix_training,indonesia,balikpapan,Monthly,
+374,Waste Management,matrix_training,indonesia,balikpapan,Monthly,
+375,DROPS,matrix_training,indonesia,balikpapan,Quarterly,
+376,Move SMART / Manual Handling,matrix_training,indonesia,balikpapan,Monthly,
+377,SWC Refreshment Training,matrix_training,indonesia,balikpapan,Monthly,
+378,H2S Awareness,matrix_training,indonesia,balikpapan,Monthly,
+379,Motor Vehicle Safety and Commentary Drive,matrix_training,indonesia,balikpapan,Annually,
+380,Spotter Training (PHR),matrix_training,indonesia,balikpapan,Monthly,
+381,RA Awareness,matrix_training,indonesia,balikpapan,Quarterly,
+382,Lithium Battery Awareness,matrix_training,indonesia,balikpapan,Monthly,
+383,Lock Out Tag Out (LOTO) Awareness,matrix_training,indonesia,balikpapan,Monthly,
+384,CLSR,matrix_training,indonesia,balikpapan,Quarterly,
+385,FIRE EMERGENCY,matrix_drill,indonesia,all,Monthly,
+386,CHEMICAL SPILL,matrix_drill,indonesia,all,Monthly,
+387,MEDICAL EMERGENCY,matrix_drill,indonesia,all,Annually,
+388,EARTHQUAKE EMERGENCY,matrix_drill,indonesia,all,Monthly,
+389,RAM EMERGENCY,matrix_drill,indonesia,all,Monthly,
+390,H2S,matrix_drill,indonesia,all,Monthly,
+391,Li BATTERY EMERGENCY,matrix_drill,indonesia,all,Monthly,
+392,EXPLOSIVE EMERGENCY,matrix_drill,indonesia,all,Monthly,
+393,FIRE EMERGENCY,matrix_drill,indonesia,narogong,Monthly,
+394,CHEMICAL SPILL,matrix_drill,indonesia,narogong,Monthly,
+395,MEDICAL EMERGENCY,matrix_drill,indonesia,narogong,Annually,
+396,EARTHQUAKE EMERGENCY,matrix_drill,indonesia,narogong,Monthly,
+397,RAM EMERGENCY,matrix_drill,indonesia,narogong,Monthly,
+398,H2S,matrix_drill,indonesia,narogong,Monthly,
+399,Li BATTERY EMERGENCY,matrix_drill,indonesia,narogong,Monthly,
+400,EXPLOSIVE EMERGENCY,matrix_drill,indonesia,narogong,Monthly,
+401,FIRE EMERGENCY,matrix_drill,indonesia,duri,Monthly,
+402,CHEMICAL SPILL,matrix_drill,indonesia,duri,Monthly,
+403,MEDICAL EMERGENCY,matrix_drill,indonesia,duri,Annually,
+404,EARTHQUAKE EMERGENCY,matrix_drill,indonesia,duri,Monthly,
+405,RAM EMERGENCY,matrix_drill,indonesia,duri,Monthly,
+406,H2S,matrix_drill,indonesia,duri,Monthly,
+407,Li BATTERY EMERGENCY,matrix_drill,indonesia,duri,Monthly,
+408,EXPLOSIVE EMERGENCY,matrix_drill,indonesia,duri,Monthly,
+409,FIRE EMERGENCY,matrix_drill,indonesia,balikpapan,Monthly,
+410,CHEMICAL SPILL,matrix_drill,indonesia,balikpapan,Monthly,
+411,MEDICAL EMERGENCY,matrix_drill,indonesia,balikpapan,Annually,
+412,EARTHQUAKE EMERGENCY,matrix_drill,indonesia,balikpapan,Monthly,
+413,RAM EMERGENCY,matrix_drill,indonesia,balikpapan,Monthly,
+414,H2S,matrix_drill,indonesia,balikpapan,Monthly,
+415,Li BATTERY EMERGENCY,matrix_drill,indonesia,balikpapan,Monthly,
+416,EXPLOSIVE EMERGENCY,matrix_drill,indonesia,balikpapan,Monthly,
+417,HSE MONTHLY MEETING,matrix_meeting,indonesia,all,Monthly,
+418,P2K3 MEETING,matrix_meeting,indonesia,all,Monthly,
+419,RISK ASSESSMENT MEETING,matrix_meeting,indonesia,all,Quarterly,
+420,LEARNING GROUP DISCUSSION,matrix_meeting,indonesia,all,Monthly,
+421,HSE UPDATE MEETING,matrix_meeting,indonesia,all,Monthly,
+422,HSE PLAN MEETING,matrix_meeting,indonesia,all,Monthly,
+423,HSE PREMOB BRIEFING,matrix_meeting,indonesia,all,Monthly,
+424,HSE QUARTERLY PLAN MEETING,matrix_meeting,indonesia,all,Quarterly,
+425,HSE MONTHLY MEETING,matrix_meeting,indonesia,narogong,Monthly,
+426,P2K3 MEETING,matrix_meeting,indonesia,narogong,Monthly,
+427,RISK ASSESSMENT MEETING,matrix_meeting,indonesia,narogong,Quarterly,
+428,LEARNING GROUP DISCUSSION,matrix_meeting,indonesia,narogong,Monthly,
+429,HSE UPDATE MEETING,matrix_meeting,indonesia,narogong,Monthly,
+430,HSE PLAN MEETING,matrix_meeting,indonesia,narogong,Monthly,
+431,HSE PREMOB BRIEFING,matrix_meeting,indonesia,narogong,Monthly,
+432,HSE QUARTERLY PLAN MEETING,matrix_meeting,indonesia,narogong,Quarterly,
+433,HSE MONTHLY MEETING,matrix_meeting,indonesia,duri,Monthly,
+434,P2K3 MEETING,matrix_meeting,indonesia,duri,Monthly,
+435,RISK ASSESSMENT MEETING,matrix_meeting,indonesia,duri,Quarterly,
+436,LEARNING GROUP DISCUSSION,matrix_meeting,indonesia,duri,Monthly,
+437,HSE UPDATE MEETING,matrix_meeting,indonesia,duri,Monthly,
+438,HSE PLAN MEETING,matrix_meeting,indonesia,duri,Monthly,
+439,HSE PREMOB BRIEFING,matrix_meeting,indonesia,duri,Monthly,
+440,HSE QUARTERLY PLAN MEETING,matrix_meeting,indonesia,duri,Quarterly,
+441,HSE MONTHLY MEETING,matrix_meeting,indonesia,balikpapan,Monthly,
+442,P2K3 MEETING,matrix_meeting,indonesia,balikpapan,Monthly,
+443,RISK ASSESSMENT MEETING,matrix_meeting,indonesia,balikpapan,Quarterly,
+444,LEARNING GROUP DISCUSSION,matrix_meeting,indonesia,balikpapan,Monthly,
+445,HSE UPDATE MEETING,matrix_meeting,indonesia,balikpapan,Monthly,
+446,HSE PLAN MEETING,matrix_meeting,indonesia,balikpapan,Monthly,
+447,HSE PREMOB BRIEFING,matrix_meeting,indonesia,balikpapan,Monthly,
+448,HSE QUARTERLY PLAN MEETING,matrix_meeting,indonesia,balikpapan,Quarterly,
