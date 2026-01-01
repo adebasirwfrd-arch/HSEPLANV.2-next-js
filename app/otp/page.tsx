@@ -192,7 +192,7 @@ export default function OTPPage() {
     // Handle create new program with mutation
     const handleCreate = (name: string, planType: string, dueDate: string) => {
         createProgram.mutate({
-            title: name,
+            name: name,
             program_type: 'otp',
             region,
             base,
