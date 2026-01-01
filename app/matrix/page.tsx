@@ -1,12 +1,23 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, lazy, Suspense } from "react"
 import { motion } from "framer-motion"
 import { AppShell } from "@/components/layout/app-shell"
 import { cn } from "@/lib/utils"
-import { Download, Plus, Search, X, Check, Trash2, AlertTriangle, Mail, List, CalendarDays } from "lucide-react"
+import { Download, Plus, Search, X, Check, Trash2, AlertTriangle, Mail, List, CalendarDays, FileText } from "lucide-react"
 import { PageTransition, PageHeader, PageContent } from "@/components/ui/page-transition"
 import { MatrixTimeline } from "@/components/matrix/MatrixTimeline"
+
+// Lazy load PDF button to avoid SSR issues
+const MatrixPDFDownloadButton = lazy(() => import('@/components/matrix/MatrixPDFDownloadButton'))
+
+function PDFButtonFallback() {
+    return (
+        <span className="px-3 py-2 bg-[var(--accent-purple)] text-white rounded-lg text-xs font-semibold opacity-50 flex items-center gap-1">
+            <FileText className="w-3 h-3" /> PDF
+        </span>
+    )
+}
 import {
     getMatrixData,
     calculateProgress,
@@ -218,6 +229,17 @@ export default function MatrixPage() {
                     >
                         <Download className="w-4 h-4" /> Export CSV
                     </motion.button>
+                    {/* PDF Download */}
+                    {filteredPrograms.length > 0 && (
+                        <Suspense fallback={<PDFButtonFallback />}>
+                            <MatrixPDFDownloadButton
+                                programs={filteredPrograms}
+                                category={category}
+                                base={base}
+                                year={year}
+                            />
+                        </Suspense>
+                    )}
                     {/* View Mode Toggle */}
                     <div className="flex rounded-lg overflow-hidden border border-[var(--border-light)]">
                         <button
