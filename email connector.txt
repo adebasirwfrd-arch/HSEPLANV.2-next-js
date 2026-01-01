@@ -1,0 +1,34 @@
+We are finalizing Phase 4: Infrastructure with **AWS SES Email Integration**.
+
+We need to create an "Email Adapter" pattern that allows us to switch between Brevo (current) and AWS SES (enterprise target) via environment variables.
+
+**1. Install AWS SDK:**
+   Run: `npm install @aws-sdk/client-ses`
+
+**2. Create SES Client (`lib/email/ses-client.ts`):**
+   - Import `SESClient`, `SendEmailCommand` from `@aws-sdk/client-ses`.
+   - Initialize the client using `process.env.AWS_ACCESS_KEY_ID`, `process.env.AWS_SECRET_ACCESS_KEY`, and `process.env.AWS_REGION`.
+   - Create a helper function `sendSESEmail(to, subject, html)` that constructs and sends the command.
+
+**3. Create Unified Mailer (`lib/email/mailer.ts`):**
+   - This will be the main entry point for the app.
+   - **Logic:**
+     ```typescript
+     import { sendSESEmail } from './ses-client';
+     // Import your existing Brevo/SMTP logic here (or keep it inline)
+
+     export async function sendEmail({ to, subject, html }: { to: string, subject: string, html: string }) {
+       const provider = process.env.EMAIL_PROVIDER || 'BREVO'; // Default to BREVO if not set
+
+       if (provider === 'SES') {
+         console.log('🚀 Sending via AWS SES...');
+         return await sendSESEmail(to, subject, html);
+       } else {
+         console.log('📧 Sending via Brevo/SMTP...');
+         // Call existing Brevo logic here
+         // (If you don't have the existing function handy, just log a placeholder for now)
+       }
+     }
+     ```
+
+Please provide the code for `lib/email/ses-client.ts` and `lib/email/mailer.ts`.
