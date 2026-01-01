@@ -1,0 +1,36 @@
+@CurrentFile (app/page.tsx)
+@File (globals.css)
+
+I want to implement Feature #6: **Rive Interactive Animation** to create a "Safety Mascot" that reacts to the dashboard's Compliance Score.
+
+Please execute the following steps precisely:
+
+### 1. Install Dependencies
+Run the command to install the Rive React runtime:
+`npm install @rive-app/react-canvas`
+
+### 2. Create the Mascot Component (`components/dashboard/safety-mascot.tsx`)
+Create a new component named `SafetyMascot`.
+* **Props:** It should accept a `score` (number) prop.
+* **Rive Source:** Use this public demo URL for now (placeholder): `https://cdn.rive.app/animations/vehicles.riv` (or any generic reliable Rive CDN URL that has state machine inputs, preferably a character. If not available, use a standard example and I will swap the URL later).
+    * *Note:* The goal is to set up the `useRive` hook and `useStateMachineInput`.
+* **Logic:**
+    * Initialize the Rive instance.
+    * Create a derived state based on the `score` prop:
+        * If `score >= 80`: Trigger "Happy" or "High" state.
+        * If `score < 50`: Trigger "Sad" or "Low" state.
+        * Otherwise: "Neutral".
+    * Update the Rive State Machine inputs whenever the `score` prop changes using `useEffect`.
+* **Styling:** Wrap it in a `div` with a fixed height (e.g., `h-32 w-32`) and assure it's responsive.
+
+### 3. Integrate into Dashboard (`app/page.tsx`)
+* Import `SafetyMascot` into `HomePage`.
+* Locate the "Safety Compliance" BentoCard (the one with the `ProgressCircle`).
+* **Action:** Insert the `<SafetyMascot score={metrics.compliance} />` component INSIDE this card.
+    * Place it *above* the `ProgressCircle` or absolutely positioned in the top-right corner of that card as a "Safety Officer" watching the score.
+* Make sure it handles `isLoading` state (show a skeleton circle if loading).
+
+### 4. Technical Constraints
+* Ensure this component is client-side only (`use client`).
+* Handle edge cases where the Rive file might fail to load (optional: fallback to simple icon).
+* Keep the existing "Ocean Trust" design language (rounded corners, etc).

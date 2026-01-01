@@ -12,6 +12,7 @@
     "@aws-sdk/client-ses": "^3.958.0",
     "@gsap/react": "^2.1.2",
     "@react-pdf/renderer": "^4.3.2",
+    "@rive-app/react-canvas": "^4.25.1",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.89.0",
     "@tanstack/react-query": "^5.90.16",

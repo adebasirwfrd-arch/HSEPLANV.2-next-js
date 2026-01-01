@@ -29,6 +29,7 @@ import Link from "next/link"
 import { AIConsultant } from "@/components/dashboard/ai-consultant"
 import { LottieDisplay } from "@/components/ui/lottie-display"
 import { RightSidebar } from "@/components/dashboard/right-sidebar"
+import { SafetyMascot } from "@/components/dashboard/safety-mascot"
 
 // Animated Bento Card wrapper
 function BentoCard({
@@ -224,7 +225,16 @@ export default function HomePage() {
           {/* Main Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Progress Circle */}
-            <BentoCard className="p-6" delay={0.2}>
+            <BentoCard className="p-6 relative" delay={0.2}>
+              {/* Safety Mascot positioned in top-right */}
+              <div className="absolute top-3 right-3">
+                {isLoading ? (
+                  <SkeletonPulse className="w-16 h-16 rounded-full" />
+                ) : (
+                  <SafetyMascot score={metrics.compliance} className="w-16 h-16" />
+                )}
+              </div>
+
               <div className="flex flex-col items-center">
                 <Text className="mb-4 font-semibold">Safety Compliance</Text>
                 {isLoading ? (
