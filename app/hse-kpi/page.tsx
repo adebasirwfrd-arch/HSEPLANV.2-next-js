@@ -1,11 +1,14 @@
 "use client"
 
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect, useMemo, lazy, Suspense } from "react"
 import { motion, useSpring, useTransform } from "framer-motion"
 import { AppShell } from "@/components/layout/app-shell"
 import { cn } from "@/lib/utils"
-import { Download, Plus, X, Trash2, AlertTriangle, Calendar, Check } from "lucide-react"
+import { Download, Plus, X, Trash2, AlertTriangle, Calendar, Check, FileText } from "lucide-react"
 import { PageTransition, PageHeader, PageContent } from "@/components/ui/page-transition"
+import { PDFButtonFallback } from "@/components/ui/pdf-fallback"
+
+const KPIPDFButton = lazy(() => import('@/components/kpi/KPIPDFButton'))
 import { BarChart, Card, Text, Flex, BadgeDelta } from "@tremor/react"
 import {
     loadKPIYear,
@@ -129,6 +132,11 @@ export default function HSEKPIPage() {
                         >
                             <Download className="w-3 h-3" /> Export CSV
                         </button>
+                        {data.metrics.length > 0 && (
+                            <Suspense fallback={<PDFButtonFallback />}>
+                                <KPIPDFButton data={data} />
+                            </Suspense>
+                        )}
                     </div>
                 </PageHeader>
 

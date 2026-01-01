@@ -1,0 +1,56 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { PDFDownloadLink } from '@react-pdf/renderer'
+import { TasksReport } from '@/components/reports/TasksReport'
+import { FileText } from 'lucide-react'
+
+interface Task {
+    id: string | number
+    title: string
+    assignee?: string
+    priority?: 'high' | 'medium' | 'low'
+    dueDate?: string
+    status?: 'pending' | 'in-progress' | 'completed' | 'overdue'
+    description?: string
+}
+
+interface TasksPDFButtonProps {
+    tasks: Task[]
+}
+
+export default function TasksPDFButton({ tasks }: TasksPDFButtonProps) {
+    const [isClient, setIsClient] = useState(false)
+
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
+
+    if (!isClient || tasks.length === 0) {
+        return (
+            <span className="px-3 py-2 bg-[var(--accent-purple)] text-white rounded-lg text-xs font-semibold opacity-50 flex items-center gap-1">
+                <FileText className="w-3 h-3" /> PDF
+            </span>
+        )
+    }
+
+    return (
+        <PDFDownloadLink
+            document={<TasksReport tasks={tasks} />}
+            fileName={`HSE_Tasks_${new Date().toISOString().split('T')[0]}.pdf`}
+            className="px-3 py-2 bg-[var(--accent-purple)] text-white rounded-lg text-xs font-semibold flex items-center gap-1 hover:opacity-90 transition-opacity"
+        >
+            {({ loading }) => (
+                loading ? (
+                    <>
+                        <FileText className="w-3 h-3 animate-pulse" /> Generating...
+                    </>
+                ) : (
+                    <>
+                        <FileText className="w-3 h-3" /> PDF
+                    </>
+                )
+            )}
+        </PDFDownloadLink>
+    )
+}
