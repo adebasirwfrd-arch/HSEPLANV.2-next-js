@@ -1,0 +1,27 @@
+I have executed the SQL migration in Supabase. The tables are ready.
+
+Now, let's implement the logic to connect the Frontend to these Supabase tables.
+
+**1. Create Server Actions (`lib/actions/kpi-actions.ts`):**
+   - Import `createClient` from `@/lib/supabase/server`.
+   - Create and export these async functions:
+     - `getKPIYear(year: number)`:
+       - Fetch the year row from `hse_kpi_years`.
+       - If it doesn't exist, INSERT it first (ensure idempotency).
+       - Fetch all related metrics from `hse_kpi_metrics` where `year_id` matches.
+       - Return object: `{ yearData, metrics }`.
+     - `updateManHours(year: number, hours: number)`:
+       - Update `man_hours` in `hse_kpi_years` where `year` matches.
+     - `saveMetric(year: number, metric: any)`:
+       - Find `year_id` from `hse_kpi_years`.
+       - UPSERT data into `hse_kpi_metrics`.
+     - `deleteMetric(id: string)`:
+       - DELETE from `hse_kpi_metrics`.
+
+**2. Create React Query Hook (`hooks/useKPI.ts`):**
+   - Import server actions.
+   - Use `useQuery` to fetch data (key: `['kpi', year]`).
+   - Use `useMutation` for updates.
+   - **Crucial:** Implement `onSuccess: () => queryClient.invalidateQueries({ queryKey: ['kpi'] })` to refresh data automatically after save.
+
+Please provide the complete code for `lib/actions/kpi-actions.ts` and `hooks/useKPI.ts`.
