@@ -1,0 +1,50 @@
+We are implementing **Phase 4 (Package A): CI/CD Automation**.
+
+Please create a GitHub Actions workflow to automatically test and build the application on every push.
+
+**1. Create Directory:**
+   Ensure the folder `.github/workflows/` exists.
+
+**2. Create File: `.github/workflows/production.yml`**
+   Add the following YAML configuration:
+
+   ```yaml
+   name: Production Build Check
+
+   on:
+     push:
+       branches: [ "main" ]
+     pull_request:
+       branches: [ "main" ]
+
+   jobs:
+     build:
+       name: Build and Test
+       runs-on: ubuntu-latest
+
+       steps:
+         - name: Checkout Code
+           uses: actions/checkout@v4
+
+         - name: Setup Node.js
+           uses: actions/setup-node@v4
+           with:
+             node-version: '20'
+             cache: 'npm'
+
+         - name: Install Dependencies
+           run: npm ci
+
+         - name: Run Linter
+           run: npm run lint
+           # This ensures no messy code or type errors get merged
+
+         - name: Run Build
+           run: npm run build
+           # This catches the "Turbopack" or "React PDF" errors early
+           env:
+             # We need to mock these for build to pass if they are used in static generation
+             NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+             NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+             # Add a dummy key for build purposes if needed, or configure Secrets in GitHub later
+             OPENAI_API_KEY: "mock-key-for-build"
