@@ -26,6 +26,7 @@ import {
   Clock
 } from "lucide-react"
 import Link from "next/link"
+import { AIConsultant } from "@/components/dashboard/ai-consultant"
 
 // Animated Bento Card wrapper
 function BentoCard({
@@ -164,6 +165,11 @@ export default function HomePage() {
               <img src={settings.companyLogo} alt="Logo" className="w-10 h-10 object-contain" />
             )}
           </div>
+        </div>
+
+        {/* AI Safety Consultant */}
+        <div className="mb-2">
+          <AIConsultant />
         </div>
 
         {/* Tremor Metric Cards */}

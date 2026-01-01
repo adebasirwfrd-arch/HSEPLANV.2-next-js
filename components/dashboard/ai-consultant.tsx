@@ -37,13 +37,9 @@ export function AIConsultant() {
         year: 2026
     })
 
-    // Fetch Matrix data
-    const { data: matrixData, isLoading: matrixLoading } = useHSEPrograms({
-        region: 'indonesia',
-        base: 'all',
-        category: 'matrix',
-        year: 2026
-    })
+    // Matrix data state (calculated from programs)
+    const [matrixData, setMatrixData] = useState({ compliance: 0, totalPrograms: 0 })
+    const matrixLoading = false // No separate fetch needed
 
     // Load localStorage data on mount
     useEffect(() => {
@@ -64,12 +60,12 @@ export function AIConsultant() {
             completed: tasks.filter(t => t.status === 'Completed').length
         })
 
-        // LL Data
-        const ll = loadLLData()
+        // LL Data - use correct data structure (lagging/leading arrays)
+        const ll = loadLLData(2025)
         if (ll) {
-            const leading = ll.metrics.filter(m => m.type === 'leading').reduce((sum, m) => sum + m.actual, 0)
-            const lagging = ll.metrics.filter(m => m.type === 'lagging').reduce((sum, m) => sum + m.actual, 0)
-            setLLData({ ratio: `${leading || 1}:${lagging || 0}` })
+            const leadingCount = ll.leading?.length || 0
+            const laggingCount = ll.lagging?.length || 0
+            setLLData({ ratio: `${leadingCount || 1}:${laggingCount || 0}` })
         }
     }, [])
 
@@ -101,15 +97,9 @@ export function AIConsultant() {
             })
         }
 
-        // Calculate Matrix compliance
-        let matrixCompliance = 0
-        let matrixTotal = 0
-
-        if (matrixData?.programs) {
-            matrixTotal = matrixData.programs.length
-            const totalProgress = matrixData.programs.reduce((sum, p) => sum + (p.progress || 0), 0)
-            matrixCompliance = matrixTotal > 0 ? Math.round(totalProgress / matrixTotal) : 0
-        }
+        // Matrix data is already calculated in state
+        const matrixCompliance = matrixData.compliance
+        const matrixTotal = matrixData.totalPrograms
 
         return {
             otp: {
@@ -272,8 +262,8 @@ export function AIConsultant() {
                         <div className="p-4 pt-0 space-y-4">
                             {/* Score Card */}
                             <div className={`p-4 rounded-xl ${analysis.tone === 'good' ? 'bg-[#10b981]/10' :
-                                    analysis.tone === 'warning' ? 'bg-[#f59e0b]/10' :
-                                        'bg-[#ef4444]/10'
+                                analysis.tone === 'warning' ? 'bg-[#f59e0b]/10' :
+                                    'bg-[#ef4444]/10'
                                 }`}>
                                 <div className="flex items-center justify-between mb-3">
                                     <span className="text-sm font-medium text-[var(--text-secondary)]">Safety Health Score</span>
@@ -287,8 +277,8 @@ export function AIConsultant() {
                                         animate={{ width: `${analysis.score}%` }}
                                         transition={{ duration: 1, ease: 'easeOut' }}
                                         className={`h-full rounded-full ${analysis.tone === 'good' ? 'bg-[#10b981]' :
-                                                analysis.tone === 'warning' ? 'bg-[#f59e0b]' :
-                                                    'bg-[#ef4444]'
+                                            analysis.tone === 'warning' ? 'bg-[#f59e0b]' :
+                                                'bg-[#ef4444]'
                                             }`}
                                     />
                                 </div>
