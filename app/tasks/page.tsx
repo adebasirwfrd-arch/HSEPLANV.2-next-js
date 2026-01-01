@@ -428,12 +428,12 @@ export default function TasksPage() {
 
                 {/* Dashboard Cards */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <GlassCard className="p-4 bg-gradient-to-br from-[var(--accent-blue)] to-[var(--accent-sky)] text-white">
+                    <GlassCard className="p-4 bg-gradient-to-br from-[var(--accent-blue)] to-[var(--accent-sky)]">
                         <div className="flex items-center gap-2 mb-2">
-                            <CheckCircle className="w-5 h-5 opacity-80" />
-                            <span className="text-sm opacity-80">Completion</span>
+                            <CheckCircle className="w-5 h-5 text-white opacity-80" />
+                            <span className="text-sm text-white opacity-80">Completion</span>
                         </div>
-                        <div className="text-2xl font-bold">{completionRate}%</div>
+                        <div className="text-2xl font-bold text-[#1e7a3d]">{completionRate}%</div>
                         <div className="w-full h-2 bg-white/20 rounded-full mt-2">
                             <div className="h-full bg-white rounded-full transition-all" style={{ width: `${completionRate}%` }} />
                         </div>
