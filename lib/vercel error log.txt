@@ -1,0 +1,196 @@
+2026-01-01 08:47:37.700 [info] Seeding Narogong...
+2026-01-01 08:47:38.489 [error] Error inserting program: Provide weekly Driver driving performance report (RAG) for review Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:38.728 [error] Error inserting program: Conduct Driver and Vehicle Safety Standard Audit for Duri, Narogong & Balikpapan Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:38.970 [error] Error inserting program: Conduct vehicle compliance spot check for Duri and Narogong Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:39.208 [error] Error inserting program: Driving Safety Campaign for All Indonesia Base (Duri, Narogong & Balikpapan) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:39.452 [error] Error inserting program: Review Driver Driving performance for all driver in Indonesia Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:39.690 [error] Error inserting program: Conduct Driver Coaching (offline or Online Meeting) for Yellow and Red Driver in Indonesia Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:45.851 [error] Error inserting program: Lifting & Rigging Operator Coaching (Duri Operation) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:46.087 [error] Error inserting program: Hand and Finger Injury Prevention Training (annually per Base) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:46.325 [error] Error inserting program: Review Legal Business and Client Requirement matrix Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:46.565 [error] Error inserting program: Review of Generic Risk Assessment (TRA) for Indonesia Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:46.804 [error] Error inserting program: Review Emergency Response Procedure for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:47.038 [error] Error inserting program: Review RADAR Observation and closing action item for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:47.273 [error] Error inserting program: Provide HSE Campaign Banner (3 banner / quarter / Base) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:47.510 [error] Error inserting program: Conduct Emergency Drill for 3 Base (refer to Drill plan 2025 Indonesia) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:47.746 [error] Error inserting program: Conduct Lifting gear/accessories inspection (as per Lifting color code) per semester Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:47.996 [error] Error inserting program: Lifting Gear Inspection report (monthly per Base) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:48.240 [error] Error inserting program: SQM Meeting with TMC crane supplier (Duri Base) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:48.486 [error] Error inserting program: Lifting Awareness Campaign for 3 base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:48.726 [error] Error inserting program: Refresh Mechanical Lifting SWC Training for 3 base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:48.965 [error] Error inserting program: Lifting Equipment and Operation Standard Audit for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:49.197 [error] Error inserting program: Review Current Chemical MSDS base on Chemical Inventory data for 3 base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:49.432 [error] Error inserting program: Conduct Monthly waste water analysis for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:49.672 [error] Error inserting program: Conduct Environmental Monitoring Program for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:05.779 [error] Error inserting program: Driving Safety Campaign for All Indonesia Base (Duri, Narogong & Balikpapan) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:06.011 [error] Error inserting program: Review Driver Driving performance for all driver in Indonesia Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:06.245 [error] Error inserting program: Conduct Driver Coaching (offline or Online Meeting) for Yellow and Red Driver in Indonesia Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:06.503 [error] Error inserting program: Motor Vehicle Safety Training / Commentary Drive Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:06.739 [error] Error inserting program: Submit RADAR Card intervention (average 2 RADAR / emp / month, Based on WPTS Report) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:06.974 [error] Error inserting program: Conduct HSE Monthly Meeting per Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:07.209 [error] Error inserting program: Conduct Facility Inspection (combined report for Indonesia / month) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:07.451 [error] Error inserting program: Conduct Field Inspection / MWT (the report is combined from Leadership in Indonesia) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:07.693 [error] Error inserting program: Leadership Safety Engagement (LSE) to cover 3 Bases (Duri, Narogong, Balikpapan) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:07.932 [error] Error inserting program: HSE Reward program for best employees in Indonesia Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:08.172 [error] Error inserting program: Conduct HSE induction/orientation training for new visitors and new hired employees/contractors Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:08.408 [error] Error inserting program: Conduct Contractor Audit for High Risk Contractors Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:08.648 [error] Error inserting program: Conduct Contractor SQM Meeting for High Risk Contractors and Discuss progress HSE KPI Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:08.885 [error] Error inserting program: Conduct Management Review Meeting Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:09.119 [error] Error inserting program: Conduct P2K3 / safety committee team meeting for each Base in Indonesia Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:09.360 [error] Error inserting program: Provide P2K3 report to Disnaker Provinsi Riau, Jawa Barat and Kalimantan Timur Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:09.600 [error] Error inserting program: Conduct Facility device inspection (FE, FAK, Eye wash, Emergency light, stretcher, Smoke Detector, Spill Kit) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:15.884 [error] Error inserting program: Lifting Equipment and Operation Standard Audit for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:16.116 [error] Error inserting program: Review Current Chemical MSDS base on Chemical Inventory data for 3 base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:16.353 [error] Error inserting program: Conduct Monthly waste water analysis for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:16.586 [error] Error inserting program: Conduct Environmental Monitoring Program for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:16.817 [error] Error inserting program: Dispose Hazardous waste to Approved disposal company for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:17.050 [error] Error inserting program: Conduct Industrial Hygiene Test for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:17.279 [error] Error inserting program: Indonesia Environment Improvement Plan 2025 Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:17.512 [error] Error inserting program: Conduct Emergency Spill Drill for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:17.742 [error] Error inserting program: Conduct Medical Check-Up (tracking report for Duri Operation) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:17.974 [error] Error inserting program: Required by PHR_Drug and Alcohol test (sampling min 10% peoples) for Duri Operation Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:19.865 [error] Error inserting program: Country/ facility Legal Register Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:20.130 [error] Error inserting program: HSSE Competency Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:20.358 [error] Error inserting program: Driving Operations Risk Management Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:20.587 [error] Error inserting program: Fire Risk Assessment Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:20.816 [error] Error inserting program: Electrical Risk Assessment Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:21.047 [error] Error inserting program: Machine guarding review and inspection Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:21.286 [error] Error inserting program: Emergency Response process Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:21.518 [error] Error inserting program: Hazard Hunt Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:21.745 [error] Error inserting program: Short Service Employee Program Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:01.939 [error] Error inserting program: Refresh Mechanical Lifting SWC Training for 3 base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:02.176 [error] Error inserting program: Lifting Equipment and Operation Standard Audit for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:02.411 [error] Error inserting program: Review Current Chemical MSDS base on Chemical Inventory data for 3 base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:02.647 [error] Error inserting program: Conduct Monthly waste water analysis for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:02.882 [error] Error inserting program: Conduct Environmental Monitoring Program for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:03.119 [error] Error inserting program: Dispose Hazardous waste to Approved disposal company for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:03.355 [error] Error inserting program: Conduct Industrial Hygiene Test for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:03.592 [error] Error inserting program: Indonesia Environment Improvement Plan 2025 Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:03.876 [error] Error inserting program: Conduct Emergency Spill Drill for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:04.116 [error] Error inserting program: Conduct Medical Check-Up (tracking report for Duri Operation) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:04.352 [error] Error inserting program: Required by PHR_Drug and Alcohol test (sampling min 10% peoples) for Duri Operation Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:04.586 [error] Error inserting program: Conduct Health Campaign for 3 base (online or offline meeting) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:04.819 [error] Error inserting program: Conduct Health Campaign for 3 base (additional) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:04.819 [info] Seeding Balikpapan...
+2026-01-01 08:48:05.059 [error] Error inserting program: Provide weekly Driver driving performance report (RAG) for review Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:05.302 [error] Error inserting program: Conduct Driver and Vehicle Safety Standard Audit for Duri, Narogong & Balikpapan Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:05.536 [error] Error inserting program: Conduct vehicle compliance spot check for Duri and Narogong Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:13.836 [error] Error inserting program: Provide HSE Campaign Banner (3 banner / quarter / Base) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:14.490 [error] Error inserting program: Conduct Emergency Drill for 3 Base (refer to Drill plan 2025 Indonesia) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:14.731 [error] Error inserting program: Conduct Lifting gear/accessories inspection (as per Lifting color code) per semester Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:14.963 [error] Error inserting program: Lifting Gear Inspection report (monthly per Base) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:15.194 [error] Error inserting program: SQM Meeting with TMC crane supplier (Duri Base) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:15.421 [error] Error inserting program: Lifting Awareness Campaign for 3 base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:15.654 [error] Error inserting program: Refresh Mechanical Lifting SWC Training for 3 base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:21.978 [error] Error inserting program: Safety 101 Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:22.213 [error] Error inserting program: Safety 201 Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:22.446 [error] Error inserting program: Work Planning Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:22.679 [error] Error inserting program: LOTO Program Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:22.915 [error] Error inserting program: HSE OEPS Full Audit Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:23.159 [error] Error inserting program: Asia Local Documents Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:23.391 [error] Error inserting program: Air Emissions Inventory Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:23.633 [error] Error inserting program: Hazardous Waste Register Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:09.835 [error] Error inserting program: Conduct facility hazard hunt / Workshop inspection for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:10.067 [error] Error inserting program: Annual maintenance of Firex for 3 Bases Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:10.300 [error] Error inserting program: Annual Tool Rack Inspection for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:10.535 [error] Error inserting program: Conduct DROPS Survey for 3 Bases (per Semester) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:10.776 [error] Error inserting program: Conduct Facility Safety Standard Audit for 3 Bases Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:11.010 [error] Error inserting program: Conduct Safety 101, HSE Orientation & Minimum Training (3 Base, Online or Offline) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:11.245 [error] Error inserting program: Conduct DAMKAR D Training for fire team for Duri Base (Disnaker certification) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:11.483 [error] Error inserting program: Manual Handling Training and Practical review on field site Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:11.720 [error] Error inserting program: Refresh First Aid Training by 3rd party (Disnaker Certification) for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:49.906 [error] Error inserting program: Dispose Hazardous waste to Approved disposal company for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:50.140 [error] Error inserting program: Conduct Industrial Hygiene Test for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:50.375 [error] Error inserting program: Indonesia Environment Improvement Plan 2025 Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:50.607 [error] Error inserting program: Conduct Emergency Spill Drill for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:50.852 [error] Error inserting program: Conduct Medical Check-Up (tracking report for Duri Operation) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:51.088 [error] Error inserting program: Required by PHR_Drug and Alcohol test (sampling min 10% peoples) for Duri Operation Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:51.320 [error] Error inserting program: Conduct Health Campaign for 3 base (online or offline meeting) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:51.556 [error] Error inserting program: Conduct Health Campaign for 3 base (additional) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:51.556 [info] Seeding Duri...
+2026-01-01 08:47:51.796 [error] Error inserting program: Provide weekly Driver driving performance report (RAG) for review Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:52.038 [error] Error inserting program: Conduct Driver and Vehicle Safety Standard Audit for Duri, Narogong & Balikpapan Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:52.270 [error] Error inserting program: Conduct vehicle compliance spot check for Duri and Narogong Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:52.502 [error] Error inserting program: Driving Safety Campaign for All Indonesia Base (Duri, Narogong & Balikpapan) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:52.738 [error] Error inserting program: Review Driver Driving performance for all driver in Indonesia Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:52.970 [error] Error inserting program: Conduct Driver Coaching (offline or Online Meeting) for Yellow and Red Driver in Indonesia Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:53.204 [error] Error inserting program: Motor Vehicle Safety Training / Commentary Drive Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:53.437 [error] Error inserting program: Submit RADAR Card intervention (average 2 RADAR / emp / month, Based on WPTS Report) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:53.670 [error] Error inserting program: Conduct HSE Monthly Meeting per Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:23.865 [error] Error inserting program: Hazmat Self-Assessment - Country Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:24.099 [error] Error inserting program: HAZMAT Competency Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:55.808 [error] Error inserting program: Conduct P2K3 / safety committee team meeting for each Base in Indonesia Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:56.046 [error] Error inserting program: Provide P2K3 report to Disnaker Provinsi Riau, Jawa Barat and Kalimantan Timur Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:56.285 [error] Error inserting program: Conduct Facility device inspection (FE, FAK, Eye wash, Emergency light, stretcher, Smoke Detector, Spill Kit) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:56.524 [error] Error inserting program: Conduct facility hazard hunt / Workshop inspection for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:56.759 [error] Error inserting program: Annual maintenance of Firex for 3 Bases Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:56.991 [error] Error inserting program: Annual Tool Rack Inspection for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:57.224 [error] Error inserting program: Conduct DROPS Survey for 3 Bases (per Semester) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:57.462 [error] Error inserting program: Conduct Facility Safety Standard Audit for 3 Bases Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:57.698 [error] Error inserting program: Conduct Safety 101, HSE Orientation & Minimum Training (3 Base, Online or Offline) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:57.931 [error] Error inserting program: Conduct DAMKAR D Training for fire team for Duri Base (Disnaker certification) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:58.165 [error] Error inserting program: Manual Handling Training and Practical review on field site Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:58.401 [error] Error inserting program: Refresh First Aid Training by 3rd party (Disnaker Certification) for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:58.639 [error] Error inserting program: Internal Basic Fire Training (annually / Base) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:58.878 [error] Error inserting program: DROPS Object Awareness Training (annually per Base) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:59.110 [error] Error inserting program: Lifting & Rigging Operator Coaching (Duri Operation) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:59.345 [error] Error inserting program: Hand and Finger Injury Prevention Training (annually per Base) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:59.577 [error] Error inserting program: Review Legal Business and Client Requirement matrix Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:59.815 [error] Error inserting program: Review of Generic Risk Assessment (TRA) for Indonesia Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:00.048 [error] Error inserting program: Review Emergency Response Procedure for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:00.282 [error] Error inserting program: Review RADAR Observation and closing action item for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:00.518 [error] Error inserting program: Provide HSE Campaign Banner (3 banner / quarter / Base) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:00.751 [error] Error inserting program: Conduct Emergency Drill for 3 Base (refer to Drill plan 2025 Indonesia) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:00.984 [error] Error inserting program: Conduct Lifting gear/accessories inspection (as per Lifting color code) per semester Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:01.218 [error] Error inserting program: Lifting Gear Inspection report (monthly per Base) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:01.458 [error] Error inserting program: SQM Meeting with TMC crane supplier (Duri Base) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:01.692 [error] Error inserting program: Lifting Awareness Campaign for 3 base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:11.953 [error] Error inserting program: Internal Basic Fire Training (annually / Base) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:12.190 [error] Error inserting program: DROPS Object Awareness Training (annually per Base) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:12.424 [error] Error inserting program: Lifting & Rigging Operator Coaching (Duri Operation) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:12.656 [error] Error inserting program: Hand and Finger Injury Prevention Training (annually per Base) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:12.891 [error] Error inserting program: Review Legal Business and Client Requirement matrix Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:13.125 [error] Error inserting program: Review of Generic Risk Assessment (TRA) for Indonesia Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:13.360 [error] Error inserting program: Review Emergency Response Procedure for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:13.594 [error] Error inserting program: Review RADAR Observation and closing action item for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:43.955 [error] Error inserting program: Conduct DROPS Survey for 3 Bases (per Semester) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:44.191 [error] Error inserting program: Conduct Facility Safety Standard Audit for 3 Bases Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:44.424 [error] Error inserting program: Conduct Safety 101, HSE Orientation & Minimum Training (3 Base, Online or Offline) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:44.662 [error] Error inserting program: Conduct DAMKAR D Training for fire team for Duri Base (Disnaker certification) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:44.900 [error] Error inserting program: Manual Handling Training and Practical review on field site Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:45.141 [error] Error inserting program: Refresh First Aid Training by 3rd party (Disnaker Certification) for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:45.374 [error] Error inserting program: Internal Basic Fire Training (annually / Base) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:45.614 [error] Error inserting program: DROPS Object Awareness Training (annually per Base) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:53.904 [error] Error inserting program: Conduct Facility Inspection (combined report for Indonesia / month) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:54.140 [error] Error inserting program: Conduct Field Inspection / MWT (the report is combined from Leadership in Indonesia) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:54.382 [error] Error inserting program: Leadership Safety Engagement (LSE) to cover 3 Bases (Duri, Narogong, Balikpapan) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:54.620 [error] Error inserting program: HSE Reward program for best employees in Indonesia Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:54.860 [error] Error inserting program: Conduct HSE induction/orientation training for new visitors and new hired employees/contractors Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:55.099 [error] Error inserting program: Conduct Contractor Audit for High Risk Contractors Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:55.330 [error] Error inserting program: Conduct Contractor SQM Meeting for High Risk Contractors and Discuss progress HSE KPI Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:55.569 [error] Error inserting program: Conduct Management Review Meeting Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:39.927 [error] Error inserting program: Motor Vehicle Safety Training / Commentary Drive Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:40.166 [error] Error inserting program: Submit RADAR Card intervention (average 2 RADAR / emp / month, Based on WPTS Report) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:40.406 [error] Error inserting program: Conduct HSE Monthly Meeting per Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:40.645 [error] Error inserting program: Conduct Facility Inspection (combined report for Indonesia / month) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:40.879 [error] Error inserting program: Conduct Field Inspection / MWT (the report is combined from Leadership in Indonesia) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:41.117 [error] Error inserting program: Leadership Safety Engagement (LSE) to cover 3 Bases (Duri, Narogong, Balikpapan) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:41.355 [error] Error inserting program: HSE Reward program for best employees in Indonesia Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:41.594 [error] Error inserting program: Conduct HSE induction/orientation training for new visitors and new hired employees/contractors Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:41.827 [error] Error inserting program: Conduct Contractor Audit for High Risk Contractors Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:42.063 [error] Error inserting program: Conduct Contractor SQM Meeting for High Risk Contractors and Discuss progress HSE KPI Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:42.298 [error] Error inserting program: Conduct Management Review Meeting Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:42.535 [error] Error inserting program: Conduct P2K3 / safety committee team meeting for each Base in Indonesia Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:42.770 [error] Error inserting program: Provide P2K3 report to Disnaker Provinsi Riau, Jawa Barat and Kalimantan Timur Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:43.004 [error] Error inserting program: Conduct Facility device inspection (FE, FAK, Eye wash, Emergency light, stretcher, Smoke Detector, Spill Kit) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:43.241 [error] Error inserting program: Conduct facility hazard hunt / Workshop inspection for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:43.475 [error] Error inserting program: Annual maintenance of Firex for 3 Bases Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:47:43.709 [error] Error inserting program: Annual Tool Rack Inspection for 3 Base Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:18.204 [error] Error inserting program: Conduct Health Campaign for 3 base (online or offline meeting) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:18.442 [error] Error inserting program: Conduct Health Campaign for 3 base (additional) Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:18.442 [info] Seeding Asia...
+2026-01-01 08:48:18.671 [error] Error inserting program: EIP and reduction plan Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:18.905 [error] Error inserting program: 12 Facility Inspections Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:19.142 [error] Error inserting program: Incident Management Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:19.390 [error] Error inserting program: Leadership Site Engagement (LSE) Country Could not find the 'title' column of 'master_programs' in the schema cache
+2026-01-01 08:48:19.624 [error] Error inserting program: Close All HSSE Audits from 2023-2024 Could not find the 'title' column of 'master_programs' in the schema cache
