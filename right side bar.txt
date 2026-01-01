@@ -1,0 +1,34 @@
+Now let's implement the **Right Sidebar Gallery** with Shared Element Transitions (Hero Animation).
+
+**1. Create Gallery Component (`components/dashboard/right-sidebar.tsx`):**
+   - **Imports**: `motion`, `AnimatePresence` from `framer-motion`.
+   - **Data**: Create a static array `SAFETY_MOMENTS` with 4 items (id, title, category, imageUrl). Use Unsplash URLs for safety/industrial images.
+   - **State**: `selectedId` (string | null).
+   - **UI Structure**:
+     - A fixed column `w-[300px]` (hidden on mobile `hidden xl:block`).
+     - Header: "📸 Safety Moments".
+     - **Grid List**: Map items using `<motion.div layoutId={item.id} onClick={() => setSelectedId(item.id)}>` as a card.
+     - **Modal Overlay**: Use `<AnimatePresence>`. If `selectedId` is active:
+       - Show a backdrop.
+       - Show the expanded card using the **SAME** `<motion.div layoutId={selectedId}>`.
+       - This creates the magic "morphing" effect.
+
+**2. Update Main Layout Grid:**
+   - We need to adjust the AppShell or Page layout to accommodate 3 columns on large screens.
+   - **Modify `app/page.tsx`**:
+     - Wrap the existing content and the new `RightSidebar` in a grid container.
+     - Current content becomes the "Main Column".
+     - New structure:
+       ```tsx
+       <div className="flex gap-6">
+         <div className="flex-1 space-y-6">
+           {/* Existing AI Card, Lottie, & Bento Grid go here */}
+         </div>
+         <div className="hidden xl:block">
+           <RightSidebar />
+         </div>
+       </div>
+       ```
+   - *Note: Don't change `layout.tsx` directly to avoid breaking other pages. Let's keep this gallery exclusive to the Dashboard for now.*
+
+Please provide the code for `right-sidebar.tsx` and the integration snippet for `app/page.tsx`.

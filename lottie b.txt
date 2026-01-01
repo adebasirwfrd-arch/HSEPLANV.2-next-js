@@ -1,0 +1,36 @@
+We are implementing **Phase 2: Premium Visuals**. Please replace the static loading skeletons and icons with Lottie animations.
+
+**1. Install Dependency:**
+   Run: `npm install react-lottie-player`
+
+**2. Create Component (`components/ui/lottie-display.tsx`):**
+   Create a reusable component for rendering Lottie JSON files.
+   ```tsx
+   "use client"
+   import React from 'react'
+   import Lottie from 'react-lottie-player'
+
+   // Public Lottie JSON URLs (Stable placeholders)
+   const ANIMATIONS = {
+     loading: "[https://lottie.host/980b3d63-549e-4c76-8806-03f473854580/9y7J8t456y.json](https://lottie.host/980b3d63-549e-4c76-8806-03f473854580/9y7J8t456y.json)", // Radar/Scanning
+     success: "[https://lottie.host/5a70377c-7833-4f93-a44e-12821703666d/monitor.json](https://lottie.host/5a70377c-7833-4f93-a44e-12821703666d/monitor.json)", // Checkmark/Screen
+     empty: "[https://lottie.host/8904771c-4389-482a-a92c-554160408542/C15y7J8t45.json](https://lottie.host/8904771c-4389-482a-a92c-554160408542/C15y7J8t45.json)" // Empty Box
+   }
+
+   interface LottieDisplayProps {
+     type: keyof typeof ANIMATIONS
+     className?: string
+     loop?: boolean
+   }
+
+   export function LottieDisplay({ type, className = "w-24 h-24", loop = true }: LottieDisplayProps) {
+     return (
+       <Lottie
+         loop={loop}
+         animationData={null} 
+         path={ANIMATIONS[type]}
+         play
+         className={className}
+       />
+     )
+   }
