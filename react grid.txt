@@ -1,0 +1,33 @@
+@CurrentFile (app/page.tsx) @File (globals.css) I want to implement Feature #3: **Draggable & Resizable Dashboard** using `react-grid-layout`. This allows users to customize their dashboard layout. Please execute the following steps precisely: ### 1. Install Dependencies Run the command: `npm install react-grid-layout lodash.debounce` `npm install --save-dev @types/react-grid-layout @types/lodash.debounce` ### 2. Add Required Styles (`app/globals.css`) Add the necessary CSS for the grid layout at the end of the file (or import 'react-grid-layout/css/styles.css' and 'react-resizable/css/styles.css' in the component, but putting it in global css is safer for Next.js): ```css .react-grid-layout {
+    position: relative;
+    transition: height 200ms ease;
+}
+
+.react-grid-item {
+    transition: all 200ms ease;
+    transition-property: left, top;
+}
+
+.react-grid-item.cssTransforms {
+    transition-property: transform;
+}
+
+.react-grid-item.resizing {
+    z-index: 100;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.react-grid-item.react-grid-placeholder {
+    background: rgba(59, 130, 246, 0.3) !important;
+    opacity: 0.5;
+    border-radius: 12px;
+}
+
+.react-resizable-handle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    bottom: 0;
+    right: 0;
+    cursor: se-resize;
+}

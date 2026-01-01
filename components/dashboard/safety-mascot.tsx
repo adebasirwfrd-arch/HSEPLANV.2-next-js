@@ -1,8 +1,7 @@
 "use client"
 
-import { useEffect } from "react"
-import { useRive, useStateMachineInput, Layout, Fit, Alignment } from "@rive-app/react-canvas"
-import { Shield } from "lucide-react"
+import { useState, useEffect } from "react"
+import { Shield, Smile, Meh, Frown } from "lucide-react"
 
 interface SafetyMascotProps {
     score: number
@@ -10,64 +9,80 @@ interface SafetyMascotProps {
 }
 
 /**
- * Interactive Safety Mascot using Rive Animation
+ * Interactive Safety Mascot
  * Reacts to compliance score with different expressions
+ * Uses animated emoji icons for reliability
  */
 export function SafetyMascot({ score, className = "" }: SafetyMascotProps) {
-    // Initialize Rive instance
-    const { rive, RiveComponent } = useRive({
-        src: "https://cdn.rive.app/animations/vehicles.riv",
-        stateMachines: "bumpy",
-        autoplay: true,
-        layout: new Layout({
-            fit: Fit.Contain,
-            alignment: Alignment.Center,
-        }),
-        onLoadError: (err) => {
-            console.warn("Rive load error:", err)
-        },
-    })
+    const [animate, setAnimate] = useState(false)
 
-    // Get state machine input for controlling animation speed/intensity
-    const levelInput = useStateMachineInput(rive, "bumpy", "level")
-
-    // Update animation based on score
+    // Trigger animation on score change
     useEffect(() => {
-        if (levelInput) {
-            // Map score (0-100) to level input
-            // High score = smoother (lower level), Low score = bumpier (higher level)
-            if (score >= 80) {
-                levelInput.value = 1 // Smooth/Happy
-            } else if (score >= 50) {
-                levelInput.value = 2 // Medium/Neutral
-            } else {
-                levelInput.value = 3 // Bumpy/Warning
+        setAnimate(true)
+        const timer = setTimeout(() => setAnimate(false), 500)
+        return () => clearTimeout(timer)
+    }, [score])
+
+    // Determine mascot state based on score
+    const getMascotConfig = () => {
+        if (score >= 80) {
+            return {
+                Icon: Smile,
+                bgColor: "from-[#10b981] to-[#059669]",
+                label: "Excellent!",
+                pulse: "animate-[pulse_2s_infinite]"
+            }
+        } else if (score >= 50) {
+            return {
+                Icon: Meh,
+                bgColor: "from-[#f59e0b] to-[#d97706]",
+                label: "Needs Work",
+                pulse: ""
+            }
+        } else {
+            return {
+                Icon: Frown,
+                bgColor: "from-[#ef4444] to-[#dc2626]",
+                label: "Critical!",
+                pulse: "animate-[pulse_1s_infinite]"
             }
         }
-    }, [score, levelInput])
-
-    // Fallback if Rive fails to load
-    if (!rive) {
-        return (
-            <div className={`flex items-center justify-center ${className}`}>
-                <div className="w-16 h-16 bg-gradient-to-br from-[var(--accent-blue)] to-[var(--accent-sky)] rounded-full flex items-center justify-center animate-pulse">
-                    <Shield className="w-8 h-8 text-white" />
-                </div>
-            </div>
-        )
     }
+
+    const { Icon, bgColor, label, pulse } = getMascotConfig()
 
     return (
         <div className={`relative ${className}`}>
-            <RiveComponent className="w-full h-full" />
+            {/* Mascot Circle */}
+            <div
+                className={`
+                    w-full h-full 
+                    bg-gradient-to-br ${bgColor} 
+                    rounded-full 
+                    flex items-center justify-center 
+                    shadow-lg
+                    ${pulse}
+                    transition-transform duration-300
+                    ${animate ? "scale-125" : "scale-100"}
+                `}
+            >
+                <Icon className="w-1/2 h-1/2 text-white drop-shadow-md" />
+            </div>
 
             {/* Score badge overlay */}
-            <div className="absolute -bottom-1 -right-1 bg-white/90 backdrop-blur-sm rounded-full px-2 py-0.5 shadow-lg border border-[var(--border-light)]">
-                <span className={`text-xs font-bold ${score >= 80 ? "text-[var(--success-color)]" :
-                        score >= 50 ? "text-[var(--warning-color)]" :
-                            "text-[var(--danger-color)]"
+            <div className="absolute -bottom-1 -right-1 bg-white/95 backdrop-blur-sm rounded-full px-1.5 py-0.5 shadow-lg border border-[var(--border-light)]">
+                <span className={`text-[10px] font-bold ${score >= 80 ? "text-[#10b981]" :
+                        score >= 50 ? "text-[#f59e0b]" :
+                            "text-[#ef4444]"
                     }`}>
                     {score}%
+                </span>
+            </div>
+
+            {/* Tooltip on hover */}
+            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 hover:opacity-100 transition-opacity">
+                <span className="text-[10px] text-[var(--text-muted)] whitespace-nowrap bg-[var(--bg-secondary)] px-2 py-1 rounded shadow">
+                    {label}
                 </span>
             </div>
         </div>
