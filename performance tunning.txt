@@ -1,0 +1,21 @@
+Finally, let's optimize performance for low-end Android devices.
+
+1.  **Lazy Load Charts**:
+    - In `app/page.tsx`, the Recharts/Charts components are heavy.
+    - Import them using `next/dynamic` with `ssr: false` and a simple loading skeleton.
+    - Example: `const TrendChart = dynamic(() => import('@/components/charts/TrendChart'), { loading: () => <Skeleton className="h-64" /> })`
+
+2.  **Font Optimization**:
+    - Ensure `next/font/google` is used with `subsets: ['latin']` and `display: 'swap'` in `layout.tsx` (verify this).
+
+3.  **Touch Optimization**:
+    - Add a global CSS rule in `globals.css`:
+      ```css
+      /* Improve touch feel on mobile */
+      button, a {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+      }
+      ```
+
+Please provide the optimized code for `app/page.tsx` and `globals.css`.

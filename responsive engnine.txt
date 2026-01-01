@@ -1,0 +1,17 @@
+Now let's optimize the Layout (`AppShell`) for true responsive compatibility (Mobile Portrait, Mobile Landscape, Tablet).
+
+**Refactor `components/layout/app-shell.tsx`:**
+
+1.  **Sidebar Logic**:
+    - **Desktop (lg)**: Fixed Sidebar (Width 250px).
+    - **Tablet/Landscape (md)**: Collapsed Sidebar (Width 70px, Icon Only). This saves vertical space.
+    - **Mobile Portrait (sm)**: Hidden Sidebar. Use a Bottom Navigation Bar or a Top Header with Hamburger Menu.
+
+2.  **Bottom Navigation (Mobile Only)**:
+    - Create a new component `MobileNav` that appears only on `block md:hidden`.
+    - It should stick to the bottom (`fixed bottom-0`) and show icons for: Home, OTP, Matrix, Profile.
+
+3.  **Safe Areas**:
+    - Add padding to handle iPhone Notch/Dynamic Island in landscape mode: `pl-[env(safe-area-inset-left)]`.
+
+Please rewrite `AppShell` to include this responsive logic.
