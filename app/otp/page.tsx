@@ -1,7 +1,9 @@
 "use client"
 
-import { useState, useMemo, lazy, Suspense } from "react"
+import { useState, useMemo, lazy, Suspense, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { gsap } from "gsap"
+import { useGSAP } from "@gsap/react"
 import { AppShell } from "@/components/layout/app-shell"
 import { GlassCard } from "@/components/ui/glass-card"
 import { cn } from "@/lib/utils"
@@ -222,9 +224,21 @@ export default function OTPPage() {
 
     const regionLabel = region === "asia" ? "ASIA" : "Indonesia"
 
+    const containerRef = useRef<HTMLDivElement>(null)
+
+    // GSAP entrance animations
+    useGSAP(() => {
+        if (!containerRef.current) return
+        gsap.fromTo(
+            '.gsap-card',
+            { opacity: 0, y: 30 },
+            { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out' }
+        )
+    }, { scope: containerRef, dependencies: [isLoading, region, base] })
+
     return (
         <AppShell>
-            <div className="space-y-4">
+            <div ref={containerRef} className="space-y-4">
                 {/* Email sent notification */}
                 {emailSent && (
                     <div className="fixed top-4 right-4 z-[400] bg-[var(--success-color)] text-white px-4 py-2 rounded-lg flex items-center gap-2 animate-in fade-in slide-in-from-top-2">
