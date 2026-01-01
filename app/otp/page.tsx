@@ -7,11 +7,12 @@ import { useGSAP } from "@gsap/react"
 import { AppShell } from "@/components/layout/app-shell"
 import { GlassCard } from "@/components/ui/glass-card"
 import { cn } from "@/lib/utils"
-import { Download, Plus, Search, X, Trash2, Mail, Check, AlertTriangle, FileText } from "lucide-react"
+import { Download, Plus, Search, X, Trash2, Mail, Check, AlertTriangle, FileText, List, CalendarDays } from "lucide-react"
 import { useHSEPrograms, useUpdateProgramMonth, useCreateProgram, useDeleteProgram } from "@/hooks/useHSEPrograms"
 import { downloadCSV } from "@/lib/supabase-store"
 import { sendBrevoEmail, generateReminderEmailHtml, months, monthLabels } from "@/lib/otp-store"
 import { MobileProgramCard } from "@/components/otp/MobileProgramCard"
+import { ProgramTimeline } from "@/components/otp/ProgramTimeline"
 import type { Month } from "@/types/supabase"
 
 // Lazy import for PDF button (client-side only)
@@ -88,6 +89,7 @@ export default function OTPPage() {
     const [deleteModal, setDeleteModal] = useState<{ open: boolean; programId: number; programName: string } | null>(null)
     const [emailSending, setEmailSending] = useState(false)
     const [emailSent, setEmailSent] = useState(false)
+    const [viewMode, setViewMode] = useState<'table' | 'timeline'>('table')
 
     // Use Supabase-powered hook
     const { data, isLoading, isError } = useHSEPrograms({
@@ -307,6 +309,33 @@ export default function OTPPage() {
                                 />
                             </Suspense>
                         )}
+                        {/* View Mode Toggle */}
+                        <div className="flex rounded-lg overflow-hidden border border-[var(--border-light)]">
+                            <button
+                                onClick={() => setViewMode('table')}
+                                className={cn(
+                                    "px-3 py-2 text-xs font-semibold flex items-center gap-1 transition-colors",
+                                    viewMode === 'table'
+                                        ? "bg-[var(--accent-blue)] text-white"
+                                        : "bg-[var(--bg-secondary)] text-[var(--text-muted)] hover:bg-[var(--bg-tertiary)]"
+                                )}
+                                title="Table View"
+                            >
+                                <List className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                                onClick={() => setViewMode('timeline')}
+                                className={cn(
+                                    "px-3 py-2 text-xs font-semibold flex items-center gap-1 transition-colors",
+                                    viewMode === 'timeline'
+                                        ? "bg-[var(--accent-blue)] text-white"
+                                        : "bg-[var(--bg-secondary)] text-[var(--text-muted)] hover:bg-[var(--bg-tertiary)]"
+                                )}
+                                title="Timeline View"
+                            >
+                                <CalendarDays className="w-3.5 h-3.5" />
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -409,8 +438,15 @@ export default function OTPPage() {
                     )}
                 </div>
 
+                {/* Timeline View */}
+                {viewMode === 'timeline' && (
+                    <div className="hidden md:block">
+                        <ProgramTimeline programs={filteredPrograms} year={year} />
+                    </div>
+                )}
+
                 {/* Desktop Table View */}
-                <GlassCard className="overflow-hidden hidden md:block">
+                <GlassCard className={cn("overflow-hidden hidden md:block", viewMode === 'timeline' && "!hidden")}>
                     <div className="overflow-x-auto">
                         {isLoading ? (
                             <div className="p-6">
