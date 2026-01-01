@@ -6,7 +6,6 @@ import {
     updateManHours,
     saveMetric,
     deleteMetric,
-    getKPIYears,
     type KPIData,
     type KPIMetric,
 } from "@/lib/actions/kpi-actions"
@@ -15,21 +14,10 @@ import {
  * Hook for fetching KPI data for a specific year
  */
 export function useKPIData(year: number) {
-    return useQuery<KPIData>({
+    return useQuery<KPIData | null>({
         queryKey: ["kpi", year],
         queryFn: () => getKPIYear(year),
         staleTime: 1000 * 60 * 5, // 5 minutes
-    })
-}
-
-/**
- * Hook for fetching all available KPI years
- */
-export function useKPIYears() {
-    return useQuery<number[]>({
-        queryKey: ["kpi-years"],
-        queryFn: () => getKPIYears(),
-        staleTime: 1000 * 60 * 10, // 10 minutes
     })
 }
 
@@ -72,7 +60,7 @@ export function useSaveMetric() {
                 icon?: string
             }
         }) => saveMetric(year, metric),
-        onSuccess: (_, variables) => {
+        onSuccess: () => {
             // Invalidate all KPI queries to refresh data
             queryClient.invalidateQueries({ queryKey: ["kpi"] })
         },
@@ -104,7 +92,6 @@ export function useDeleteMetric() {
  * Combined hook for all KPI operations
  */
 export function useKPI(year: number) {
-    const queryClient = useQueryClient()
     const { data, isLoading, error, refetch } = useKPIData(year)
     const updateManHoursMutation = useUpdateManHours()
     const saveMetricMutation = useSaveMetric()
@@ -112,7 +99,9 @@ export function useKPI(year: number) {
 
     return {
         // Data
-        yearData: data?.yearData || null,
+        id: data?.id || null,
+        year: data?.year || year,
+        manHours: data?.man_hours || 0,
         metrics: data?.metrics || [],
         isLoading,
         error,
@@ -141,3 +130,6 @@ export function useKPI(year: number) {
             deleteMetricMutation.isPending,
     }
 }
+
+// Re-export types for convenience
+export type { KPIData, KPIMetric }
