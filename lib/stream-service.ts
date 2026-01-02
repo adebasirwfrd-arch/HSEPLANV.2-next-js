@@ -1,11 +1,5 @@
 /**
  * Stream.io Service - Client-side service with self-healing capabilities
- * 
- * Features:
- * - Automatic retry on connection failure
- * - Silent error handling (no user popups)
- * - Token refresh on expiration
- * - Real-time connection management
  */
 
 import { connect, StreamClient, StreamFeed } from 'getstream'
@@ -48,50 +42,26 @@ class StreamService {
     private tokenData: StreamTokenResponse | null = null
     private connectionListeners: Set<(connected: boolean) => void> = new Set()
 
-    /**
-     * Get Stream token from our API (which handles identity sync)
-     */
     private async fetchToken(): Promise<StreamTokenResponse | null> {
         try {
             const response = await fetch('/api/stream-token')
-
-            if (!response.ok) {
-                const error = await response.json()
-                console.error('[StreamService] Token fetch failed:', error)
-                return null
-            }
-
+            if (!response.ok) return null
             return await response.json()
-        } catch (error) {
-            console.error('[StreamService] Token fetch error:', error)
+        } catch {
             return null
         }
     }
 
-    /**
-     * Initialize or reconnect the Stream client
-     * Automatically retries on failure without user-facing errors
-     */
     async connect(): Promise<boolean> {
-        if (this.state.isConnecting) {
-            return false
-        }
-
-        if (this.state.isConnected && this.state.client) {
-            return true
-        }
+        if (this.state.isConnecting) return false
+        if (this.state.isConnected && this.state.client) return true
 
         this.state.isConnecting = true
 
         try {
-            // Fetch token (this also syncs identity on server side)
             this.tokenData = await this.fetchToken()
+            if (!this.tokenData) throw new Error('Failed to get token')
 
-            if (!this.tokenData) {
-                throw new Error('Failed to get token')
-            }
-
-            // Initialize client
             this.state.client = connect(
                 this.tokenData.apiKey,
                 this.tokenData.token,
@@ -101,28 +71,19 @@ class StreamService {
             this.state.user = this.tokenData.user
             this.state.isConnected = true
             this.state.retryCount = 0
-
-            console.log('[StreamService] Connected successfully')
             this.notifyListeners(true)
 
             return true
-        } catch (error) {
-            console.error('[StreamService] Connection failed:', error)
-
+        } catch {
             this.state.isConnected = false
             this.state.retryCount++
 
-            // Auto-retry with exponential backoff (silent, no user popup)
             if (this.state.retryCount < MAX_RETRIES) {
                 const delay = RETRY_DELAY_MS * Math.pow(2, this.state.retryCount - 1)
-                console.log(`[StreamService] Retrying in ${delay}ms (attempt ${this.state.retryCount}/${MAX_RETRIES})`)
-
                 setTimeout(() => {
                     this.state.isConnecting = false
                     this.connect()
                 }, delay)
-            } else {
-                console.error('[StreamService] Max retries reached, giving up')
             }
 
             return false
@@ -131,188 +92,107 @@ class StreamService {
         }
     }
 
-    /**
-     * Get a feed with automatic reconnection
-     */
     async getFeed(feedGroup: string, userId?: string): Promise<StreamFeed | null> {
         const connected = await this.ensureConnected()
-
-        if (!connected || !this.state.client) {
-            return null
-        }
+        if (!connected || !this.state.client) return null
 
         const targetUserId = userId || this.state.user?.id
-        if (!targetUserId) {
-            return null
-        }
+        if (!targetUserId) return null
 
         try {
             return this.state.client.feed(feedGroup, targetUserId)
-        } catch (error) {
-            console.error(`[StreamService] Failed to get ${feedGroup} feed:`, error)
+        } catch {
             return null
         }
     }
 
-    /**
-     * Get timeline feed for the current user
-     */
     async getTimelineFeed(): Promise<StreamFeed | null> {
         return this.getFeed('timeline')
     }
 
-    /**
-     * Get notification feed for the current user
-     */
     async getNotificationFeed(): Promise<StreamFeed | null> {
         return this.getFeed('notification')
     }
 
-    /**
-     * Get user feed for posting
-     */
     async getUserFeed(): Promise<StreamFeed | null> {
         return this.getFeed('user')
     }
 
-    /**
-     * Post an activity to the user's feed
-     * With detailed diagnostic logging
-     */
     async post(activity: {
         content: string
         category?: string
         attachments?: string[]
     }): Promise<boolean> {
-        console.log('=== STREAM SERVICE POST DEBUG ===')
-        console.log('[StreamService] Attempting to post activity...')
-        console.log('[StreamService] Content:', activity.content)
-        console.log('[StreamService] Category:', activity.category)
-        console.log('[StreamService] Attachments:', activity.attachments)
-
         try {
             const feed = await this.getUserFeed()
-            if (!feed) {
-                console.error('[StreamService] Failed to get user feed')
-                return false
-            }
+            if (!feed) return false
 
             const userId = this.state.user?.id
-            if (!userId) {
-                console.error('[StreamService] No user ID available')
-                return false
-            }
+            if (!userId) return false
 
-            console.log('[StreamService] User ID:', userId)
-            console.log('[StreamService] Feed type: user')
-
-            const activityData = {
-                actor: userId, // Just userId, not 'user:userId' per requirements
+            await feed.addActivity({
+                actor: userId,
                 verb: 'post',
-                object: activity.content, // Use content as object per requirements
+                object: activity.content,
                 content: activity.content,
                 category: activity.category,
                 attachments: activity.attachments || [],
                 time: new Date().toISOString()
-            }
+            } as Parameters<typeof feed.addActivity>[0])
 
-            console.log('[StreamService] Activity data:', JSON.stringify(activityData, null, 2))
-
-            const response = await feed.addActivity(activityData as Parameters<typeof feed.addActivity>[0])
-
-            console.log('[StreamService] addActivity response:', JSON.stringify(response, null, 2))
-            console.log('[StreamService] Post created successfully ✓')
             return true
-        } catch (error) {
-            console.error('[StreamService] Failed to create post:', error)
-            if (error instanceof Error) {
-                console.error('[StreamService] Error name:', error.name)
-                console.error('[StreamService] Error message:', error.message)
-                console.error('[StreamService] Error stack:', error.stack)
-            }
+        } catch {
             return false
         }
     }
 
-    /**
-     * Get timeline activities with manual refresh fallback
-     */
     async getTimelineActivities(options: { limit?: number; refresh?: boolean } = {}): Promise<unknown[]> {
-        console.log('[StreamService] Fetching timeline activities...')
-
         try {
             const feed = await this.getTimelineFeed()
-            if (!feed) {
-                console.error('[StreamService] Timeline feed not available')
-                return []
-            }
+            if (!feed) return []
 
             const response = await feed.get({
                 limit: options.limit || 25,
-                // Force refresh by not using cache
                 enrich: true
             })
 
-            console.log('[StreamService] Timeline activities fetched:', response.results?.length || 0)
-            console.log('[StreamService] Response:', JSON.stringify(response, null, 2))
-
             return response.results || []
-        } catch (error) {
-            console.error('[StreamService] Failed to fetch timeline:', error)
-
-            // Manual refresh fallback - try user feed directly
+        } catch {
             if (options.refresh) {
-                console.log('[StreamService] Attempting fallback to user feed...')
                 try {
                     const userFeed = await this.getUserFeed()
                     if (userFeed) {
                         const fallbackResponse = await userFeed.get({ limit: options.limit || 25 })
-                        console.log('[StreamService] Fallback successful:', fallbackResponse.results?.length || 0)
                         return fallbackResponse.results || []
                     }
-                } catch (fallbackError) {
-                    console.error('[StreamService] Fallback also failed:', fallbackError)
+                } catch {
+                    return []
                 }
             }
-
             return []
         }
     }
 
-    /**
-     * Get unread notification count (for bell badge)
-     */
     async getUnreadCount(): Promise<number> {
         try {
             const feed = await this.getNotificationFeed()
             if (!feed) return 0
-
             const response = await feed.get({ limit: 1, mark_seen: false })
             return response.unread || 0
-        } catch (error) {
-            console.error('[StreamService] Failed to get unread count:', error)
+        } catch {
             return 0
         }
     }
 
-    /**
-     * Mark notifications as seen
-     */
     async markNotificationsAsSeen(): Promise<void> {
         try {
             const feed = await this.getNotificationFeed()
-            if (!feed) return
-
-            await feed.get({ limit: 1, mark_seen: true })
-            console.log('[StreamService] Notifications marked as seen')
-        } catch (error) {
-            console.error('[StreamService] Failed to mark notifications as seen:', error)
+            if (feed) await feed.get({ limit: 1, mark_seen: true })
+        } catch {
+            // Silent fail
         }
     }
 
-    /**
-     * Subscribe to real-time updates
-     */
     async subscribe(
         feedGroup: string,
         callback: (data: unknown) => void
@@ -323,42 +203,25 @@ class StreamService {
         try {
             const subscription = await feed.subscribe(callback)
             return () => subscription.cancel()
-        } catch (error) {
-            console.error(`[StreamService] Failed to subscribe to ${feedGroup}:`, error)
+        } catch {
             return null
         }
     }
 
-    /**
-     * Add connection state listener
-     */
     onConnectionChange(listener: (connected: boolean) => void): () => void {
         this.connectionListeners.add(listener)
-        // Immediately notify of current state
         listener(this.state.isConnected)
-
-        return () => {
-            this.connectionListeners.delete(listener)
-        }
+        return () => this.connectionListeners.delete(listener)
     }
 
-    /**
-     * Get current user
-     */
     getUser(): StreamUser | null {
         return this.state.user
     }
 
-    /**
-     * Check if connected
-     */
     isConnected(): boolean {
         return this.state.isConnected
     }
 
-    /**
-     * Disconnect and cleanup
-     */
     disconnect(): void {
         this.state.client = null
         this.state.user = null
@@ -368,25 +231,16 @@ class StreamService {
     }
 
     private async ensureConnected(): Promise<boolean> {
-        if (this.state.isConnected && this.state.client) {
-            return true
-        }
+        if (this.state.isConnected && this.state.client) return true
         return this.connect()
     }
 
     private notifyListeners(connected: boolean): void {
         this.connectionListeners.forEach(listener => {
-            try {
-                listener(connected)
-            } catch (e) {
-                console.error('[StreamService] Listener error:', e)
-            }
+            try { listener(connected) } catch { /* silent */ }
         })
     }
 }
 
-// Singleton instance
 export const streamService = new StreamService()
-
-// Export types
 export type { StreamUser, StreamTokenResponse }
