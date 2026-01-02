@@ -67,7 +67,26 @@ function mergeOTPData(...dataSources: OTPData[]): OTPData {
 }
 
 // Get data based on region and base
+// PRIORITY: 1. localStorage (user-modified data) -> 2. Static JSON (defaults)
 export function getOTPData(region: string, base: string): OTPData {
+    // Try localStorage first for user-modified data
+    if (typeof window !== 'undefined') {
+        try {
+            const stored = localStorage.getItem('hse-otp-data')
+            if (stored) {
+                const allData = JSON.parse(stored)
+                // Construct the key used in localStorage
+                const dataKey = base === 'all' ? region : `${region}_${base}`
+                if (allData[dataKey]) {
+                    return allData[dataKey] as OTPData
+                }
+            }
+        } catch (e) {
+            console.error('Error loading from localStorage:', e)
+        }
+    }
+
+    // Fall back to static JSON files as defaults
     if (region === "asia") {
         return otpAsiaData as OTPData
     }

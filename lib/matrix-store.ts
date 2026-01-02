@@ -65,7 +65,26 @@ export function calculateProgress(program: MatrixProgram): number {
 }
 
 // Get data based on category and base
+// PRIORITY: 1. localStorage (user-modified data) -> 2. Static JSON (defaults)
 export function getMatrixData(category: MatrixCategory, base: string): MatrixData {
+    // Try localStorage first for user-modified data
+    if (typeof window !== 'undefined') {
+        try {
+            const stored = localStorage.getItem('hse-matrix-data')
+            if (stored) {
+                const allData = JSON.parse(stored)
+                // Construct the key used in localStorage
+                const dataKey = `${category}_${base}`
+                if (allData[dataKey]) {
+                    return allData[dataKey] as MatrixData
+                }
+            }
+        } catch (e) {
+            console.error('Error loading Matrix from localStorage:', e)
+        }
+    }
+
+    // Fall back to static JSON files as defaults
     const dataMap: Record<MatrixCategory, Record<string, MatrixData>> = {
         audit: {
             all: matrixAuditAll as MatrixData,
