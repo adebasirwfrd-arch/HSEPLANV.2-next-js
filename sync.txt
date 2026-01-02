@@ -1,0 +1,266 @@
+@CurrentFile(lib / programs - store.ts)
+
+I need to fix the bidirectional sync logic between the HSE Programs page and OTP data.
+    Currently, the status calculation is too loose, and editing a program doesn't correctly update the OTP "Actual" values.
+
+Please ** update / overwrite ** the`lib/programs-store.ts` file with the following improved logic. 
+
+### Key Changes Required:
+
+1. ** Update`otpToUnified` function:**
+    * ** Strict Status Logic:**
+        * Calculate`totalPlan` and `totalActual` by summing up all months.
+        * ** IF ** `totalActual === 0` ** THEN ** Status = 'Upcoming'(Default).
+        * ** IF ** `totalActual >= totalPlan` AND`totalPlan > 0` ** THEN ** Status = 'Completed'.
+        * ** ELSE ** Status = 'InProgress'.
+    * * Fix:* This prevents programs with 0 actuals from appearing as 'InProgress' or 'Completed'.
+
+2. ** Update`ProgramUpdate` interface:**
+    * Ensure it includes`wptsId?: string`.
+
+3. ** Update`updateOTPProgram` function:**
+    * ** Auto - Fill Actual Logic:**
+        * When`update.status === 'Completed'` OR `update.implDate` is provided:
+        * Check the target month's data.
+    * Set`monthData.actual` = `monthData.plan`(if plan > 0) OR`1`(if plan is 0).
+        * * Reason:* This ensures that marking a program as done automatically fills the progress bar in OTP.
+    * ** Field Mapping:**
+        * Map`update.wptsId` to`monthData.wpts_id`.
+        * Map`update.picName`, `update.picEmail`, `update.implDate` correctly.
+
+### Code Implementation to Apply:
+
+```typescript
+import { getOTPData, OTPProgram } from './otp-store'
+import { getMatrixData, MatrixProgram } from './matrix-store'
+
+// --- Types ---
+
+export type ProgramSource = 'otp' | 'matrix'
+export type ProgramRegion = 'indonesia' | 'asia'
+export type ProgramBase = 'narogong' | 'balikpapan' | 'duri' | 'all'
+export type ProgramStatus = 'Upcoming' | 'InProgress' | 'Completed' | 'Overdue'
+
+export interface UnifiedProgram {
+    id: string
+    name: string
+    source: ProgramSource
+    region: string
+    base: string
+    status: ProgramStatus
+    progress: number
+    planDate: string
+    implDate: string
+    picName: string
+    picEmail: string
+    wptsId?: string // Added WPTS ID
+    category?: string // For Matrix
+    month?: string // Context for editing specific month
+}
+
+export interface ProgramUpdate {
+    status?: ProgramStatus
+    planDate?: string
+    implDate?: string
+    picName?: string
+    picEmail?: string
+    wptsId?: string
+    month?: string // Critical for OTP updates
+}
+
+// --- Helper: Convert OTP to Unified Format ---
+
+function otpToUnified(prog: OTPProgram, region: ProgramRegion, base: ProgramBase): UnifiedProgram {
+    // 1. Calculate Totals for Strict Status Logic
+    let totalPlan = 0
+    let totalActual = 0
+    
+    // Helper to find first available dates/PIC
+    let firstPlanDate = ''
+    let lastImplDate = ''
+    let mainPicName = ''
+    let mainPicEmail = ''
+    let mainWptsId = ''
+
+    const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+    
+    months.forEach(m => {
+        const md = prog.months[m]
+        if (md) {
+            totalPlan += (md.plan || 0)
+            totalActual += (md.actual || 0)
+
+            // Capture info from the first active month or latest implementation
+            if (!firstPlanDate && md.plan_date) firstPlanDate = md.plan_date
+            if (md.impl_date) lastImplDate = md.impl_date
+            if (md.pic_name) mainPicName = md.pic_name
+            if (md.pic_email) mainPicEmail = md.pic_email
+            if (md.wpts_id) mainWptsId = md.wpts_id
+        }
+    })
+
+    // 2. Strict Status Determination
+    let status: ProgramStatus = 'Upcoming'
+    if (totalActual === 0) {
+        status = 'Upcoming'
+    } else if (totalActual >= totalPlan && totalPlan > 0) {
+        status = 'Completed'
+    } else {
+        status = 'InProgress'
+    }
+
+    // Calculate Percentage
+    const progress = totalPlan > 0 ? Math.min(100, Math.round((totalActual / totalPlan) * 100)) : (totalActual > 0 ? 100 : 0)
+
+    return {
+        id: `otp_${ region }_${ base }_${ prog.id } `,
+        name: prog.name,
+        source: 'otp',
+        region,
+        base,
+        status,
+        progress,
+        planDate: firstPlanDate,
+        implDate: lastImplDate,
+        picName: mainPicName,
+        picEmail: mainPicEmail,
+        wptsId: mainWptsId,
+        month: '' // Default, can be set when opening edit modal
+    }
+}
+
+// --- Helper: Convert Matrix to Unified Format ---
+// (Keep existing matrixToUnified logic here, ensuring status logic matches if needed)
+function matrixToUnified(prog: MatrixProgram, category: string, region: string): UnifiedProgram {
+     // Simplified for brevity - ensure you keep your existing matrix logic or copy strictly
+     // Assuming matrix logic is similar but uses different field names
+     let totalPlan = 0
+     let totalActual = 0
+     let lastImplDate = ''
+     
+     Object.values(prog.months).forEach((m: any) => {
+         totalPlan += (m.plan || 0)
+         totalActual += (m.actual || 0)
+         if(m.actual_date) lastImplDate = m.actual_date
+     })
+
+     let status: ProgramStatus = 'Upcoming'
+     if (totalActual === 0) status = 'Upcoming'
+     else if (totalActual >= totalPlan && totalPlan > 0) status = 'Completed'
+     else status = 'InProgress'
+     
+     return {
+        id: `matrix_${ category }_${ region }_${ prog.id } `,
+        name: prog.name,
+        source: 'matrix',
+        region,
+        base: region, // Matrix often uses region as base
+        status,
+        progress: totalPlan > 0 ? Math.round((totalActual/totalPlan)*100) : 0,
+        planDate: '', 
+        implDate: lastImplDate,
+        picName: '', 
+        picEmail: '',
+        category
+     }
+}
+
+// --- Load All Programs ---
+
+export function loadUnifiedPrograms(): UnifiedProgram[] {
+    const programs: UnifiedProgram[] = []
+
+    // 1. Load OTP Data
+    const otpRegions: {r: ProgramRegion, b: ProgramBase}[] = [
+        {r: 'indonesia', b: 'narogong'},
+        {r: 'indonesia', b: 'duri'},
+        {r: 'indonesia', b: 'balikpapan'},
+        {r: 'asia', b: 'all'}
+    ]
+
+    otpRegions.forEach(({r, b}) => {
+        try {
+            const data = getOTPData(r, b)
+            data.programs.forEach(p => programs.push(otpToUnified(p, r, b)))
+        } catch(e) { console.error(`Error loading OTP ${ r } -${ b } `, e) }
+    })
+
+    // 2. Load Matrix Data (Optional: Add Matrix loading here if needed for full view)
+    // ...
+
+    return programs
+}
+
+// --- Update Logic (The Fix) ---
+
+export function updateUnifiedProgram(programId: string, update: ProgramUpdate): boolean {
+    const parts = programId.split('_')
+    const source = parts[0]
+
+    if (source === 'otp') {
+        return updateOTPProgram(programId, update)
+    } 
+    // Add Matrix update logic if needed
+    return false
+}
+
+function updateOTPProgram(programId: string, update: ProgramUpdate): boolean {
+    try {
+        const parts = programId.split('_')
+        const region = parts[1]
+        const base = parts[2]
+        const origId = parseInt(parts[3])
+
+        // 1. Load Data directly from Storage
+        const storageKey = 'hse-otp-data'
+        const stored = localStorage.getItem(storageKey)
+        const allData = stored ? JSON.parse(stored) : {}
+        
+        // Construct data key (e.g., 'indonesia_narogong')
+        const dataKey = base === 'all' ? region : `${ region }_${ base } `
+        
+        if (!allData[dataKey]) return false
+
+        const programs = allData[dataKey].programs
+        const progIndex = programs.findIndex((p: any) => p.id === origId)
+        
+        if (progIndex === -1) return false
+
+        // 2. Determine Month to Update
+        // Use the month passed in update, or default to current month/first month
+        const targetMonth = update.month || new Date().toLocaleString('default', { month: 'short' }).toLowerCase()
+        
+        const monthData = programs[progIndex].months[targetMonth]
+        if (!monthData) return false
+
+        // 3. Apply Updates
+        if (update.planDate) monthData.plan_date = update.planDate
+        if (update.implDate) monthData.impl_date = update.implDate
+        if (update.picName) monthData.pic_name = update.picName
+        if (update.picEmail) monthData.pic_email = update.picEmail
+        if (update.wptsId) monthData.wpts_id = update.wptsId
+
+        // 4. AUTO-SYNC LOGIC: Update Actual based on Status/ImplDate
+        // If user sets status to Completed OR provides an Implementation Date,
+        // we assume the task for this month is done.
+        if (update.status === 'Completed' || update.implDate) {
+            // If there was a plan, match it. If no plan (adhoc), set to 1.
+            const planVal = monthData.plan || 0
+            monthData.actual = planVal > 0 ? planVal : 1
+        }
+        
+        // If status is explicitly set to InProgress or Upcoming, we might want to handle that
+        // But usually, setting 'actual' is what drives the status.
+
+        // 5. Save & Sync
+        localStorage.setItem(storageKey, JSON.stringify(allData))
+        
+        // Dispatch event so OTP page updates immediately
+        window.dispatchEvent(new Event('storage'))
+        
+        return true
+    } catch (e) {
+        console.error('Update OTP Failed', e)
+        return false
+    }
+}

@@ -1,4 +1,4 @@
-Now let's overhaul the `MatrixPage` (`app/matrix/page.tsx`) to match the HomePage's "Glass & Motion" aesthetic.
+Now let's overhaul the `OTPPage` (`app/otp/page.tsx`) to match the HomePage's "Glass & Motion" aesthetic.
 
 **Refactoring Instructions:**
 1.  **Use PageTransition:** Wrap the entire page with the new `PageTransition`, `PageHeader`, and `PageContent` components.
@@ -13,4 +13,4 @@ Now let's overhaul the `MatrixPage` (`app/matrix/page.tsx`) to match the HomePag
 4.  **Visual Polish:**
     - Update the "Action Buttons" (Add/Export) to use the `GlassCard` style or a gradient button style like on the Homepage.
 
-Please rewrite `MatrixPage` with these visual upgrades.
+Please rewrite `OTPPage` with these visual upgrades.

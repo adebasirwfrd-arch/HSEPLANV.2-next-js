@@ -1,11 +1,36 @@
-Now let's improve the UX interactions.
-1.  **Notifications (Sonner)**:
-    - Install `sonner`.
-    - Add `<Toaster />` to `app/layout.tsx`.
-    - Update `app/otp/page.tsx`: When a mutation (Save/Delete) finishes, replace the basic logic with `toast.success('Program updated')` or `toast.error(...)`.
+We are upgrading the User Experience (UX) to Tier 1 standards using **Sonner** (for elegant notifications) and **CMDK** (for a Command Palette).
 
-2.  **Command Palette (CMDK)**:
-    - Install `cmdk`.
-    - Create a component `components/ui/command-menu.tsx`.
-    - Implement a global search modal (triggered by `Cmd+K` or `Ctrl+K`) that allows navigation to: Home, OTP, Matrix, KPI, Audit Logs.
-    - Add this component to `app/layout.tsx` so it's available everywhere.
+**1. Install Dependencies:**
+   Please run: `npm install sonner cmdk`
+
+**2. Implement Sonner (Notifications):**
+   - **Setup:** In `app/layout.tsx`, import `{ Toaster } from 'sonner'` and add `<Toaster richColors position="bottom-right" />` inside the body (after the AppShell/Providers).
+   - **Integration (OTP Page):** Open `app/otp/page.tsx`.
+     - Import `{ toast } from 'sonner'`.
+     - Update `handleEditSave`: On success, call `toast.success('Program updated successfully')`.
+     - Update `handleCreate`: On success, call `toast.success('New program created')`.
+     - Update `handleDeleteConfirm`: On success, call `toast.success('Program deleted')`.
+     - On any error catch block, call `toast.error('Operation failed')`.
+
+**3. Implement Command Palette (CMDK):**
+   - **Create Component:** `components/ui/command-menu.tsx`.
+   - **Logic:**
+     - Use `useEffect` to listen for `keydown` event: Toggle open when user presses `⌘k` (Mac) or `Ctrl+k` (Windows).
+     - Use `useRouter` to navigate when an item is selected.
+   - **UI Design (Glassmorphism):**
+     - Use `<Command.Dialog>` from `cmdk`.
+     - Style it with Tailwind: Fixed center, backdrop-blur-md, border, rounded-xl, shadow-2xl.
+     - Include a search input (`Command.Input`) and a list (`Command.List`, `Command.Group`, `Command.Item`).
+   - **Items to Include:**
+     - Navigation: Home, OTP Programs, Matrix, KPI, Audit Logs.
+     - Actions: "Switch Theme" (Placeholder), "Logout" (Placeholder).
+   - **Global Integration:** Import and add `<CommandMenu />` to `app/layout.tsx` so it is accessible from any page.
+
+**4. Styling:**
+   - Add this CSS to `app/globals.css` to style the CMDK overlay properly if needed (or handle it via Tailwind classes in the component):
+     ```css
+     [cmdk-dialog] { z-index: 50; }
+     [cmdk-overlay] { background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); position: fixed; inset: 0; z-index: 40; }
+     ```
+
+Please provide the code for `command-menu.tsx` and the updates for `layout.tsx` and `otp/page.tsx`.

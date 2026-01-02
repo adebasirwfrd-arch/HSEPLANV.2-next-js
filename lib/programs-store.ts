@@ -1,13 +1,17 @@
 // Programs Store - HSE Programs CRUD with OTP/Matrix integration and localStorage persistence
+// Updated with strict status logic, bidirectional sync, and DUAL-WRITE strategy (localStorage + Supabase)
 
 import { getOTPData, OTPProgram, calculateProgress as calcOTPProgress } from './otp-store'
 import { getMatrixData, MatrixProgram, MatrixCategory, calculateProgress as calcMatrixProgress } from './matrix-store'
+import { createClient } from '@/lib/supabase/client'
+
+// --- Types ---
 
 export type ProgramSource = 'otp' | 'matrix' | 'manual'
 export type ProgramRegion = 'indonesia' | 'asia'
 export type ProgramBase = 'all' | 'narogong' | 'balikpapan' | 'duri'
 export type ProgramCategory = 'hse-training' | 'emergency-drill' | 'observation-card' | 'safety-meeting' | 'inspection' | 'audit' | 'training' | 'drill' | 'meeting' | 'other'
-export type ProgramStatus = 'Upcoming' | 'InProgress' | 'Completed' | 'OnHold' | 'Canceled'
+export type ProgramStatus = 'Upcoming' | 'InProgress' | 'Completed' | 'OnHold' | 'Canceled' | 'Overdue'
 
 export interface UnifiedProgram {
     id: string
@@ -25,11 +29,13 @@ export interface UnifiedProgram {
     implDate?: string
     picName?: string
     picEmail?: string
+    wptsId?: string
     startDate: string
     targetDate: string
     endDate: string
     assignedTo: string
     createdAt: string
+    month?: string // Context for editing specific month
 }
 
 // Legacy interface for backwards compatibility
@@ -84,7 +90,8 @@ export const statusColors: Record<ProgramStatus, string> = {
     'InProgress': 'bg-[var(--success-color)] text-white',
     'Completed': 'bg-[#4A90D9] text-white',
     'OnHold': 'bg-[#9B59B6] text-white',
-    'Canceled': 'bg-[var(--text-muted)] text-white'
+    'Canceled': 'bg-[var(--text-muted)] text-white',
+    'Overdue': 'bg-[var(--error-color)] text-white'
 }
 
 // Source colors
@@ -94,27 +101,53 @@ export const sourceColors: Record<ProgramSource, string> = {
     'manual': 'bg-[#27ae60] text-white'
 }
 
-// Convert OTP program to unified format
+// Convert OTP program to unified format with STRICT STATUS LOGIC
 function otpToUnified(prog: OTPProgram, region: ProgramRegion, base: ProgramBase): UnifiedProgram {
-    const progress = calcOTPProgress(prog)
-    const status: ProgramStatus = progress >= 100 ? 'Completed' : progress > 0 ? 'InProgress' : 'Upcoming'
+    // 1. Calculate Totals for Strict Status Logic
+    let totalPlan = 0
+    let totalActual = 0
 
-    // Find first month with plan_date or impl_date
-    let planDate = ''
-    let implDate = ''
-    let picName = ''
-    let picEmail = ''
+    // Helper to find first available dates/PIC
+    let firstPlanDate = ''
+    let lastImplDate = ''
+    let mainPicName = ''
+    let mainPicEmail = ''
+    let mainWptsId = ''
 
     const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
-    for (const m of months) {
+
+    months.forEach(m => {
         const md = prog.months[m]
         if (md) {
-            if (!planDate && md.plan_date) planDate = md.plan_date
-            if (!implDate && md.impl_date) implDate = md.impl_date
-            if (!picName && md.pic_name) picName = md.pic_name
-            if (!picEmail && md.pic_email) picEmail = md.pic_email
+            totalPlan += (md.plan || 0)
+            totalActual += (md.actual || 0)
+
+            // Capture info from the first active month or latest implementation
+            if (!firstPlanDate && md.plan_date) firstPlanDate = md.plan_date
+            if (md.impl_date) lastImplDate = md.impl_date
+            if (md.pic_name) mainPicName = md.pic_name
+            if (md.pic_email) mainPicEmail = md.pic_email
+            if (md.wpts_id) mainWptsId = md.wpts_id
         }
+    })
+
+    // 2. STRICT Status Determination
+    // - IF totalActual === 0 THEN Status = 'Upcoming' (Default)
+    // - IF totalActual >= totalPlan AND totalPlan > 0 THEN Status = 'Completed'
+    // - ELSE Status = 'InProgress'
+    let status: ProgramStatus = 'Upcoming'
+    if (totalActual === 0) {
+        status = 'Upcoming'
+    } else if (totalActual >= totalPlan && totalPlan > 0) {
+        status = 'Completed'
+    } else {
+        status = 'InProgress'
     }
+
+    // 3. Calculate Percentage
+    const progress = totalPlan > 0
+        ? Math.min(100, Math.round((totalActual / totalPlan) * 100))
+        : (totalActual > 0 ? 100 : 0)
 
     return {
         id: `otp_${region}_${base}_${prog.id}`,
@@ -127,39 +160,63 @@ function otpToUnified(prog: OTPProgram, region: ProgramRegion, base: ProgramBase
         status,
         planType: prog.plan_type || '',
         progress,
-        planDate,
-        implDate,
-        picName,
-        picEmail,
-        startDate: planDate || '',
+        planDate: firstPlanDate,
+        implDate: lastImplDate,
+        picName: mainPicName,
+        picEmail: mainPicEmail,
+        wptsId: mainWptsId,
+        startDate: firstPlanDate || '',
         targetDate: prog.due_date || '',
-        endDate: implDate || '',
-        assignedTo: picName || 'HSE Team',
-        createdAt: '2024-01-01'
+        endDate: lastImplDate || '',
+        assignedTo: mainPicName || 'HSE Team',
+        createdAt: '2024-01-01',
+        month: '' // Default, can be set when opening edit modal
     }
 }
 
-// Convert Matrix program to unified format
+// Convert Matrix program to unified format with STRICT STATUS LOGIC
 function matrixToUnified(prog: MatrixProgram, category: MatrixCategory, base: ProgramBase): UnifiedProgram {
-    const progress = calcMatrixProgress(prog)
-    const status: ProgramStatus = progress >= 100 ? 'Completed' : progress > 0 ? 'InProgress' : 'Upcoming'
+    // 1. Calculate Totals for Strict Status Logic
+    let totalPlan = 0
+    let totalActual = 0
 
-    // Find first month with plan_date or impl_date
-    let planDate = ''
-    let implDate = ''
-    let picName = ''
-    let picEmail = ''
+    // Helper to find first available dates/PIC
+    let firstPlanDate = ''
+    let lastImplDate = ''
+    let mainPicName = ''
+    let mainPicEmail = ''
+    let mainWptsId = ''
 
     const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
-    for (const m of months) {
+
+    months.forEach(m => {
         const md = prog.months[m]
         if (md) {
-            if (!planDate && md.plan_date) planDate = md.plan_date
-            if (!implDate && md.impl_date) implDate = md.impl_date
-            if (!picName && md.pic_name) picName = md.pic_name
-            if (!picEmail && md.pic_email) picEmail = md.pic_email
+            totalPlan += (md.plan || 0)
+            totalActual += (md.actual || 0)
+
+            if (!firstPlanDate && md.plan_date) firstPlanDate = md.plan_date
+            if (md.impl_date) lastImplDate = md.impl_date
+            if (md.pic_name) mainPicName = md.pic_name
+            if (md.pic_email) mainPicEmail = md.pic_email
+            if (md.wpts_id) mainWptsId = md.wpts_id
         }
+    })
+
+    // 2. STRICT Status Determination
+    let status: ProgramStatus = 'Upcoming'
+    if (totalActual === 0) {
+        status = 'Upcoming'
+    } else if (totalActual >= totalPlan && totalPlan > 0) {
+        status = 'Completed'
+    } else {
+        status = 'InProgress'
     }
+
+    // 3. Calculate Percentage
+    const progress = totalPlan > 0
+        ? Math.min(100, Math.round((totalActual / totalPlan) * 100))
+        : (totalActual > 0 ? 100 : 0)
 
     return {
         id: `matrix_${category}_${base}_${prog.id}`,
@@ -173,15 +230,17 @@ function matrixToUnified(prog: MatrixProgram, category: MatrixCategory, base: Pr
         planType: prog.plan_type || '',
         reference: prog.reference,
         progress,
-        planDate,
-        implDate,
-        picName,
-        picEmail,
-        startDate: planDate || '',
+        planDate: firstPlanDate,
+        implDate: lastImplDate,
+        picName: mainPicName,
+        picEmail: mainPicEmail,
+        wptsId: mainWptsId,
+        startDate: firstPlanDate || '',
         targetDate: '',
-        endDate: implDate || '',
-        assignedTo: picName || 'HSE Team',
-        createdAt: '2024-01-01'
+        endDate: lastImplDate || '',
+        assignedTo: mainPicName || 'HSE Team',
+        createdAt: '2024-01-01',
+        month: ''
     }
 }
 
@@ -189,39 +248,26 @@ function matrixToUnified(prog: MatrixProgram, category: MatrixCategory, base: Pr
 export function loadUnifiedPrograms(): UnifiedProgram[] {
     const programs: UnifiedProgram[] = []
 
-    // Load OTP Indonesia - Narogong
-    try {
-        const otpNarogong = getOTPData('indonesia', 'narogong')
-        otpNarogong.programs.forEach(prog => {
-            programs.push(otpToUnified(prog, 'indonesia', 'narogong'))
-        })
-    } catch (e) { console.error('Error loading OTP Narogong:', e) }
+    // 1. Load OTP Data for all regions/bases
+    const otpConfigs: { r: ProgramRegion, b: ProgramBase }[] = [
+        { r: 'indonesia', b: 'narogong' },
+        { r: 'indonesia', b: 'balikpapan' },
+        { r: 'indonesia', b: 'duri' },
+        { r: 'asia', b: 'all' }
+    ]
 
-    // Load OTP Indonesia - Balikpapan
-    try {
-        const otpBalikpapan = getOTPData('indonesia', 'balikpapan')
-        otpBalikpapan.programs.forEach(prog => {
-            programs.push(otpToUnified(prog, 'indonesia', 'balikpapan'))
-        })
-    } catch (e) { console.error('Error loading OTP Balikpapan:', e) }
+    otpConfigs.forEach(({ r, b }) => {
+        try {
+            const data = getOTPData(r, b)
+            data.programs.forEach(prog => {
+                programs.push(otpToUnified(prog, r, b))
+            })
+        } catch (e) {
+            console.error(`Error loading OTP ${r}-${b}:`, e)
+        }
+    })
 
-    // Load OTP Indonesia - Duri
-    try {
-        const otpDuri = getOTPData('indonesia', 'duri')
-        otpDuri.programs.forEach(prog => {
-            programs.push(otpToUnified(prog, 'indonesia', 'duri'))
-        })
-    } catch (e) { console.error('Error loading OTP Duri:', e) }
-
-    // Load OTP Asia
-    try {
-        const otpAsia = getOTPData('asia', '')
-        otpAsia.programs.forEach(prog => {
-            programs.push(otpToUnified(prog, 'asia', 'all'))
-        })
-    } catch (e) { console.error('Error loading OTP Asia:', e) }
-
-    // Load Matrix programs for each category and base
+    // 2. Load Matrix programs for each category and base
     const matrixCategories: MatrixCategory[] = ['audit', 'training', 'drill', 'meeting']
     const matrixBases: ProgramBase[] = ['narogong', 'balikpapan', 'duri']
 
@@ -232,7 +278,9 @@ export function loadUnifiedPrograms(): UnifiedProgram[] {
                 matrixData.programs.forEach(prog => {
                     programs.push(matrixToUnified(prog, category, base))
                 })
-            } catch (e) { console.error(`Error loading Matrix ${category} ${base}:`, e) }
+            } catch (e) {
+                console.error(`Error loading Matrix ${category} ${base}:`, e)
+            }
         })
     })
 
@@ -241,6 +289,7 @@ export function loadUnifiedPrograms(): UnifiedProgram[] {
 
 // Update a unified program and sync back to OTP/Matrix localStorage
 export interface ProgramUpdate {
+    status?: ProgramStatus
     wptsId?: string
     planDate?: string
     implDate?: string
@@ -249,7 +298,7 @@ export interface ProgramUpdate {
     month?: string // Which month to update (jan, feb, mar, etc.)
 }
 
-export function updateUnifiedProgram(programId: string, update: ProgramUpdate): boolean {
+export async function updateUnifiedProgram(programId: string, update: ProgramUpdate): Promise<boolean> {
     if (typeof window === 'undefined') return false
 
     // Parse program ID to determine source
@@ -260,29 +309,31 @@ export function updateUnifiedProgram(programId: string, update: ProgramUpdate): 
     const source = parts[0] // 'otp' or 'matrix'
 
     if (source === 'otp') {
-        return updateOTPProgram(programId, update)
+        return await updateOTPProgram(programId, update)
     } else if (source === 'matrix') {
-        return updateMatrixProgram(programId, update)
+        return await updateMatrixProgram(programId, update)
     }
 
     return false
 }
 
-// Update OTP program in localStorage
-function updateOTPProgram(programId: string, update: ProgramUpdate): boolean {
+// Update OTP program with DUAL-WRITE STRATEGY:
+// Step 1: Optimistic UI - Update localStorage immediately
+// Step 2: Cloud Sync - Push to Supabase program_progress table
+async function updateOTPProgram(programId: string, update: ProgramUpdate): Promise<boolean> {
     try {
         const parts = programId.split('_')
         const region = parts[1] as ProgramRegion
         const base = parts[2] as ProgramBase
         const origId = parseInt(parts[3])
 
-        // Get storage key for this region/base
+        // --- STEP 1: OPTIMISTIC LOCAL UPDATE ---
         const storageKey = 'hse-otp-data'
         const stored = localStorage.getItem(storageKey)
         const allData = stored ? JSON.parse(stored) : {}
 
-        // Determine data key
-        let dataKey = region === 'asia' ? 'asia' : `indonesia_${base}`
+        // Construct data key (e.g., 'indonesia_narogong' or 'asia')
+        const dataKey = base === 'all' ? region : `${region}_${base}`
 
         // Get or initialize data for this region/base
         if (!allData[dataKey]) {
@@ -290,13 +341,13 @@ function updateOTPProgram(programId: string, update: ProgramUpdate): boolean {
             allData[dataKey] = defaultData
         }
 
-        // Find and update the program
+        // Find the program
         const programs = allData[dataKey].programs || []
         const progIndex = programs.findIndex((p: OTPProgram) => p.id === origId)
 
         if (progIndex === -1) return false
 
-        // Determine which month to update (use provided or derive from planDate)
+        // Determine which month to update
         let targetMonth = update.month
         if (!targetMonth && update.planDate) {
             const date = new Date(update.planDate)
@@ -308,50 +359,94 @@ function updateOTPProgram(programId: string, update: ProgramUpdate): boolean {
             const monthNames = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
             targetMonth = monthNames[date.getMonth()]
         }
-
-        if (!targetMonth) targetMonth = 'jan' // Default to January if no month specified
+        if (!targetMonth) {
+            const monthNames = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+            targetMonth = monthNames[new Date().getMonth()]
+        }
 
         // Initialize month data if not exists
         if (!programs[progIndex].months[targetMonth]) {
             programs[progIndex].months[targetMonth] = { plan: 0, actual: 0 }
         }
 
-        // Apply updates to the target month
         const monthData = programs[progIndex].months[targetMonth]
+
+        // Apply Updates - Field Mapping
         if (update.wptsId !== undefined) monthData.wpts_id = update.wptsId
         if (update.planDate !== undefined) monthData.plan_date = update.planDate
-        if (update.implDate !== undefined) {
-            monthData.impl_date = update.implDate
-            // If implementation date is set, mark as actual = 1
-            if (update.implDate) {
-                monthData.actual = monthData.plan || 1
-            }
-        }
+        if (update.implDate !== undefined) monthData.impl_date = update.implDate
         if (update.picName !== undefined) monthData.pic_name = update.picName
         if (update.picEmail !== undefined) monthData.pic_email = update.picEmail
 
-        // Save back to localStorage
+        // AUTO-SYNC LOGIC: Update Actual based on Status/ImplDate
+        let newActual = monthData.actual
+        if (update.status === 'Completed' || update.implDate) {
+            const planVal = monthData.plan || 0
+            newActual = planVal > 0 ? planVal : 1
+            monthData.actual = newActual
+        }
+
+        // Save back to localStorage (OPTIMISTIC UPDATE)
         localStorage.setItem(storageKey, JSON.stringify(allData))
 
-        // Trigger storage event to refresh OTP screen
+        // Dispatch storage event so OTP page updates immediately
         window.dispatchEvent(new Event('storage'))
 
-        console.log(`[SYNC] Updated OTP program ${programId} in month ${targetMonth}`)
+        console.log(`[SYNC-LOCAL] Updated OTP program ${programId} in month ${targetMonth}`)
+
+        // --- STEP 2: SUPABASE CLOUD SYNC ---
+        try {
+            const supabase = createClient()
+
+            // Construct payload matching program_progress table schema
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const payload: any = {
+                program_id: origId,
+                month: targetMonth,
+                year: new Date().getFullYear(),
+                actual_value: newActual,
+                updated_at: new Date().toISOString()
+            }
+
+            if (update.implDate) payload.impl_date = update.implDate
+            if (update.picName) payload.pic_name = update.picName
+            if (update.wptsId) payload.wpts_id = update.wptsId
+
+            // Upsert to program_progress table
+            const { error } = await supabase
+                .from('program_progress')
+                .upsert(payload, { onConflict: 'program_id,month,year' })
+
+            if (error) {
+                console.error('[SYNC-CLOUD] Supabase Sync Failed:', error)
+                // Note: Local update already succeeded, so we don't revert
+                // The user sees immediate feedback, and cloud sync can be retried
+            } else {
+                console.log(`[SYNC-CLOUD] Successfully synced to Supabase: program ${origId}, month ${targetMonth}`)
+            }
+        } catch (cloudError) {
+            console.error('[SYNC-CLOUD] Cloud sync error:', cloudError)
+            // Cloud sync failed but local update succeeded
+        }
+
         return true
     } catch (e) {
-        console.error('Error updating OTP program:', e)
+        console.error('Update OTP Failed:', e)
         return false
     }
 }
 
-// Update Matrix program in localStorage
-function updateMatrixProgram(programId: string, update: ProgramUpdate): boolean {
+// Update Matrix program with DUAL-WRITE STRATEGY:
+// Step 1: Optimistic UI - Update localStorage immediately
+// Step 2: Cloud Sync - Push to Supabase program_progress table
+async function updateMatrixProgram(programId: string, update: ProgramUpdate): Promise<boolean> {
     try {
         const parts = programId.split('_')
         const category = parts[1] as MatrixCategory
         const base = parts[2] as ProgramBase
         const origId = parseInt(parts[3])
 
+        // --- STEP 1: OPTIMISTIC LOCAL UPDATE ---
         const storageKey = 'hse-matrix-data'
         const stored = localStorage.getItem(storageKey)
         const allData = stored ? JSON.parse(stored) : {}
@@ -365,7 +460,7 @@ function updateMatrixProgram(programId: string, update: ProgramUpdate): boolean 
             allData[dataKey] = defaultData
         }
 
-        // Find and update the program
+        // Find the program
         const programs = allData[dataKey].programs || []
         const progIndex = programs.findIndex((p: MatrixProgram) => p.id === origId)
 
@@ -383,37 +478,78 @@ function updateMatrixProgram(programId: string, update: ProgramUpdate): boolean 
             const monthNames = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
             targetMonth = monthNames[date.getMonth()]
         }
-
-        if (!targetMonth) targetMonth = 'jan'
+        if (!targetMonth) {
+            const monthNames = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+            targetMonth = monthNames[new Date().getMonth()]
+        }
 
         // Initialize month data if not exists
         if (!programs[progIndex].months[targetMonth]) {
             programs[progIndex].months[targetMonth] = { plan: 0, actual: 0 }
         }
 
-        // Apply updates
         const monthData = programs[progIndex].months[targetMonth]
+
+        // Apply updates - Field Mapping
         if (update.wptsId !== undefined) monthData.wpts_id = update.wptsId
         if (update.planDate !== undefined) monthData.plan_date = update.planDate
-        if (update.implDate !== undefined) {
-            monthData.impl_date = update.implDate
-            if (update.implDate) {
-                monthData.actual = monthData.plan || 1
-            }
-        }
+        if (update.implDate !== undefined) monthData.impl_date = update.implDate
         if (update.picName !== undefined) monthData.pic_name = update.picName
         if (update.picEmail !== undefined) monthData.pic_email = update.picEmail
 
-        // Save back
+        // AUTO-SYNC LOGIC: Update Actual based on Status/ImplDate
+        let newActual = monthData.actual
+        if (update.status === 'Completed' || update.implDate) {
+            const planVal = monthData.plan || 0
+            newActual = planVal > 0 ? planVal : 1
+            monthData.actual = newActual
+        }
+
+        // Save back to localStorage (OPTIMISTIC UPDATE)
         localStorage.setItem(storageKey, JSON.stringify(allData))
 
-        // Trigger storage event to refresh Matrix screen
+        // Dispatch storage event to refresh Matrix screen
         window.dispatchEvent(new Event('storage'))
 
-        console.log(`[SYNC] Updated Matrix program ${programId} in month ${targetMonth}`)
+        console.log(`[SYNC-LOCAL] Updated Matrix program ${programId} in month ${targetMonth}`)
+
+        // --- STEP 2: SUPABASE CLOUD SYNC ---
+        try {
+            const supabase = createClient()
+
+            // Construct payload matching program_progress table schema
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const payload: any = {
+                program_id: origId,
+                month: targetMonth,
+                year: new Date().getFullYear(),
+                actual_value: newActual,
+                updated_at: new Date().toISOString(),
+                program_type: `matrix_${category}` // Distinguish from OTP
+            }
+
+            if (update.implDate) payload.impl_date = update.implDate
+            if (update.picName) payload.pic_name = update.picName
+            if (update.wptsId) payload.wpts_id = update.wptsId
+
+            // Upsert to program_progress table
+            const { error } = await supabase
+                .from('program_progress')
+                .upsert(payload, { onConflict: 'program_id,month,year' })
+
+            if (error) {
+                console.error('[SYNC-CLOUD] Supabase Sync Failed:', error)
+                // Note: Local update already succeeded
+            } else {
+                console.log(`[SYNC-CLOUD] Successfully synced Matrix to Supabase: program ${origId}, month ${targetMonth}`)
+            }
+        } catch (cloudError) {
+            console.error('[SYNC-CLOUD] Matrix cloud sync error:', cloudError)
+        }
+
         return true
     } catch (e) {
-        console.error('Error updating Matrix program:', e)
+        console.error('Update Matrix Failed:', e)
         return false
     }
 }
@@ -460,9 +596,9 @@ export function calculateProgramStats(programs: UnifiedProgram[]) {
 
 // Generate CSV for unified programs
 export function generateUnifiedCSV(programs: UnifiedProgram[]): string {
-    let csv = 'ID,Name,Description,Source,Region,Base,Category,Status,Plan Type,Reference,Progress,Plan Date,Impl Date,PIC Name,PIC Email\n'
+    let csv = 'ID,Name,Description,Source,Region,Base,Category,Status,Plan Type,Reference,Progress,Plan Date,Impl Date,PIC Name,PIC Email,WPTS ID\n'
     programs.forEach(p => {
-        csv += `"${p.id}","${p.name.replace(/"/g, '""')}","${(p.description || '').replace(/"/g, '""')}","${p.source}","${p.region}","${p.base}","${p.category}","${p.status}","${p.planType}","${p.reference || ''}","${p.progress}%","${p.planDate || ''}","${p.implDate || ''}","${p.picName || ''}","${p.picEmail || ''}"\n`
+        csv += `"${p.id}","${p.name.replace(/"/g, '""')}","${(p.description || '').replace(/"/g, '""')}","${p.source}","${p.region}","${p.base}","${p.category}","${p.status}","${p.planType}","${p.reference || ''}","${p.progress}%","${p.planDate || ''}","${p.implDate || ''}","${p.picName || ''}","${p.picEmail || ''}","${p.wptsId || ''}"\n`
     })
     return csv
 }

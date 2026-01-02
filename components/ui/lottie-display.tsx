@@ -8,11 +8,11 @@ const Player = dynamic(
     { ssr: false }
 )
 
-// Lottie animation URLs - using LottieFiles CDN (reliable public URLs)
+// Local Lottie animation files - using local files to avoid CDN 403 errors
 const LOTTIE_URLS = {
-    loading: "https://assets9.lottiefiles.com/packages/lf20_l4ny0juo.json",
-    success: "https://assets5.lottiefiles.com/packages/lf20_jbrw3hcz.json",
-    empty: "https://assets10.lottiefiles.com/packages/lf20_ydo1amjm.json"
+    loading: "/lottie/loading.json",
+    success: "/lottie/success.json",
+    empty: "/lottie/empty.json"
 }
 
 interface LottieDisplayProps {

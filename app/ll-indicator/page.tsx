@@ -267,10 +267,13 @@ export default function LLIndicatorPage() {
                     transition={{ delay: 0.1 }}
                     className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden shadow-xl"
                 >
-                    <motion.button
+                    <motion.div
                         whileHover={{ scale: 1.005 }}
                         onClick={() => setLaggingExpanded(!laggingExpanded)}
-                        className="w-full p-4 bg-gradient-to-r from-[#c0392b] to-[#e74c3c] text-white flex items-center justify-between"
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => e.key === 'Enter' && setLaggingExpanded(!laggingExpanded)}
+                        className="w-full p-4 bg-gradient-to-r from-[#c0392b] to-[#e74c3c] text-white flex items-center justify-between cursor-pointer"
                     >
                         <span className="font-bold">⚠️ LAGGING INDICATORS ({data.lagging.length})</span>
                         <div className="flex items-center gap-2">
@@ -284,7 +287,7 @@ export default function LLIndicatorPage() {
                                 <ChevronDown className="w-5 h-5" />
                             </motion.div>
                         </div>
-                    </motion.button>
+                    </motion.div>
                     <IndicatorTable type="lagging" indicators={data.lagging} expanded={laggingExpanded} />
                 </motion.div>
 
@@ -295,10 +298,13 @@ export default function LLIndicatorPage() {
                     transition={{ delay: 0.2 }}
                     className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden shadow-xl"
                 >
-                    <motion.button
+                    <motion.div
                         whileHover={{ scale: 1.005 }}
                         onClick={() => setLeadingExpanded(!leadingExpanded)}
-                        className="w-full p-4 bg-gradient-to-r from-[#27ae60] to-[#2ecc71] text-white flex items-center justify-between"
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => e.key === 'Enter' && setLeadingExpanded(!leadingExpanded)}
+                        className="w-full p-4 bg-gradient-to-r from-[#27ae60] to-[#2ecc71] text-white flex items-center justify-between cursor-pointer"
                     >
                         <span className="font-bold">✅ LEADING INDICATORS ({data.leading.length})</span>
                         <div className="flex items-center gap-2">
@@ -312,7 +318,7 @@ export default function LLIndicatorPage() {
                                 <ChevronDown className="w-5 h-5" />
                             </motion.div>
                         </div>
-                    </motion.button>
+                    </motion.div>
                     <IndicatorTable type="leading" indicators={data.leading} expanded={leadingExpanded} />
                 </motion.div>
 

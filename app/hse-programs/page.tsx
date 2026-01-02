@@ -137,7 +137,7 @@ export default function ProgramsPage() {
 
         setIsSaving(true)
 
-        const success = updateUnifiedProgram(selectedProgram.id, {
+        const success = await updateUnifiedProgram(selectedProgram.id, {
             ...editForm,
             month: selectedMonth
         })

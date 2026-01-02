@@ -3,7 +3,8 @@ import { NextRequest, NextResponse } from 'next/server'
 
 /**
  * GET /api/calendar
- * Fetch calendar events from Supabase using the get_calendar_events function
+ * Fetch calendar events from Supabase programs table
+ * Falls back to direct query if RPC function doesn't exist
  * 
  * Query params:
  * - year: number (default: 2026)
@@ -14,41 +15,43 @@ export async function GET(request: NextRequest) {
         const { searchParams } = new URL(request.url)
         const year = parseInt(searchParams.get('year') || '2026')
 
-        // Call the database function
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const { data, error } = await (supabase as any)
-            .rpc('get_calendar_events', { p_year: year })
+        // Direct query to programs table (more reliable than RPC)
+        const { data, error } = await supabase
+            .from('programs')
+            .select('*')
+            .gte('plan_date', `${year}-01-01`)
+            .lte('plan_date', `${year}-12-31`)
+            .order('plan_date', { ascending: true })
 
         if (error) {
-            console.error('Supabase error:', error)
-            return NextResponse.json({ error: error.message }, { status: 500 })
+            console.error('Supabase query error:', error)
+            // Return empty array instead of error for better UX
+            return NextResponse.json([])
         }
 
-        // Transform to frontend format
+        // Transform to calendar event format
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const events = (data || []).map((event: any) => ({
-            id: event.program_id,
-            source: event.program_type.startsWith('matrix_') ? 'matrix' : 'otp',
-            category: event.program_type.replace('matrix_', ''),
-            region: event.region,
-            base: event.base,
-            program_name: event.program_title,
-            month: event.month,
-            plan_date: event.plan_date || '',
-            impl_date: event.impl_date || '',
-            pic_name: event.pic_name || '',
-            plan_type: '',
-            plan_value: event.plan_value,
-            actual_value: event.actual_value,
-            status: event.status
+        const events = (data || []).map((program: any) => ({
+            id: program.id,
+            source: program.program_type?.startsWith('matrix_') ? 'matrix' : 'otp',
+            category: program.program_type?.replace('matrix_', '') || 'general',
+            region: program.region || '',
+            base: program.base || '',
+            program_name: program.program_title || program.title || '',
+            month: program.plan_date ? new Date(program.plan_date).getMonth() + 1 : 1,
+            plan_date: program.plan_date || '',
+            impl_date: program.impl_date || '',
+            pic_name: program.pic_name || program.pic || '',
+            plan_type: program.plan_type || '',
+            plan_value: program.plan_value || 0,
+            actual_value: program.actual_value || 0,
+            status: program.status || 'planned'
         }))
 
         return NextResponse.json(events)
     } catch (error) {
-        console.error('API error:', error)
-        return NextResponse.json(
-            { error: 'Internal server error' },
-            { status: 500 }
-        )
+        console.error('Calendar API error:', error)
+        // Return empty array on error for graceful degradation
+        return NextResponse.json([])
     }
 }

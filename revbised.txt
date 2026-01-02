@@ -1,0 +1,225 @@
+@CurrentFile(lib / programs - store.ts)
+@File(utils / supabase / client.ts)
+
+** CRITICAL CORRECTION:** The OTP data is stored in ** BOTH ** Supabase(Cloud) and LocalStorage(Local Cache).
+The previous logic failed to update Supabase, which would cause data reversion on reload.
+
+    Please ** rewrite ** `lib/programs-store.ts` to implement a ** Dual - Write Strategy **.
+1. ** Optimistic UI:** Update LocalStorage immediately so the user sees the change.
+2. ** Cloud Sync:** Asynchronously push the update to the `program_progress` table in Supabase.
+
+### Implementation Details
+
+    ** 1. Imports **
+        Add the Supabase client import:
+`import { createClient } from '@/utils/supabase/client'`
+
+    ** 2. Make Functions Async **
+        Change`updateUnifiedProgram` and `updateOTPProgram` to return `Promise<boolean>`.
+
+** 3. Implement `updateOTPProgram` Logic **
+* ** Step A(Local):** Keep the existing `localStorage` logic(read, update json, write, dispatch event).
+* ** Step B(Cloud):** Use`supabase.from('program_progress').upsert(...)`.
+    * Map the`targetMonth`(e.g., 'jan', 'feb') and`origId`(program ID) to the database row.
+    * Payload should update: `actual_value`, `impl_date`, `pic_name`, `wpts_id`, etc.
+
+### Full Code to Apply:
+
+```typescript
+import { getOTPData, OTPProgram } from './otp-store'
+import { createClient } from '@/utils/supabase/client' // Adjust path if needed
+
+// --- Types ---
+export type ProgramSource = 'otp' | 'matrix'
+export type ProgramRegion = 'indonesia' | 'asia'
+export type ProgramBase = 'narogong' | 'balikpapan' | 'duri' | 'all'
+export type ProgramStatus = 'Upcoming' | 'InProgress' | 'Completed' | 'Overdue'
+
+export interface UnifiedProgram {
+    id: string
+    name: string
+    source: ProgramSource
+    region: string
+    base: string
+    status: ProgramStatus
+    progress: number
+    planDate: string
+    implDate: string
+    picName: string
+    picEmail: string
+    wptsId?: string
+    category?: string
+    month?: string
+}
+
+export interface ProgramUpdate {
+    status?: ProgramStatus
+    planDate?: string
+    implDate?: string
+    picName?: string
+    picEmail?: string
+    wptsId?: string
+    month?: string
+}
+
+// --- Converters ---
+
+function otpToUnified(prog: OTPProgram, region: ProgramRegion, base: ProgramBase): UnifiedProgram {
+    let totalPlan = 0
+    let totalActual = 0
+    let firstPlanDate = ''
+    let lastImplDate = ''
+    let mainPicName = ''
+    let mainPicEmail = ''
+    let mainWptsId = ''
+
+    const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+    
+    months.forEach(m => {
+        const md = prog.months[m]
+        if (md) {
+            totalPlan += (md.plan || 0)
+            totalActual += (md.actual || 0)
+            if (!firstPlanDate && md.plan_date) firstPlanDate = md.plan_date
+            if (md.impl_date) lastImplDate = md.impl_date
+            if (md.pic_name) mainPicName = md.pic_name
+            if (md.pic_email) mainPicEmail = md.pic_email
+            if (md.wpts_id) mainWptsId = md.wpts_id
+        }
+    })
+
+    let status: ProgramStatus = 'Upcoming'
+    if (totalActual === 0) status = 'Upcoming'
+    else if (totalActual >= totalPlan && totalPlan > 0) status = 'Completed'
+    else status = 'InProgress'
+
+    const progress = totalPlan > 0 ? Math.min(100, Math.round((totalActual / totalPlan) * 100)) : (totalActual > 0 ? 100 : 0)
+
+    return {
+        id: `otp_${ region }_${ base }_${ prog.id } `,
+        name: prog.name,
+        source: 'otp',
+        region,
+        base,
+        status,
+        progress,
+        planDate: firstPlanDate,
+        implDate: lastImplDate,
+        picName: mainPicName,
+        picEmail: mainPicEmail,
+        wptsId: mainWptsId,
+        month: ''
+    }
+}
+
+// --- Loaders ---
+
+export function loadUnifiedPrograms(): UnifiedProgram[] {
+    const programs: UnifiedProgram[] = []
+    const otpRegions: {r: ProgramRegion, b: ProgramBase}[] = [
+        {r: 'indonesia', b: 'narogong'},
+        {r: 'indonesia', b: 'duri'},
+        {r: 'indonesia', b: 'balikpapan'},
+        {r: 'asia', b: 'all'}
+    ]
+
+    otpRegions.forEach(({r, b}) => {
+        try {
+            // Note: This loads from local cache synchronously. 
+            // In a real Supabase app, the initial load should also be async, 
+            // but for now we rely on the OTP page's hydration to fill the cache.
+            const data = getOTPData(r, b)
+            data.programs.forEach(p => programs.push(otpToUnified(p, r, b)))
+        } catch(e) { console.error(`Error loading OTP ${ r } -${ b } `, e) }
+    })
+    return programs
+}
+
+// --- Async Update Logic ---
+
+export async function updateUnifiedProgram(programId: string, update: ProgramUpdate): Promise<boolean> {
+    const parts = programId.split('_')
+    const source = parts[0]
+
+    if (source === 'otp') {
+        return await updateOTPProgram(programId, update)
+    }
+    return false
+}
+
+async function updateOTPProgram(programId: string, update: ProgramUpdate): Promise<boolean> {
+    try {
+        const parts = programId.split('_')
+        const region = parts[1]
+        const base = parts[2]
+        const origId = parseInt(parts[3])
+
+        // --- 1. OPTIMISTIC LOCAL UPDATE ---
+        const storageKey = 'hse-otp-data'
+        const stored = localStorage.getItem(storageKey)
+        const allData = stored ? JSON.parse(stored) : {}
+        const dataKey = base === 'all' ? region : `${ region }_${ base } `
+        
+        if (!allData[dataKey]) return false
+
+        const programs = allData[dataKey].programs
+        const progIndex = programs.findIndex((p: any) => p.id === origId)
+        if (progIndex === -1) return false
+
+        const targetMonth = update.month || new Date().toLocaleString('default', { month: 'short' }).toLowerCase()
+        const monthData = programs[progIndex].months[targetMonth]
+        if (!monthData) return false
+
+        // Update fields in Local Object
+        if (update.planDate) monthData.plan_date = update.planDate
+        if (update.implDate) monthData.impl_date = update.implDate
+        if (update.picName) monthData.pic_name = update.picName
+        if (update.picEmail) monthData.pic_email = update.picEmail
+        if (update.wptsId) monthData.wpts_id = update.wptsId
+
+        // Auto-Calculate Actual
+        let newActual = monthData.actual
+        if (update.status === 'Completed' || update.implDate) {
+            const planVal = monthData.plan || 0
+            newActual = planVal > 0 ? planVal : 1
+            monthData.actual = newActual
+        }
+
+        // Commit to LocalStorage
+        localStorage.setItem(storageKey, JSON.stringify(allData))
+        window.dispatchEvent(new Event('storage'))
+
+        // --- 2. SUPABASE CLOUD SYNC ---
+        const supabase = createClient()
+        
+        // Construct payload matching DB schema
+        const payload: any = {
+            program_id: origId,
+            month: targetMonth,
+            year: new Date().getFullYear(), // dynamic year based on context
+            actual_value: newActual,
+            updated_at: new Date().toISOString()
+        }
+        
+        if (update.implDate) payload.impl_date = update.implDate
+        if (update.picName) payload.pic_name = update.picName
+        if (update.wptsId) payload.wpts_id = update.wptsId
+
+        // Upsert to program_progress (or your specific OTP table)
+        // Adjust table name if strictly 'program_progress' or 'otp_progress'
+        const { error } = await supabase
+            .from('program_progress') 
+            .upsert(payload, { onConflict: 'program_id, month, year' })
+
+        if (error) {
+            console.error('Supabase Sync Failed:', error)
+            // Optional: Revert local change or show toast
+            return false
+        }
+
+        return true
+    } catch (e) {
+        console.error('Update OTP Failed', e)
+        return false
+    }
+}
