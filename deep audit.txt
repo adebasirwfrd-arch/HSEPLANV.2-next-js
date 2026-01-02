@@ -1,0 +1,26 @@
+@File (app/api/stream/token/route.ts)
+@File (lib/stream-service.ts)
+@File (components/dashboard/post-composer.tsx)
+
+I need a COMPLETE SYSTEM AUDIT AND DEBUG. Environment variables are set, but I'm still getting Error 500. 
+
+### 1. CREDENTIAL VALIDATION
+- Create a temporary diagnostic block in `app/api/stream/token/route.ts` to log (to the server console only) if the variables exist:
+  `console.log('DEBUG: KEY EXISTS:', !!process.env.NEXT_PUBLIC_STREAM_API_KEY)`
+  `console.log('DEBUG: SECRET EXISTS:', !!process.env.STREAM_API_SECRET)`
+  `console.log('DEBUG: APP ID EXISTS:', !!process.env.NEXT_PUBLIC_STREAM_APP_ID)`
+
+### 2. CORE INITIALIZATION TEST
+- Test if `stream.connect(key, secret, appId)` actually succeeds. 
+- If it fails, capture the EXACT error message from Stream (e.g., "Invalid Key", "Region Mismatch", or "Plan Limit Reached") and return it in the 500 response body.
+
+### 3. FEED GROUP SANITY CHECK
+- Attempt to fetch the 'user' feed group for user 'ade4' server-side.
+- Log if the feed group 'user' or 'timeline' is not found in the Stream Dashboard configuration.
+
+### 4. CLIENT-SIDE CATCH
+- Update `lib/stream-service.ts` to log the FULL response from the 500 error.
+- Use `const errorData = await response.json()` to show me exactly what the server is complaining about in the browser console.
+
+### 5. CLEAN RESTORE
+- Remove any redundant logic that tries to delete selectors. Focus only on getting a valid token first.

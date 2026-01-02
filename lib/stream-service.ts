@@ -44,10 +44,22 @@ class StreamService {
 
     private async fetchToken(): Promise<StreamTokenResponse | null> {
         try {
+            console.log('[StreamService] Fetching token from /api/stream-token...')
             const response = await fetch('/api/stream-token')
-            if (!response.ok) return null
-            return await response.json()
-        } catch {
+
+            if (!response.ok) {
+                // Log FULL error response for debugging
+                const errorData = await response.json()
+                console.error('[StreamService] Token fetch failed with status:', response.status)
+                console.error('[StreamService] Full error response:', JSON.stringify(errorData, null, 2))
+                return null
+            }
+
+            const data = await response.json()
+            console.log('[StreamService] Token received for userId:', data.userId)
+            return data
+        } catch (error) {
+            console.error('[StreamService] Token fetch exception:', error)
             return null
         }
     }
