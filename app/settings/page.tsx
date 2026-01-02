@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useRef } from "react"
 import { AppShell } from "@/components/layout/app-shell"
 import { GlassCard } from "@/components/ui/glass-card"
 import {
@@ -9,8 +9,6 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
-    loadSettings,
-    saveSettings,
     themes,
     defaultSettings,
     fileToBase64,
@@ -18,31 +16,36 @@ import {
     type ThemeId,
     type LanguageId
 } from "@/lib/settings-store"
+import { useSettings } from "@/components/providers/settings-provider"
 
 export default function SettingsPage() {
-    const [settings, setSettings] = useState<AppSettings>(defaultSettings)
+    const { settings, updateSettings } = useSettings()
+    const [localSettings, setLocalSettings] = useState<AppSettings>(settings)
     const [saved, setSaved] = useState(false)
     const logoInputRef = useRef<HTMLInputElement>(null)
     const bannerInputRef = useRef<HTMLInputElement>(null)
 
-    useEffect(() => {
-        setSettings(loadSettings())
-    }, [])
-
-    const updateSetting = <K extends keyof AppSettings>(key: K, value: AppSettings[K]) => {
-        setSettings(prev => ({ ...prev, [key]: value }))
+    // Update local settings (doesn't save until Save button clicked)
+    const updateLocalSetting = <K extends keyof AppSettings>(key: K, value: AppSettings[K]) => {
+        setLocalSettings(prev => ({ ...prev, [key]: value }))
         setSaved(false)
+
+        // Apply theme changes immediately for preview
+        if (key === 'theme') {
+            updateSettings({ theme: value as ThemeId })
+        }
     }
 
     const handleSave = () => {
-        saveSettings(settings)
+        // Save all settings using the provider (which also applies theme)
+        updateSettings(localSettings)
         setSaved(true)
         setTimeout(() => setSaved(false), 2000)
     }
 
     const handleReset = () => {
-        setSettings(defaultSettings)
-        saveSettings(defaultSettings)
+        setLocalSettings(defaultSettings)
+        updateSettings(defaultSettings)
         setSaved(true)
         setTimeout(() => setSaved(false), 2000)
     }
@@ -50,13 +53,14 @@ export default function SettingsPage() {
     const handleImageUpload = async (file: File, type: 'companyLogo' | 'heroBannerImage') => {
         try {
             const base64 = await fileToBase64(file)
-            updateSetting(type, base64)
+            updateLocalSetting(type, base64)
         } catch (e) {
             console.error('Upload error:', e)
         }
     }
 
-    const selectedTheme = themes.find(t => t.id === settings.theme) || themes[0]
+    const selectedTheme = themes.find(t => t.id === localSettings.theme) || themes[0]
+
 
     return (
         <AppShell>
@@ -86,10 +90,10 @@ export default function SettingsPage() {
                             {themes.map(theme => (
                                 <button
                                     key={theme.id}
-                                    onClick={() => updateSetting('theme', theme.id)}
+                                    onClick={() => updateLocalSetting('theme', theme.id)}
                                     className={cn(
                                         "p-3 rounded-xl border-2 text-left transition-all",
-                                        settings.theme === theme.id
+                                        localSettings.theme === theme.id
                                             ? "border-[var(--accent-blue)] bg-[var(--accent-blue)]/5"
                                             : "border-[var(--border-light)] hover:border-[var(--accent-blue)]/50"
                                     )}
@@ -102,7 +106,7 @@ export default function SettingsPage() {
                                         <div className="flex-1 min-w-0">
                                             <p className="text-sm font-semibold truncate">{theme.name}</p>
                                         </div>
-                                        {settings.theme === theme.id && (
+                                        {localSettings.theme === theme.id && (
                                             <Check className="w-4 h-4 text-[var(--accent-blue)]" />
                                         )}
                                     </div>
@@ -131,10 +135,10 @@ export default function SettingsPage() {
                         </label>
                         <div className="flex gap-2">
                             <button
-                                onClick={() => updateSetting('language', 'en')}
+                                onClick={() => updateLocalSetting('language', 'en')}
                                 className={cn(
                                     "flex-1 p-3 rounded-xl border-2 transition-all flex items-center justify-center gap-2",
-                                    settings.language === 'en'
+                                    localSettings.language === 'en'
                                         ? "border-[var(--accent-blue)] bg-[var(--accent-blue)]/5"
                                         : "border-[var(--border-light)]"
                                 )}
@@ -143,10 +147,10 @@ export default function SettingsPage() {
                                 <span className="font-medium">English</span>
                             </button>
                             <button
-                                onClick={() => updateSetting('language', 'id')}
+                                onClick={() => updateLocalSetting('language', 'id')}
                                 className={cn(
                                     "flex-1 p-3 rounded-xl border-2 transition-all flex items-center justify-center gap-2",
-                                    settings.language === 'id'
+                                    localSettings.language === 'id'
                                         ? "border-[var(--accent-blue)] bg-[var(--accent-blue)]/5"
                                         : "border-[var(--border-light)]"
                                 )}
@@ -170,8 +174,8 @@ export default function SettingsPage() {
                         <label className="block text-sm font-medium mb-2">Company Name</label>
                         <input
                             type="text"
-                            value={settings.companyName}
-                            onChange={(e) => updateSetting('companyName', e.target.value)}
+                            value={localSettings.companyName}
+                            onChange={(e) => updateLocalSetting('companyName', e.target.value)}
                             placeholder="e.g. PT. YOUR COMPANY"
                             className="w-full p-3 border border-[var(--border-light)] rounded-xl bg-[var(--bg-secondary)] focus:outline-none focus:border-[var(--accent-blue)]"
                         />
@@ -189,13 +193,13 @@ export default function SettingsPage() {
                                 onClick={() => logoInputRef.current?.click()}
                                 className={cn(
                                     "w-20 h-20 rounded-xl border-2 border-dashed flex items-center justify-center cursor-pointer transition-all overflow-hidden",
-                                    settings.companyLogo
+                                    localSettings.companyLogo
                                         ? "border-[var(--success-color)]"
                                         : "border-[var(--border-light)] hover:border-[var(--accent-blue)]"
                                 )}
                             >
-                                {settings.companyLogo ? (
-                                    <img src={settings.companyLogo} alt="Logo" className="w-full h-full object-contain" />
+                                {localSettings.companyLogo ? (
+                                    <img src={localSettings.companyLogo} alt="Logo" className="w-full h-full object-contain" />
                                 ) : (
                                     <Upload className="w-6 h-6 text-[var(--text-muted)]" />
                                 )}
@@ -207,9 +211,9 @@ export default function SettingsPage() {
                                 >
                                     Upload Logo
                                 </button>
-                                {settings.companyLogo && (
+                                {localSettings.companyLogo && (
                                     <button
-                                        onClick={() => updateSetting('companyLogo', '')}
+                                        onClick={() => updateLocalSetting('companyLogo', '')}
                                         className="ml-2 px-4 py-2 border border-[var(--border-light)] rounded-lg text-sm"
                                     >
                                         Remove
@@ -237,14 +241,14 @@ export default function SettingsPage() {
                             onClick={() => bannerInputRef.current?.click()}
                             className={cn(
                                 "w-full h-32 rounded-xl border-2 border-dashed flex items-center justify-center cursor-pointer transition-all overflow-hidden",
-                                settings.heroBannerImage
+                                localSettings.heroBannerImage
                                     ? "border-[var(--success-color)]"
                                     : "border-[var(--border-light)] hover:border-[var(--accent-blue)]"
                             )}
                         >
-                            {settings.heroBannerImage ? (
+                            {localSettings.heroBannerImage ? (
                                 <div className="relative w-full h-full">
-                                    <img src={settings.heroBannerImage} alt="Banner" className="w-full h-full object-cover" />
+                                    <img src={localSettings.heroBannerImage} alt="Banner" className="w-full h-full object-cover" />
                                     <div className="absolute inset-0 bg-gradient-to-r from-[#3b82f6]/70 via-[#0ea5e9]/60 to-[#14b8a6]/50" />
                                     <p className="absolute bottom-2 left-2 text-white text-xs font-medium">Banner Preview</p>
                                 </div>
@@ -255,9 +259,9 @@ export default function SettingsPage() {
                                 </div>
                             )}
                         </div>
-                        {settings.heroBannerImage && (
+                        {localSettings.heroBannerImage && (
                             <button
-                                onClick={() => updateSetting('heroBannerImage', '')}
+                                onClick={() => updateLocalSetting('heroBannerImage', '')}
                                 className="mt-2 text-sm text-[var(--danger-color)]"
                             >
                                 Remove Banner
@@ -285,15 +289,15 @@ export default function SettingsPage() {
                         <label className="flex items-center justify-between cursor-pointer">
                             <span className="text-sm">Email Notifications</span>
                             <div
-                                onClick={() => updateSetting('emailNotifications', !settings.emailNotifications)}
+                                onClick={() => updateLocalSetting('emailNotifications', !localSettings.emailNotifications)}
                                 className={cn(
                                     "w-12 h-6 rounded-full transition-all relative",
-                                    settings.emailNotifications ? "bg-[var(--success-color)]" : "bg-[var(--border-light)]"
+                                    localSettings.emailNotifications ? "bg-[var(--success-color)]" : "bg-[var(--border-light)]"
                                 )}
                             >
                                 <div className={cn(
                                     "absolute w-5 h-5 bg-white rounded-full top-0.5 transition-all shadow",
-                                    settings.emailNotifications ? "left-6" : "left-0.5"
+                                    localSettings.emailNotifications ? "left-6" : "left-0.5"
                                 )} />
                             </div>
                         </label>
@@ -301,15 +305,15 @@ export default function SettingsPage() {
                         <label className="flex items-center justify-between cursor-pointer">
                             <span className="text-sm">Push Notifications</span>
                             <div
-                                onClick={() => updateSetting('pushNotifications', !settings.pushNotifications)}
+                                onClick={() => updateLocalSetting('pushNotifications', !localSettings.pushNotifications)}
                                 className={cn(
                                     "w-12 h-6 rounded-full transition-all relative",
-                                    settings.pushNotifications ? "bg-[var(--success-color)]" : "bg-[var(--border-light)]"
+                                    localSettings.pushNotifications ? "bg-[var(--success-color)]" : "bg-[var(--border-light)]"
                                 )}
                             >
                                 <div className={cn(
                                     "absolute w-5 h-5 bg-white rounded-full top-0.5 transition-all shadow",
-                                    settings.pushNotifications ? "left-6" : "left-0.5"
+                                    localSettings.pushNotifications ? "left-6" : "left-0.5"
                                 )} />
                             </div>
                         </label>
@@ -320,10 +324,10 @@ export default function SettingsPage() {
                                 {[3, 7, 14, 30].map(days => (
                                     <button
                                         key={days}
-                                        onClick={() => updateSetting('reminderDays', days)}
+                                        onClick={() => updateLocalSetting('reminderDays', days)}
                                         className={cn(
                                             "flex-1 py-2 rounded-lg text-sm font-medium transition-all",
-                                            settings.reminderDays === days
+                                            localSettings.reminderDays === days
                                                 ? "bg-[var(--accent-blue)] text-white"
                                                 : "bg-[var(--bg-tertiary)] text-[var(--text-secondary)]"
                                         )}
@@ -347,15 +351,15 @@ export default function SettingsPage() {
                         <label className="flex items-center justify-between cursor-pointer">
                             <span className="text-sm">Compact Mode</span>
                             <div
-                                onClick={() => updateSetting('compactMode', !settings.compactMode)}
+                                onClick={() => updateLocalSetting('compactMode', !localSettings.compactMode)}
                                 className={cn(
                                     "w-12 h-6 rounded-full transition-all relative",
-                                    settings.compactMode ? "bg-[var(--success-color)]" : "bg-[var(--border-light)]"
+                                    localSettings.compactMode ? "bg-[var(--success-color)]" : "bg-[var(--border-light)]"
                                 )}
                             >
                                 <div className={cn(
                                     "absolute w-5 h-5 bg-white rounded-full top-0.5 transition-all shadow",
-                                    settings.compactMode ? "left-6" : "left-0.5"
+                                    localSettings.compactMode ? "left-6" : "left-0.5"
                                 )} />
                             </div>
                         </label>
@@ -363,15 +367,15 @@ export default function SettingsPage() {
                         <label className="flex items-center justify-between cursor-pointer">
                             <span className="text-sm">Show Welcome Message</span>
                             <div
-                                onClick={() => updateSetting('showWelcomeMessage', !settings.showWelcomeMessage)}
+                                onClick={() => updateLocalSetting('showWelcomeMessage', !localSettings.showWelcomeMessage)}
                                 className={cn(
                                     "w-12 h-6 rounded-full transition-all relative",
-                                    settings.showWelcomeMessage ? "bg-[var(--success-color)]" : "bg-[var(--border-light)]"
+                                    localSettings.showWelcomeMessage ? "bg-[var(--success-color)]" : "bg-[var(--border-light)]"
                                 )}
                             >
                                 <div className={cn(
                                     "absolute w-5 h-5 bg-white rounded-full top-0.5 transition-all shadow",
-                                    settings.showWelcomeMessage ? "left-6" : "left-0.5"
+                                    localSettings.showWelcomeMessage ? "left-6" : "left-0.5"
                                 )} />
                             </div>
                         </label>

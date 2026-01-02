@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { QueryProvider } from "@/components/providers/query-provider"
+import { SettingsProvider } from "@/components/providers/settings-provider"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -42,7 +43,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} font-sans antialiased`}>
         <QueryProvider>
-          {children}
+          <SettingsProvider>
+            {children}
+          </SettingsProvider>
         </QueryProvider>
       </body>
     </html>
