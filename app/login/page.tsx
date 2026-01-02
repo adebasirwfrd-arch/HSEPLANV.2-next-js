@@ -1,12 +1,13 @@
 "use client"
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { gsap } from 'gsap'
 import { createClient } from '@/lib/supabase/client'
 import { Shield, Mail, Lock, ArrowRight, Loader2, Eye, EyeOff, AlertCircle, Check } from 'lucide-react'
 
-export default function LoginPage() {
+// Inner component that uses useSearchParams
+function LoginContent() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const supabase = createClient()
@@ -395,5 +396,23 @@ export default function LoginPage() {
                 </div>
             </div>
         </div>
+    )
+}
+
+// Main component wrapped in Suspense for useSearchParams
+export default function LoginPage() {
+    return (
+        <Suspense fallback={
+            <div className="fixed inset-0 w-screen h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+                <div className="text-center">
+                    <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-2xl flex items-center justify-center animate-pulse">
+                        <Shield className="w-10 h-10 text-white" />
+                    </div>
+                    <Loader2 className="w-8 h-8 text-white animate-spin mx-auto" />
+                </div>
+            </div>
+        }>
+            <LoginContent />
+        </Suspense>
     )
 }

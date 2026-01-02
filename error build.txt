@@ -1,0 +1,46 @@
+13:14:28.821 Running build in Washington, D.C., USA (East) – iad1
+13:14:28.822 Build machine configuration: 2 cores, 8 GB
+13:14:28.947 Cloning github.com/adebasirwfrd-arch/HSEPLANV.2-next-js (Branch: main, Commit: a938499)
+13:14:29.266 Cloning completed: 318.000ms
+13:14:31.073 Restored build cache from previous deployment (GXXs94RLntSm8cH5GL2hkuGQVnhU)
+13:14:32.097 Running "vercel build"
+13:14:32.545 Vercel CLI 50.1.3
+13:14:32.935 Installing dependencies...
+13:14:34.526 
+13:14:34.527 up to date in 1s
+13:14:34.527 
+13:14:34.528 181 packages are looking for funding
+13:14:34.528   run `npm fund` for details
+13:14:34.556 Detected Next.js version: 16.1.1
+13:14:34.562 Running "npm run build"
+13:14:34.661 
+13:14:34.661 > hse-management-system-nextjs@0.1.0 build
+13:14:34.661 > next build
+13:14:34.661 
+13:14:35.638 ▲ Next.js 16.1.1 (Turbopack)
+13:14:35.639 - Experiments (use with caution):
+13:14:35.639   · serverActions
+13:14:35.640 
+13:14:35.648 ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+13:14:35.679   Creating an optimized production build ...
+13:15:24.218 ✓ Compiled successfully in 48s
+13:15:24.221   Running TypeScript ...
+13:15:45.692   Collecting page data using 1 worker ...
+13:15:46.744   Generating static pages using 1 worker (0/24) ...
+13:15:46.815   Generating static pages using 1 worker (6/24) 
+13:15:47.265   Generating static pages using 1 worker (12/24) 
+13:15:47.292 ⨯ useSearchParams() should be wrapped in a suspense boundary at page "/login". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+13:15:47.292     at Q (/vercel/path0/.next/server/chunks/ssr/_84a47ee1._.js:2:2111)
+13:15:47.293     at o (/vercel/path0/.next/server/chunks/ssr/_84a47ee1._.js:4:5314)
+13:15:47.293     at q (/vercel/path0/.next/server/chunks/ssr/[root-of-the-server]__9fb850dc._.js:1:3864)
+13:15:47.293     at an (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:84360)
+13:15:47.293     at ai (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:86179)
+13:15:47.293     at al (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:107953)
+13:15:47.293     at as (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:105368)
+13:15:47.294     at aa (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:84712)
+13:15:47.294     at ai (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:86228)
+13:15:47.294     at ai (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:104708)
+13:15:47.294 Error occurred prerendering page "/login". Read more: https://nextjs.org/docs/messages/prerender-error
+13:15:47.295 Export encountered an error on /login/page: /login, exiting the build.
+13:15:47.314 ⨯ Next.js build worker exited with code: 1 and signal: null
+13:15:47.346 Error: Command "npm run build" exited with 1
