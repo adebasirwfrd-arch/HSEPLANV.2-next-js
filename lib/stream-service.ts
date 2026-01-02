@@ -198,22 +198,27 @@ class StreamService {
             }
 
             const userId = this.state.user?.id
+            if (!userId) {
+                console.error('[StreamService] No user ID available')
+                return false
+            }
+
             console.log('[StreamService] User ID:', userId)
             console.log('[StreamService] Feed type: user')
 
             const activityData = {
-                actor: `user:${userId}`,
+                actor: userId, // Just userId, not 'user:userId' per requirements
                 verb: 'post',
-                object: `post:${Date.now()}`,
+                object: activity.content, // Use content as object per requirements
                 content: activity.content,
                 category: activity.category,
-                attachments: activity.attachments,
+                attachments: activity.attachments || [],
                 time: new Date().toISOString()
             }
 
             console.log('[StreamService] Activity data:', JSON.stringify(activityData, null, 2))
 
-            const response = await feed.addActivity(activityData)
+            const response = await feed.addActivity(activityData as Parameters<typeof feed.addActivity>[0])
 
             console.log('[StreamService] addActivity response:', JSON.stringify(response, null, 2))
             console.log('[StreamService] Post created successfully ✓')
