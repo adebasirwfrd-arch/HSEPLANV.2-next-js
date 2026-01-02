@@ -85,6 +85,15 @@ class StreamService {
             this.state.user = this.tokenData.user
             this.state.isConnected = true
             this.state.retryCount = 0
+
+            // Ensure timeline follows user so their own posts appear
+            try {
+                const timeline = this.state.client.feed('timeline', this.tokenData.userId)
+                await timeline.follow('user', this.tokenData.userId)
+            } catch (e) {
+                console.error('[Stream] Follow error:', e)
+            }
+
             this.notifyListeners(true)
 
             return true
