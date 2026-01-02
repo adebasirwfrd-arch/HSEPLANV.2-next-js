@@ -41,11 +41,17 @@ export async function GET() {
         // Update user profile in Stream to sync Google profile data
         try {
             const streamUser = client.user(userId)
+            // First get or create the user, then update with profile data
             await streamUser.getOrCreate({
                 name: userName,
-                profileImage: userAvatar,
+                image: userAvatar,
                 email: userEmail,
                 id: userId
+            })
+            // Also call update to ensure latest data is synced (as specified)
+            await streamUser.update({
+                name: userName,
+                image: userAvatar
             })
         } catch (updateError) {
             console.error("Failed to update Stream user profile:", updateError)

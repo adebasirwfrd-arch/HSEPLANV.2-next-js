@@ -228,9 +228,9 @@ export default function HomePage() {
             <PostComposer
               userName={userName}
               userAvatar={userAvatar}
-              onPost={async (content, attachments) => {
+              onPost={async (content, category, attachments) => {
                 // TODO: Integrate with Stream feed
-                console.log('Posting:', content, attachments)
+                console.log('Posting:', { content, category, attachments })
               }}
             />
           </div>
