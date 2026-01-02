@@ -158,23 +158,27 @@ function LoginContent() {
         setError(null)
 
         try {
+            // Construct redirect URL carefully - no trailing slashes or extra paths
+            const origin = window.location.origin
+            const redirectUrl = `${origin}/auth/callback`
+
+            console.log('Redirecting to:', redirectUrl) // Debug log
+
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    redirectTo: `${window.location.origin}/auth/callback`,
-                    scopes: 'openid profile email https://www.googleapis.com/auth/calendar.events',
-                    queryParams: {
-                        access_type: 'offline',
-                        prompt: 'consent'
-                    }
+                    redirectTo: redirectUrl,
+                    scopes: 'openid profile email https://www.googleapis.com/auth/calendar.events'
                 }
             })
 
             if (error) {
+                console.error('OAuth error:', error)
                 setError(error.message)
                 setIsLoading(false)
             }
         } catch (err) {
+            console.error('Unexpected error:', err)
             setError('An unexpected error occurred')
             setIsLoading(false)
         }
