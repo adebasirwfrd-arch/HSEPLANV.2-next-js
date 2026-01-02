@@ -83,7 +83,8 @@
   }
 
   body {
-    background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 50%, #e0f7fa 100%);
+    /* Using CSS variables for theme switching */
+    background: linear-gradient(135deg, var(--ocean-start) 0%, var(--ocean-end) 50%, var(--bg-primary) 100%);
     background-attachment: fixed;
     color: var(--text-primary);
     min-height: 100vh;

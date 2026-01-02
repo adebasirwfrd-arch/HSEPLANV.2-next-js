@@ -151,20 +151,63 @@ export default function HomePage() {
       <div className="flex gap-6">
         {/* Main Content */}
         <div className="flex-1 space-y-6 min-w-0">
-          {/* Header */}
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-[var(--text-primary)]">
-                {settings?.language === 'id' ? 'Dashboard HSE' : 'HSE Dashboard'}
-              </h1>
-              <p className="text-sm text-[var(--text-muted)]">
-                {settings?.language === 'id' ? 'Ikhtisar Eksekutif' : 'Executive Overview'} • 2026
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              {settings?.companyLogo && (
-                <img src={settings.companyLogo} alt="Logo" className="w-10 h-10 object-contain" />
-              )}
+          {/* Hero Header with Company Branding */}
+          <div className="relative rounded-2xl overflow-hidden bg-[var(--bg-secondary)] shadow-lg">
+            {/* Hero Banner Image with Gradient Overlay */}
+            {settings?.heroBannerImage ? (
+              <div className="absolute inset-0">
+                <img
+                  src={settings.heroBannerImage}
+                  alt="Hero Banner"
+                  className="w-full h-full object-cover"
+                />
+                {/* Theme-colored gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-r from-[var(--ocean-start)]/90 via-[var(--ocean-end)]/80 to-[var(--accent-blue)]/70" />
+              </div>
+            ) : (
+              /* Default gradient when no banner */
+              <div className="absolute inset-0 bg-gradient-to-r from-[var(--ocean-start)] via-[var(--ocean-end)] to-[var(--accent-blue)]/50" />
+            )}
+
+            {/* Content over banner */}
+            <div className="relative z-10 p-6 md:p-8">
+              <div className="flex items-center gap-4">
+                {/* Company Logo */}
+                {settings?.companyLogo && (
+                  <div className="w-16 h-16 md:w-20 md:h-20 bg-white/90 rounded-xl shadow-lg flex items-center justify-center p-2 backdrop-blur-sm">
+                    <img
+                      src={settings.companyLogo}
+                      alt="Company Logo"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                )}
+
+                <div className="flex-1 min-w-0">
+                  {/* Company Name */}
+                  {settings?.companyName && (
+                    <p className={`text-sm md:text-base font-semibold mb-1 truncate ${settings?.heroBannerImage ? 'text-white/90' : 'text-white'}`}>
+                      {settings.companyName}
+                    </p>
+                  )}
+
+                  {/* HSE Dashboard Title */}
+                  <h1 className={`text-2xl md:text-3xl font-bold ${settings?.heroBannerImage ? 'text-white' : 'text-white'}`}>
+                    {settings?.language === 'id' ? 'Dashboard HSE' : 'HSE Dashboard'}
+                  </h1>
+                  <p className={`text-sm ${settings?.heroBannerImage ? 'text-white/80' : 'text-white/90'}`}>
+                    {settings?.language === 'id' ? 'Ikhtisar Eksekutif' : 'Executive Overview'} • 2026
+                  </p>
+                </div>
+
+                {/* Right side - Quick Stats Badge */}
+                <div className="hidden md:flex items-center gap-3">
+                  <div className="bg-white/20 backdrop-blur-sm rounded-xl px-4 py-2 text-center">
+                    <p className="text-2xl font-bold text-white">{isLoading ? '...' : metrics.compliance}%</p>
+                    <p className="text-xs text-white/80">Compliance</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
