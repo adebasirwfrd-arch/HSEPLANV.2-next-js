@@ -5,6 +5,7 @@ import {
     loadSettings,
     saveSettings,
     themes,
+    defaultSettings,
     type AppSettings,
     type Theme
 } from "@/lib/settings-store"
@@ -17,9 +18,16 @@ interface SettingsContextType {
 
 const SettingsContext = createContext<SettingsContextType | null>(null)
 
-export function useSettings() {
+export function useSettings(): SettingsContextType {
     const context = useContext(SettingsContext)
-    if (!context) throw new Error("useSettings must be inside SettingsProvider")
+    // Return defaults during SSR or when outside provider (for prerendering)
+    if (!context) {
+        return {
+            settings: defaultSettings,
+            theme: themes[0],
+            updateSettings: () => { } // No-op during SSR
+        }
+    }
     return context
 }
 
