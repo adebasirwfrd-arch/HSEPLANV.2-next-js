@@ -42,12 +42,20 @@ export async function POST(request: NextRequest) {
         const body = await request.json();
         const { action, event } = body; // action: 'enable' | 'disable' | 'sync_single', event: SyncEventPayload
 
-        // Get user settings
-        const { data: settings } = await supabase
+        console.log('[Calendar Sync] Action:', action, 'User:', user.id);
+
+        // Get user settings - use maybeSingle to avoid error when no row exists
+        const { data: settings, error: settingsError } = await supabase
             .from('user_settings')
             .select('google_access_token, google_refresh_token, is_google_sync_enabled')
             .eq('user_id', user.id)
-            .single() as { data: { google_access_token: string | null; google_refresh_token: string | null; is_google_sync_enabled: boolean | null } | null; error: any };
+            .maybeSingle() as { data: { google_access_token: string | null; google_refresh_token: string | null; is_google_sync_enabled: boolean | null } | null; error: any };
+
+        if (settingsError) {
+            console.error('[Calendar Sync] Error fetching settings:', settingsError);
+        }
+
+        console.log('[Calendar Sync] Settings found:', !!settings, 'Has token:', !!settings?.google_access_token);
 
         // Handle single event sync (from OTP/Task pages)
         if (action === 'sync_single' && event) {
@@ -145,18 +153,26 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Get all OTP programs with dates
-        const { data: programs, error: programsError } = await supabase
-            .from('hse_programs')
-            .select('id, name, region, base, months, program_type');
+        console.log('[Calendar Sync] Starting bulk sync for user:', user.id);
 
-        if (programsError) {
-            console.error('[Calendar Sync] Error fetching programs:', programsError);
-            return NextResponse.json(
-                { error: 'Failed to fetch programs' },
-                { status: 500 }
-            );
+        // Get all OTP programs with dates (if table exists)
+        let programs: any[] = [];
+        try {
+            const { data, error: programsError } = await supabase
+                .from('hse_programs')
+                .select('id, name, region, base, months, program_type');
+
+            if (programsError) {
+                console.warn('[Calendar Sync] Could not fetch hse_programs:', programsError.message);
+                // Continue without programs - table might not exist
+            } else {
+                programs = data || [];
+            }
+        } catch (e: any) {
+            console.warn('[Calendar Sync] Error accessing hse_programs table:', e.message);
         }
+
+        console.log('[Calendar Sync] Found', programs.length, 'programs to sync');
 
         let syncedCount = 0;
         const errors: string[] = [];

@@ -9,7 +9,10 @@ const oauth2Client = new google.auth.OAuth2(
 export const getAuthUrl = () => {
     return oauth2Client.generateAuthUrl({
         access_type: 'offline',
-        scope: ['https://www.googleapis.com/auth/calendar.events'],
+        scope: [
+            'https://www.googleapis.com/auth/calendar.events',
+            'https://www.googleapis.com/auth/drive.file'  // For file uploads to Google Drive
+        ],
         prompt: 'consent' // Penting agar mendapatkan Refresh Token
     });
 };

@@ -1,0 +1,7 @@
+i try to upload on docs page but error notif occur, debug it
+
+Upload failed: {"error":"Upload failed","details":"Error: Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead."}
+
+intercept-console-error.ts:42 Upload failed: {"error":"Upload failed","details":"Error: Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead."}
+
+﻿

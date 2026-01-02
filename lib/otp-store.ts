@@ -34,7 +34,7 @@ export interface OTPData {
     programs: OTPProgram[]
 }
 
-// Calculate progress for a program
+// Calculate progress for a program - CAPPED AT 100%
 export function calculateProgress(program: OTPProgram): number {
     let totalPlan = 0
     let totalActual = 0
@@ -43,7 +43,8 @@ export function calculateProgress(program: OTPProgram): number {
         totalPlan += monthData.plan
         totalActual += monthData.actual
     })
-    return totalPlan > 0 ? Math.round((totalActual / totalPlan) * 100) : 0
+    // Cap at 100% - if actual >= plan, program is 100% complete
+    return totalPlan > 0 ? Math.min(100, Math.round((totalActual / totalPlan) * 100)) : 0
 }
 
 // Merge programs from multiple OTPData sources, avoiding duplicates by name

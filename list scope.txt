@@ -1,0 +1,63 @@
+
+API
+Scope
+User-facing description
+.../auth/calendar.app.created	Make secondary Google calendars, and see, create, change, and delete events on them
+.../auth/calendar.calendarlist.readonly	See the list of Google calendars you’re subscribed to
+.../auth/calendar.events	View and edit events on all your calendars
+.../auth/calendar.events.freebusy	See the availability on Google calendars you have access to
+.../auth/calendar.events.public.readonly	See the events on public calendars
+.../auth/calendar.settings.readonly	View your Calendar settings
+.../auth/calendar.freebusy	View your availability in your calendars
+.../auth/userinfo.email	See your primary Google Account email address
+.../auth/userinfo.profile	See your personal info, including any personal info you've made publicly available
+openid	Associate you with your personal info on Google
+Analytics Hub API	.../auth/bigquery	View and manage your data in Google BigQuery and see the email address for your Google Account
+Analytics Hub API	.../auth/cloud-platform	See, edit, configure, and delete your Google Cloud data and see the email address for your Google Account.
+BigQuery API	.../auth/bigquery.readonly	View your data in Google BigQuery
+BigQuery API	.../auth/cloud-platform.read-only	View your data across Google Cloud services and see the email address of your Google Account
+BigQuery API	.../auth/devstorage.full_control	Manage your data and permissions in Cloud Storage and see the email address for your Google Account
+BigQuery API	.../auth/devstorage.read_only	View your data in Google Cloud Storage
+BigQuery API	.../auth/devstorage.read_write	Manage your data in Cloud Storage and see the email address of your Google Account
+BigQuery API	.../auth/bigquery.insertdata	Insert data into Google BigQuery
+BigQuery Data Transfer API	.../auth/cloudplatformprojects	Manage your Cloud Platform projects
+Cloud Datastore API	.../auth/datastore	View and manage your Google Cloud Datastore data
+Cloud Logging API	.../auth/logging.admin	Administrate log data for your projects
+Cloud Logging API	.../auth/logging.read	View log data for your projects
+Cloud Logging API	.../auth/logging.write	Submit log data for your projects
+Cloud Monitoring API	.../auth/monitoring	View and write monitoring data for all of your Google and third-party Cloud and API projects
+Cloud Monitoring API	.../auth/monitoring.read	View monitoring data for all of your Google Cloud and third-party projects
+Cloud Monitoring API	.../auth/monitoring.write	Publish metric data to your Google Cloud projects
+Cloud Storage API	.../auth/devstorage.write_only	Manage your data in Google Cloud Storage
+Cloud Trace API	.../auth/trace.readonly	Read Trace data for a project or application
+Cloud Trace API	.../auth/trace.append	Write Trace data for a project or application
+Google Calendar API	.../auth/calendar	See, edit, share, and permanently delete all the calendars you can access using Google Calendar
+Google Calendar API	.../auth/calendar.acls	See and change the sharing permissions of Google calendars you own
+Google Calendar API	.../auth/calendar.acls.readonly	See the sharing permissions of Google calendars you own
+Google Calendar API	.../auth/calendar.readonly	See and download any calendar you can access using your Google Calendar
+Google Calendar API	.../auth/calendar.calendarlist	See, add, and remove Google calendars you’re subscribed to
+Google Calendar API	.../auth/calendar.calendars	See and change the properties of Google calendars you have access to, and create secondary calendars
+Google Calendar API	.../auth/calendar.calendars.readonly	See the title, description, default time zone, and other properties of Google calendars you have access to
+Google Calendar API	.../auth/calendar.events.owned	See, create, change, and delete events on Google calendars you own
+Google Calendar API	.../auth/calendar.events.owned.readonly	See the events on Google calendars you own
+Google Calendar API	.../auth/calendar.events.readonly	View events on all your calendars
+Google Drive API	.../auth/drive	See, edit, create, and delete all of your Google Drive files
+Google Drive API	.../auth/drive.file	See, edit, create, and delete only the specific Google Drive files you use with this app
+Google Drive API	.../auth/drive.meet.readonly	See and download your Google Drive files that were created or edited by Google Meet.
+Google Drive API	.../auth/drive.readonly	See and download all your Google Drive files
+Google Drive API	.../auth/docs	See, edit, create, and delete all of your Google Drive files
+Google Drive API	.../auth/drive.appdata	See, create, and delete its own configuration data in your Google Drive
+Google Drive API	.../auth/drive.metadata	View and manage metadata of files in your Google Drive
+Google Drive API	.../auth/drive.metadata.readonly	See information about your Google Drive files
+Google Drive API	.../auth/drive.photos.readonly	View the photos, videos and albums in your Google Photos
+Google Drive API	.../auth/drive.apps.readonly	View your Google Drive apps
+Google Drive API	.../auth/drive.scripts	Modify your Google Apps Script scripts' behavior
+Google Drive API	.../auth/drive.apps	View and manage your Google Drive apps
+Google Drive API	.../auth/activity	View the activity history of your Google apps
+Google Drive API	.../auth/drive.activity	View and add to the activity record of files in your Google Drive
+Google Drive API	.../auth/drive.activity.readonly	View the activity record of files in your Google Drive
+Google Drive API	.../auth/drive.install	Connect itself to your Google Drive
+Google Drive API	.../auth/gmail.readonly	View your email messages and settings
+Service Management API	.../auth/service.management	Manage your Google API service configuration
+Service Management API	.../auth/service.management.readonly	View your Google API service configuration
+Service Management API	.../auth/iam.test	Test Identity and Access Management (IAM) Permissions

@@ -91,9 +91,9 @@ export default function MatrixPage() {
     )
 
     const totalPrograms = filteredPrograms.length
-    const completed = filteredPrograms.filter(p => p.progress === 100).length
+    const completed = filteredPrograms.filter(p => p.progress >= 100).length  // >= 100 for completed
     const inProgress = filteredPrograms.filter(p => p.progress > 0 && p.progress < 100).length
-    const avgProgress = totalPrograms > 0 ? Math.round(filteredPrograms.reduce((sum, p) => sum + (p.progress || 0), 0) / totalPrograms) : 0
+    const avgProgress = totalPrograms > 0 ? Math.min(100, Math.round(filteredPrograms.reduce((sum, p) => sum + (p.progress || 0), 0) / totalPrograms)) : 0
 
     // Save data and sync calendar
     const saveData = (newData: MatrixData) => {

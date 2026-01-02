@@ -121,31 +121,35 @@ export function loadAllProgramData(): AllProgramData {
     return { otpPrograms, matrixPrograms }
 }
 
-// Calculate monthly stats from raw program data
+// Calculate monthly stats - COUNT PROGRAMS, not sum of plan/actual values
 export function calculateMonthlyStats(data: AllProgramData): MonthlyStats[] {
     return months.map((month, idx) => {
         let planned = 0
         let completed = 0
 
-        // Sum OTP monthly plan/actual
+        // Count OTP programs with activity in this month
         data.otpPrograms.forEach(({ program }) => {
             const monthData = program.months[month]
-            if (monthData) {
-                planned += monthData.plan || 0
-                completed += monthData.actual || 0
+            if (monthData && (monthData.plan || 0) > 0) {
+                planned++
+                if ((monthData.actual || 0) >= (monthData.plan || 0)) {
+                    completed++
+                }
             }
         })
 
-        // Sum Matrix monthly plan/actual
+        // Count Matrix programs with activity in this month
         data.matrixPrograms.forEach(({ program }) => {
             const monthData = program.months[month]
-            if (monthData) {
-                planned += monthData.plan || 0
-                completed += monthData.actual || 0
+            if (monthData && (monthData.plan || 0) > 0) {
+                planned++
+                if ((monthData.actual || 0) >= (monthData.plan || 0)) {
+                    completed++
+                }
             }
         })
 
-        // Overdue: planned > actual for past months
+        // Overdue: planned > completed for past months
         const today = new Date()
         const currentMonth = today.getMonth()
         const overdue = idx < currentMonth ? Math.max(0, planned - completed) : 0
@@ -155,86 +159,87 @@ export function calculateMonthlyStats(data: AllProgramData): MonthlyStats[] {
             label: monthLabels[idx],
             planned,
             completed,
-            completionRate: planned > 0 ? Math.round((completed / planned) * 100) : 0,
+            completionRate: planned > 0 ? Math.min(100, Math.round((completed / planned) * 100)) : 0,
             overdue
         }
     })
 }
 
-// Calculate overall stats
+// Calculate overall stats - COUNT PROGRAMS, not sum of plan/actual values
 export function calculateOverallStats(data: AllProgramData): OverallStats {
-    let totalPlanned = 0
-    let totalCompleted = 0
-    let otpPlanned = 0
-    let otpCompleted = 0
-    let matrixPlanned = 0
-    let matrixCompleted = 0
+    // Count unique programs
+    const otpProgramCount = data.otpPrograms.length
+    const matrixProgramCount = data.matrixPrograms.length
+    const totalPrograms = otpProgramCount + matrixProgramCount
 
-    // OTP stats
-    data.otpPrograms.forEach(({ program }) => {
-        months.forEach(m => {
-            const md = program.months[m]
-            if (md) {
-                otpPlanned += md.plan || 0
-                otpCompleted += md.actual || 0
+    // Calculate completion status for each program based on progress
+    // Progress = sum(actual) / sum(plan) * 100 for all months
+    const calculateProgramProgress = (months: Record<string, { plan?: number; actual?: number }>) => {
+        let totalPlan = 0
+        let totalActual = 0
+        Object.values(months).forEach(m => {
+            if (m) {
+                totalPlan += m.plan || 0
+                totalActual += m.actual || 0
             }
         })
+        return totalPlan > 0 ? Math.round((totalActual / totalPlan) * 100) : 0
+    }
+
+    // OTP stats
+    let otpCompleted = 0
+    let otpInProgress = 0
+    data.otpPrograms.forEach(({ program }) => {
+        const progress = calculateProgramProgress(program.months)
+        if (progress >= 100) otpCompleted++
+        else if (progress > 0) otpInProgress++
     })
 
     // Matrix stats
+    let matrixCompleted = 0
+    let matrixInProgress = 0
     data.matrixPrograms.forEach(({ program }) => {
-        months.forEach(m => {
-            const md = program.months[m]
-            if (md) {
-                matrixPlanned += md.plan || 0
-                matrixCompleted += md.actual || 0
-            }
-        })
+        const progress = calculateProgramProgress(program.months)
+        if (progress >= 100) matrixCompleted++
+        else if (progress > 0) matrixInProgress++
     })
 
-    totalPlanned = otpPlanned + matrixPlanned
-    totalCompleted = otpCompleted + matrixCompleted
+    const totalCompleted = otpCompleted + matrixCompleted
+    const totalInProgress = otpInProgress + matrixInProgress
+    const totalUpcoming = totalPrograms - totalCompleted - totalInProgress
 
-    const inProgress = totalPlanned - totalCompleted
+    // Calculate overdue (programs that are in progress or upcoming past their due date)
     const today = new Date()
-    const currentMonth = today.getMonth()
-
-    // Calculate overdue (sum of uncompleted from past months)
     let overdue = 0
-    months.forEach((m, idx) => {
-        if (idx < currentMonth) {
-            let monthPlanned = 0
-            let monthCompleted = 0
 
-            data.otpPrograms.forEach(({ program }) => {
-                const md = program.months[m]
-                if (md) {
-                    monthPlanned += md.plan || 0
-                    monthCompleted += md.actual || 0
-                }
-            })
-            data.matrixPrograms.forEach(({ program }) => {
-                const md = program.months[m]
-                if (md) {
-                    monthPlanned += md.plan || 0
-                    monthCompleted += md.actual || 0
-                }
-            })
+    // For OTP programs
+    data.otpPrograms.forEach(({ program }) => {
+        const progress = calculateProgramProgress(program.months)
+        if (progress < 100 && program.due_date) {
+            const dueDate = new Date(program.due_date)
+            if (dueDate < today) overdue++
+        }
+    })
 
-            overdue += Math.max(0, monthPlanned - monthCompleted)
+    // For Matrix programs  
+    data.matrixPrograms.forEach(({ program }) => {
+        const progress = calculateProgramProgress(program.months)
+        const dueDate = (program as any).due_date
+        if (progress < 100 && dueDate) {
+            if (new Date(dueDate) < today) overdue++
         }
     })
 
     return {
-        total: totalPlanned,
+        total: totalPrograms,
         completed: totalCompleted,
-        inProgress: Math.max(0, totalPlanned - totalCompleted),
-        upcoming: 0, // Future months not yet due
+        inProgress: totalInProgress,
+        upcoming: totalUpcoming,
         overdue,
-        completionRate: totalPlanned > 0 ? Math.round((totalCompleted / totalPlanned) * 100) : 0,
-        otpCount: otpPlanned,
+        completionRate: totalPrograms > 0 ? Math.min(100, Math.round((totalCompleted / totalPrograms) * 100)) : 0,
+        otpCount: otpProgramCount,
         otpCompleted,
-        matrixCount: matrixPlanned,
+        matrixCount: matrixProgramCount,
         matrixCompleted
     }
 }
@@ -315,7 +320,7 @@ export function calculateSemesterStats(data: AllProgramData): PeriodStats[] {
     })
 }
 
-// Calculate category statistics (Matrix categories)
+// Calculate category statistics (Matrix categories) - COUNT PROGRAMS
 export function calculateCategoryStats(data: AllProgramData): CategoryStats[] {
     const categories = [
         { key: 'otp', label: '🎯 OTP Programs', color: '#3498db' },
@@ -325,32 +330,38 @@ export function calculateCategoryStats(data: AllProgramData): CategoryStats[] {
         { key: 'drill', label: '🚨 Drill', color: '#fa709a' }
     ]
 
+    const calculateProgress = (months: Record<string, { plan?: number; actual?: number }>) => {
+        let totalPlan = 0
+        let totalActual = 0
+        Object.values(months).forEach(m => {
+            if (m) {
+                totalPlan += m.plan || 0
+                totalActual += m.actual || 0
+            }
+        })
+        return totalPlan > 0 ? Math.round((totalActual / totalPlan) * 100) : 0
+    }
+
     return categories.map(cat => {
         let total = 0
         let completed = 0
+        let inProgress = 0
 
         if (cat.key === 'otp') {
+            total = data.otpPrograms.length
             data.otpPrograms.forEach(({ program }) => {
-                months.forEach(m => {
-                    const md = program.months[m]
-                    if (md) {
-                        total += md.plan || 0
-                        completed += md.actual || 0
-                    }
-                })
+                const progress = calculateProgress(program.months)
+                if (progress >= 100) completed++
+                else if (progress > 0) inProgress++
             })
         } else {
-            data.matrixPrograms
-                .filter(p => p.category === cat.key)
-                .forEach(({ program }) => {
-                    months.forEach(m => {
-                        const md = program.months[m]
-                        if (md) {
-                            total += md.plan || 0
-                            completed += md.actual || 0
-                        }
-                    })
-                })
+            const filtered = data.matrixPrograms.filter(p => p.category === cat.key)
+            total = filtered.length
+            filtered.forEach(({ program }) => {
+                const progress = calculateProgress(program.months)
+                if (progress >= 100) completed++
+                else if (progress > 0) inProgress++
+            })
         }
 
         return {
@@ -358,15 +369,15 @@ export function calculateCategoryStats(data: AllProgramData): CategoryStats[] {
             label: cat.label,
             total,
             completed,
-            inProgress: Math.max(0, total - completed),
-            upcoming: 0,
-            completionRate: total > 0 ? Math.round((completed / total) * 100) : 0,
+            inProgress,
+            upcoming: total - completed - inProgress,
+            completionRate: total > 0 ? Math.min(100, Math.round((completed / total) * 100)) : 0,
             color: cat.color
         }
     }).filter(c => c.total > 0)
 }
 
-// Calculate base statistics
+// Calculate base statistics - COUNT PROGRAMS
 export function calculateBaseStats(data: AllProgramData): CategoryStats[] {
     const bases = [
         { key: 'narogong', label: '🏭 Narogong', color: '#e74c3c' },
@@ -375,36 +386,41 @@ export function calculateBaseStats(data: AllProgramData): CategoryStats[] {
         { key: 'asia', label: '🌏 Asia', color: '#9b59b6' }
     ]
 
+    const calculateProgress = (months: Record<string, { plan?: number; actual?: number }>) => {
+        let totalPlan = 0
+        let totalActual = 0
+        Object.values(months).forEach(m => {
+            if (m) {
+                totalPlan += m.plan || 0
+                totalActual += m.actual || 0
+            }
+        })
+        return totalPlan > 0 ? Math.round((totalActual / totalPlan) * 100) : 0
+    }
+
     return bases.map(base => {
         let total = 0
         let completed = 0
+        let inProgress = 0
 
-        // OTP data for this base
-        data.otpPrograms
-            .filter(p => base.key === 'asia' ? p.region === 'asia' : p.base === base.key)
-            .forEach(({ program }) => {
-                months.forEach(m => {
-                    const md = program.months[m]
-                    if (md) {
-                        total += md.plan || 0
-                        completed += md.actual || 0
-                    }
-                })
-            })
+        // OTP programs for this base
+        const otpFiltered = data.otpPrograms.filter(p => base.key === 'asia' ? p.region === 'asia' : p.base === base.key)
+        total += otpFiltered.length
+        otpFiltered.forEach(({ program }) => {
+            const progress = calculateProgress(program.months)
+            if (progress >= 100) completed++
+            else if (progress > 0) inProgress++
+        })
 
-        // Matrix data for this base (Matrix doesn't have Asia)
+        // Matrix programs for this base (Matrix doesn't have Asia)
         if (base.key !== 'asia') {
-            data.matrixPrograms
-                .filter(p => p.base === base.key)
-                .forEach(({ program }) => {
-                    months.forEach(m => {
-                        const md = program.months[m]
-                        if (md) {
-                            total += md.plan || 0
-                            completed += md.actual || 0
-                        }
-                    })
-                })
+            const matrixFiltered = data.matrixPrograms.filter(p => p.base === base.key)
+            total += matrixFiltered.length
+            matrixFiltered.forEach(({ program }) => {
+                const progress = calculateProgress(program.months)
+                if (progress >= 100) completed++
+                else if (progress > 0) inProgress++
+            })
         }
 
         return {
@@ -412,35 +428,53 @@ export function calculateBaseStats(data: AllProgramData): CategoryStats[] {
             label: base.label,
             total,
             completed,
-            inProgress: Math.max(0, total - completed),
-            upcoming: 0,
-            completionRate: total > 0 ? Math.round((completed / total) * 100) : 0,
+            inProgress,
+            upcoming: total - completed - inProgress,
+            completionRate: total > 0 ? Math.min(100, Math.round((completed / total) * 100)) : 0,
             color: base.color
         }
     }).filter(b => b.total > 0)
 }
 
-// Calculate cumulative completion trend
+// Calculate cumulative completion trend - COUNT PROGRAMS COMPLETED
 export function calculateCompletionTrend(data: AllProgramData): TrendData[] {
-    let cumulative = 0
+    // Calculate how many programs are completed by checking their progress
+    const isCompleted = (months: Record<string, { plan?: number; actual?: number }>) => {
+        let totalPlan = 0
+        let totalActual = 0
+        Object.values(months).forEach(m => {
+            if (m) {
+                totalPlan += m.plan || 0
+                totalActual += m.actual || 0
+            }
+        })
+        return totalPlan > 0 && totalActual >= totalPlan
+    }
+
+    // Count total completed programs
+    let totalCompleted = 0
+    data.otpPrograms.forEach(({ program }) => {
+        if (isCompleted(program.months)) totalCompleted++
+    })
+    data.matrixPrograms.forEach(({ program }) => {
+        if (isCompleted(program.months)) totalCompleted++
+    })
+
+    // For the trend, show progressive completion over months
+    // This is approximated by distributing completions evenly or using actual data
+    const totalPrograms = data.otpPrograms.length + data.matrixPrograms.length
+
     return monthLabels.map((label, idx) => {
-        const month = months[idx]
-        let completedThisMonth = 0
+        // Estimate cumulative progress: assume even distribution of completions
+        const monthFraction = (idx + 1) / 12
+        const estimatedCompleted = Math.round(totalCompleted * monthFraction)
+        const previousEstimated = idx === 0 ? 0 : Math.round(totalCompleted * (idx / 12))
 
-        data.otpPrograms.forEach(({ program }) => {
-            const md = program.months[month]
-            if (md) completedThisMonth += md.actual || 0
-        })
-        data.matrixPrograms.forEach(({ program }) => {
-            const md = program.months[month]
-            if (md) completedThisMonth += md.actual || 0
-        })
-
-        cumulative += completedThisMonth
         return {
             label,
-            value: cumulative,
-            previousValue: cumulative - completedThisMonth
+            value: estimatedCompleted,
+            previousValue: previousEstimated,
+            change: estimatedCompleted - previousEstimated
         }
     })
 }
@@ -516,27 +550,36 @@ export function generateStatistics(filters: StatsFilters = {}) {
     }
 }
 
-// Helper for source stats
+// Helper for source stats - COUNT PROGRAMS
 function calculateOverallStatsForSource(programs: { program: OTPProgram | MatrixProgram }[]) {
-    let total = 0
+    const total = programs.length
     let completed = 0
+    let inProgress = 0
 
-    programs.forEach(({ program }) => {
-        months.forEach(m => {
-            const md = program.months[m]
-            if (md) {
-                total += md.plan || 0
-                completed += md.actual || 0
+    const calculateProgress = (months: Record<string, { plan?: number; actual?: number }>) => {
+        let totalPlan = 0
+        let totalActual = 0
+        Object.values(months).forEach(m => {
+            if (m) {
+                totalPlan += m.plan || 0
+                totalActual += m.actual || 0
             }
         })
+        return totalPlan > 0 ? Math.round((totalActual / totalPlan) * 100) : 0
+    }
+
+    programs.forEach(({ program }) => {
+        const progress = calculateProgress(program.months)
+        if (progress >= 100) completed++
+        else if (progress > 0) inProgress++
     })
 
     return {
         total,
         completed,
-        inProgress: Math.max(0, total - completed),
-        upcoming: 0,
-        completionRate: total > 0 ? Math.round((completed / total) * 100) : 0
+        inProgress,
+        upcoming: total - completed - inProgress,
+        completionRate: total > 0 ? Math.min(100, Math.round((completed / total) * 100)) : 0
     }
 }
 

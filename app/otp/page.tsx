@@ -107,13 +107,12 @@ export default function OTPPage() {
         return (data?.programs || []) as Program[]
     }, [data?.programs])
 
-    // Filter programs
     const filteredPrograms = useMemo(() => {
         return programs.filter(prog => {
             const matchesSearch = prog.name.toLowerCase().includes(search.toLowerCase()) ||
                 (prog.plan_type || "").toLowerCase().includes(search.toLowerCase())
             let matchesStatus = true
-            if (statusFilter === "completed") matchesStatus = prog.progress === 100
+            if (statusFilter === "completed") matchesStatus = prog.progress >= 100  // >= 100 for completed
             else if (statusFilter === "progress") matchesStatus = prog.progress > 0 && prog.progress < 100
             else if (statusFilter === "notstarted") matchesStatus = prog.progress === 0
             return matchesSearch && matchesStatus
@@ -123,9 +122,9 @@ export default function OTPPage() {
     // Summary stats
     const stats = useMemo(() => {
         const total = programs.length
-        const completed = programs.filter(p => p.progress === 100).length
+        const completed = programs.filter(p => p.progress >= 100).length  // >= 100 for completed
         const inProgress = programs.filter(p => p.progress > 0 && p.progress < 100).length
-        const avgProgress = total > 0 ? Math.round(programs.reduce((sum, p) => sum + p.progress, 0) / total) : 0
+        const avgProgress = total > 0 ? Math.min(100, Math.round(programs.reduce((sum, p) => sum + p.progress, 0) / total)) : 0  // Cap at 100
         return { total, completed, inProgress, avgProgress }
     }, [programs])
 
@@ -516,7 +515,7 @@ export default function OTPPage() {
                                         <tr><td colSpan={17} className="p-8 text-center text-[var(--text-muted)]">No OTP programs found</td></tr>
                                     ) : (
                                         filteredPrograms.map((prog, idx) => {
-                                            const progressColor = prog.progress === 100 ? "bg-[var(--success-color)]" : prog.progress >= 50 ? "bg-[var(--warning-color)]" : "bg-[var(--danger-color)]"
+                                            const progressColor = prog.progress >= 100 ? "bg-[var(--success-color)]" : prog.progress >= 50 ? "bg-[var(--warning-color)]" : "bg-[var(--danger-color)]"
                                             return (
                                                 <motion.tr
                                                     key={prog.id}

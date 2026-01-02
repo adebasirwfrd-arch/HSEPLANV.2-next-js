@@ -52,7 +52,7 @@ export interface MatrixData {
 
 export type MatrixCategory = "audit" | "training" | "drill" | "meeting"
 
-// Calculate progress for a program
+// Calculate progress for a program - CAPPED AT 100%
 export function calculateProgress(program: MatrixProgram): number {
     let totalPlan = 0
     let totalActual = 0
@@ -61,7 +61,8 @@ export function calculateProgress(program: MatrixProgram): number {
         totalPlan += monthData.plan
         totalActual += monthData.actual
     })
-    return totalPlan > 0 ? Math.round((totalActual / totalPlan) * 100) : 0
+    // Cap at 100% - if actual >= plan, program is 100% complete
+    return totalPlan > 0 ? Math.min(100, Math.round((totalActual / totalPlan) * 100)) : 0
 }
 
 // Get data based on category and base

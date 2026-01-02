@@ -475,14 +475,14 @@ export default function TasksPage() {
                 {/* Dashboard Cards */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     <motion.div whileHover={{ y: -5, scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }}>
-                        <GlassCard className="p-4 bg-gradient-to-br from-[var(--accent-blue)] to-[var(--accent-sky)] cursor-pointer shadow-inner">
+                        <GlassCard className="p-4 cursor-pointer shadow-inner">
                             <div className="flex items-center gap-2 mb-2">
-                                <CheckCircle className="w-5 h-5 text-white drop-shadow-sm" />
-                                <span className="text-sm text-white font-medium drop-shadow-sm">Completion</span>
+                                <CheckCircle className="w-5 h-5 text-[var(--accent-blue)]" />
+                                <span className="text-sm text-[var(--text-secondary)] font-medium">Completion</span>
                             </div>
-                            <div className="text-2xl font-bold text-white drop-shadow-md">{completionRate}%</div>
-                            <div className="w-full h-2 bg-white/20 rounded-full mt-2">
-                                <div className="h-full bg-white rounded-full transition-all" style={{ width: `${completionRate}%` }} />
+                            <div className="text-2xl font-bold text-[var(--text-primary)]">{completionRate}%</div>
+                            <div className="w-full h-2 bg-[var(--accent-blue)]/20 rounded-full mt-2">
+                                <div className="h-full bg-[var(--accent-blue)] rounded-full transition-all" style={{ width: `${completionRate}%` }} />
                             </div>
                         </GlassCard>
                     </motion.div>
