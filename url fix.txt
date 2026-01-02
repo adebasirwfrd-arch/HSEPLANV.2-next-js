@@ -1,0 +1,9 @@
+@File (app/login/page.tsx)
+@File (app/auth/callback/route.ts)
+
+I fixed the Google Console settings, but I'm getting "requested path is invalid". 
+
+1. In `app/login/page.tsx`, update `signInWithOAuth` to use a dynamic redirect:
+   `const redirectTo = `${window.location.origin}/auth/callback``
+2. In `app/auth/callback/route.ts`, ensure it correctly parses the 'code' from Google and redirects the user to the dashboard using the dynamic origin (Vercel).
+3. Ensure no localhost:3000 strings remain in the authentication flow.

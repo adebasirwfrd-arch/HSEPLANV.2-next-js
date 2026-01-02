@@ -1,13 +1,14 @@
 "use client"
 
 import { useState, useEffect, useRef } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { gsap } from 'gsap'
 import { createClient } from '@/lib/supabase/client'
 import { Shield, Mail, Lock, ArrowRight, Loader2, Eye, EyeOff, AlertCircle, Check } from 'lucide-react'
 
 export default function LoginPage() {
     const router = useRouter()
+    const searchParams = useSearchParams()
     const supabase = createClient()
 
     const [email, setEmail] = useState('')
@@ -26,6 +27,14 @@ export default function LoginPage() {
     const cardRef = useRef<HTMLDivElement>(null)
     const mascotRef = useRef<HTMLDivElement>(null)
     const featuresRef = useRef<HTMLDivElement>(null)
+
+    // Check for error from callback
+    useEffect(() => {
+        const errorFromUrl = searchParams.get('error')
+        if (errorFromUrl) {
+            setError(decodeURIComponent(errorFromUrl))
+        }
+    }, [searchParams])
 
     // Check if already logged in
     useEffect(() => {
