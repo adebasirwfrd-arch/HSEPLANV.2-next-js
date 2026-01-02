@@ -4,11 +4,11 @@ import { createClient } from "@/lib/supabase/server"
 
 export async function GET() {
     try {
-        // Use strict env var names
         const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY
         const appSecret = process.env.STREAM_API_SECRET
         const appId = process.env.NEXT_PUBLIC_STREAM_APP_ID
 
+        // Pastikan variabel environment terbaca
         if (!apiKey || !appSecret || !appId) {
             return NextResponse.json(
                 { error: "Stream API credentials not configured" },
@@ -16,7 +16,6 @@ export async function GET() {
             )
         }
 
-        // Get user from Supabase session
         const supabase = await createClient()
         const { data: { user } } = await supabase.auth.getUser()
 
@@ -27,41 +26,37 @@ export async function GET() {
             )
         }
 
-        // Extract user data from Google OAuth
         const userId = user.id.replace(/-/g, '')
         const userName = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'User'
         const userAvatar = user.user_metadata?.avatar_url || user.user_metadata?.picture
         const userEmail = user.email
 
-        // Initialize Stream client with Singapore region
-        const client = connect(apiKey, appSecret, appId, { location: 'singapore' })
+        /**
+         * PERBAIKAN UTAMA: 
+         * Menggunakan format inisialisasi yang benar untuk region 'singapore'.
+         * SDK akan otomatis menangani pembentukan URL yang valid.
+         */
+        const client = connect(apiKey, appSecret, appId, 'singapore');
 
-        // Generate user token
         const userToken = client.createUserToken(userId)
 
-        // Sync user identity to Stream
+        // Sinkronisasi identitas user
         try {
-            const streamUser = client.user(userId)
-            await streamUser.getOrCreate({
+            await client.user(userId).getOrCreate({
                 name: userName,
                 image: userAvatar,
-                email: userEmail,
-                id: userId
+                email: userEmail
             })
-            await streamUser.update({
-                name: userName,
-                image: userAvatar
-            })
-        } catch {
-            // Non-critical
+        } catch (e) {
+            console.error("Stream Identity Sync Error:", e)
         }
 
-        // Auto-follow: Ensure timeline follows user feed
+        // Auto-follow: Memastikan timeline menarik data dari feed user
         try {
             const timelineFeed = client.feed('timeline', userId)
             await timelineFeed.follow('user', userId)
-        } catch {
-            // Non-critical
+        } catch (e) {
+            console.error("Stream Auto-follow Error:", e)
         }
 
         return NextResponse.json({
@@ -72,15 +67,11 @@ export async function GET() {
             user: {
                 id: userId,
                 name: userName,
-                image: userAvatar,
-                email: userEmail
+                image: userAvatar
             }
         })
     } catch (error: unknown) {
         const message = error instanceof Error ? error.message : "Failed to generate token"
-        return NextResponse.json(
-            { error: message },
-            { status: 500 }
-        )
+        return NextResponse.json({ error: message }, { status: 500 })
     }
 }

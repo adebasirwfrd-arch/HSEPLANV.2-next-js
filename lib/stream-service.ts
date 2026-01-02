@@ -66,12 +66,15 @@ class StreamService {
             this.tokenData = await this.fetchToken()
             if (!this.tokenData) throw new Error('Failed to get token')
 
-            // Connect with Singapore region
+            // Connect with Singapore region - browser: true for client-side
             this.state.client = connect(
                 this.tokenData.apiKey,
                 this.tokenData.token,
                 this.tokenData.appId,
-                { location: 'singapore' }
+                {
+                    browser: true,
+                    location: 'singapore'
+                }
             )
 
             this.state.user = this.tokenData.user
