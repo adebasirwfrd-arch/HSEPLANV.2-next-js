@@ -177,31 +177,100 @@ class StreamService {
 
     /**
      * Post an activity to the user's feed
+     * With detailed diagnostic logging
      */
     async post(activity: {
         content: string
         category?: string
         attachments?: string[]
     }): Promise<boolean> {
+        console.log('=== STREAM SERVICE POST DEBUG ===')
+        console.log('[StreamService] Attempting to post activity...')
+        console.log('[StreamService] Content:', activity.content)
+        console.log('[StreamService] Category:', activity.category)
+        console.log('[StreamService] Attachments:', activity.attachments)
+
         try {
             const feed = await this.getUserFeed()
-            if (!feed) return false
+            if (!feed) {
+                console.error('[StreamService] Failed to get user feed')
+                return false
+            }
 
-            await feed.addActivity({
-                actor: `user:${this.state.user?.id}`,
+            const userId = this.state.user?.id
+            console.log('[StreamService] User ID:', userId)
+            console.log('[StreamService] Feed type: user')
+
+            const activityData = {
+                actor: `user:${userId}`,
                 verb: 'post',
-                object: activity.content,
+                object: `post:${Date.now()}`,
                 content: activity.content,
                 category: activity.category,
                 attachments: activity.attachments,
                 time: new Date().toISOString()
-            })
+            }
 
-            console.log('[StreamService] Post created successfully')
+            console.log('[StreamService] Activity data:', JSON.stringify(activityData, null, 2))
+
+            const response = await feed.addActivity(activityData)
+
+            console.log('[StreamService] addActivity response:', JSON.stringify(response, null, 2))
+            console.log('[StreamService] Post created successfully ✓')
             return true
         } catch (error) {
             console.error('[StreamService] Failed to create post:', error)
+            if (error instanceof Error) {
+                console.error('[StreamService] Error name:', error.name)
+                console.error('[StreamService] Error message:', error.message)
+                console.error('[StreamService] Error stack:', error.stack)
+            }
             return false
+        }
+    }
+
+    /**
+     * Get timeline activities with manual refresh fallback
+     */
+    async getTimelineActivities(options: { limit?: number; refresh?: boolean } = {}): Promise<unknown[]> {
+        console.log('[StreamService] Fetching timeline activities...')
+
+        try {
+            const feed = await this.getTimelineFeed()
+            if (!feed) {
+                console.error('[StreamService] Timeline feed not available')
+                return []
+            }
+
+            const response = await feed.get({
+                limit: options.limit || 25,
+                // Force refresh by not using cache
+                enrich: true
+            })
+
+            console.log('[StreamService] Timeline activities fetched:', response.results?.length || 0)
+            console.log('[StreamService] Response:', JSON.stringify(response, null, 2))
+
+            return response.results || []
+        } catch (error) {
+            console.error('[StreamService] Failed to fetch timeline:', error)
+
+            // Manual refresh fallback - try user feed directly
+            if (options.refresh) {
+                console.log('[StreamService] Attempting fallback to user feed...')
+                try {
+                    const userFeed = await this.getUserFeed()
+                    if (userFeed) {
+                        const fallbackResponse = await userFeed.get({ limit: options.limit || 25 })
+                        console.log('[StreamService] Fallback successful:', fallbackResponse.results?.length || 0)
+                        return fallbackResponse.results || []
+                    }
+                } catch (fallbackError) {
+                    console.error('[StreamService] Fallback also failed:', fallbackError)
+                }
+            }
+
+            return []
         }
     }
 

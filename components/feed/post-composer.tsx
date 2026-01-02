@@ -73,10 +73,30 @@ export function PostComposer({
     const handleSubmit = async () => {
         if ((!content.trim() && attachments.length === 0) || !onPost) return
 
-        await onPost(content, category, attachments.length > 0 ? attachments : undefined)
-        setContent("")
-        setAttachments([])
-        setPreviews([])
+        // DIAGNOSTIC LOGGING - Stream Debug
+        console.log('=== POST COMPOSER SUBMIT DEBUG ===')
+        console.log('Content:', content)
+        console.log('Category:', category)
+        console.log('Attachments count:', attachments.length)
+        console.log('Attachment types:', attachments.map(a => a.type))
+        console.log('User:', userName)
+        console.log('Timestamp:', new Date().toISOString())
+
+        try {
+            await onPost(content, category, attachments.length > 0 ? attachments : undefined)
+            console.log('[PostComposer] Post submitted successfully')
+            setContent("")
+            setAttachments([])
+            setPreviews([])
+        } catch (error) {
+            console.error('[PostComposer] Post submission failed:', error)
+            // Log detailed error info
+            if (error instanceof Error) {
+                console.error('[PostComposer] Error name:', error.name)
+                console.error('[PostComposer] Error message:', error.message)
+                console.error('[PostComposer] Error stack:', error.stack)
+            }
+        }
     }
 
     const canSubmit = (content.trim() || attachments.length > 0) && !isPosting

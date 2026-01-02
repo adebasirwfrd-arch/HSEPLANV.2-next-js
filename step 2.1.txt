@@ -1,21 +1,24 @@
 @File (app/api/stream/token/route.ts)
+@File (components/dashboard/post-composer.tsx)
+@File (app/(dashboard)/home/page.tsx)
 @File (lib/stream-service.ts)
 
-I want a fully automated "Self-Healing" system for Stream.io. DO NOT add any buttons; this must happen automatically in the background.
+I need a COMPLETE SYSTEM DEBUG and AUTO-FIX for the Stream.io feed. It's not working even after manual dashboard tweaks. 
 
-### 1. AUTOMATED FEED SYNC
-- In `app/api/stream/token/route.ts`, every time a token is generated:
-    - Automatically call `client.feed('timeline', userId).follow('user', userId)`.
-    - This ensures that posts from the 'user' feed group always flow to the 'timeline' without manual follow actions.
+### 1. DIAGNOSTIC LOGGING (Temporary)
+- In `post-composer.tsx`, add detailed error handling inside the `handlePost` function. 
+- Log the EXACT response from Stream when `addActivity` is called. 
+- Log the `userId` being used to ensure it matches 'ade4' or the active Supabase user.
 
-### 2. API-BASED CONFIGURATION FIX
-- Implement a logic that checks the 'notification' feed group via the Stream Server SDK.
-- If it finds any 'following' selectors (which are causing errors in the dashboard), the code must programmatically remove them.
-- Ensure the 'notification' group is kept clean for real-time bell notifications.
+### 2. SERVER-SIDE SELF-HEALING (The Fix)
+- In `app/api/stream/token/route.ts`, implement a "Sanity Check" before returning the token:
+    a. Check if the 'notification' group has any 'following' selectors. If yes, use the Stream Admin SDK to PROGRAMMATICALLY DELETE them.
+    b. Check if 'timeline:userId' is following 'user:userId'. If not, FORCE the follow relationship immediately.
+    c. Verify the User Identity (name/avatar) is correctly synced to Stream's user database.
 
-### 3. IDENTITY AUTO-UPDATE
-- Every login session must trigger a profile sync:
-    - Update the Stream User profile with the latest Google Name and Avatar URL from the Supabase session.
+### 3. FEED FETCHING LOGIC
+- In `home/page.tsx`, ensure the `FlatFeed` or custom feed component is explicitly targeting the 'timeline' group and 'userId'.
+- Add a 'Manual Refresh' fallback that triggers if real-time subscription fails.
 
-### 4. ERROR RESILIENCE
-- If the Stream connection fails, the app must gracefully retry in the background without showing error pop-ups to the user.
+### 4. MEDIA MAPPING DEBUG
+- Verify that when a photo is attached, the CDN URL is correctly stored in the `attachments` field of the Stream Activity, not just local state.
