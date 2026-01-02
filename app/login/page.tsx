@@ -25,6 +25,7 @@ export default function LoginPage() {
     const descRef = useRef<HTMLParagraphElement>(null)
     const cardRef = useRef<HTMLDivElement>(null)
     const mascotRef = useRef<HTMLDivElement>(null)
+    const featuresRef = useRef<HTMLDivElement>(null)
 
     // Check if already logged in
     useEffect(() => {
@@ -39,61 +40,84 @@ export default function LoginPage() {
         checkAuth()
     }, [router, supabase.auth])
 
-    // GSAP Animations
+    // GSAP Entrance Animations
     useEffect(() => {
         if (isCheckingAuth) return
 
-        // Timeline for staggered animations
-        const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+        const ctx = gsap.context(() => {
+            // Timeline for staggered animations
+            const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
-        // Branding side entrance
-        if (brandingRef.current) {
-            gsap.set(brandingRef.current, { opacity: 0, x: -50 })
-            tl.to(brandingRef.current, { opacity: 1, x: 0, duration: 0.8 }, 0)
-        }
+            // Branding side entrance from left
+            if (brandingRef.current) {
+                gsap.set(brandingRef.current, { opacity: 0, x: -100 })
+                tl.to(brandingRef.current, { opacity: 1, x: 0, duration: 1 }, 0)
+            }
 
-        // Mascot floating animation
-        if (mascotRef.current) {
-            gsap.set(mascotRef.current, { opacity: 0, scale: 0.8, y: 20 })
-            tl.to(mascotRef.current, { opacity: 1, scale: 1, y: 0, duration: 0.6 }, 0.3)
+            // Mascot pop-in with bounce
+            if (mascotRef.current) {
+                gsap.set(mascotRef.current, { opacity: 0, scale: 0.5, y: 50 })
+                tl.to(mascotRef.current, {
+                    opacity: 1,
+                    scale: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: 'back.out(1.7)'
+                }, 0.3)
 
-            // Continuous floating effect
-            gsap.to(mascotRef.current, {
-                y: -15,
-                duration: 2,
-                repeat: -1,
-                yoyo: true,
-                ease: 'sine.inOut'
-            })
-        }
+                // Continuous floating effect
+                gsap.to(mascotRef.current, {
+                    y: -20,
+                    duration: 2.5,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: 'sine.inOut',
+                    delay: 1.5
+                })
+            }
 
-        // Staggered headline animation
-        if (headlineRef.current) {
-            gsap.set(headlineRef.current, { opacity: 0, y: 30 })
-            tl.to(headlineRef.current, { opacity: 1, y: 0, duration: 0.6 }, 0.4)
-        }
+            // Staggered headline animation
+            if (headlineRef.current) {
+                gsap.set(headlineRef.current, { opacity: 0, y: 40 })
+                tl.to(headlineRef.current, { opacity: 1, y: 0, duration: 0.7 }, 0.5)
+            }
 
-        if (subtitleRef.current) {
-            gsap.set(subtitleRef.current, { opacity: 0, y: 30 })
-            tl.to(subtitleRef.current, { opacity: 1, y: 0, duration: 0.6 }, 0.5)
-        }
+            if (subtitleRef.current) {
+                gsap.set(subtitleRef.current, { opacity: 0, y: 40 })
+                tl.to(subtitleRef.current, { opacity: 1, y: 0, duration: 0.7 }, 0.65)
+            }
 
-        if (descRef.current) {
-            gsap.set(descRef.current, { opacity: 0, y: 30 })
-            tl.to(descRef.current, { opacity: 1, y: 0, duration: 0.6 }, 0.6)
-        }
+            if (descRef.current) {
+                gsap.set(descRef.current, { opacity: 0, y: 40 })
+                tl.to(descRef.current, { opacity: 1, y: 0, duration: 0.7 }, 0.8)
+            }
 
-        // Card pop-in with bounce
-        if (cardRef.current) {
-            gsap.set(cardRef.current, { opacity: 0, scale: 0.9, y: 30 })
-            tl.to(cardRef.current, {
-                opacity: 1,
-                scale: 1,
-                y: 0,
-                duration: 0.7,
-                ease: 'back.out(1.2)'
-            }, 0.3)
-        }
+            // Features with stagger
+            if (featuresRef.current) {
+                const features = featuresRef.current.children
+                gsap.set(features, { opacity: 0, y: 20 })
+                tl.to(features, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    stagger: 0.1
+                }, 1)
+            }
+
+            // Card pop-in with spring/bounce effect
+            if (cardRef.current) {
+                gsap.set(cardRef.current, { opacity: 0, scale: 0.9, x: 50 })
+                tl.to(cardRef.current, {
+                    opacity: 1,
+                    scale: 1,
+                    x: 0,
+                    duration: 0.8,
+                    ease: 'back.out(1.2)'
+                }, 0.4)
+            }
+        })
+
+        return () => ctx.revert()
     }, [isCheckingAuth])
 
     const handleEmailLogin = async (e: React.FormEvent) => {
@@ -141,90 +165,104 @@ export default function LoginPage() {
         }
     }
 
+    // Full-screen loading state
     if (isCheckingAuth) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 to-blue-900">
-                <Loader2 className="w-8 h-8 text-white animate-spin" />
+            <div className="fixed inset-0 w-screen h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 overflow-hidden">
+                <div className="text-center">
+                    <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-2xl flex items-center justify-center animate-pulse">
+                        <Shield className="w-10 h-10 text-white" />
+                    </div>
+                    <Loader2 className="w-8 h-8 text-white animate-spin mx-auto" />
+                </div>
             </div>
         )
     }
 
     return (
-        <div className="min-h-screen flex">
-            {/* Left Side - Branding */}
+        // STRICT FULL-SCREEN - No sidebar, no dashboard elements
+        <div className="fixed inset-0 w-screen h-screen overflow-hidden flex">
+            {/* Left Side - Branding (60%) */}
             <div
                 ref={brandingRef}
-                className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex-col items-center justify-center p-12 relative overflow-hidden"
+                className="hidden lg:flex w-[60%] bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex-col items-center justify-center p-12 relative overflow-hidden"
             >
-                {/* Animated background elements */}
-                <div className="absolute inset-0 overflow-hidden">
-                    <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
-                    <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+                {/* Animated background orbs */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[100px] animate-pulse" />
+                    <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-500/15 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '1s' }} />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
                 </div>
 
                 {/* Content */}
-                <div className="relative z-10 text-center">
-                    {/* Safety Mascot Animation */}
-                    <div ref={mascotRef} className="mb-8">
-                        <div className="w-40 h-40 mx-auto bg-gradient-to-br from-blue-400 to-cyan-400 rounded-3xl flex items-center justify-center shadow-2xl shadow-blue-500/30">
-                            <Shield className="w-20 h-20 text-white" />
+                <div className="relative z-10 text-center max-w-lg">
+                    {/* Safety Mascot with floating animation */}
+                    <div ref={mascotRef} className="mb-10">
+                        <div className="w-44 h-44 mx-auto bg-gradient-to-br from-blue-400 via-cyan-400 to-teal-400 rounded-3xl flex items-center justify-center shadow-2xl shadow-blue-500/40 relative">
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-3xl" />
+                            <Shield className="w-24 h-24 text-white drop-shadow-lg" />
                         </div>
                     </div>
 
-                    {/* Headline with staggered animation */}
+                    {/* Headline with staggered fade-in */}
                     <h1
                         ref={headlineRef}
-                        className="text-4xl md:text-5xl font-bold text-white mb-4"
+                        className="text-5xl md:text-6xl font-bold text-white mb-4 tracking-tight"
                     >
                         HSE Command Center
                     </h1>
 
-                    <p ref={subtitleRef} className="text-xl text-blue-200 mb-2">
+                    <p ref={subtitleRef} className="text-2xl text-blue-200 mb-3 font-light">
                         Version 2.0
                     </p>
 
-                    <p ref={descRef} className="text-blue-300/70 max-w-sm mx-auto">
-                        Health, Safety & Environment Management Platform for Enterprise Operations
+                    <p ref={descRef} className="text-blue-300/70 max-w-md mx-auto text-lg leading-relaxed">
+                        Enterprise Health, Safety & Environment Management Platform
                     </p>
 
-                    {/* Features */}
-                    <div className="mt-12 flex flex-wrap gap-4 justify-center">
-                        {['Real-time Analytics', 'OTP Tracking', 'KPI Dashboard'].map((feature, i) => (
+                    {/* Feature badges */}
+                    <div ref={featuresRef} className="mt-12 flex flex-wrap gap-4 justify-center">
+                        {['Real-time Analytics', 'OTP Tracking', 'KPI Dashboard', 'Audit Logs'].map((feature) => (
                             <span
                                 key={feature}
-                                className="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm text-blue-200 border border-white/20"
-                                style={{ animationDelay: `${1.2 + i * 0.1}s` }}
+                                className="px-5 py-2.5 bg-white/10 backdrop-blur-sm rounded-full text-sm text-blue-200 border border-white/20 font-medium"
                             >
                                 {feature}
                             </span>
                         ))}
                     </div>
                 </div>
+
+                {/* Footer branding */}
+                <div className="absolute bottom-8 left-0 right-0 text-center">
+                    <p className="text-blue-400/50 text-sm">Powered by Supabase & Next.js</p>
+                </div>
             </div>
 
-            {/* Right Side - Auth Form */}
-            <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-[var(--bg-primary)]">
+            {/* Right Side - Auth Form (40%) */}
+            <div className="w-full lg:w-[40%] flex items-center justify-center p-8 bg-[var(--bg-primary)] relative overflow-y-auto">
                 <div className="w-full max-w-md">
                     {/* Mobile Logo */}
                     <div className="lg:hidden text-center mb-8">
-                        <div className="w-16 h-16 mx-auto bg-gradient-to-br from-[var(--accent-blue)] to-[var(--accent-sky)] rounded-2xl flex items-center justify-center mb-4">
-                            <Shield className="w-8 h-8 text-white" />
+                        <div className="w-20 h-20 mx-auto bg-gradient-to-br from-[var(--accent-blue)] to-[var(--accent-sky)] rounded-2xl flex items-center justify-center mb-4 shadow-lg">
+                            <Shield className="w-10 h-10 text-white" />
                         </div>
                         <h1 className="text-2xl font-bold text-[var(--text-primary)]">HSE Command Center</h1>
+                        <p className="text-sm text-[var(--text-muted)] mt-1">Version 2.0</p>
                     </div>
 
-                    {/* Login Card */}
+                    {/* Login Card with GSAP pop-in */}
                     <div
                         ref={cardRef}
-                        className="bg-[var(--bg-secondary)] rounded-2xl p-8 shadow-xl border border-[var(--border-light)]"
+                        className="bg-[var(--bg-secondary)] rounded-2xl p-8 shadow-2xl border border-[var(--border-light)]"
                     >
                         <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-2">Welcome Back</h2>
                         <p className="text-[var(--text-muted)] mb-6">Sign in to access your dashboard</p>
 
                         {/* Error Message */}
                         {error && (
-                            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-600">
-                                <AlertCircle className="w-4 h-4" />
+                            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-600 animate-shake">
+                                <AlertCircle className="w-4 h-4 shrink-0" />
                                 <span className="text-sm">{error}</span>
                             </div>
                         )}
@@ -234,7 +272,7 @@ export default function LoginPage() {
                             <button
                                 onClick={() => handleOAuthLogin('google')}
                                 disabled={isLoading}
-                                className="w-full py-3 px-4 border border-[var(--border-light)] rounded-xl flex items-center justify-center gap-3 hover:bg-[var(--bg-tertiary)] transition-colors disabled:opacity-50"
+                                className="w-full py-3.5 px-4 border border-[var(--border-light)] rounded-xl flex items-center justify-center gap-3 hover:bg-[var(--bg-tertiary)] transition-all disabled:opacity-50 hover:scale-[1.02] active:scale-[0.98]"
                             >
                                 <Chrome className="w-5 h-5 text-[#4285f4]" />
                                 <span className="font-medium text-[var(--text-primary)]">Sign in with Google</span>
@@ -243,7 +281,7 @@ export default function LoginPage() {
                             <button
                                 onClick={() => handleOAuthLogin('azure')}
                                 disabled={isLoading}
-                                className="w-full py-3 px-4 border border-[var(--border-light)] rounded-xl flex items-center justify-center gap-3 hover:bg-[var(--bg-tertiary)] transition-colors disabled:opacity-50"
+                                className="w-full py-3.5 px-4 border border-[var(--border-light)] rounded-xl flex items-center justify-center gap-3 hover:bg-[var(--bg-tertiary)] transition-all disabled:opacity-50 hover:scale-[1.02] active:scale-[0.98]"
                             >
                                 <Building2 className="w-5 h-5 text-[#00a4ef]" />
                                 <span className="font-medium text-[var(--text-primary)]">Sign in with Microsoft</span>
@@ -256,7 +294,7 @@ export default function LoginPage() {
                                 <div className="w-full border-t border-[var(--border-light)]" />
                             </div>
                             <div className="relative flex justify-center">
-                                <span className="px-3 bg-[var(--bg-secondary)] text-sm text-[var(--text-muted)]">
+                                <span className="px-4 bg-[var(--bg-secondary)] text-sm text-[var(--text-muted)]">
                                     or continue with email
                                 </span>
                             </div>
@@ -269,14 +307,14 @@ export default function LoginPage() {
                                     Email Address
                                 </label>
                                 <div className="relative">
-                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-muted)]" />
+                                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-muted)]" />
                                     <input
                                         type="email"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         placeholder="name@company.com"
                                         required
-                                        className="w-full pl-11 pr-4 py-3 border border-[var(--border-light)] rounded-xl bg-[var(--bg-tertiary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-blue)] focus:border-transparent transition-all"
+                                        className="w-full pl-12 pr-4 py-3.5 border border-[var(--border-light)] rounded-xl bg-[var(--bg-tertiary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-blue)] focus:border-transparent transition-all"
                                     />
                                 </div>
                             </div>
@@ -286,19 +324,19 @@ export default function LoginPage() {
                                     Password
                                 </label>
                                 <div className="relative">
-                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-muted)]" />
+                                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-muted)]" />
                                     <input
                                         type={showPassword ? 'text' : 'password'}
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         placeholder="••••••••"
                                         required
-                                        className="w-full pl-11 pr-12 py-3 border border-[var(--border-light)] rounded-xl bg-[var(--bg-tertiary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-blue)] focus:border-transparent transition-all"
+                                        className="w-full pl-12 pr-12 py-3.5 border border-[var(--border-light)] rounded-xl bg-[var(--bg-tertiary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-blue)] focus:border-transparent transition-all"
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
                                     >
                                         {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                                     </button>
@@ -306,7 +344,7 @@ export default function LoginPage() {
                             </div>
 
                             {/* Keep me logged in */}
-                            <label className="flex items-center gap-3 cursor-pointer py-2">
+                            <label className="flex items-center gap-3 cursor-pointer py-2 select-none">
                                 <div
                                     onClick={() => setKeepLoggedIn(!keepLoggedIn)}
                                     className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${keepLoggedIn
@@ -322,7 +360,7 @@ export default function LoginPage() {
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className="w-full py-3 bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-sky)] text-white rounded-xl font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-50"
+                                className="w-full py-3.5 bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-sky)] text-white rounded-xl font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-all disabled:opacity-50 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-blue-500/25"
                             >
                                 {isLoading ? (
                                     <Loader2 className="w-5 h-5 animate-spin" />
@@ -335,13 +373,11 @@ export default function LoginPage() {
                             </button>
                         </form>
 
-                        {/* Footer Links */}
-                        <div className="mt-6 text-center text-sm text-[var(--text-muted)]">
-                            <p>
-                                By signing in, you agree to our{' '}
-                                <a href="#" className="text-[var(--accent-blue)] hover:underline">Terms of Service</a>
-                            </p>
-                        </div>
+                        {/* Footer */}
+                        <p className="mt-6 text-center text-sm text-[var(--text-muted)]">
+                            By signing in, you agree to our{' '}
+                            <a href="#" className="text-[var(--accent-blue)] hover:underline">Terms of Service</a>
+                        </p>
                     </div>
 
                     {/* Admin Notice */}
