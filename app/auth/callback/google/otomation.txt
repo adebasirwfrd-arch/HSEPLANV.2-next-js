@@ -1,0 +1,16 @@
+@File (app/calendar/page.tsx)
+@File (app/api/calendar/sync/route.ts)
+
+PERBAIKI QUERY DAN STRUKTUR DATA:
+
+1. UPDATE app/calendar/page.tsx:
+   - Cari bagian query Supabase ke tabel 'user_settings'.
+   - Hapus selection kolom 'calendar_sync_enabled' dan 'google_email' karena kolom ini tidak ada di database.
+   - Gunakan query sederhana ini: .select('google_access_token, is_google_sync_enabled').eq('user_id', user.id).single()
+   - Jika 'google_access_token' ada, pastikan state 'isConnected' diset menjadi TRUE.
+
+2. FIX UI CONDITION:
+   - [cite_start]Di dalam body return, pastikan jika isConnected TRUE, teks "Not connected" berganti menjadi "Connected to Google".
+
+3. UPDATE app/api/calendar/sync/route.ts:
+   - Pastikan logika 'Bulk Sync' menggunakan kolom 'is_google_sync_enabled' (bukan calendar_sync_enabled).

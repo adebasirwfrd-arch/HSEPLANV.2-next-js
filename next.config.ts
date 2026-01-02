@@ -11,6 +11,16 @@ const nextConfig: NextConfig = {
     },
   },
 
+  // Enable image optimization for Stream.io CDN
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**', // Allow all valid HTTPS domains for now to prevent broken user content
+      },
+    ],
+  },
+
   // FIX: Exclude @react-pdf/renderer from server bundling (Turbopack compatibility)
   serverExternalPackages: ['@react-pdf/renderer'],
 

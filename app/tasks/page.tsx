@@ -85,16 +85,61 @@ export default function TasksPage() {
         return filtered.filter(t => t.status === status).length
     }
 
-    const handleCreate = (data: Omit<Task, 'id' | 'createdAt'>) => {
+    const handleCreate = async (data: Omit<Task, 'id' | 'createdAt'>) => {
         addTask(data)
         setTasks(loadTasks())
         setCreateModal(false)
+
+        // Auto-sync to Google Calendar if has implementation date
+        if (data.implementationDate) {
+            try {
+                await fetch('/api/calendar/sync', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'sync_single',
+                        event: {
+                            name: `${data.code}: ${data.title}`,
+                            pic: data.picName || '-',
+                            wpts_id: data.wptsId || '-',
+                            plan_date: data.implementationDate,
+                            source: 'task'
+                        }
+                    })
+                })
+            } catch {
+                // Silent fail
+            }
+        }
     }
 
-    const handleUpdate = (id: string, data: Partial<Task>) => {
+    const handleUpdate = async (id: string, data: Partial<Task>) => {
         updateTask(id, data)
         setTasks(loadTasks())
         setEditModal(null)
+
+        // Auto-sync to Google Calendar if has implementation date
+        if (data.implementationDate) {
+            try {
+                const fullTask = tasks.find(t => t.id === id)
+                await fetch('/api/calendar/sync', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'sync_single',
+                        event: {
+                            name: `${data.code || fullTask?.code || ''}: ${data.title || fullTask?.title || ''}`,
+                            pic: data.picName || fullTask?.picName || '-',
+                            wpts_id: data.wptsId || fullTask?.wptsId || '-',
+                            plan_date: data.implementationDate,
+                            source: 'task'
+                        }
+                    })
+                })
+            } catch {
+                // Silent fail
+            }
+        }
     }
 
     const handleDelete = (id: string) => {

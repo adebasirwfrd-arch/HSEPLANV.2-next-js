@@ -145,6 +145,7 @@ class StreamService {
         content: string
         category?: string
         attachments?: string[]
+        files?: File[]
     }): Promise<boolean> {
         try {
             const feed = await this.getUserFeed()
@@ -153,12 +154,34 @@ class StreamService {
             const userId = this.state.user?.id
             if (!userId) return false
 
+            // Handle file uploads
+            const uploadedUrls: string[] = []
+            if (activity.files && activity.files.length > 0) {
+                for (const file of activity.files) {
+                    try {
+                        let url: string | null = null
+                        if (file.type.startsWith('image/')) {
+                            const response = await this.state.client?.images.upload(file)
+                            url = response?.file || null
+                        } else {
+                            const response = await this.state.client?.files.upload(file)
+                            url = response?.file || null
+                        }
+                        if (url) uploadedUrls.push(url)
+                    } catch (e) {
+                        console.error('[Stream] File upload failed:', e)
+                    }
+                }
+            }
+
+            const allAttachments = [...(activity.attachments || []), ...uploadedUrls]
+
             await feed.addActivity({
                 verb: 'post',
                 object: activity.content,
                 content: activity.content,
                 category: activity.category,
-                attachments: activity.attachments || [],
+                attachments: allAttachments,
                 time: new Date().toISOString()
             } as any)
 
@@ -169,31 +192,32 @@ class StreamService {
         }
     }
 
-    async getTimelineActivities(options: { limit?: number; refresh?: boolean } = {}): Promise<unknown[]> {
+    async getTimelineActivities(options: { limit?: number; refresh?: boolean } = {}) {
         try {
-            const feed = await this.getTimelineFeed()
-            if (!feed) return []
+            if (!this.state.client || !this.tokenData) return []
 
+            const feed = this.state.client.feed('timeline', this.tokenData.userId)
             const response = await feed.get({
                 limit: options.limit || 25,
                 enrich: true
             })
-
             return response.results || []
         } catch (error: any) {
             console.error('[Stream] GetTimeline Error:', error.response?.data?.detail || error.message || 'Unknown error');
-            if (options.refresh) {
-                try {
-                    const userFeed = await this.getUserFeed()
-                    if (userFeed) {
-                        const fallbackResponse = await userFeed.get({ limit: options.limit || 25 })
-                        return fallbackResponse.results || []
-                    }
-                } catch {
-                    return []
-                }
-            }
             return []
+        }
+    }
+
+    async deleteActivity(activityId: string): Promise<boolean> {
+        try {
+            const feed = await this.getUserFeed()
+            if (!feed) return false
+
+            await feed.removeActivity(activityId)
+            return true
+        } catch (error) {
+            console.error('[Stream] Delete Error:', error)
+            return false
         }
     }
 

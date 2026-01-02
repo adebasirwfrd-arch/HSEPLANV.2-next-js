@@ -1,0 +1,20 @@
+@File (app/calendar/page.tsx)
+@File (app/api/calendar/sync/route.ts)
+@File (app/otp/page.tsx)
+@File (app/task/page.tsx)
+
+AKTIVASI TOTAL SINKRONISASI JADWAL HSE:
+
+1. UPDATE app/calendar/page.tsx:
+   - Hubungkan tombol "Sync Now" ke fungsi 'handleBulkSync'.
+   - Fungsi ini harus mengirimkan SEMUA data dari OTP, Matrix, dan Task yang ada di localStorage/database ke API '/api/calendar/sync'.
+   - Tampilkan loading spinner saat proses sync berlangsung.
+   - Setelah sukses, ubah status tombol menjadi "Un-Sync" (warna merah/outline).
+
+2. UPDATE app/api/calendar/sync/route.ts:
+   - Pastikan API ini dapat memproses array of events.
+   - Untuk setiap event, buat judul: "[HSE] {Program_Name}" dan deskripsi: "PIC: {pic} | WPTS: {wpts}".
+   - Simpan 'google_event_id' kembali ke database agar nanti bisa dihapus jika user klik "Un-Sync".
+
+3. OTOMATISASI REAL-TIME:
+   - Di app/otp/page.tsx dan app/task/page.tsx, tambahkan pengecekan: Jika 'is_google_sync_enabled' === true, maka setiap kali ada input tanggal Plan atau Implementation baru, otomatis panggil API sync tanpa perlu klik tombol lagi.

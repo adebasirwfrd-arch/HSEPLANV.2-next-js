@@ -181,6 +181,39 @@ export default function OTPPage() {
             setEmailSending(false)
         }
 
+        // Auto-sync to Google Calendar if enabled
+        if (formData.plan_date || formData.impl_date) {
+            try {
+                const syncRes = await fetch('/api/calendar/sync')
+                const syncData = await syncRes.json()
+
+                if (syncData.syncEnabled) {
+                    const program = programs.find(p => p.id === editModal.programId)
+                    if (program) {
+                        const eventDate = formData.impl_date || formData.plan_date
+                        if (eventDate) {
+                            await fetch('/api/calendar/sync', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    action: 'sync_single',
+                                    event: {
+                                        name: program.name,
+                                        pic: formData.pic_name || '-',
+                                        wpts_id: formData.wpts_id || '-',
+                                        plan_date: eventDate,
+                                        source: 'otp'
+                                    }
+                                })
+                            })
+                        }
+                    }
+                }
+            } catch {
+                // Silent fail for calendar sync
+            }
+        }
+
         setEditModal(null)
     }
 
@@ -192,7 +225,7 @@ export default function OTPPage() {
     }
 
     // Handle create new program with mutation
-    const handleCreate = (name: string, planType: string, dueDate: string) => {
+    const handleCreate = async (name: string, planType: string, dueDate: string) => {
         createProgram.mutate({
             name: name,
             program_type: 'otp',
@@ -201,6 +234,29 @@ export default function OTPPage() {
             plan_type: planType,
             due_date: dueDate || undefined
         })
+
+        // Auto-sync to Google Calendar if enabled and has due date
+        if (dueDate) {
+            try {
+                await fetch('/api/calendar/sync', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'sync_single',
+                        event: {
+                            name: name,
+                            pic: '-',
+                            wpts_id: '-',
+                            plan_date: dueDate,
+                            source: 'otp'
+                        }
+                    })
+                })
+            } catch {
+                // Silent fail
+            }
+        }
+
         setCreateModal(false)
     }
 

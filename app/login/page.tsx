@@ -42,13 +42,26 @@ function LoginContent() {
         const checkAuth = async () => {
             const { data: { user } } = await supabase.auth.getUser()
             if (user) {
-                router.push('/')
+                // Check if user has Google Calendar token
+                const { data: settings } = await supabase
+                    .from('user_settings')
+                    .select('google_access_token')
+                    .eq('user_id', user.id)
+                    .single() as { data: { google_access_token: string | null } | null }
+
+                if (!settings?.google_access_token) {
+                    // No Google token, redirect to Google OAuth
+                    router.push('/auth/google')
+                } else {
+                    // Has token, go to dashboard
+                    router.push('/')
+                }
             } else {
                 setIsCheckingAuth(false)
             }
         }
         checkAuth()
-    }, [router, supabase.auth])
+    }, [router, supabase])
 
     // GSAP Entrance Animations
     useEffect(() => {
@@ -136,15 +149,28 @@ function LoginContent() {
         setError(null)
 
         try {
-            const { error } = await supabase.auth.signInWithPassword({
+            const { data, error } = await supabase.auth.signInWithPassword({
                 email,
                 password
             })
 
             if (error) {
                 setError(error.message)
-            } else {
-                router.push('/')
+            } else if (data.user) {
+                // Check if user has Google Calendar token
+                const { data: settings } = await supabase
+                    .from('user_settings')
+                    .select('google_access_token')
+                    .eq('user_id', data.user.id)
+                    .single() as { data: { google_access_token: string | null } | null }
+
+                if (!settings?.google_access_token) {
+                    // No Google token, redirect to Google OAuth
+                    router.push('/auth/google')
+                } else {
+                    // Has token, go to dashboard
+                    router.push('/')
+                }
             }
         } catch (err) {
             setError('An unexpected error occurred')

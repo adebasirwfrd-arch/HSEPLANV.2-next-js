@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback } from "react"
 import { GlassCard } from "@/components/ui/glass-card"
-import { Heart, MessageCircle, Share2, Bookmark, Play, Pause, Volume2, VolumeX, Send } from "lucide-react"
+import { Heart, MessageCircle, Share2, Bookmark, Play, Pause, Volume2, VolumeX, Send, Trash2 } from "lucide-react"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
@@ -41,6 +41,8 @@ interface PostCardProps {
     post: PostData
     onLike?: (postId: string) => void
     onComment?: (postId: string, content: string) => void
+    onDelete?: (postId: string) => Promise<void>
+    canDelete?: boolean
 }
 
 // Category badge component
@@ -137,12 +139,14 @@ function HeartAnimation() {
     )
 }
 
-export function PostCard({ post, onLike, onComment }: PostCardProps) {
-    const [isLiked, setIsLiked] = useState(post.isLiked || false)
-    const [isSaved, setIsSaved] = useState(post.isSaved || false)
+export function PostCard({ post, onLike, onComment, onDelete, canDelete }: PostCardProps) {
+    const [isLiked, setIsLiked] = useState(post.isLiked)
+    const [likes, setLikes] = useState(post.likes || 0)
     const [showComments, setShowComments] = useState(false)
-    const [likes, setLikes] = useState(post.likes)
+    const [isSaved, setIsSaved] = useState(post.isSaved)
     const [showHeartAnimation, setShowHeartAnimation] = useState(false)
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+    const [isDeleting, setIsDeleting] = useState(false)
     const [newComment, setNewComment] = useState("")
     const lastTapRef = useRef<number>(0)
 
@@ -188,8 +192,78 @@ export function PostCard({ post, onLike, onComment }: PostCardProps) {
     // Get media from new format or legacy
     const media = post.media || (post.image ? [{ type: 'image' as const, url: post.image }] : [])
 
+    const handleDelete = async () => {
+        if (!onDelete) return
+        setIsDeleting(true)
+        try {
+            await onDelete(post.id)
+        } catch {
+            setIsDeleting(false)
+            setShowDeleteConfirm(false)
+        }
+    }
+
+    const handleShare = async () => {
+        try {
+            if (navigator.share) {
+                await navigator.share({
+                    title: `Post by ${post.author}`,
+                    text: post.content,
+                    url: window.location.href
+                })
+            } else {
+                await navigator.clipboard.writeText(window.location.href)
+                // Optional: You could add a toast here, but for now we'll just rely on the action
+                alert('Link copied to clipboard!')
+            }
+        } catch (error) {
+            console.error('Error sharing:', error)
+        }
+    }
+
     return (
-        <GlassCard className="overflow-hidden">
+        <GlassCard className="overflow-hidden relative">
+            {/* Delete Confirmation Overlay */}
+            <AnimatePresence>
+                {showDeleteConfirm && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="absolute inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            className="bg-[var(--bg-secondary)] border border-[var(--border-light)] rounded-2xl p-6 w-full max-w-sm shadow-2xl"
+                        >
+                            <h3 className="text-lg font-bold text-[var(--text-primary)] mb-2">Delete Post?</h3>
+                            <p className="text-sm text-[var(--text-secondary)] mb-6">
+                                This action cannot be undone.
+                            </p>
+                            <div className="flex gap-3 justify-end">
+                                <button
+                                    onClick={() => setShowDeleteConfirm(false)}
+                                    className="px-4 py-2 text-sm font-medium text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)] rounded-lg transition-colors"
+                                    disabled={isDeleting}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handleDelete}
+                                    className="px-4 py-2 text-sm font-medium text-white bg-red-500 hover:bg-red-600 rounded-lg transition-colors flex items-center gap-2"
+                                    disabled={isDeleting}
+                                >
+                                    {isDeleting ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                                    Delete
+                                </button>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             {/* Post Header */}
             <div className="p-4">
                 <div className="flex items-center gap-3 mb-3">
@@ -211,6 +285,17 @@ export function PostCard({ post, onLike, onComment }: PostCardProps) {
                         </div>
                         <p className="text-xs text-[var(--text-muted)]">{post.authorRole} • {post.time}</p>
                     </div>
+
+                    {/* Delete Option */}
+                    {canDelete && (
+                        <button
+                            onClick={() => setShowDeleteConfirm(true)}
+                            className="p-1.5 text-[var(--text-muted)] hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
+                            title="Delete Post"
+                        >
+                            <Trash2 className="w-4 h-4" />
+                        </button>
+                    )}
                 </div>
 
                 {/* Post Content */}
@@ -230,41 +315,55 @@ export function PostCard({ post, onLike, onComment }: PostCardProps) {
                         media[0].type === 'video' ? (
                             <VideoPlayer src={media[0].url} thumbnail={media[0].thumbnail} />
                         ) : (
-                            <div className="relative w-full aspect-square bg-[var(--bg-tertiary)]">
+                            <div className="relative w-full bg-[var(--bg-tertiary)]">
                                 <Image
                                     src={media[0].url}
                                     alt="Post image"
-                                    fill
-                                    className="object-cover"
+                                    width={0}
+                                    height={0}
+                                    sizes="100vw"
+                                    className="w-full h-auto max-h-[600px] object-contain bg-black/5"
                                     unoptimized
                                 />
                             </div>
                         )
                     ) : (
-                        // Multiple images - grid
-                        <div className="grid grid-cols-2 gap-1">
-                            {media.slice(0, 4).map((item, idx) => (
-                                <div key={idx} className="relative aspect-square bg-[var(--bg-tertiary)]">
-                                    {item.type === 'video' ? (
-                                        <div className="w-full h-full flex items-center justify-center bg-black">
-                                            <Play className="w-8 h-8 text-white" />
+                        // Multiple images - Horizontal Carousel
+                        <div className="relative group">
+                            <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide">
+                                {media.map((item, idx) => (
+                                    <div key={idx} className="relative w-full flex-shrink-0 snap-center bg-[var(--bg-tertiary)]">
+                                        <div className="relative w-full aspect-[4/3]">
+                                            {item.type === 'video' ? (
+                                                <div className="w-full h-full flex items-center justify-center bg-black">
+                                                    <VideoPlayer src={item.url} thumbnail={item.thumbnail} />
+                                                </div>
+                                            ) : (
+                                                <Image
+                                                    src={item.url}
+                                                    alt={`Post image ${idx + 1}`}
+                                                    fill
+                                                    className="object-contain"
+                                                    unoptimized
+                                                />
+                                            )}
                                         </div>
-                                    ) : (
-                                        <Image
-                                            src={item.url}
-                                            alt={`Post image ${idx + 1}`}
-                                            fill
-                                            className="object-cover"
-                                            unoptimized
-                                        />
-                                    )}
-                                    {idx === 3 && media.length > 4 && (
-                                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-                                            <span className="text-white text-2xl font-bold">+{media.length - 4}</span>
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Carousel Indicator Dots */}
+                            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 px-3 py-1.5 bg-black/40 backdrop-blur-md rounded-full pointer-events-none z-10">
+                                {media.map((_, idx) => (
+                                    <div
+                                        key={idx}
+                                        className="w-1.5 h-1.5 rounded-full bg-white/50"
+                                    />
+                                ))}
+                            </div>
+                            <div className="absolute bottom-3 right-3 px-2 py-1 bg-black/60 backdrop-blur-md rounded-md text-[10px] font-medium text-white pointer-events-none z-10">
+                                {media.length} items
+                            </div>
                         </div>
                     )}
 
@@ -305,7 +404,10 @@ export function PostCard({ post, onLike, onComment }: PostCardProps) {
                     <MessageCircle className="w-5 h-5" />
                     <span className="hidden sm:inline">Comment</span>
                 </button>
-                <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] transition-colors text-sm">
+                <button
+                    onClick={handleShare}
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] transition-colors text-sm"
+                >
                     <Share2 className="w-5 h-5" />
                     <span className="hidden sm:inline">Share</span>
                 </button>
@@ -380,6 +482,6 @@ export function PostCard({ post, onLike, onComment }: PostCardProps) {
                     </motion.div>
                 )}
             </AnimatePresence>
-        </GlassCard>
+        </GlassCard >
     )
 }

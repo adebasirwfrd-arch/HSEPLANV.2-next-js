@@ -1,13 +1,14 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
-import { useRouter } from "next/navigation"
-import { motion } from "framer-motion"
+import { useRouter, useSearchParams } from "next/navigation"
+import { motion, AnimatePresence } from "framer-motion"
 import { AppShell } from "@/components/layout/app-shell"
 import { GlassCard } from "@/components/ui/glass-card"
 import { cn } from "@/lib/utils"
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, ExternalLink } from "lucide-react"
+import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, ExternalLink, RefreshCw, Check, X } from "lucide-react"
 import { loadPersistedData, getCalendarEvents, getOTPData, OTPData } from "@/lib/otp-store"
+import { createClient } from "@/lib/supabase/client"
 
 type ViewMode = "weekly" | "monthly"
 
@@ -29,10 +30,31 @@ interface CalendarEvent {
 
 export default function CalendarPage() {
     const router = useRouter()
+    const searchParams = useSearchParams()
     const [viewMode, setViewMode] = useState<ViewMode>("monthly")
     const [currentDate, setCurrentDate] = useState(new Date())
     const [events, setEvents] = useState<CalendarEvent[]>([])
     const [selectedDate, setSelectedDate] = useState<string | null>(null)
+
+    // Google Calendar Sync State
+    const [isSyncEnabled, setIsSyncEnabled] = useState(false)
+    const [isGoogleConnected, setIsGoogleConnected] = useState(false)
+    const [googleEmail, setGoogleEmail] = useState<string | null>(null)
+    const [isConnectionLoading, setIsConnectionLoading] = useState(true)
+    const [syncLoading, setSyncLoading] = useState(false)
+    const [showSyncConfirm, setShowSyncConfirm] = useState<'enable' | 'disable' | null>(null)
+    const [syncResult, setSyncResult] = useState<{ success: boolean; count?: number } | null>(null)
+    const [connectionSuccess, setConnectionSuccess] = useState(false)
+
+    // Check for connection success from OAuth redirect
+    useEffect(() => {
+        if (searchParams.get('connection') === 'success') {
+            setConnectionSuccess(true)
+            // Clear the URL parameter
+            router.replace('/calendar', { scroll: false })
+            setTimeout(() => setConnectionSuccess(false), 4000)
+        }
+    }, [searchParams, router])
 
     const currentMonth = currentDate.getMonth()
     const currentYear = currentDate.getFullYear()
@@ -102,6 +124,78 @@ export default function CalendarPage() {
             window.removeEventListener("focus", handleFocus)
         }
     }, [])
+
+    // Fetch Google Calendar sync status using Supabase client directly
+    useEffect(() => {
+        const checkConnection = async () => {
+            setIsConnectionLoading(true)
+            try {
+                const supabase = createClient()
+                const { data: { user } } = await supabase.auth.getUser()
+
+                if (!user) {
+                    setIsGoogleConnected(false)
+                    setGoogleEmail(null)
+                    setIsConnectionLoading(false)
+                    return
+                }
+
+                // Query user_settings for google_access_token
+                // Using maybeSingle() to avoid 406 error when no row exists
+                const { data: settings, error: settingsError } = await supabase
+                    .from('user_settings')
+                    .select('google_access_token, is_google_sync_enabled')
+                    .eq('user_id', user.id)
+                    .maybeSingle() as { data: { google_access_token: string | null; is_google_sync_enabled: boolean | null } | null; error: any }
+
+                if (settingsError) {
+                    console.error('Error fetching user_settings:', settingsError)
+                }
+
+                if (settings?.google_access_token) {
+                    setIsGoogleConnected(true)
+                    setIsSyncEnabled(settings.is_google_sync_enabled ?? false)
+                    setGoogleEmail(user.email || null)
+                } else {
+                    setIsGoogleConnected(false)
+                    setGoogleEmail(null)
+                }
+            } catch (err) {
+                console.error('Error checking Google connection:', err)
+                setIsGoogleConnected(false)
+            }
+            setIsConnectionLoading(false)
+        }
+        checkConnection()
+    }, [])
+
+    // Handle sync toggle
+    const handleSyncToggle = async (action: 'enable' | 'disable') => {
+        setSyncLoading(true)
+        setShowSyncConfirm(null)
+        try {
+            const res = await fetch('/api/calendar/sync', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action })
+            })
+            const data = await res.json()
+            if (data.success) {
+                setIsSyncEnabled(data.syncEnabled)
+                if (action === 'enable' && data.syncedCount !== undefined) {
+                    setSyncResult({ success: true, count: data.syncedCount })
+                    setTimeout(() => setSyncResult(null), 4000)
+                }
+            } else {
+                setSyncResult({ success: false })
+                setTimeout(() => setSyncResult(null), 4000)
+            }
+        } catch {
+            setSyncResult({ success: false })
+            setTimeout(() => setSyncResult(null), 4000)
+        }
+        setSyncLoading(false)
+    }
 
     const changeMonth = (delta: number) => {
         setCurrentDate(new Date(currentYear, currentMonth + delta, 1))
@@ -177,6 +271,154 @@ export default function CalendarPage() {
                         📊 {currentMonthEvents.length} events this month
                     </motion.div>
                 </div>
+
+                {/* Connection Success Notification */}
+                <AnimatePresence>
+                    {connectionSuccess && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            className="fixed top-4 right-4 z-[400] px-4 py-2 rounded-lg flex items-center gap-2 shadow-lg bg-[var(--success-color)] text-white"
+                        >
+                            <Check className="w-4 h-4" />
+                            Google Calendar connected successfully!
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                {/* Sync Result Notification */}
+                <AnimatePresence>
+                    {syncResult && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            className={cn(
+                                "fixed top-4 right-4 z-[400] px-4 py-2 rounded-lg flex items-center gap-2 shadow-lg",
+                                syncResult.success ? "bg-[var(--success-color)] text-white" : "bg-[var(--danger-color)] text-white"
+                            )}
+                        >
+                            {syncResult.success ? (
+                                <>
+                                    <Check className="w-4 h-4" />
+                                    Synced {syncResult.count} events to Google Calendar!
+                                </>
+                            ) : (
+                                <>
+                                    <X className="w-4 h-4" />
+                                    Failed to sync. Check Google connection.
+                                </>
+                            )}
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                {/* Google Calendar Sync Toggle */}
+                <GlassCard className="p-3 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-[#4285F4] to-[#34A853] rounded-xl flex items-center justify-center">
+                            <CalendarIcon className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                            <p className="font-semibold text-sm text-[var(--text-primary)]">Google Calendar</p>
+                            <div className="flex items-center gap-2">
+                                {isConnectionLoading ? (
+                                    <span className="text-xs text-[var(--text-muted)]">Checking...</span>
+                                ) : isGoogleConnected ? (
+                                    <span className="text-xs text-[var(--success-color)] font-medium flex items-center gap-1">
+                                        <Check className="w-3 h-3" />
+                                        Connected to Google
+                                    </span>
+                                ) : (
+                                    <span className="text-xs text-[var(--text-muted)]">Not connected</span>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        {isConnectionLoading ? (
+                            <RefreshCw className="w-4 h-4 animate-spin text-[var(--text-muted)]" />
+                        ) : isGoogleConnected ? (
+                            <button
+                                onClick={() => isSyncEnabled ? setShowSyncConfirm('disable') : handleSyncToggle('enable')}
+                                disabled={syncLoading}
+                                className={cn(
+                                    "px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-colors disabled:opacity-50",
+                                    isSyncEnabled
+                                        ? "border border-[var(--danger-color)] text-[var(--danger-color)] hover:bg-[var(--danger-color)]/10"
+                                        : "bg-[var(--success-color)] text-white hover:bg-[var(--success-color)]/90"
+                                )}
+                            >
+                                {syncLoading ? (
+                                    <RefreshCw className="w-3 h-3 animate-spin" />
+                                ) : isSyncEnabled ? (
+                                    "Un-Sync"
+                                ) : (
+                                    "Sync Now"
+                                )}
+                            </button>
+                        ) : (
+                            <a
+                                href="/auth/google"
+                                className="px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 bg-gradient-to-r from-[#4285F4] to-[#34A853] text-white hover:opacity-90 transition-opacity"
+                            >
+                                <CalendarIcon className="w-3 h-3" />
+                                Connect Google
+                            </a>
+                        )}
+                    </div>
+                </GlassCard>
+
+                {/* Sync Confirmation Modal */}
+                <AnimatePresence>
+                    {showSyncConfirm && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="fixed inset-0 bg-black/60 z-[300] flex items-center justify-center p-4"
+                            onClick={() => setShowSyncConfirm(null)}
+                        >
+                            <motion.div
+                                initial={{ scale: 0.9, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                exit={{ scale: 0.9, opacity: 0 }}
+                                className="bg-[var(--bg-secondary)] rounded-2xl p-6 w-full max-w-sm shadow-2xl"
+                                onClick={e => e.stopPropagation()}
+                            >
+                                <h3 className="text-lg font-bold text-[var(--text-primary)] mb-2">
+                                    {showSyncConfirm === 'enable' ? 'Enable Google Calendar Sync?' : 'Disable Sync?'}
+                                </h3>
+                                <p className="text-sm text-[var(--text-secondary)] mb-6">
+                                    {showSyncConfirm === 'enable'
+                                        ? 'Apakah Anda ingin menyinkronkan semua jadwal HSE ke Google Calendar HP Anda?'
+                                        : 'Apa Anda yakin membatalkan sinkronisasi ke Google Calendar?'
+                                    }
+                                </p>
+                                <div className="flex gap-3 justify-end">
+                                    <button
+                                        onClick={() => setShowSyncConfirm(null)}
+                                        className="px-4 py-2 text-sm font-medium text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)] rounded-lg"
+                                    >
+                                        Batal
+                                    </button>
+                                    <button
+                                        onClick={() => handleSyncToggle(showSyncConfirm)}
+                                        className={cn(
+                                            "px-4 py-2 text-sm font-medium rounded-lg",
+                                            showSyncConfirm === 'enable'
+                                                ? "bg-[var(--success-color)] text-white"
+                                                : "bg-[var(--danger-color)] text-white"
+                                        )}
+                                    >
+                                        {showSyncConfirm === 'enable' ? 'Ya, Sinkronkan' : 'Ya, Batalkan'}
+                                    </button>
+                                </div>
+                            </motion.div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
                 {/* Calendar Card */}
                 <GlassCard className="p-4">
