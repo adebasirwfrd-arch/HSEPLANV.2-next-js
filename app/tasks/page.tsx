@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useMemo } from "react"
 import { motion } from "framer-motion"
 import { AppShell } from "@/components/layout/app-shell"
 import { GlassCard } from "@/components/ui/glass-card"
@@ -27,6 +27,7 @@ import {
     type TaskFilters
 } from "@/lib/tasks-store"
 import { loadPrograms, type Program } from "@/lib/programs-store"
+import { getOTPData, type OTPProgram } from "@/lib/otp-store"
 
 type FilterStatus = 'all' | TaskStatus
 
@@ -166,17 +167,40 @@ export default function TasksPage() {
         const [taskBase, setTaskBase] = useState<TaskBase>(task?.base || 'narogong')
         const [taskYear, setTaskYear] = useState(task?.year || 2026)
 
-        const selectedProgram = programs.find(p => p.id === selectedProgramId)
+        // Load OTP programs dynamically based on region and base
+        const otpPrograms = useMemo(() => {
+            try {
+                // Map task base to OTP base format
+                const otpBase = taskRegion === 'asia' ? '' : (taskBase === 'asia-hq' ? '' : taskBase)
+                const data = getOTPData(taskRegion === 'asia' ? 'asia' : 'indonesia', otpBase)
+                return data.programs.map(p => ({
+                    id: `otp_${taskRegion}_${taskBase}_${p.id}`,
+                    name: p.name,
+                    originalId: p.id
+                }))
+            } catch (e) {
+                console.error('Error loading OTP programs:', e)
+                return []
+            }
+        }, [taskRegion, taskBase])
+
+        const selectedProgram = otpPrograms.find(p => p.id === selectedProgramId)
         const formBaseOptions = baseOptionsByRegion[taskRegion] || baseOptionsByRegion['indonesia']
 
-        // Reset base when region changes
+        // Reset base and program when region changes
         useEffect(() => {
             if (taskRegion === 'asia') {
                 setTaskBase('asia-hq')
             } else if (taskBase === 'asia-hq') {
                 setTaskBase('narogong')
             }
-        }, [taskRegion, taskBase])
+            setSelectedProgramId('') // Reset program selection when region changes
+        }, [taskRegion])
+
+        // Reset program selection when base changes
+        useEffect(() => {
+            setSelectedProgramId('')
+        }, [taskBase])
 
         const handleFileUpload = async (files: FileList | null) => {
             if (!files || files.length === 0 || !selectedProgram) return
@@ -290,7 +314,7 @@ export default function TasksPage() {
                         </div>
 
                         <div>
-                            <label className="block text-xs font-medium mb-1">HSE Program *</label>
+                            <label className="block text-xs font-medium mb-1">HSE Program * ({otpPrograms.length} programs)</label>
                             <select
                                 value={selectedProgramId}
                                 onChange={(e) => setSelectedProgramId(e.target.value)}
@@ -298,7 +322,7 @@ export default function TasksPage() {
                                 className="w-full p-2 border border-[var(--border-light)] rounded-lg bg-[var(--bg-secondary)]"
                             >
                                 <option value="">Select Program</option>
-                                {programs.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+                                {otpPrograms.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                             </select>
                         </div>
 
