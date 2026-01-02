@@ -1,28 +1,23 @@
 "use client"
 
-import { useState, useEffect, useMemo } from "react"
+import { useState, useMemo } from "react"
 import { motion } from "framer-motion"
 import { AppShell } from "@/components/layout/app-shell"
 import { GlassCard } from "@/components/ui/glass-card"
 import { cn } from "@/lib/utils"
-import { Search, Download, Edit2, X, Save } from "lucide-react"
+import { Search, Download, Edit2, X, Save, AlertTriangle, Loader2 } from "lucide-react"
+import { useHSEPrograms, useUpdateProgramMonth } from "@/hooks/useHSEPrograms"
 import {
-    UnifiedProgram,
     ProgramFilters,
     ProgramSource,
     ProgramRegion,
     ProgramBase,
     ProgramStatus,
-    ProgramUpdate,
-    loadUnifiedPrograms,
-    filterPrograms,
-    calculateProgramStats,
-    downloadUnifiedCSV,
-    updateUnifiedProgram,
     categoryLabels,
     categoryIcons,
     statusColors
 } from "@/lib/programs-store"
+import type { Month } from "@/types/supabase"
 
 type FilterStatus = ProgramStatus | 'all'
 
@@ -68,8 +63,38 @@ const monthOptions = [
     { value: "dec", label: "December" },
 ]
 
+// Unified program interface for display
+interface UnifiedProgram {
+    id: string
+    name: string
+    description: string
+    source: ProgramSource
+    region: ProgramRegion | 'asia'
+    base: ProgramBase
+    category: string
+    status: ProgramStatus
+    planType: string
+    progress: number
+    planDate?: string
+    implDate?: string
+    picName?: string
+    picEmail?: string
+    month?: string
+}
+
+interface ProgramUpdate {
+    status?: ProgramStatus
+    wptsId?: string
+    planDate?: string
+    implDate?: string
+    picName?: string
+    picEmail?: string
+    month?: string
+    plan?: number
+    actual?: number
+}
+
 export default function ProgramsPage() {
-    const [allPrograms, setAllPrograms] = useState<UnifiedProgram[]>([])
     const [filters, setFilters] = useState<ProgramFilters>({
         region: 'all',
         base: 'all',
@@ -84,36 +109,133 @@ export default function ProgramsPage() {
     const [selectedMonth, setSelectedMonth] = useState('jan')
     const [isSaving, setIsSaving] = useState(false)
 
-    // Load programs on mount and listen for storage events
-    useEffect(() => {
-        const loadPrograms = () => {
-            const programs = loadUnifiedPrograms()
-            setAllPrograms(programs)
+    // Fetch OTP programs from Supabase
+    const otpNarogong = useHSEPrograms({ region: 'indonesia', base: 'narogong', category: 'otp' })
+    const otpDuri = useHSEPrograms({ region: 'indonesia', base: 'duri', category: 'otp' })
+    const otpBalikpapan = useHSEPrograms({ region: 'indonesia', base: 'balikpapan', category: 'otp' })
+    const otpAsia = useHSEPrograms({ region: 'asia', base: 'all', category: 'otp' })
+
+    // Fetch Matrix programs from Supabase
+    const matrixAudit = useHSEPrograms({ region: 'indonesia', base: 'all', category: 'audit' })
+    const matrixTraining = useHSEPrograms({ region: 'indonesia', base: 'all', category: 'training' })
+    const matrixDrill = useHSEPrograms({ region: 'indonesia', base: 'all', category: 'drill' })
+    const matrixMeeting = useHSEPrograms({ region: 'indonesia', base: 'all', category: 'meeting' })
+
+    // Mutation for updating programs
+    const updateMonth = useUpdateProgramMonth()
+
+    // Check if any query is loading
+    const isLoading = otpNarogong.isLoading || otpDuri.isLoading || otpBalikpapan.isLoading || otpAsia.isLoading ||
+        matrixAudit.isLoading || matrixTraining.isLoading || matrixDrill.isLoading || matrixMeeting.isLoading
+
+    const isError = otpNarogong.isError || otpDuri.isError || otpBalikpapan.isError || otpAsia.isError ||
+        matrixAudit.isError || matrixTraining.isError || matrixDrill.isError || matrixMeeting.isError
+
+    // Transform Supabase program format to UnifiedProgram format
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const transformToUnified = (prog: any, source: 'otp' | 'matrix', region: string, base: string, category: string = 'other'): UnifiedProgram => {
+        // Calculate status from progress
+        let status: ProgramStatus = 'Upcoming'
+        if (prog.progress === 0) status = 'Upcoming'
+        else if (prog.progress >= 100) status = 'Completed'
+        else status = 'InProgress'
+
+        // Get first available dates from months
+        const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+        let planDate = ''
+        let implDate = ''
+        let picName = ''
+        let picEmail = ''
+
+        months.forEach(m => {
+            const md = prog.months?.[m]
+            if (md) {
+                if (!planDate && md.plan_date) planDate = md.plan_date
+                if (md.impl_date) implDate = md.impl_date
+                if (md.pic_name) picName = md.pic_name
+                if (md.pic_email) picEmail = md.pic_email
+            }
+        })
+
+        return {
+            id: `${source}_${region}_${base}_${prog.id}`,
+            name: prog.name,
+            description: prog.plan_type || '',
+            source,
+            region: region as ProgramRegion,
+            base: base as ProgramBase,
+            category,
+            status,
+            planType: prog.plan_type || '',
+            progress: prog.progress || 0,
+            planDate,
+            implDate,
+            picName,
+            picEmail
         }
+    }
 
-        loadPrograms()
+    // Combine all programs from Supabase queries
+    const allPrograms = useMemo(() => {
+        const programs: UnifiedProgram[] = []
 
-        // Listen for storage events to refresh when OTP/Matrix updates
-        const handleStorage = () => loadPrograms()
-        window.addEventListener('storage', handleStorage)
-        window.addEventListener('focus', handleStorage)
+        // OTP programs
+        otpNarogong.data?.programs?.forEach(p => programs.push(transformToUnified(p, 'otp', 'indonesia', 'narogong')))
+        otpDuri.data?.programs?.forEach(p => programs.push(transformToUnified(p, 'otp', 'indonesia', 'duri')))
+        otpBalikpapan.data?.programs?.forEach(p => programs.push(transformToUnified(p, 'otp', 'indonesia', 'balikpapan')))
+        otpAsia.data?.programs?.forEach(p => programs.push(transformToUnified(p, 'otp', 'asia', 'all')))
 
-        return () => {
-            window.removeEventListener('storage', handleStorage)
-            window.removeEventListener('focus', handleStorage)
-        }
-    }, [])
+        // Matrix programs
+        matrixAudit.data?.programs?.forEach(p => programs.push(transformToUnified(p, 'matrix', 'indonesia', 'all', 'audit')))
+        matrixTraining.data?.programs?.forEach(p => programs.push(transformToUnified(p, 'matrix', 'indonesia', 'all', 'training')))
+        matrixDrill.data?.programs?.forEach(p => programs.push(transformToUnified(p, 'matrix', 'indonesia', 'all', 'drill')))
+        matrixMeeting.data?.programs?.forEach(p => programs.push(transformToUnified(p, 'matrix', 'indonesia', 'all', 'meeting')))
 
-    // Filtered programs
+        return programs
+    }, [otpNarogong.data, otpDuri.data, otpBalikpapan.data, otpAsia.data, matrixAudit.data, matrixTraining.data, matrixDrill.data, matrixMeeting.data])
+
+    // Filter programs
     const filteredPrograms = useMemo(() => {
-        return filterPrograms(allPrograms, filters)
+        return allPrograms.filter(p => {
+            if (filters.region && filters.region !== 'all' && p.region !== filters.region) return false
+            if (filters.base && filters.base !== 'all' && p.base !== filters.base) return false
+            if (filters.source && filters.source !== 'all' && p.source !== filters.source) return false
+            if (filters.status && filters.status !== 'all' && p.status !== filters.status) return false
+            if (filters.search) {
+                const search = filters.search.toLowerCase()
+                if (!p.name.toLowerCase().includes(search) &&
+                    !p.description.toLowerCase().includes(search) &&
+                    !(p.picName || '').toLowerCase().includes(search)) {
+                    return false
+                }
+            }
+            return true
+        })
     }, [allPrograms, filters])
 
-    // Stats
-    const stats = useMemo(() => calculateProgramStats(filteredPrograms), [filteredPrograms])
+    // Calculate stats
+    const stats = useMemo(() => {
+        const total = filteredPrograms.length
+        const completed = filteredPrograms.filter(p => p.status === 'Completed').length
+        const inProgress = filteredPrograms.filter(p => p.status === 'InProgress').length
+        const upcoming = filteredPrograms.filter(p => p.status === 'Upcoming').length
+        const otpCount = filteredPrograms.filter(p => p.source === 'otp').length
+        const matrixCount = filteredPrograms.filter(p => p.source === 'matrix').length
+        const completionRate = total > 0 ? Math.round((completed / total) * 100) : 0
+        return { total, completed, inProgress, upcoming, otpCount, matrixCount, completionRate }
+    }, [filteredPrograms])
 
+    // CSV Download
     const handleDownload = () => {
-        downloadUnifiedCSV(filteredPrograms, filters)
+        let csv = 'ID,Name,Description,Source,Region,Base,Category,Status,Plan Type,Progress,Plan Date,Impl Date,PIC Name,PIC Email\n'
+        filteredPrograms.forEach(p => {
+            csv += `"${p.id}","${p.name.replace(/"/g, '""')}","${(p.description || '').replace(/"/g, '""')}","${p.source}","${p.region}","${p.base}","${p.category}","${p.status}","${p.planType}","${p.progress}%","${p.planDate || ''}","${p.implDate || ''}","${p.picName || ''}","${p.picEmail || ''}"\n`
+        })
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+        const link = document.createElement('a')
+        link.href = URL.createObjectURL(blob)
+        link.download = `HSE_Programs_${new Date().toISOString().split('T')[0]}.csv`
+        link.click()
     }
 
     const handleOpenModal = (program: UnifiedProgram) => {
@@ -137,20 +259,30 @@ export default function ProgramsPage() {
 
         setIsSaving(true)
 
-        const success = await updateUnifiedProgram(selectedProgram.id, {
-            ...editForm,
-            month: selectedMonth
-        })
+        // Parse the program ID to get the actual numeric ID
+        const parts = selectedProgram.id.split('_')
+        const numericId = parseInt(parts[parts.length - 1])
 
-        if (success) {
-            // Reload programs to show updated data
-            const programs = loadUnifiedPrograms()
-            setAllPrograms(programs)
-
-            setShowModal(false)
-            setIsEditing(false)
+        if (!isNaN(numericId)) {
+            // Use the mutation to update via Supabase
+            updateMonth.mutate({
+                programId: numericId,
+                month: selectedMonth as Month,
+                year: 2026,
+                data: {
+                    plan_date: editForm.planDate,
+                    impl_date: editForm.implDate,
+                    pic_name: editForm.picName,
+                    pic_email: editForm.picEmail,
+                    wpts_id: editForm.wptsId,
+                    actual: editForm.implDate ? 1 : 0, // Auto-set actual if impl date is set
+                    plan: 1
+                }
+            })
         }
 
+        setShowModal(false)
+        setIsEditing(false)
         setIsSaving(false)
     }
 
