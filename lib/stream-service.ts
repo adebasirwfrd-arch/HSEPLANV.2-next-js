@@ -71,7 +71,7 @@ class StreamService {
                 this.tokenData.apiKey,
                 this.tokenData.token,
                 this.tokenData.appId,
-                { location: 'singapore-east' }
+                { location: 'singapore' }
             )
 
             this.state.user = this.tokenData.user

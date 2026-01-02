@@ -34,7 +34,7 @@ export async function GET() {
         const userEmail = user.email
 
         // Initialize Stream client with Singapore region
-        const client = connect(apiKey, appSecret, appId, { location: 'singapore-east' })
+        const client = connect(apiKey, appSecret, appId, { location: 'singapore' })
 
         // Generate user token
         const userToken = client.createUserToken(userId)
