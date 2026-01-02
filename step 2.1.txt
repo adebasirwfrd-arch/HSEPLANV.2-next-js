@@ -1,0 +1,29 @@
+@File (app/api/stream/token/route.ts)
+@File (app/(dashboard)/home/page.tsx)
+@File (components/dashboard/post-composer.tsx)
+@File (components/dashboard/post-card.tsx)
+@File (components/layout/app-shell.tsx)
+
+I want to finalize Tahap 2: **Instagram-style HSE Social Feed**. Follow these precise steps:
+
+1. **Identity & Sync:**
+   - In `app/api/stream/token/route.ts`, fetch `full_name` and `avatar_url` from the Supabase Google session.
+   - Sync this to Stream using `client.user(userId).update({ name, image })`.
+
+2. **Instagram UI Experience in PostCard:**
+   - **Double Tap to Like:** Add a double-tap gesture on the image/video to trigger a 'Like' with a heart animation pop-up.
+   - **Media Player:** Use a high-quality video player for `.mp4` and a responsive image gallery for photos.
+   - **Social Actions:** Implement real-time Like counts and a comment section that updates instantly.
+
+3. **High-Performance Composer:**
+   - In `PostComposer`, add a 'Camera' icon for media uploads.
+   - Connect to Stream's CDN via `client.images.upload` and `client.videos.upload`.
+   - Add a 'Safety Category' dropdown (e.g., Near Miss, Safe Act, Tool Box Talk) to every post.
+
+4. **Real-time Notification Bell:**
+   - Add a Bell Icon in the `AppShell` header.
+   - Display a red badge showing the 'unread' count from the 'notification' feed.
+   - Ensure it updates in real-time when someone likes or comments on the user's post.
+
+5. **Homepage Layout:**
+   - Place the `PostComposer` at the top of the feed and ensure the `PostCard` list is sorted by 'latest' using the 'timeline' group.

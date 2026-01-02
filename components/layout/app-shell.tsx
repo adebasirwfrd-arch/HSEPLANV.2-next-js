@@ -4,7 +4,7 @@ import { useState, createContext, useContext, type ReactNode } from "react"
 import {
     Home, FileText, ListChecks, BarChart3, Calendar,
     FolderOpen, TrendingUp, Target, Grid, ClipboardList,
-    Download, Settings, LogIn, LogOut, Menu, X, ChevronRight, Shield, User, Users
+    Download, Settings, LogIn, LogOut, Menu, X, ChevronRight, Shield, User, Users, Bell
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
@@ -282,7 +282,12 @@ export function AppShell({ children }: { children: ReactNode }) {
                             </span>
                         )}
                     </div>
-                    <div className="w-10" /> {/* Spacer for centering */}
+                    {/* Notification Bell */}
+                    <button className="p-2 text-[var(--text-muted)] hover:text-[var(--accent-blue)] hover:bg-[var(--bg-tertiary)] rounded-lg transition-colors relative">
+                        <Bell className="w-5 h-5" />
+                        {/* Unread badge - will be connected to Stream notifications */}
+                        <span className="absolute top-1 right-1 w-2 h-2 bg-[var(--danger-color)] rounded-full" />
+                    </button>
                 </header>
 
                 {/* ===== MOBILE DRAWER OVERLAY ===== */}

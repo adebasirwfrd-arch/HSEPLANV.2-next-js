@@ -29,6 +29,8 @@ import { AIConsultant } from "@/components/dashboard/ai-consultant"
 import { LottieDisplay } from "@/components/ui/lottie-display"
 import { RightSidebar } from "@/components/dashboard/right-sidebar"
 import { SafetyMascot } from "@/components/dashboard/safety-mascot"
+import { PostComposer } from "@/components/feed/post-composer"
+import { useAdmin } from "@/hooks/useAdmin"
 
 
 
@@ -70,6 +72,11 @@ export default function HomePage() {
     category: 'otp',
     year: 2026
   })
+
+  // Get user data for PostComposer
+  const { user } = useAdmin()
+  const userName = user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split('@')[0] || 'User'
+  const userAvatar = user?.user_metadata?.avatar_url || user?.user_metadata?.picture
 
   useEffect(() => {
     setSettings(loadSettings())
@@ -214,6 +221,18 @@ export default function HomePage() {
           {/* AI Safety Consultant */}
           <div className="mb-2">
             <AIConsultant />
+          </div>
+
+          {/* HSE Feed - Share Updates */}
+          <div className="mb-4">
+            <PostComposer
+              userName={userName}
+              userAvatar={userAvatar}
+              onPost={async (content, attachments) => {
+                // TODO: Integrate with Stream feed
+                console.log('Posting:', content, attachments)
+              }}
+            />
           </div>
 
           {/* Tremor Metric Cards */}

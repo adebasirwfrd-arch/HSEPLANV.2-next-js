@@ -1,0 +1,23 @@
+@File (app/api/stream/token/route.ts)
+@File (app/(dashboard)/home/page.tsx)
+@File (components/layout/app-shell.tsx)
+@File (components/dashboard/post-composer.tsx)
+
+I have finalized the Stream Dashboard. Let's build Tahap 2:
+
+### 1. STREAM IDENTITY SYNC
+* In `app/api/stream/token/route.ts`, fetch the user's name and avatar from the Supabase session.
+* Use `client.user(userId).update({ name: userName, image: userAvatar })` to ensure every post shows the real Google profile data.
+
+### 2. HOME FEED UI
+* Place the `PostComposer` component on the Home Page below the AIConsultant section.
+* Implement the main feed using the 'timeline' group. 
+* Enable real-time updates so new posts appear instantly via `.subscribe()`.
+
+### 3. NOTIFICATION SYSTEM
+* Add the Bell Icon in `AppShell` (header).
+* Connect it to the 'notification' feed group to show the unread badge count.
+* When clicked, mark notifications as seen using `feed.get({ mark_seen: true })`.
+
+### 4. MEDIA UPLOADS
+* Ensure `PostComposer` can upload images/videos directly to Stream's CDN for high-performance HSE reporting.
