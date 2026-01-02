@@ -1,0 +1,16 @@
+@File (app/login/page.tsx)
+@File (app/layout.tsx)
+@File (components/layout/app-shell.tsx)
+@File (app/auth/callback/route.ts)
+@File (utils/supabase/client.ts)
+
+I want to implement Tahap 1: **Google Authentication & Profile Header**.
+
+1. **Clean Auth:** Remove the Microsoft login option entirely. 
+2. **Google Login:** Update `app/login/page.tsx` to use Google OAuth with the Client ID `803742536156-15kl46l32ut9n7ln47aj0hj4np8b8aje.apps.googleusercontent.com`.
+3. **Scopes:** Ensure login requests these scopes: `openid, profile, email, and https://www.googleapis.com/auth/calendar.events`.
+4. **Auth Callback:** Configure `app/auth/callback/route.ts` to handle the code exchange and redirect to `/`.
+5. **Profile Header:** In `components/layout/app-shell.tsx`, add a Shadcn/UI Avatar in the top-right corner.
+   - Display the Google profile photo (`avatar_url`) from the session.
+   - Add a DropdownMenu showing the User's Name, Email, and a 'Sign Out' button.
+6. **Admin Check:** Ensure the `useAdmin` hook recognizes `ade.basirwfrd@gmail.com` as the admin.

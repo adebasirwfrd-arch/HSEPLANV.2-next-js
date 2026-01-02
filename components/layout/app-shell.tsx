@@ -52,11 +52,17 @@ const mobileNavItems = [
 
 export function AppShell({ children }: { children: ReactNode }) {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+    const [showProfileMenu, setShowProfileMenu] = useState(false)
     const pathname = usePathname()
     const router = useRouter()
 
     // Get real auth status from Supabase
     const { user, isAdmin, isAuthenticated, signOut, isLoading } = useAdmin()
+
+    // Get user metadata for avatar
+    const avatarUrl = user?.user_metadata?.avatar_url || user?.user_metadata?.picture
+    const fullName = user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split('@')[0]
+    const email = user?.email
 
     const handleAuthClick = async () => {
         if (isAuthenticated) {
@@ -84,17 +90,89 @@ export function AppShell({ children }: { children: ReactNode }) {
                     "md:w-[70px] lg:w-[250px]",
                     "pl-[env(safe-area-inset-left)]"
                 )}>
-                    {/* Sidebar Header */}
-                    <div className="p-3 lg:p-5 flex flex-col items-center lg:items-start gap-2 border-b border-[var(--border-light)]">
-                        <div className="bg-gradient-to-br from-[var(--accent-blue)] to-[var(--accent-sky)] p-2 lg:px-4 lg:py-2 rounded-lg">
-                            <span className="text-white font-bold text-sm hidden lg:block">HSE Plan</span>
-                            <span className="text-white font-bold text-sm lg:hidden">HSE</span>
+                    {/* Sidebar Header with Profile */}
+                    <div className="p-3 lg:p-4 border-b border-[var(--border-light)]">
+                        {/* Logo Row */}
+                        <div className="flex items-center justify-between mb-3">
+                            <div className="bg-gradient-to-br from-[var(--accent-blue)] to-[var(--accent-sky)] p-2 lg:px-4 lg:py-2 rounded-lg">
+                                <span className="text-white font-bold text-sm hidden lg:block">HSE Plan</span>
+                                <span className="text-white font-bold text-sm lg:hidden">HSE</span>
+                            </div>
+                            {/* Status Badge */}
+                            {isAuthenticated && !isAdmin && (
+                                <span className="text-[8px] lg:text-[9px] bg-[var(--warning-color)]/10 text-[var(--warning-color)] px-2 py-0.5 rounded-full font-medium hidden lg:block">
+                                    View-Only
+                                </span>
+                            )}
+                            {isAdmin && (
+                                <span className="text-[8px] lg:text-[9px] bg-[var(--success-color)] text-white px-2 py-0.5 rounded-full font-bold hidden lg:block">
+                                    ADMIN
+                                </span>
+                            )}
                         </div>
-                        {/* Status Badge */}
-                        {isAuthenticated && !isAdmin && (
-                            <span className="text-[8px] lg:text-[9px] bg-[var(--warning-color)]/10 text-[var(--warning-color)] px-2 py-0.5 rounded-full font-medium hidden lg:block">
-                                View-Only Mode
-                            </span>
+
+                        {/* Profile Section */}
+                        {isAuthenticated && (
+                            <div className="relative">
+                                <button
+                                    onClick={() => setShowProfileMenu(!showProfileMenu)}
+                                    className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors"
+                                >
+                                    {/* Avatar */}
+                                    {avatarUrl ? (
+                                        <img
+                                            src={avatarUrl}
+                                            alt={fullName || 'User'}
+                                            className="w-9 h-9 rounded-full object-cover border-2 border-[var(--accent-blue)]/30"
+                                        />
+                                    ) : (
+                                        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[var(--accent-blue)] to-[var(--accent-sky)] flex items-center justify-center text-white font-bold text-sm">
+                                            {fullName?.charAt(0).toUpperCase() || 'U'}
+                                        </div>
+                                    )}
+                                    <div className="hidden lg:block flex-1 text-left min-w-0">
+                                        <p className="text-sm font-medium text-[var(--text-primary)] truncate">{fullName}</p>
+                                        <p className="text-[10px] text-[var(--text-muted)] truncate">{email}</p>
+                                    </div>
+                                    <ChevronRight className={cn(
+                                        "w-4 h-4 text-[var(--text-muted)] hidden lg:block transition-transform",
+                                        showProfileMenu && "rotate-90"
+                                    )} />
+                                </button>
+
+                                {/* Profile Dropdown Menu */}
+                                {showProfileMenu && (
+                                    <div className="absolute left-0 right-0 mt-1 bg-[var(--bg-secondary)] border border-[var(--border-light)] rounded-xl shadow-xl z-50 overflow-hidden">
+                                        <div className="p-3 border-b border-[var(--border-light)]">
+                                            <p className="text-sm font-medium text-[var(--text-primary)]">{fullName}</p>
+                                            <p className="text-xs text-[var(--text-muted)]">{email}</p>
+                                            {isAdmin && (
+                                                <span className="inline-block mt-1 text-[9px] bg-[var(--success-color)] text-white px-2 py-0.5 rounded-full font-bold">
+                                                    Administrator
+                                                </span>
+                                            )}
+                                        </div>
+                                        <Link
+                                            href="/settings"
+                                            onClick={() => setShowProfileMenu(false)}
+                                            className="flex items-center gap-2 px-3 py-2.5 text-sm text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)] transition-colors"
+                                        >
+                                            <Settings className="w-4 h-4" />
+                                            Settings
+                                        </Link>
+                                        <button
+                                            onClick={() => {
+                                                setShowProfileMenu(false)
+                                                handleAuthClick()
+                                            }}
+                                            className="flex items-center gap-2 px-3 py-2.5 text-sm text-[var(--danger-color)] hover:bg-red-50 transition-colors w-full"
+                                        >
+                                            <LogOut className="w-4 h-4" />
+                                            Sign Out
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
                         )}
                     </div>
 

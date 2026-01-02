@@ -1,0 +1,28 @@
+@File (app/layout.tsx)
+@File (components/layout/app-shell.tsx)
+@File (utils/supabase/client.ts)
+
+I want to add a **Premium Profile Account** section in the top-right corner of the Dashboard.
+
+### 1. The Avatar Component
+* Use Shadcn/UI Avatar.
+* If user is logged in via Google, fetch and display their Google profile image.
+* If no image exists, show the user's initials (e.g., "AB" for Ade Basir).
+
+### 2. Dropdown Menu Structure
+Implement a Glassmorphism Dropdown Menu with these items:
+* **User Info:** Display name and email at the top.
+* **Separator**
+* **Settings:** Link to `/settings/profile`.
+* **Admin Section (Conditional):** If `isAdmin` is true, show "Company Branding" and "Manage Users".
+* **Separator**
+* **Logout:** Implement a clean `signOut` function using Supabase.
+
+### 3. Visual Polish
+* Use **GSAP** for a subtle "Scale-in" animation when the dropdown opens.
+* Add a small "Online" green dot indicator on the edge of the avatar.
+* Ensure the avatar is visible on all dashboard pages but NOT on the login page.
+
+### 4. Logic
+* Fetch the current user session on mount to ensure the profile data is always accurate.
+* Handle the redirect to `/login` immediately after logout.

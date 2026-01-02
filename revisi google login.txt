@@ -1,0 +1,21 @@
+@File (app/login/page.tsx)
+@File (app/layout.tsx)
+@File (components/layout/app-shell.tsx)
+@File (utils/supabase/client.ts)
+@File (app/auth/callback/route.ts)
+@File (lib/programs-store.ts)
+
+I want to finalize the **Authentication System (Google & Email only)** and implement a **Premium Profile Section**.
+
+### 1. CLEANUP AUTH (Remove Microsoft)
+* Remove all Microsoft/Azure login logic and UI components from `app/login/page.tsx`.
+* Focus on Google OAuth using Client ID: `803742536156-15kl46l32ut9n7ln47aj0hj4np8b8aje.apps.googleusercontent.com`.
+* Implement the Google login with PKCE flow:
+  ```typescript
+  await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: `${window.location.origin}/auth/callback`,
+      queryParams: { access_type: 'offline', prompt: 'consent' }
+    }
+  })

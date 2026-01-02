@@ -1,0 +1,18 @@
+au@File (app/(dashboard)/audit-logs/page.tsx)
+@File (hooks/useAuditLogs.ts)
+@File (lib/programs-store.ts)
+
+Now that the Login system is active, I want to upgrade the Audit Logs to be fully automated and premium.
+
+### 1. Automated Tracking
+* Update all database mutation functions in `lib/programs-store.ts` (Create, Update, Delete) to ensure they trigger an entry in the `audit_logs` table.
+* The `user_email` should be automatically captured from the active Supabase session.
+
+### 2. UI Enhancements (Premium Security)
+* In `AuditLogsPage`, update the `filteredLogs` logic to allow filtering by 'Actor' (User Email).
+* Add a "JSON Viewer" modal: When a user clicks an 'UPDATE' row, show the raw data changes (Old vs New) for deep forensics.
+* Improve the `ActionBadge` icons: Use `ShieldAlert` for DELETE and `ShieldCheck` for INSERT.
+
+### 3. Safety Check
+* Ensure ONLY the user with email `ade.basirwfrd@gmail.com` can access this page.
+* Non-admins should be redirected to the dashboard with a "Unauthorized" toast.
