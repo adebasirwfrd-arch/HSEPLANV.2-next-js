@@ -1,63 +1,45 @@
-
-API
-Scope
-User-facing description
-.../auth/calendar.app.created	Make secondary Google calendars, and see, create, change, and delete events on them
-.../auth/calendar.calendarlist.readonly	See the list of Google calendars you’re subscribed to
-.../auth/calendar.events	View and edit events on all your calendars
-.../auth/calendar.events.freebusy	See the availability on Google calendars you have access to
-.../auth/calendar.events.public.readonly	See the events on public calendars
-.../auth/calendar.settings.readonly	View your Calendar settings
-.../auth/calendar.freebusy	View your availability in your calendars
-.../auth/userinfo.email	See your primary Google Account email address
-.../auth/userinfo.profile	See your personal info, including any personal info you've made publicly available
-openid	Associate you with your personal info on Google
-Analytics Hub API	.../auth/bigquery	View and manage your data in Google BigQuery and see the email address for your Google Account
-Analytics Hub API	.../auth/cloud-platform	See, edit, configure, and delete your Google Cloud data and see the email address for your Google Account.
-BigQuery API	.../auth/bigquery.readonly	View your data in Google BigQuery
-BigQuery API	.../auth/cloud-platform.read-only	View your data across Google Cloud services and see the email address of your Google Account
-BigQuery API	.../auth/devstorage.full_control	Manage your data and permissions in Cloud Storage and see the email address for your Google Account
-BigQuery API	.../auth/devstorage.read_only	View your data in Google Cloud Storage
-BigQuery API	.../auth/devstorage.read_write	Manage your data in Cloud Storage and see the email address of your Google Account
-BigQuery API	.../auth/bigquery.insertdata	Insert data into Google BigQuery
-BigQuery Data Transfer API	.../auth/cloudplatformprojects	Manage your Cloud Platform projects
-Cloud Datastore API	.../auth/datastore	View and manage your Google Cloud Datastore data
-Cloud Logging API	.../auth/logging.admin	Administrate log data for your projects
-Cloud Logging API	.../auth/logging.read	View log data for your projects
-Cloud Logging API	.../auth/logging.write	Submit log data for your projects
-Cloud Monitoring API	.../auth/monitoring	View and write monitoring data for all of your Google and third-party Cloud and API projects
-Cloud Monitoring API	.../auth/monitoring.read	View monitoring data for all of your Google Cloud and third-party projects
-Cloud Monitoring API	.../auth/monitoring.write	Publish metric data to your Google Cloud projects
-Cloud Storage API	.../auth/devstorage.write_only	Manage your data in Google Cloud Storage
-Cloud Trace API	.../auth/trace.readonly	Read Trace data for a project or application
-Cloud Trace API	.../auth/trace.append	Write Trace data for a project or application
-Google Calendar API	.../auth/calendar	See, edit, share, and permanently delete all the calendars you can access using Google Calendar
-Google Calendar API	.../auth/calendar.acls	See and change the sharing permissions of Google calendars you own
-Google Calendar API	.../auth/calendar.acls.readonly	See the sharing permissions of Google calendars you own
-Google Calendar API	.../auth/calendar.readonly	See and download any calendar you can access using your Google Calendar
-Google Calendar API	.../auth/calendar.calendarlist	See, add, and remove Google calendars you’re subscribed to
-Google Calendar API	.../auth/calendar.calendars	See and change the properties of Google calendars you have access to, and create secondary calendars
-Google Calendar API	.../auth/calendar.calendars.readonly	See the title, description, default time zone, and other properties of Google calendars you have access to
-Google Calendar API	.../auth/calendar.events.owned	See, create, change, and delete events on Google calendars you own
-Google Calendar API	.../auth/calendar.events.owned.readonly	See the events on Google calendars you own
-Google Calendar API	.../auth/calendar.events.readonly	View events on all your calendars
-Google Drive API	.../auth/drive	See, edit, create, and delete all of your Google Drive files
-Google Drive API	.../auth/drive.file	See, edit, create, and delete only the specific Google Drive files you use with this app
-Google Drive API	.../auth/drive.meet.readonly	See and download your Google Drive files that were created or edited by Google Meet.
-Google Drive API	.../auth/drive.readonly	See and download all your Google Drive files
-Google Drive API	.../auth/docs	See, edit, create, and delete all of your Google Drive files
-Google Drive API	.../auth/drive.appdata	See, create, and delete its own configuration data in your Google Drive
-Google Drive API	.../auth/drive.metadata	View and manage metadata of files in your Google Drive
-Google Drive API	.../auth/drive.metadata.readonly	See information about your Google Drive files
-Google Drive API	.../auth/drive.photos.readonly	View the photos, videos and albums in your Google Photos
-Google Drive API	.../auth/drive.apps.readonly	View your Google Drive apps
-Google Drive API	.../auth/drive.scripts	Modify your Google Apps Script scripts' behavior
-Google Drive API	.../auth/drive.apps	View and manage your Google Drive apps
-Google Drive API	.../auth/activity	View the activity history of your Google apps
-Google Drive API	.../auth/drive.activity	View and add to the activity record of files in your Google Drive
-Google Drive API	.../auth/drive.activity.readonly	View the activity record of files in your Google Drive
-Google Drive API	.../auth/drive.install	Connect itself to your Google Drive
-Google Drive API	.../auth/gmail.readonly	View your email messages and settings
-Service Management API	.../auth/service.management	Manage your Google API service configuration
-Service Management API	.../auth/service.management.readonly	View your Google API service configuration
-Service Management API	.../auth/iam.test	Test Identity and Access Management (IAM) Permissions
+00:48:48.792 Running build in Washington, D.C., USA (East) – iad1
+00:48:48.793 Build machine configuration: 2 cores, 8 GB
+00:48:49.012 Cloning github.com/adebasirwfrd-arch/HSEPLANV.2-next-js (Branch: main, Commit: 10ed475)
+00:48:49.323 Cloning completed: 311.000ms
+00:48:50.382 Restored build cache from previous deployment (HDVRfgkA3HEqcAegPy6RQLT6aQM9)
+00:48:51.351 Running "vercel build"
+00:48:51.995 Vercel CLI 50.1.3
+00:48:53.203 Installing dependencies...
+00:48:54.667 
+00:48:54.668 up to date in 1s
+00:48:54.668 
+00:48:54.669 181 packages are looking for funding
+00:48:54.669   run `npm fund` for details
+00:48:54.698 Detected Next.js version: 16.1.1
+00:48:54.703 Running "npm run build"
+00:48:54.802 
+00:48:54.803 > hse-management-system-nextjs@0.1.0 build
+00:48:54.803 > next build
+00:48:54.803 
+00:48:55.790 ▲ Next.js 16.1.1 (Turbopack)
+00:48:55.790 - Experiments (use with caution):
+00:48:55.791   · serverActions
+00:48:55.791 
+00:48:55.799 ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+00:48:55.832   Creating an optimized production build ...
+00:49:47.930 ✓ Compiled successfully in 52s
+00:49:47.933   Running TypeScript ...
+00:50:10.085   Collecting page data using 1 worker ...
+00:50:11.190   Generating static pages using 1 worker (0/28) ...
+00:50:11.282   Generating static pages using 1 worker (7/28) 
+00:50:11.403 ⨯ useSearchParams() should be wrapped in a suspense boundary at page "/calendar". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+00:50:11.404     at Q (/vercel/path0/.next/server/chunks/ssr/_84a47ee1._.js:2:2111)
+00:50:11.404     at o (/vercel/path0/.next/server/chunks/ssr/_84a47ee1._.js:4:5314)
+00:50:11.404     at u (/vercel/path0/.next/server/chunks/ssr/app_calendar_page_tsx_2ff3d5cf._.js:1:586)
+00:50:11.404     at an (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:84360)
+00:50:11.404     at ai (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:86179)
+00:50:11.404     at al (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:107953)
+00:50:11.404     at as (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:105368)
+00:50:11.404     at aa (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:84712)
+00:50:11.405     at ai (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:86228)
+00:50:11.405     at ai (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:104708)
+00:50:11.406 Error occurred prerendering page "/calendar". Read more: https://nextjs.org/docs/messages/prerender-error
+00:50:11.406 Export encountered an error on /calendar/page: /calendar, exiting the build.
+00:50:11.424 ⨯ Next.js build worker exited with code: 1 and signal: null
+00:50:11.457 Error: Command "npm run build" exited with 1

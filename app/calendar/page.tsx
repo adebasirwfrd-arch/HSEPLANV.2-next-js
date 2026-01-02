@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect, useMemo, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { AppShell } from "@/components/layout/app-shell"
@@ -28,7 +28,8 @@ interface CalendarEvent {
     plan_type: string
 }
 
-export default function CalendarPage() {
+// Inner component that uses useSearchParams
+function CalendarPageContent() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const [viewMode, setViewMode] = useState<ViewMode>("monthly")
@@ -650,5 +651,25 @@ export default function CalendarPage() {
                 </GlassCard>
             </div>
         </AppShell>
+    )
+}
+
+// Loading fallback for Suspense
+function CalendarLoading() {
+    return (
+        <AppShell>
+            <div className="flex items-center justify-center h-64">
+                <div className="animate-spin w-8 h-8 border-4 border-[var(--accent-blue)] border-t-transparent rounded-full" />
+            </div>
+        </AppShell>
+    )
+}
+
+// Wrapper component with Suspense boundary for useSearchParams
+export default function CalendarPage() {
+    return (
+        <Suspense fallback={<CalendarLoading />}>
+            <CalendarPageContent />
+        </Suspense>
     )
 }
