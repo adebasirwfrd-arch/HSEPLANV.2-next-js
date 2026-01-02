@@ -9,7 +9,7 @@ import {
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { downloadFullReport } from "@/lib/export-report"
+import { ExportModal } from "@/components/ui/export-modal"
 import { useAdmin } from "@/hooks/useAdmin"
 
 interface AppShellContextType {
@@ -53,6 +53,7 @@ const mobileNavItems = [
 export function AppShell({ children }: { children: ReactNode }) {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false)
     const [showProfileMenu, setShowProfileMenu] = useState(false)
+    const [showExportModal, setShowExportModal] = useState(false)
     const pathname = usePathname()
     const router = useRouter()
 
@@ -204,7 +205,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
                         {/* Download */}
                         <button
-                            onClick={() => downloadFullReport()}
+                            onClick={() => setShowExportModal(true)}
                             title="Download Report"
                             className="flex items-center gap-3 px-3 lg:px-5 py-3 mx-2 rounded-lg w-[calc(100%-1rem)] text-left text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)] transition-colors"
                         >
@@ -348,7 +349,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                         <button
                             onClick={() => {
                                 setIsDrawerOpen(false)
-                                downloadFullReport()
+                                setShowExportModal(true)
                             }}
                             className="flex items-center gap-4 px-6 py-4 w-full text-left text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)] transition-colors"
                         >
@@ -450,6 +451,12 @@ export function AppShell({ children }: { children: ReactNode }) {
                     </div>
                 </nav>
             </div>
+
+            {/* Export Modal */}
+            <ExportModal
+                isOpen={showExportModal}
+                onClose={() => setShowExportModal(false)}
+            />
         </AppShellContext.Provider>
     )
 }
