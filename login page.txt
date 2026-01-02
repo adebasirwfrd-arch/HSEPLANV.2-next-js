@@ -1,0 +1,49 @@
+@CurrentFile (app/layout.tsx)
+@File (globals.css)
+@File (middleware.ts)
+@File (utils/supabase/client.ts)
+@File (app/(dashboard)/audit-logs/page.tsx)
+@File (app/(dashboard)/hse-kpi/page.tsx)
+@File (app/(dashboard)/otp/page.tsx)
+@File (lib/programs-store.ts)
+
+I want to build a **Top-Tier Enterprise Login System** with **Role-Based Access Control (Admin Mode)**. 
+
+### 1. INSTALL DEPENDENCIES
+Run: `npm install gsap @gsap/react react-lottie-player react-hook-form @hookform/resolvers zod framer-motion lucide-react`
+
+### 2. THE LOGIN PAGE (app/login/page.tsx)
+Implement a **Premium Split Layout** with high-end animations:
+* **Left Side (Branding):** * Background: `bg-gradient-to-br from-slate-900 to-blue-900`.
+    * Visual: Integrate a Lottie animation (Safety Shield/Mascot) and use GSAP to create a "floating" effect.
+    * Text: "HSE Command Center v2" with GSAP staggered entrance for the headline and subtitle.
+* **Right Side (Auth Form):**
+    * Use `Shadcn/UI` logic for a clean, minimalist white/dark-slate form.
+    * **Social Auth:** Add buttons for "Sign in with Microsoft" and "Sign in with Google" (using `supabase.auth.signInWithOAuth`).
+    * **SSO:** Add a premium button "Sign in with Corporate SSO".
+    * **Animation:** Use GSAP to animate the login card sliding in smoothly from the right with a 0.5s delay.
+
+### 3. ADMIN MODE & RBAC (The "Ade Basir" Logic)
+* **Email Rule:** `ade.basirwfrd@gmail.com` is the ONLY Admin. Others are Viewers.
+* **Hook (`hooks/useAdmin.ts`):** Create a hook that checks `supabase.auth.getUser()` and returns `isAdmin: boolean`.
+* **Restrict Access:**
+    * **Audit Logs:** Completely hide content if `!isAdmin`. Show a "🔒 Administrator Access Required" GlassCard.
+    * **KPI & OTP Pages:** * Hide all "Add", "Edit", "Delete", and "Upload" buttons for non-admins.
+        * Disable clicking on rows/cells to open edit modals if `!isAdmin`.
+    * **Visual Indicator:** Add a "Read-Only Mode" badge in the navbar/header for non-admin users.
+
+### 4. DATA SYNC & SUPABASE (Dual-Write Strategy)
+* **Update `lib/programs-store.ts`:**
+    * Make all update functions `async`.
+    * When an Admin edits a program (Status Completed/Impl Date filled), it must update **BOTH** LocalStorage (Optimistic UI) and **Supabase** (`upsert` into `program_progress` table).
+    * Auto-calculate `actual_value` in Supabase when status is changed to 'Completed'.
+
+### 5. MIDDLEWARE & SECURITY
+* Update `middleware.ts` to:
+    * Redirect unauthenticated users to `/login`.
+    * Redirect authenticated users away from `/login` to `/` (dashboard).
+
+### 6. VISUAL CONSTRAINTS
+* Use the "Ocean Trust" color palette (`--accent-blue`, `--glass-white`).
+* All icons must be from `lucide-react`.
+* Use GSAP for high-performance UI transitions and Framer Motion for micro-interactions.

@@ -7,9 +7,10 @@ import {
     Download, Settings, LogIn, LogOut, Menu, X, ChevronRight, Shield, User, Users
 } from "lucide-react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { downloadFullReport } from "@/lib/export-report"
+import { useAdmin } from "@/hooks/useAdmin"
 
 interface AppShellContextType {
     isDrawerOpen: boolean
@@ -51,8 +52,20 @@ const mobileNavItems = [
 
 export function AppShell({ children }: { children: ReactNode }) {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-    const [isAdmin, setIsAdmin] = useState(false)
     const pathname = usePathname()
+    const router = useRouter()
+
+    // Get real auth status from Supabase
+    const { user, isAdmin, isAuthenticated, signOut, isLoading } = useAdmin()
+
+    const handleAuthClick = async () => {
+        if (isAuthenticated) {
+            await signOut()
+            router.push('/login')
+        } else {
+            router.push('/login')
+        }
+    }
 
     return (
         <AppShellContext.Provider value={{
@@ -60,7 +73,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             openDrawer: () => setIsDrawerOpen(true),
             closeDrawer: () => setIsDrawerOpen(false),
             isAdmin,
-            setIsAdmin
+            setIsAdmin: () => { } // No-op since auth is managed by Supabase
         }}>
             <div className="min-h-screen pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]">
                 {/* ===== DESKTOP/TABLET FIXED SIDEBAR ===== */}
@@ -139,18 +152,27 @@ export function AppShell({ children }: { children: ReactNode }) {
                     {/* Sidebar Footer */}
                     <div className="p-3 lg:p-4 border-t border-[var(--border-light)]">
                         <button
-                            onClick={() => setIsAdmin(!isAdmin)}
-                            title={isAdmin ? "Logout" : "Admin Login"}
+                            onClick={handleAuthClick}
+                            title={isAuthenticated ? "Logout" : "Login"}
                             className={cn(
                                 "flex items-center gap-3 px-3 py-2 w-full rounded-lg transition-colors",
-                                isAdmin
+                                isAuthenticated
                                     ? "text-[var(--danger-color)] hover:bg-red-50"
                                     : "text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)]"
                             )}
                         >
-                            {isAdmin ? <LogOut className="w-5 h-5 shrink-0" /> : <LogIn className="w-5 h-5 shrink-0" />}
-                            <span className="text-sm font-medium hidden lg:block">{isAdmin ? "Logout" : "Admin"}</span>
+                            {isAuthenticated ? <LogOut className="w-5 h-5 shrink-0" /> : <LogIn className="w-5 h-5 shrink-0" />}
+                            <span className="text-sm font-medium hidden lg:block">
+                                {isAuthenticated ? (isAdmin ? "Admin" : "Logout") : "Login"}
+                            </span>
                         </button>
+                        {isAdmin && (
+                            <div className="mt-2 px-2">
+                                <span className="text-[9px] bg-[var(--success-color)] text-white px-2 py-0.5 rounded-full font-bold block text-center">
+                                    ADMIN MODE
+                                </span>
+                            </div>
+                        )}
                         <p className="text-[10px] text-[var(--text-muted)] text-center mt-2 hidden lg:block">HSE App v2.0</p>
                     </div>
                 </aside>
@@ -256,18 +278,23 @@ export function AppShell({ children }: { children: ReactNode }) {
                             </span>
                         </Link>
 
-                        {/* Admin Toggle */}
+                        {/* Auth Button */}
                         <button
-                            onClick={() => setIsAdmin(!isAdmin)}
+                            onClick={() => {
+                                setIsDrawerOpen(false)
+                                handleAuthClick()
+                            }}
                             className={cn(
                                 "flex items-center gap-4 px-6 py-4 w-full text-left transition-colors",
-                                isAdmin
+                                isAuthenticated
                                     ? "text-[var(--danger-color)] hover:bg-red-50"
                                     : "text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)]"
                             )}
                         >
-                            {isAdmin ? <LogOut className="w-5 h-5" /> : <LogIn className="w-5 h-5" />}
-                            <span className="text-sm font-medium">{isAdmin ? "Logout" : "Admin Login"}</span>
+                            {isAuthenticated ? <LogOut className="w-5 h-5" /> : <LogIn className="w-5 h-5" />}
+                            <span className="text-sm font-medium">
+                                {isAuthenticated ? (isAdmin ? "Admin Logout" : "Logout") : "Login"}
+                            </span>
                             {isAdmin && (
                                 <span className="ml-auto text-[10px] bg-[var(--success-color)] text-white px-2 py-0.5 rounded-full font-bold">
                                     ADMIN
