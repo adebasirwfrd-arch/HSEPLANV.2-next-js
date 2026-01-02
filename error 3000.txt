@@ -1,0 +1,93 @@
+## Error Type
+Console Error
+
+## Error Message
+[Stream] Token error: "Stream API credentials not configured"
+
+
+    at StreamService.fetchToken (lib/stream-service.ts:50:25)
+    at async StreamService.connect (lib/stream-service.ts:66:30)
+    at async onPost (app/page.tsx:234:19)
+    at async handleSubmit (components/feed/post-composer.tsx:77:13)
+
+## Code Frame
+  48 |             if (!response.ok) {
+  49 |                 const errorData = await response.json()
+> 50 |                 console.error('[Stream] Token error:', errorData.error)
+     |                         ^
+  51 |                 return null
+  52 |             }
+  53 |             return await response.json()
+
+Next.js version: 16.1.1 (Turbopack)
+
+## Error Type
+Console Error
+
+## Error Message
+[Stream] Token error: "Stream API credentials not configured"
+
+
+    at StreamService.fetchToken (lib/stream-service.ts:50:25)
+    at async StreamService.connect (lib/stream-service.ts:66:30)
+    at async StreamService.getFeed (lib/stream-service.ts:105:27)
+    at async StreamService.post (lib/stream-service.ts:136:26)
+    at async onPost (app/page.tsx:235:19)
+    at async handleSubmit (components/feed/post-composer.tsx:77:13)
+
+## Code Frame
+  48 |             if (!response.ok) {
+  49 |                 const errorData = await response.json()
+> 50 |                 console.error('[Stream] Token error:', errorData.error)
+     |                         ^
+  51 |                 return null
+  52 |             }
+  53 |             return await response.json()
+
+Next.js version: 16.1.1 (Turbopack)
+
+## Error Type
+Console Error
+
+## Error Message
+[Stream] Token error: "Stream API credentials not configured"
+
+
+    at StreamService.fetchToken (lib/stream-service.ts:50:25)
+    at async StreamService.connect (lib/stream-service.ts:66:30)
+    at async StreamService.getFeed (lib/stream-service.ts:105:27)
+    at async StreamService.getTimelineActivities (lib/stream-service.ts:160:26)
+    at async onPost (app/page.tsx:238:19)
+    at async handleSubmit (components/feed/post-composer.tsx:77:13)
+
+## Code Frame
+  48 |             if (!response.ok) {
+  49 |                 const errorData = await response.json()
+> 50 |                 console.error('[Stream] Token error:', errorData.error)
+     |                         ^
+  51 |                 return null
+  52 |             }
+  53 |             return await response.json()
+
+Next.js version: 16.1.1 (Turbopack)
+
+## Error Type
+Console Error
+
+## Error Message
+[Stream] Token error: "Stream API credentials not configured"
+
+
+    at StreamService.fetchToken (lib/stream-service.ts:50:25)
+    at async StreamService.connect (lib/stream-service.ts:66:30)
+
+## Code Frame
+  48 |             if (!response.ok) {
+  49 |                 const errorData = await response.json()
+> 50 |                 console.error('[Stream] Token error:', errorData.error)
+     |                         ^
+  51 |                 return null
+  52 |             }
+  53 |             return await response.json()
+
+Next.js version: 16.1.1 (Turbopack)

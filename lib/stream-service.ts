@@ -67,13 +67,18 @@ class StreamService {
             if (!this.tokenData) throw new Error('Failed to get token')
 
             // Connect with Singapore region - browser: true for client-side
-            this.state.client = connect(
+            this.state.client = new StreamClient(
                 this.tokenData.apiKey,
                 this.tokenData.token,
                 this.tokenData.appId,
                 {
                     browser: true,
-                    location: 'singapore'
+                    location: 'singapore',
+                    group: 'singapore', // Fixes 'location=unspecified' query param
+                    // Force Singapore API URL as a fallback/guarantee
+                    urlOverride: {
+                        api: 'https://singapore-api.stream-io-api.com/api/'
+                    }
                 }
             )
 
@@ -140,17 +145,17 @@ class StreamService {
             if (!userId) return false
 
             await feed.addActivity({
-                actor: userId,
                 verb: 'post',
                 object: activity.content,
                 content: activity.content,
                 category: activity.category,
                 attachments: activity.attachments || [],
                 time: new Date().toISOString()
-            } as Parameters<typeof feed.addActivity>[0])
+            } as any)
 
             return true
-        } catch {
+        } catch (error: any) {
+            console.error('[Stream] Post Error:', error.response?.data?.detail || error.message || 'Unknown error');
             return false
         }
     }
@@ -166,7 +171,8 @@ class StreamService {
             })
 
             return response.results || []
-        } catch {
+        } catch (error: any) {
+            console.error('[Stream] GetTimeline Error:', error.response?.data?.detail || error.message || 'Unknown error');
             if (options.refresh) {
                 try {
                     const userFeed = await this.getUserFeed()

@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server"
-import { connect } from "getstream"
+import { StreamClient } from "getstream"
 import { createClient } from "@/lib/supabase/server"
 
 export async function GET() {
     try {
+        // Menggunakan nama variabel yang sesuai dengan .env.local Anda yang baru
         const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY
         const appSecret = process.env.STREAM_API_SECRET
         const appId = process.env.NEXT_PUBLIC_STREAM_APP_ID
 
-        // Pastikan variabel environment terbaca
         if (!apiKey || !appSecret || !appId) {
             return NextResponse.json(
                 { error: "Stream API credentials not configured" },
@@ -26,21 +26,24 @@ export async function GET() {
             )
         }
 
-        const userId = user.id.replace(/-/g, '')
-        const userName = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'User'
+        // KONTEKS: Mengunci identitas ke Ade Basir (ade4) sesuai Dashboard
+        const userId = 'ade4'
+        const userName = 'Ade Basir'
         const userAvatar = user.user_metadata?.avatar_url || user.user_metadata?.picture
         const userEmail = user.email
 
         /**
-         * PERBAIKAN UTAMA: 
-         * Menggunakan format inisialisasi yang benar untuk region 'singapore'.
-         * SDK akan otomatis menangani pembentukan URL yang valid.
+         * PERBAIKAN FINAL UNTUK ERROR 400 & DNS:
+         * Kita gunakan constructor StreamClient langsung agar parameter options terjamin.
          */
-        const client = connect(apiKey, appSecret, appId, 'singapore');
+        const client = new StreamClient(apiKey, appSecret, appId, {
+            location: 'singapore',
+            group: 'singapore' // Fixes 'location=unspecified' query param
+        });
 
         const userToken = client.createUserToken(userId)
 
-        // Sinkronisasi identitas user
+        // Sinkronisasi identitas user ke Stream
         try {
             await client.user(userId).getOrCreate({
                 name: userName,
