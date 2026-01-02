@@ -1,24 +1,30 @@
 @File (app/api/stream/token/route.ts)
 @File (components/dashboard/post-composer.tsx)
 @File (app/(dashboard)/home/page.tsx)
-@File (lib/stream-service.ts)
 
-I need a COMPLETE SYSTEM DEBUG and AUTO-FIX for the Stream.io feed. It's not working even after manual dashboard tweaks. 
+LOG ANALYSIS: The PostComposer logs 'Post submitted successfully', but the feed is still empty. This is a FEED RELATIONSHIP and REFRESH issue. Fix it with this exact logic:
 
-### 1. DIAGNOSTIC LOGGING (Temporary)
-- In `post-composer.tsx`, add detailed error handling inside the `handlePost` function. 
-- Log the EXACT response from Stream when `addActivity` is called. 
-- Log the `userId` being used to ensure it matches 'ade4' or the active Supabase user.
+1. **FORCE FEED ALIGNMENT (SERVER-SIDE):**
+   - In `app/api/stream/token/route.ts`, immediately after `streamClient.createUserToken(userId)`, add this:
+     `await streamClient.feed('timeline', userId).follow('user', userId);`
+   - This ensures the 'timeline' (Homepage) ALWAYS pulls data from the 'user' (Composer).
 
-### 2. SERVER-SIDE SELF-HEALING (The Fix)
-- In `app/api/stream/token/route.ts`, implement a "Sanity Check" before returning the token:
-    a. Check if the 'notification' group has any 'following' selectors. If yes, use the Stream Admin SDK to PROGRAMMATICALLY DELETE them.
-    b. Check if 'timeline:userId' is following 'user:userId'. If not, FORCE the follow relationship immediately.
-    c. Verify the User Identity (name/avatar) is correctly synced to Stream's user database.
+2. **CORRECT ACTIVITY PAYLOAD:**
+   - In `post-composer.tsx`, ensure the `addActivity` call looks EXACTLY like this:
+     ```typescript
+     await userFeed.addActivity({
+       actor: userId, // Must match the authenticated userId 'ade4'
+       verb: 'post',
+       object: content,
+       category: category,
+       attachments: uploadedImages,
+       time: new Date().toISOString(),
+     });
+     ```
 
-### 3. FEED FETCHING LOGIC
-- In `home/page.tsx`, ensure the `FlatFeed` or custom feed component is explicitly targeting the 'timeline' group and 'userId'.
-- Add a 'Manual Refresh' fallback that triggers if real-time subscription fails.
+3. **HOMEPAGE FEED RE-INITIALIZATION:**
+   - In `home/page.tsx`, use a `key` state for the Feed component.
+   - After `PostComposer` finishes, call a function that updates this `key` to FORCE the entire Feed component to unmount and remount (Hard Refresh).
 
-### 4. MEDIA MAPPING DEBUG
-- Verify that when a photo is attached, the CDN URL is correctly stored in the `attachments` field of the Stream Activity, not just local state.
+4. **IMMEDIATE FEED REFETCH:**
+   - Add a 1-second delay after the success log, then trigger a manual `feed.get()` call to ensure the new post is captured.

@@ -31,6 +31,7 @@ import { RightSidebar } from "@/components/dashboard/right-sidebar"
 import { SafetyMascot } from "@/components/dashboard/safety-mascot"
 import { PostComposer } from "@/components/feed/post-composer"
 import { useAdmin } from "@/hooks/useAdmin"
+import { streamService } from "@/lib/stream-service"
 
 
 
@@ -229,8 +230,36 @@ export default function HomePage() {
               userName={userName}
               userAvatar={userAvatar}
               onPost={async (content, category, attachments) => {
-                // TODO: Integrate with Stream feed
+                console.log('=== POSTING TO STREAM ===')
                 console.log('Posting:', { content, category, attachments })
+
+                try {
+                  // Connect to Stream service
+                  await streamService.connect()
+
+                  // For now, just post text content (media upload requires CDN)
+                  // TODO: Upload attachments to Stream CDN first
+                  const attachmentUrls: string[] = []
+
+                  // Post to Stream
+                  const success = await streamService.post({
+                    content,
+                    category,
+                    attachments: attachmentUrls
+                  })
+
+                  if (success) {
+                    console.log('[HomePage] Post successful, refreshing feed...')
+                    // Add delay then force refresh
+                    await new Promise(resolve => setTimeout(resolve, 1000))
+                    const activities = await streamService.getTimelineActivities({ refresh: true })
+                    console.log('[HomePage] Feed refreshed, activities:', activities.length)
+                  } else {
+                    console.error('[HomePage] Post failed')
+                  }
+                } catch (error) {
+                  console.error('[HomePage] Failed to post:', error)
+                }
               }}
             />
           </div>
