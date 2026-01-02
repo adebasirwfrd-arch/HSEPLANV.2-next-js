@@ -1,5 +1,5 @@
 /**
- * Stream.io Service - Client-side service with self-healing capabilities
+ * Stream.io Service - Client-side with self-healing
  */
 
 import { connect, StreamClient, StreamFeed } from 'getstream'
@@ -44,22 +44,14 @@ class StreamService {
 
     private async fetchToken(): Promise<StreamTokenResponse | null> {
         try {
-            console.log('[StreamService] Fetching token from /api/stream-token...')
             const response = await fetch('/api/stream-token')
-
             if (!response.ok) {
-                // Log FULL error response for debugging
                 const errorData = await response.json()
-                console.error('[StreamService] Token fetch failed with status:', response.status)
-                console.error('[StreamService] Full error response:', JSON.stringify(errorData, null, 2))
+                console.error('[Stream] Token error:', errorData.error)
                 return null
             }
-
-            const data = await response.json()
-            console.log('[StreamService] Token received for userId:', data.userId)
-            return data
-        } catch (error) {
-            console.error('[StreamService] Token fetch exception:', error)
+            return await response.json()
+        } catch {
             return null
         }
     }
@@ -74,10 +66,12 @@ class StreamService {
             this.tokenData = await this.fetchToken()
             if (!this.tokenData) throw new Error('Failed to get token')
 
+            // Connect with Singapore region
             this.state.client = connect(
                 this.tokenData.apiKey,
                 this.tokenData.token,
-                this.tokenData.appId
+                this.tokenData.appId,
+                { location: 'singapore-east' }
             )
 
             this.state.user = this.tokenData.user
@@ -201,7 +195,7 @@ class StreamService {
             const feed = await this.getNotificationFeed()
             if (feed) await feed.get({ limit: 1, mark_seen: true })
         } catch {
-            // Silent fail
+            // Silent
         }
     }
 
