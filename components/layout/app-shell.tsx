@@ -85,11 +85,17 @@ export function AppShell({ children }: { children: ReactNode }) {
                     "pl-[env(safe-area-inset-left)]"
                 )}>
                     {/* Sidebar Header */}
-                    <div className="p-3 lg:p-5 flex items-center justify-center lg:justify-start border-b border-[var(--border-light)]">
+                    <div className="p-3 lg:p-5 flex flex-col items-center lg:items-start gap-2 border-b border-[var(--border-light)]">
                         <div className="bg-gradient-to-br from-[var(--accent-blue)] to-[var(--accent-sky)] p-2 lg:px-4 lg:py-2 rounded-lg">
                             <span className="text-white font-bold text-sm hidden lg:block">HSE Plan</span>
                             <span className="text-white font-bold text-sm lg:hidden">HSE</span>
                         </div>
+                        {/* Status Badge */}
+                        {isAuthenticated && !isAdmin && (
+                            <span className="text-[8px] lg:text-[9px] bg-[var(--warning-color)]/10 text-[var(--warning-color)] px-2 py-0.5 rounded-full font-medium hidden lg:block">
+                                View-Only Mode
+                            </span>
+                        )}
                     </div>
 
                     {/* Nav Items */}
@@ -185,7 +191,19 @@ export function AppShell({ children }: { children: ReactNode }) {
                     >
                         <Menu className="w-6 h-6" />
                     </button>
-                    <div className="font-semibold text-[var(--text-primary)]">HSE Plan</div>
+                    <div className="flex items-center gap-2">
+                        <span className="font-semibold text-[var(--text-primary)]">HSE Plan</span>
+                        {isAuthenticated && !isAdmin && (
+                            <span className="text-[9px] bg-[var(--warning-color)]/10 text-[var(--warning-color)] px-2 py-0.5 rounded-full font-medium">
+                                View-Only
+                            </span>
+                        )}
+                        {isAdmin && (
+                            <span className="text-[9px] bg-[var(--success-color)] text-white px-2 py-0.5 rounded-full font-bold">
+                                ADMIN
+                            </span>
+                        )}
+                    </div>
                     <div className="w-10" /> {/* Spacer for centering */}
                 </header>
 

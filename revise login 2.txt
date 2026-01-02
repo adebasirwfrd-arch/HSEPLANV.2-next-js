@@ -1,0 +1,39 @@
+@CurrentFile (app/layout.tsx)
+@File (app/login/page.tsx)
+@File (middleware.ts)
+@File (components/layout/app-shell.tsx)
+
+**ISSUE:** The login page currently appears as a drawer/component inside the dashboard. 
+**GOAL:** Make the Login Page a **STRICT FULL-SCREEN PAGE** that acts as the entry point (Splash Screen style). Users should NOT see any sidebars or dashboard elements until they are authenticated.
+
+### 1. Refactor Layout Structure (`app/layout.tsx`)
+* Ensure the `RootLayout` is clean. 
+* Do NOT wrap `{children}` with `AppShell` in the `RootLayout`. The `AppShell` should only live inside a (dashboard) group or specific pages.
+
+### 2. Full-Screen Login Page (`app/login/page.tsx`)
+* Add `"use client"` at the top.
+* Ensure this file **does not** import or use `AppShell`.
+* Style it with `w-screen h-screen overflow-hidden bg-slate-900`.
+* **Design:** * 60% Left: Premium Branding with GSAP entrance.
+    * 40% Right: Minimalist Auth Form.
+* **Persistent Session:** Ensure Supabase client is initialized with `persistSession: true`.
+
+### 3. Move Dashboard Shell
+* Ensure all protected pages (OTP, KPI, etc.) are wrapped in the `AppShell` within their own files or a `(dashboard)/layout.tsx`. 
+* If a page is NOT `/login`, it should be protected.
+
+### 4. Middleware (The Gatekeeper)
+* Refactor `middleware.ts` to strictly handle the routing:
+    * **IF** user has NO session and is NOT on `/login` -> `redirect('/login')`.
+    * **IF** user HAS session and is ON `/login` -> `redirect('/')`.
+
+### 5. GSAP Entrance Animation
+* In `app/login/page.tsx`, use GSAP to animate the login card:
+    * `initial: { opacity: 0, scale: 0.9 }`
+    * `animate: { opacity: 1, scale: 1 }` with a high-end spring/bounce effect.
+
+### 6. Admin Mode (Ade Basir)
+* Use the `NEXT_PUBLIC_ADMIN_EMAIL` environment variable logic in `hooks/useAdmin.ts`.
+* Hide all action buttons in the dashboard if the logged-in user email doesn't match.
+
+**Execution:** Please apply this structure immediately to ensure a professional, full-screen first impression.

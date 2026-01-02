@@ -1,0 +1,44 @@
+@CurrentFile (app/layout.tsx)
+@File (globals.css)
+@File (middleware.ts)
+@File (utils/supabase/client.ts)
+@File (app/(dashboard)/audit-logs/page.tsx)
+@File (app/(dashboard)/hse-kpi/page.tsx)
+@File (app/(dashboard)/otp/page.tsx)
+@File (lib/programs-store.ts)
+
+I am ready to connect the UI to the existing Supabase backend. We need a **Full-Screen Login** and **Admin Mode** using Environment Variables for flexibility.
+
+### 1. CONFIGURATION (Admin Access)
+* Use `NEXT_PUBLIC_ADMIN_EMAIL` from environment variables to define the admin.
+* In `hooks/useAdmin.ts`, implement: 
+  `const isAdmin = user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL;`
+* This allows me to change the admin email easily without touching the code.
+
+### 2. FULL-SCREEN PREMIUM LOGIN (app/login/page.tsx)
+* Create a **Full-Screen Split Layout** (No Sidebar/AppShell).
+* **Left Side (Branding):** Use a dark ocean gradient. 
+  * Add a Lottie animation (Safety Mascot).
+  * Use **GSAP** to animate the headline text with a staggered fade-in effect.
+* **Right Side (Auth):** * Clean Shadcn/UI Form.
+  * Add "Sign in with Microsoft" and "Sign in with Google" buttons using Supabase OAuth.
+  * Add a "Keep me logged in" checkbox (Supabase handles session persistence by default).
+* **Entrance Animation:** Use **GSAP** so the login card "pops" in from the center with a slight bounce.
+
+### 3. PROTECTED UI (The "Admin Lock")
+Apply `isAdmin` check to these components:
+* **Audit Logs:** If `!isAdmin`, redirect to `/` or show "Access Denied" glass-card.
+* **KPI & OTP Pages:** * Wrap all "Add", "Edit", "Delete", and "Upload" buttons in `{isAdmin && (...)}`.
+  * Ensure table cells are not clickable (read-only) for non-admins.
+* **Navigation:** Add a small "View-Only" badge in the header if the user is not an admin.
+
+### 4. SUPABASE DATA SYNC
+* Since the tables already exist in Supabase, update `lib/programs-store.ts` to fetch and push data directly to Supabase `program_progress` table.
+* Ensure "Stay Logged In" works by setting `persistSession: true` in the Supabase client.
+
+### 5. MIDDLEWARE
+* Update `middleware.ts` to protect all routes except `/login`. 
+* If a user is logged in, they should be redirected away from `/login` to the dashboard.
+
+### DEPENDENCIES
+Run: `npm install gsap @gsap/react react-lottie-player react-hook-form @hookform/resolvers zod framer-motion lucide-react`

@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
 
-// The ONLY admin email
-const ADMIN_EMAIL = 'ade.basirwfrd@gmail.com'
+// Admin email from environment variable (flexible configuration)
+const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'ade.basirwfrd@gmail.com'
 
 interface UseAdminReturn {
     user: User | null
