@@ -196,7 +196,7 @@ export function MatrixTimeline({ programs, year }: MatrixTimelineProps) {
             <div className="flex border-b border-white/10 min-w-[1000px]">
                 {/* Sidebar Header */}
                 <div
-                    className="flex-shrink-0 px-4 py-3 bg-white/5 backdrop-blur-md border-r border-white/10 sticky left-0 z-20 backdrop-filter"
+                    className="flex-shrink-0 px-4 py-3 bg-[var(--bg-secondary)] border-r border-white/10 sticky left-0 z-20"
                     style={{ width: sidebarWidth }}
                 >
                     <span className="text-xs font-semibold text-[var(--text-primary)]">
@@ -230,7 +230,7 @@ export function MatrixTimeline({ programs, year }: MatrixTimelineProps) {
                     >
                         {/* Sidebar Channel */}
                         <div
-                            className="flex-shrink-0 sticky left-0 z-10 bg-[#0f172a] border-r border-white/10"
+                            className="flex-shrink-0 sticky left-0 z-10 bg-[var(--bg-secondary)] border-r border-white/10"
                             style={{ width: sidebarWidth }}
                         >
                             <CustomChannel program={program} />
