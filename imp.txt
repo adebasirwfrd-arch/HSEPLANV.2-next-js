@@ -1,0 +1,20 @@
+@File (hooks/useAuditLogs.ts)
+@File (lib/supabase-types.ts)
+
+GENERATE UNIVERSAL AUDIT SYSTEM SQL:
+
+1. Buat skrip SQL untuk tabel 'audit_logs' dengan kolom: id, action, entity_type, entity_id, actor_id, actor_email, description, old_values, new_values, dan created_at.
+
+2. Buat satu Function SQL 'process_audit_log()' yang:
+   - Mengambil email dari 'auth.jwt() ->> 'email'' sebagai 'actor_email'.
+   - Mengubah baris OLD dan NEW menjadi format JSONB.
+
+3. Pasang Trigger ke SEMUA tabel berikut:
+   - tasks
+   - programs
+   - matrix
+   - safety_moments
+   - safety_moment_interactions
+   - safety_moment_comments
+
+4. Pastikan RLS (Row Level Security) dikonfigurasi agar data log ini aman dan hanya bisa dibaca oleh Admin.

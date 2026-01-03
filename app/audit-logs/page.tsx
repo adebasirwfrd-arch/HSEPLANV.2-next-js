@@ -5,9 +5,8 @@ import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { AppShell } from "@/components/layout/app-shell"
 import { GlassCard } from "@/components/ui/glass-card"
-import { useAuditLogs, formatAction, getRelativeTime, formatTimestamp } from "@/hooks/useAuditLogs"
+import { useAuditLogs, formatAction, getRelativeTime, formatTimestamp, type AuditLog } from "@/hooks/useAuditLogs"
 import { useAdmin } from "@/hooks/useAdmin"
-import type { AuditLog } from "@/types/supabase"
 import {
     Search,
     Shield,
@@ -199,12 +198,12 @@ export default function AuditLogsPage() {
         description: string
     } | null>(null)
 
-    const { data: logs, isLoading, isError } = useAuditLogs({ limit: 100 })
+    const { logs, isLoading, error } = useAuditLogs({ limit: 100 })
 
     // Get unique actors for filter
     const uniqueActors = useMemo(() => {
         if (!logs) return []
-        const actors = [...new Set(logs.map(log => log.user_email || 'System'))]
+        const actors = [...new Set(logs.map(log => log.actor_email || 'System'))]
         return actors.sort()
     }, [logs])
 
@@ -216,16 +215,16 @@ export default function AuditLogsPage() {
 
         // Filter by actor
         if (actorFilter !== "all") {
-            result = result.filter(log => (log.user_email || 'System') === actorFilter)
+            result = result.filter(log => (log.actor_email || 'System') === actorFilter)
         }
 
         // Filter by search
         if (search.trim()) {
             const searchLower = search.toLowerCase()
             result = result.filter(log =>
-                (log.user_email || '').toLowerCase().includes(searchLower) ||
+                (log.actor_email || '').toLowerCase().includes(searchLower) ||
                 (log.description || '').toLowerCase().includes(searchLower) ||
-                log.target_table.toLowerCase().includes(searchLower) ||
+                log.entity_type.toLowerCase().includes(searchLower) ||
                 log.action.toLowerCase().includes(searchLower)
             )
         }
@@ -240,7 +239,7 @@ export default function AuditLogsPage() {
                 oldData: log.old_values,
                 newData: log.new_values,
                 action: log.action,
-                description: log.description || `Updated ${log.target_table}`
+                description: log.description || `Updated ${log.entity_type}`
             })
         }
     }
@@ -388,7 +387,7 @@ export default function AuditLogsPage() {
                             <tbody>
                                 {isLoading ? (
                                     Array(5).fill(0).map((_, i) => <SkeletonRow key={i} />)
-                                ) : isError ? (
+                                ) : error ? (
                                     <tr>
                                         <td colSpan={5} className="p-8 text-center">
                                             <AlertTriangle className="w-8 h-8 mx-auto mb-2 text-[var(--danger-color)]" />
@@ -419,14 +418,14 @@ export default function AuditLogsPage() {
                                                 <div className="text-[10px] text-[var(--text-muted)]">{formatTimestamp(log.created_at)}</div>
                                             </td>
                                             <td className="p-3">
-                                                <div className="text-[var(--text-primary)]">{log.user_email || 'System'}</div>
+                                                <div className="text-[var(--text-primary)]">{log.actor_email || 'System'}</div>
                                             </td>
                                             <td className="p-3 text-center">
                                                 <ActionBadge action={log.action} />
                                             </td>
                                             <td className="p-3">
-                                                <div className="text-[var(--text-primary)] font-medium">{log.target_table}</div>
-                                                <div className="text-[10px] text-[var(--text-muted)]">ID: {log.target_id || '-'}</div>
+                                                <div className="text-[var(--text-primary)] font-medium">{log.entity_type}</div>
+                                                <div className="text-[10px] text-[var(--text-muted)]">ID: {log.entity_id || '-'}</div>
                                             </td>
                                             <td className="p-3">
                                                 <div className="flex items-center gap-2">
