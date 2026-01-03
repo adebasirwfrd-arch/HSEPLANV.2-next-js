@@ -1,0 +1,6 @@
+column_name,data_type
+user_id,uuid
+google_access_token,text
+google_refresh_token,text
+is_google_sync_enabled,boolean
+updated_at,timestamp with time zone
