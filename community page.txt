@@ -1,0 +1,22 @@
+@File (app/community/page.tsx)
+@File (app/page.tsx)
+@File (components/feed/post-composer.tsx)
+@File (components/feed/post-card.tsx)
+@File (lib/supabase-types.ts)
+
+ONE-FOR-ALL COMMAND: FULL PRODUCTION COMMUNITY & SAFETY MOMENT SYSTEM
+
+PART 1: GENERATE SQL (PLEASE OUTPUT THIS FIRST)
+- Tolong buatkan SQL Script lengkap untuk tabel 'safety_moments', 'safety_moment_interactions', dan 'safety_moment_comments'.
+- Sertakan kebijakan RLS (Row Level Security): Admin can CRUD, Public can Read.
+- Tambahkan perintah 'ALTER PUBLICATION' untuk mengaktifkan Realtime.
+
+PART 2: UI & LOGIC INTEGRATION
+- ADMIN-ONLY ACCESS: Update 'app/community/page.tsx' agar hanya bisa diakses user dengan role 'admin'. Non-admin dialihkan ke homepage.
+- UPLOADTHING TOKEN UPDATE: Sesuaikan 'PostComposer' untuk menggunakan 'UPLOADTHING_TOKEN' (bukan App ID).
+- HOMEPAGE SYNC: Ganti dummy data di 'Safety Moment' homepage dengan data asli dari tabel 'safety_moments' yang baru dibuat.
+- SOCIAL FEATURES: Aktifkan fungsi Like, Comment, Share, dan Save pada 'PostCard' menggunakan Supabase.
+- MEDIA SUPPORT: Pastikan 'PostComposer' dan 'PostCard' mendukung upload dan display Gambar serta Video.
+
+PART 3: NAVIGATION
+- Tambahkan navigasi dari 'Safety Moment' card ke halaman detail postingan dan tombol 'View All' ke daftar arsip.

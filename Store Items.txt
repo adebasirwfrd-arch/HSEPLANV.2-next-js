@@ -1,0 +1,47 @@
+Store Items
+View and edit the items in this store.
+
+
+Learn how to use this in code
+1
+
+Pull your latest environment variables
+
+Run vercel env pull to make the latest environment variables available to your project locally.
+
+2
+
+Install our package
+
+Then run npm install @vercel/edge-config to install the Edge Config SDK.
+
+3
+
+Use in code
+
+This example uses Next.js. It will create a middleware which intercepts requests to localhost:3000/welcome and responds with a greeting read from your Edge Config.
+
+middleware.js
+
+import { NextResponse } from 'next/server';
+import { get } from '@vercel/edge-config';
+
+export const config = { matcher: '/welcome' };
+
+export async function middleware() {
+  const greeting = await get('greeting');
+  // NextResponse.json requires at least Next v13.1 or
+  // enabling experimental.allowMiddlewareResponseBody in next.config.js
+  return NextResponse.json(greeting);
+}
+4
+
+Verify it works
+
+Visit localhost:3000/welcome to see your greeting.
+
+Navigate to…
+123
+{
+  "greeting": "hello world"
+}
