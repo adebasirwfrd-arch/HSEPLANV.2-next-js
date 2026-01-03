@@ -109,6 +109,13 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- SAFETY_MOMENTS POLICIES
 
+-- Drop existing policies first (for re-runs)
+DROP POLICY IF EXISTS "Public can view moments" ON safety_moments;
+DROP POLICY IF EXISTS "Admin can view all moments" ON safety_moments;
+DROP POLICY IF EXISTS "Admin can create moments" ON safety_moments;
+DROP POLICY IF EXISTS "Admin can update moments" ON safety_moments;
+DROP POLICY IF EXISTS "Admin can delete moments" ON safety_moments;
+
 -- Everyone can read non-archived moments
 CREATE POLICY "Public can view moments" ON safety_moments
     FOR SELECT USING (is_archived = FALSE);
@@ -131,6 +138,11 @@ CREATE POLICY "Admin can delete moments" ON safety_moments
 
 -- SAFETY_MOMENT_INTERACTIONS POLICIES
 
+-- Drop existing policies first (for re-runs)
+DROP POLICY IF EXISTS "Authenticated can view interactions" ON safety_moment_interactions;
+DROP POLICY IF EXISTS "Authenticated can create interactions" ON safety_moment_interactions;
+DROP POLICY IF EXISTS "Users can delete own interactions" ON safety_moment_interactions;
+
 -- Authenticated users can read all interactions
 CREATE POLICY "Authenticated can view interactions" ON safety_moment_interactions
     FOR SELECT TO authenticated USING (TRUE);
@@ -144,6 +156,12 @@ CREATE POLICY "Users can delete own interactions" ON safety_moment_interactions
     FOR DELETE TO authenticated USING (auth.uid() = user_id);
 
 -- SAFETY_MOMENT_COMMENTS POLICIES
+
+-- Drop existing policies first (for re-runs)
+DROP POLICY IF EXISTS "Public can view comments" ON safety_moment_comments;
+DROP POLICY IF EXISTS "Authenticated can create comments" ON safety_moment_comments;
+DROP POLICY IF EXISTS "Users can update own comments" ON safety_moment_comments;
+DROP POLICY IF EXISTS "Users can delete own comments" ON safety_moment_comments;
 
 -- Everyone can read comments
 CREATE POLICY "Public can view comments" ON safety_moment_comments
@@ -174,11 +192,13 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS update_safety_moments_timestamp ON safety_moments;
 CREATE TRIGGER update_safety_moments_timestamp
     BEFORE UPDATE ON safety_moments
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at();
 
+DROP TRIGGER IF EXISTS update_comments_timestamp ON safety_moment_comments;
 CREATE TRIGGER update_comments_timestamp
     BEFORE UPDATE ON safety_moment_comments
     FOR EACH ROW
@@ -211,6 +231,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS update_moment_stats_on_interaction ON safety_moment_interactions;
 CREATE TRIGGER update_moment_stats_on_interaction
     AFTER INSERT OR DELETE ON safety_moment_interactions
     FOR EACH ROW
@@ -231,6 +252,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS update_moment_comments_count ON safety_moment_comments;
 CREATE TRIGGER update_moment_comments_count
     AFTER INSERT OR DELETE ON safety_moment_comments
     FOR EACH ROW
