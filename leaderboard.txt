@@ -1,0 +1,18 @@
+@File (app/page.tsx)
+@File (components/dashboard/pic-leaderboard-sidebar.tsx)
+@File (hooks/useHSEPrograms.ts)
+
+FINAL TOUCH: ANIMATED LEADERBOARD & YEARLY LOGIC
+
+1. ANIMATION (components/dashboard/pic-leaderboard-sidebar.tsx):
+   - Gunakan Framer Motion 'animate={{ width: `${percentage}%` }}' dengan transition 'spring' (stiffness: 100).
+   - Pastikan angka persentase bertambah (count-up) dari 0 ke nilai akhir saat bar bergerak.
+
+2. YEARLY FILTERING (hooks/useHSEPrograms.ts):
+   - Tambahkan logika 'currentYear = new Date().getFullYear()'.
+   - Filter data dari 'tasks' dan 'programs' agar Leaderboard hanya menghitung tugas yang memiliki 'plan_date' di tahun berjalan.
+   - Pastikan akumulasi berjalan dari Januari hingga Desember tahun tersebut.
+
+3. UI REFINEMENT:
+   - Tambahkan label kecil di bawah judul Leaderboard: "Performance Year: 2026".
+   - Gunakan warna gradien (Merah-Kuning-Hijau) yang beranimasi halus pada progress bar.

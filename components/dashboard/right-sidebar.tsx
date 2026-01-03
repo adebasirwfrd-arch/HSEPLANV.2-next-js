@@ -4,6 +4,7 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { GlassCard } from "@/components/ui/glass-card"
 import { X, Camera, ExternalLink } from "lucide-react"
+import { PICLeaderboardSidebar } from "./pic-leaderboard-sidebar"
 
 // Static safety moments data with Unsplash images
 const SAFETY_MOMENTS = [
@@ -45,6 +46,12 @@ export function RightSidebar() {
         <>
             {/* Sidebar */}
             <div className="w-[280px] space-y-4">
+                {/* PIC Leaderboard */}
+                <PICLeaderboardSidebar
+                    year={new Date().getFullYear()}
+                    maxItems={5}
+                />
+
                 {/* Header */}
                 <div className="flex items-center gap-2 px-1">
                     <Camera className="w-5 h-5 text-[var(--accent-blue)]" />

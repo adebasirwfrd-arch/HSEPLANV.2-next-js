@@ -1,0 +1,21 @@
+@File (middleware.ts) atau (proxy.ts)
+@File (lib/edge-config.ts)
+
+IMPLEMENTASI VERCEL EDGE CONFIG & MIDDLEWARE (ENTERPRISE SECURITY):
+
+1. SETUP EDGE CONFIG (lib/edge-config.ts):
+   - Buat fungsi helper untuk membaca konfigurasi dari Vercel Edge Config (misal: 'isMaintenanceMode', 'allowedRegions', 'blockedIPs').
+   - Gunakan '@vercel/edge-config' package untuk akses data ultra-cepat.
+
+2. UPDATE MIDDLEWARE (middleware.ts):
+   - Gunakan Middleware untuk melakukan pengecekan akses sebelum halaman dimuat:
+     * MAINTENANCE CHECK: Jika 'isMaintenanceMode' true di Edge Config, redirect semua user (kecuali admin) ke halaman maintenance.
+     * AUTH PROTECTION: Pastikan hanya user yang terotentikasi Supabase yang bisa mengakses halaman /calendar, /otp, /matrix, dan /task.
+     * SECURITY HEADERS: Tambahkan Content Security Policy (CSP), Strict-Transport-Security, dan X-Content-Type-Options untuk mencegah serangan injeksi.
+
+3. OPTIMASI LOGIN REDIRECT:
+   - Jika user sudah login dan mencoba mengakses /login, otomatis arahkan ke dashboard utama.
+   - Integrasikan dengan tabel 'user_settings' untuk memastikan flow otentikasi Google tetap aman.
+
+4. PERBAIKI DEPRECATION WARNING:
+   - Ganti penggunaan 'url.parse()' dengan WHATWG URL API (new URL) di dalam middleware sesuai peringatan log terminal untuk standar keamanan terbaru.
