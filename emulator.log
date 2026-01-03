@@ -1,0 +1,19 @@
+INFO         | Android emulator version 36.3.10.0 (build_id 14472402) (CL:N/A)
+INFO         | Graphics backend: gfxstream
+INFO         | checking ANDROID_HOME for valid sdk root.
+INFO         | checking ANDROID_SDK_ROOT for valid sdk root.
+WARNING      | ANDROID_SDK_ROOT is missing.
+emulator: WARN: Cannot find valid sdk root from environment variable ANDROID_HOME nor ANDROID_SDK_ROOT,Try to infer from emulator's path
+INFO         | guessed sdk root is /Users/izzadev/Library/Android/sdk
+WARNING      | platform-tools subdirectory is missing under /Users/izzadev/Library/Android/sdk, please install it
+INFO         | guessed sdk root /Users/izzadev/Library/Android/sdk does not seem to be valid
+INFO         | guessed sdk root is /Users/izzadev/Library/Android
+WARNING      | platform-tools subdirectory is missing under /Users/izzadev/Library/Android, please install it
+INFO         | guessed sdk root /Users/izzadev/Library/Android does not seem to be valid
+INFO         | guessed sdk root is /Users/izzadev/Library
+WARNING      | platform-tools subdirectory is missing under /Users/izzadev/Library, please install it
+INFO         | guessed sdk root /Users/izzadev/Library does not seem to be valid
+WARNING      | invalid sdk root /Users/izzadev/Library
+emulator: WARN: Cannot find valid sdk root path.
+FATAL        | Cannot find AVD system path. Please define ANDROID_SDK_ROOT
+

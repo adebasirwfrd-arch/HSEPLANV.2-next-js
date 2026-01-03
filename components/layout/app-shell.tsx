@@ -11,6 +11,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { ExportModal } from "@/components/ui/export-modal"
 import { useAdmin } from "@/hooks/useAdmin"
+import { toast } from "sonner"
 
 interface AppShellContextType {
     isDrawerOpen: boolean
@@ -284,7 +285,10 @@ export function AppShell({ children }: { children: ReactNode }) {
                         )}
                     </div>
                     {/* Notification Bell */}
-                    <button className="p-2 text-[var(--text-muted)] hover:text-[var(--accent-blue)] hover:bg-[var(--bg-tertiary)] rounded-lg transition-colors relative">
+                    <button
+                        onClick={() => toast.info("Notifications feature coming soon!")}
+                        className="p-2 text-[var(--text-muted)] hover:text-[var(--accent-blue)] hover:bg-[var(--bg-tertiary)] rounded-lg transition-colors relative"
+                    >
                         <Bell className="w-5 h-5" />
                         {/* Unread badge - will be connected to Stream notifications */}
                         <span className="absolute top-1 right-1 w-2 h-2 bg-[var(--danger-color)] rounded-full" />

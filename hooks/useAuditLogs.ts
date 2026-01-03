@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { createClient } from '@/lib/supabase/client'
 import { useAdmin } from './useAdmin'
 
@@ -48,82 +49,57 @@ export interface UseAuditLogsOptions {
 export function useAuditLogs(options: UseAuditLogsOptions = {}) {
     const { limit = 50, filters = {}, realtime = false, enabled = true } = options
     const { isAdmin, isLoading: isAuthLoading } = useAdmin()
-
-    const [logs, setLogs] = useState<AuditLog[]>([])
-    const [isLoading, setIsLoading] = useState(true)
-    const [error, setError] = useState<string | null>(null)
-    const [total, setTotal] = useState(0)
     const [page, setPage] = useState(1)
 
-    // Memoize filter values to prevent infinite re-renders
-    const filterAction = filters.action
-    const filterEntityType = filters.entity_type
-    const filterActorEmail = filters.actor_email
-    const filterFromDate = filters.from_date
-    const filterToDate = filters.to_date
-    const filterSearch = filters.search
+    // Memoize filter keys for checking changes
+    const filterKey = JSON.stringify(filters)
 
-    // Fetch logs
-    const fetchLogs = useCallback(async () => {
-        if (!enabled || isAuthLoading) return
+    // React Query for caching
+    const {
+        data: queryData,
+        isLoading,
+        error: queryError,
+        refetch
+    } = useQuery({
+        queryKey: ['audit_logs', page, limit, filterKey],
+        queryFn: async () => {
+            if (!isAdmin) throw new Error('Admin access required')
 
-        if (!isAdmin) {
-            setError('Admin access required')
-            setIsLoading(false)
-            return
-        }
-
-        setIsLoading(true)
-        setError(null)
-
-        try {
             const supabase = createClient()
             let query = supabase
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 .from('audit_logs' as any)
                 .select('*', { count: 'exact' })
                 .order('created_at', { ascending: false })
                 .range((page - 1) * limit, page * limit - 1)
 
             // Apply filters
-            if (filterAction) {
-                query = query.eq('action', filterAction)
-            }
-            if (filterEntityType) {
-                query = query.eq('entity_type', filterEntityType)
-            }
-            if (filterActorEmail) {
-                query = query.ilike('actor_email', `%${filterActorEmail}%`)
-            }
-            if (filterFromDate) {
-                query = query.gte('created_at', filterFromDate)
-            }
-            if (filterToDate) {
-                query = query.lte('created_at', filterToDate)
-            }
-            if (filterSearch) {
-                query = query.or(`description.ilike.%${filterSearch}%,entity_id.ilike.%${filterSearch}%`)
+            if (filters.action) query = query.eq('action', filters.action)
+            if (filters.entity_type) query = query.eq('entity_type', filters.entity_type)
+            if (filters.actor_email) query = query.ilike('actor_email', `%${filters.actor_email}%`)
+            if (filters.from_date) query = query.gte('created_at', filters.from_date)
+            if (filters.to_date) query = query.lte('created_at', filters.to_date)
+            if (filters.search) {
+                // @ts-ignore
+                query = query.or(`description.ilike.%${filters.search}%,entity_id.ilike.%${filters.search}%`)
             }
 
-            const { data, error: queryError, count } = await query
+            const { data, error, count } = await query
+            if (error) throw error
 
-            if (queryError) {
-                throw queryError
+            return {
+                logs: (data as AuditLog[]) || [],
+                total: count || 0
             }
+        },
+        enabled: enabled && !isAuthLoading && isAdmin,
+        staleTime: 1000 * 60 * 5, // 5 minutes
+        gcTime: 1000 * 60 * 30, // 30 minutes
+    })
 
-            setLogs((data as AuditLog[]) || [])
-            setTotal(count || 0)
-        } catch (err: any) {
-            console.error('Failed to fetch audit logs:', err)
-            setError(err.message || 'Failed to fetch audit logs')
-        } finally {
-            setIsLoading(false)
-        }
-    }, [isAdmin, isAuthLoading, enabled, page, limit, filterAction, filterEntityType, filterActorEmail, filterFromDate, filterToDate, filterSearch])
-
-    // Initial fetch
-    useEffect(() => {
-        fetchLogs()
-    }, [fetchLogs])
+    const logs = useMemo(() => queryData?.logs || [], [queryData?.logs])
+    const total = queryData?.total || 0
+    const error = queryError ? (queryError as Error).message : null
 
     // Realtime subscription
     useEffect(() => {
@@ -135,9 +111,8 @@ export function useAuditLogs(options: UseAuditLogsOptions = {}) {
             .on(
                 'postgres_changes',
                 { event: 'INSERT', schema: 'public', table: 'audit_logs' },
-                (payload) => {
-                    setLogs(prev => [payload.new as AuditLog, ...prev].slice(0, limit))
-                    setTotal(prev => prev + 1)
+                () => {
+                    refetch() // Simple invalidation on new event
                 }
             )
             .subscribe()
@@ -145,36 +120,30 @@ export function useAuditLogs(options: UseAuditLogsOptions = {}) {
         return () => {
             supabase.removeChannel(channel)
         }
-    }, [realtime, isAdmin, enabled, limit])
+    }, [realtime, isAdmin, enabled, refetch])
 
     // Pagination
     const nextPage = useCallback(() => {
-        if (page * limit < total) {
-            setPage(p => p + 1)
-        }
+        if (page * limit < total) setPage(p => p + 1)
     }, [page, limit, total])
 
     const prevPage = useCallback(() => {
-        if (page > 1) {
-            setPage(p => p - 1)
-        }
+        if (page > 1) setPage(p => p - 1)
     }, [page])
 
     const goToPage = useCallback((newPage: number) => {
         const maxPage = Math.ceil(total / limit)
-        if (newPage >= 1 && newPage <= maxPage) {
-            setPage(newPage)
-        }
+        if (newPage >= 1 && newPage <= maxPage) setPage(newPage)
     }, [total, limit])
 
-    // Stats
+    // Stats calculation
     const stats = useMemo(() => {
-        const actionCounts = logs.reduce((acc, log) => {
+        const actionCounts = logs.reduce((acc: Record<string, number>, log: AuditLog) => {
             acc[log.action] = (acc[log.action] || 0) + 1
             return acc
         }, {} as Record<string, number>)
 
-        const entityCounts = logs.reduce((acc, log) => {
+        const entityCounts = logs.reduce((acc: Record<string, number>, log: AuditLog) => {
             acc[log.entity_type] = (acc[log.entity_type] || 0) + 1
             return acc
         }, {} as Record<string, number>)
@@ -201,7 +170,7 @@ export function useAuditLogs(options: UseAuditLogsOptions = {}) {
         nextPage,
         prevPage,
         goToPage,
-        refresh: fetchLogs,
+        refresh: refetch,
         stats
     }
 }

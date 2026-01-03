@@ -1,0 +1,28 @@
+@File (DEPLOYMENT_GUIDE.md)
+@File (next.config.js)
+@File (lib/supabase/client.ts)
+@File (hooks/useAuditLogs.ts)
+@File (app/api/admin/route.ts)
+
+EKSEKUSI FINAL: ENTERPRISE SECURITY & MOBILE OPTIMIZATION
+
+1. IMPLEMENTASI SECURE ADMIN GATEWAY (app/api/admin/route.ts):
+   - Buat file baru ini sesuai standar DEPLOYMENT_GUIDE.md.
+   - Gunakan 'SUPABASE_SERVICE_ROLE_KEY' untuk inisialisasi Supabase di sisi server.
+   - Tambahkan proteksi: Hanya izinkan request jika email user yang login (dari session) sama dengan 'NEXT_PUBLIC_ADMIN_EMAIL'.
+
+2. SSL PINNING & HARDENING (lib/supabase/client.ts):
+   - Gunakan fingerprint '47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' untuk validasi koneksi client.
+   - Tambahkan custom header 'X-App-Source: HSE-Native-Android' pada setiap fetch.
+
+3. MOBILE COMPLIANCE (app.json):
+   - Update 'app.json' agar menggunakan Expo SDK 52, Android API Level 35, dan Kotlin 1.9.25.
+   - Pastikan 'allowBackup' di-set ke 'false' dan 'Hermes' diaktifkan sesuai Security Policy.
+
+4. PERFORMANCE & VALIDATION:
+   - Di 'hooks/useAuditLogs.ts', implementasikan Zod validation untuk data yang di-fetch.
+   - Set 'staleTime' pada TanStack Query menjadi 5 menit untuk efisiensi caching.
+
+5. PRODUCTION CONFIG (next.config.js):
+   - Matikan 'poweredByHeader'.
+   - Pastikan Sentry DSN terhubung dengan benar.

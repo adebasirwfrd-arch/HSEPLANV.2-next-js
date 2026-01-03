@@ -1,0 +1,110 @@
+📱 Android Enterprise Build (APK)
+[!IMPORTANT] This build configuration complies with Google Play Console requirements (API Level 35) and Enterprise Security Standards.
+
+1. Compliance & Security Standards (Mandatory)
+All builds must adhere to the following versioning and security rules to ensure Play Store compliance and data protection.
+
+A. Version Standards (Google Play)
+Expo SDK: 52.0.36 (Exact match required for stability)
+
+Android API Level: 35 (Required for Android 15 support)
+
+Kotlin Version: 1.9.25 (Required by Gradle for API 35)
+
+Expo Build Properties: ~0.13.0
+
+B. Security Policies
+Code Obfuscation: ProGuard/R8 must be enabled for all release builds to prevent reverse engineering.
+
+Data Protection: allowBackup must be set to false to prevent local data extraction via ADB.
+
+JS Engine: Hermes must be used to compile JavaScript to bytecode (improves startup time & security).
+
+2. Configuration Implementation (app.json)
+Ensure your app.json includes these specific plugins to enforce the standards above.
+
+JSON
+
+{
+  "expo": {
+    "name": "HSE Plan MS",
+    "slug": "hse-plan",
+    "version": "1.0.0",
+    "jsEngine": "hermes",
+    "android": {
+      "package": "com.hseprowse.app",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 35,
+            "kotlinVersion": "1.9.25",
+            "enableProguardInReleaseBuilds": true,
+            "allowBackup": false,
+            "extraProguardRules": "-keep class com.facebook.react.** { *; } -keep class com.facebook.flipper.** { *; } -keepattributes *Annotation*"
+          }
+        }
+      ]
+    ]
+  }
+}
+3. Build Configuration (eas.json)
+Use the production-apk profile to trigger the ProGuard/R8 rules.
+
+JSON
+
+{
+  "build": {
+    "production-apk": {
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
+      },
+      "env": {
+        "EXPO_NO_TELEMETRY": "1",
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}
+4. Execution Command
+Bash
+
+# 1. Install specific dependencies for compliance
+npm install expo@52.0.36 expo-build-properties@~0.13.0 expo-splash-screen@~0.29.0
+
+# 2. Clear Cache & Build Secure APK
+npx expo start -c
+eas build --platform android --profile production-apk --local
+🔍 Verification & Troubleshooting
+Critical Checks
+Admin Access: Log in as Admin -> Try to delete a post.
+
+Success: Action completes via /api/admin.
+
+Fail: Check Vercel Logs for 401 Unauthorized or missing Service Key.
+
+Audit Logs: Perform an action -> Check Recent Activity sidebar.
+
+Ensure the actor_email is correctly captured.
+
+App Performance: Check "Network" tab.
+
+Ensure images/videos are lazy-loaded.
+
+Ensure no redundant requests for audit_logs (Caching check).

@@ -7,7 +7,7 @@ import { RecentActivitySidebar } from "./recent-activity-sidebar"
 
 export function RightSidebar() {
     return (
-        <div className="w-[280px] space-y-4">
+        <div className="w-full space-y-4">
             {/* Upcoming Events */}
             <UpcomingEventsCard maxItems={5} />
 

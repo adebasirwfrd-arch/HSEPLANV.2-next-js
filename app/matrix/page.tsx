@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils"
 import { Download, Plus, Search, X, Check, Trash2, AlertTriangle, Mail, List, CalendarDays, FileText } from "lucide-react"
 import { PageTransition, PageHeader, PageContent } from "@/components/ui/page-transition"
 import { MatrixTimeline } from "@/components/matrix/MatrixTimeline"
+import { MobileMatrixCard } from "@/components/matrix/MobileMatrixCard"
 
 // Lazy load PDF button to avoid SSR issues
 const MatrixPDFDownloadButton = lazy(() => import('@/components/matrix/MatrixPDFDownloadButton'))
@@ -172,29 +173,34 @@ export default function MatrixPage() {
                     </div>
                 )}
 
-                {/* Header */}
-                <PageHeader className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-[#16a085] to-[#1abc9c] rounded-xl flex items-center justify-center text-2xl">
-                        {categoryIcons[category]}
+                {/* Header Section */}
+                <div className="space-y-4">
+                    {/* Title Row */}
+                    <div className="flex flex-wrap items-center gap-3">
+                        <div className="w-12 h-12 bg-gradient-to-br from-[#16a085] to-[#1abc9c] rounded-xl flex items-center justify-center text-2xl shrink-0">
+                            {categoryIcons[category]}
+                        </div>
+                        <div className="flex-1 min-w-[200px]">
+                            <h1 className="text-xl font-bold text-[var(--text-primary)]">{year} Matrix - {categoryLabels[category]}</h1>
+                            <p className="text-xs text-[var(--text-muted)]">
+                                HSE Matrix Tracker - {base === "all" ? "All Bases" : base.charAt(0).toUpperCase() + base.slice(1)}
+                            </p>
+                        </div>
                     </div>
-                    <div className="flex-1">
-                        <h1 className="text-xl font-bold text-[var(--text-primary)]">{year} Matrix - {categoryLabels[category]}</h1>
-                        <p className="text-xs text-[var(--text-muted)]">
-                            HSE Matrix Tracker - {base === "all" ? "All Bases" : base.charAt(0).toUpperCase() + base.slice(1)}
-                        </p>
-                    </div>
-                    <div className="flex gap-2">
+
+                    {/* Controls Row */}
+                    <div className="flex flex-wrap gap-2 items-center">
                         <select
                             value={category}
                             onChange={(e) => setCategory(e.target.value as MatrixCategory)}
-                            className="px-2 py-1 text-xs border border-[var(--border-light)] rounded-lg bg-[var(--bg-secondary)]"
+                            className="px-2 py-1.5 text-xs border border-[var(--border-light)] rounded-lg bg-[var(--bg-secondary)]"
                         >
                             {categories.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
                         </select>
                         <select
                             value={base}
                             onChange={(e) => setBase(e.target.value)}
-                            className="px-2 py-1 text-xs border border-[var(--border-light)] rounded-lg bg-[var(--bg-secondary)]"
+                            className="px-2 py-1.5 text-xs border border-[var(--border-light)] rounded-lg bg-[var(--bg-secondary)]"
                         >
                             <option value="all">All Bases</option>
                             <option value="narogong">Narogong</option>
@@ -204,68 +210,71 @@ export default function MatrixPage() {
                         <select
                             value={year}
                             onChange={(e) => setYear(Number(e.target.value))}
-                            className="px-2 py-1 text-xs border border-[var(--border-light)] rounded-lg bg-[var(--bg-secondary)]"
+                            className="px-2 py-1.5 text-xs border border-[var(--border-light)] rounded-lg bg-[var(--bg-secondary)]"
                         >
                             {[2024, 2025, 2026, 2027].map(y => <option key={y} value={y}>{y}</option>)}
                         </select>
-                    </div>
-                </PageHeader>
 
-                {/* Action Buttons */}
-                <div className="flex gap-2">
-                    <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setCreateModal(true)}
-                        className="px-4 py-2.5 bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white rounded-xl text-xs font-semibold flex items-center gap-2 shadow-lg shadow-purple-500/25"
-                    >
-                        <Plus className="w-4 h-4" /> Add Program
-                    </motion.button>
-                    <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={handleExport}
-                        className="px-4 py-2.5 bg-gradient-to-r from-[#11998e] to-[#38ef7d] text-white rounded-xl text-xs font-semibold flex items-center gap-2 shadow-lg shadow-green-500/25"
-                    >
-                        <Download className="w-4 h-4" /> Export CSV
-                    </motion.button>
-                    {/* PDF Download */}
-                    {filteredPrograms.length > 0 && (
-                        <Suspense fallback={<PDFButtonFallback />}>
-                            <MatrixPDFDownloadButton
-                                programs={filteredPrograms}
-                                category={category}
-                                base={base}
-                                year={year}
-                            />
-                        </Suspense>
-                    )}
-                    {/* View Mode Toggle */}
-                    <div className="flex rounded-lg overflow-hidden border border-[var(--border-light)]">
-                        <button
-                            onClick={() => setViewMode('table')}
-                            className={cn(
-                                "px-3 py-2.5 text-xs font-semibold flex items-center gap-1 transition-colors",
-                                viewMode === 'table'
-                                    ? "bg-[#16a085] text-white"
-                                    : "bg-[var(--bg-secondary)] text-[var(--text-muted)] hover:bg-[var(--bg-tertiary)]"
-                            )}
-                            title="Table View"
+                        <div className="h-6 w-px bg-[var(--border-light)] mx-1 hidden sm:block" />
+
+                        <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => setCreateModal(true)}
+                            className="p-2 bg-[var(--accent-blue)] text-white rounded-lg shadow-lg shadow-blue-500/20"
+                            title="Add Program"
                         >
-                            <List className="w-4 h-4" />
-                        </button>
-                        <button
-                            onClick={() => setViewMode('timeline')}
-                            className={cn(
-                                "px-3 py-2.5 text-xs font-semibold flex items-center gap-1 transition-colors",
-                                viewMode === 'timeline'
-                                    ? "bg-[#16a085] text-white"
-                                    : "bg-[var(--bg-secondary)] text-[var(--text-muted)] hover:bg-[var(--bg-tertiary)]"
-                            )}
-                            title="Timeline View"
+                            <Plus className="w-4 h-4" />
+                        </motion.button>
+
+                        <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={handleExport}
+                            className="px-3 py-2 bg-[#27ae60] text-white rounded-lg text-xs font-semibold flex items-center gap-1 shadow-lg shadow-green-500/20"
                         >
-                            <CalendarDays className="w-4 h-4" />
-                        </button>
+                            <Download className="w-3 h-3" /> CSV
+                        </motion.button>
+
+                        {/* PDF Download */}
+                        {filteredPrograms.length > 0 && (
+                            <Suspense fallback={<PDFButtonFallback />}>
+                                <MatrixPDFDownloadButton
+                                    programs={filteredPrograms}
+                                    category={category}
+                                    base={base}
+                                    year={year}
+                                />
+                            </Suspense>
+                        )}
+
+                        {/* View Mode Toggle */}
+                        <div className="flex rounded-lg overflow-hidden border border-[var(--border-light)] ml-auto sm:ml-0">
+                            <button
+                                onClick={() => setViewMode('table')}
+                                className={cn(
+                                    "px-3 py-2 text-xs font-semibold flex items-center gap-1 transition-colors",
+                                    viewMode === 'table'
+                                        ? "bg-[var(--accent-blue)] text-white"
+                                        : "bg-[var(--bg-secondary)] text-[var(--text-muted)] hover:bg-[var(--bg-tertiary)]"
+                                )}
+                                title="Table View"
+                            >
+                                <List className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                                onClick={() => setViewMode('timeline')}
+                                className={cn(
+                                    "px-3 py-2 text-xs font-semibold flex items-center gap-1 transition-colors",
+                                    viewMode === 'timeline'
+                                        ? "bg-[var(--accent-blue)] text-white"
+                                        : "bg-[var(--bg-secondary)] text-[var(--text-muted)] hover:bg-[var(--bg-tertiary)]"
+                                )}
+                                title="Timeline View"
+                            >
+                                <CalendarDays className="w-3.5 h-3.5" />
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -274,55 +283,56 @@ export default function MatrixPage() {
                     <motion.div
                         whileHover={{ y: -5, scale: 1.02 }}
                         transition={{ type: "spring", stiffness: 300 }}
-                        className="p-4 text-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl cursor-pointer"
+                        className="p-3 text-center rounded-xl shadow-lg bg-gradient-to-br from-[#16a085] to-[#1abc9c] text-white cursor-pointer"
                     >
-                        <div className="text-3xl font-bold bg-gradient-to-r from-[#16a085] to-[#1abc9c] bg-clip-text text-transparent">{totalPrograms}</div>
-                        <div className="text-xs text-[var(--text-muted)] mt-1">Total Programs</div>
+                        <div className="text-2xl font-bold">{totalPrograms}</div>
+                        <div className="text-[10px] opacity-90">Total Programs</div>
                     </motion.div>
                     <motion.div
                         whileHover={{ y: -5, scale: 1.02 }}
                         transition={{ type: "spring", stiffness: 300 }}
-                        className="p-4 text-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl cursor-pointer"
+                        className="p-3 text-center rounded-xl shadow-lg bg-gradient-to-br from-[#27ae60] to-[#2ecc71] text-white cursor-pointer"
                     >
-                        <div className="text-3xl font-bold bg-gradient-to-r from-[#27ae60] to-[#2ecc71] bg-clip-text text-transparent">{completed}</div>
-                        <div className="text-xs text-[var(--text-muted)] mt-1">Completed</div>
+                        <div className="text-2xl font-bold">{completed}</div>
+                        <div className="text-[10px] opacity-90">Completed</div>
                     </motion.div>
                     <motion.div
                         whileHover={{ y: -5, scale: 1.02 }}
                         transition={{ type: "spring", stiffness: 300 }}
-                        className="p-4 text-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl cursor-pointer"
+                        className="p-3 text-center rounded-xl shadow-lg bg-gradient-to-br from-[#3498db] to-[#2980b9] text-white cursor-pointer"
                     >
-                        <div className="text-3xl font-bold bg-gradient-to-r from-[#3498db] to-[#2980b9] bg-clip-text text-transparent">{inProgress}</div>
-                        <div className="text-xs text-[var(--text-muted)] mt-1">In Progress</div>
+                        <div className="text-2xl font-bold">{inProgress}</div>
+                        <div className="text-[10px] opacity-90">In Progress</div>
                     </motion.div>
                     <motion.div
                         whileHover={{ y: -5, scale: 1.02 }}
                         transition={{ type: "spring", stiffness: 300 }}
-                        className="p-4 text-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl cursor-pointer"
+                        className="p-3 text-center rounded-xl shadow-lg bg-gradient-to-br from-[#9b59b6] to-[#8e44ad] text-white cursor-pointer"
                     >
-                        <div className="text-3xl font-bold bg-gradient-to-r from-[#9b59b6] to-[#8e44ad] bg-clip-text text-transparent">{avgProgress}%</div>
-                        <div className="text-xs text-[var(--text-muted)] mt-1">Avg Progress</div>
+                        <div className="text-2xl font-bold">{avgProgress}%</div>
+                        <div className="text-[10px] opacity-90">Avg Progress</div>
                     </motion.div>
                 </PageContent>
 
                 {/* Filters */}
-                <div className="flex gap-3 items-center">
-                    <div className="relative flex-1">
+                {/* Filters Row */}
+                <div className="flex flex-wrap gap-3 items-center">
+                    <div className="relative flex-1 min-w-[200px]">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />
                         <input
                             type="text"
                             placeholder="Search programs..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="w-full pl-9 pr-4 py-2 text-sm border border-[var(--border-light)] rounded-lg bg-[var(--bg-secondary)] focus:outline-none focus:border-[var(--accent-blue)]"
+                            className="w-full pl-9 pr-4 py-2.5 text-sm border border-[var(--border-light)] rounded-lg bg-[var(--bg-secondary)] focus:outline-none focus:border-[var(--accent-blue)]"
                         />
                     </div>
-                    <label className="flex items-center gap-2 text-sm cursor-pointer">
+                    <label className="flex items-center gap-2 text-sm cursor-pointer text-[var(--text-secondary)]">
                         <input
                             type="checkbox"
                             checked={showActual}
                             onChange={(e) => setShowActual(e.target.checked)}
-                            className="w-4 h-4 rounded"
+                            className="w-4 h-4 rounded accent-[var(--accent-blue)]"
                         />
                         Show Actual
                     </label>
@@ -333,12 +343,32 @@ export default function MatrixPage() {
                     <MatrixTimeline programs={filteredPrograms} year={year} />
                 )}
 
-                {/* Matrix Table */}
+                {/* Mobile Card View (Visible only on mobile) */}
+                <div className="block md:hidden space-y-3">
+                    {filteredPrograms.length === 0 ? (
+                        <div className="p-8 text-center text-[var(--text-muted)]">
+                            No programs found for this category
+                        </div>
+                    ) : (
+                        filteredPrograms.map((program, idx) => (
+                            <MobileMatrixCard
+                                key={program.id}
+                                program={program}
+                                index={idx}
+                                onEdit={(id, month) => setEditModal({ programId: id, month })}
+                                onDelete={(id, name) => setDeleteModal({ programId: id, programName: name })}
+                                showActual={showActual}
+                            />
+                        ))
+                    )}
+                </div>
+
+                {/* Matrix Table (Desktop only) */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className={cn("bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden shadow-xl", viewMode === 'timeline' && "hidden")}
+                    className={cn("bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden shadow-xl hidden md:block", viewMode === 'timeline' && "!hidden")}
                 >
                     <div className="overflow-x-auto">
                         <table className="w-full text-xs min-w-[900px]">

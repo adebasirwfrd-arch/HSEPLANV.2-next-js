@@ -393,6 +393,7 @@ export default function HomePage() {
             </BentoCard>
           </div>
 
+
           {/* Action Required + Status Distribution */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Action Required */}
@@ -486,85 +487,89 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-
-          {/* HSE Feed - Share Updates */}
-          <div className="mb-4 space-y-4">
-            <PostComposer
-              userName={userName}
-              userAvatar={userAvatar}
-              onPost={async (content, category, files) => {
-                try {
-                  await streamService.connect()
-                  await streamService.post({ content, category, files })
-
-                  // Sync to Google Calendar for eligible categories
-                  const syncCategories = ['observation', 'incident', 'near_miss', 'toolbox_talk']
-                  if (syncCategories.includes(category)) {
-                    try {
-                      await fetch('/api/calendar/create', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                          title: `${category.replace('_', ' ').toUpperCase()} Report`,
-                          description: content,
-                          category
-                        })
-                      })
-                    } catch {
-                      // Silent fail for calendar sync
-                    }
-                  }
-
-                  // Refresh feed immediately after posting
-                  await new Promise(resolve => setTimeout(resolve, 800))
-                  await fetchPosts()
-                } catch {
-                  // Silent fail
-                }
-              }}
-            />
-
-            {/* Feed List */}
-            {isFeedLoading ? (
-              <div className="space-y-4">
-                {[1, 2].map(i => (
-                  <SkeletonPulse key={i} className="h-48 rounded-2xl" />
-                ))}
-              </div>
-            ) : posts.length > 0 ? (
-              <div className="space-y-4">
-                {posts.map(post => (
-                  <PostCard
-                    key={post.id}
-                    post={post}
-                    canDelete={user?.email === 'ade.basirwfrd@gmail.com' || post.author === userName}
-                    onDelete={async (postId) => {
-                      try {
-                        const success = await streamService.deleteActivity(postId)
-                        if (success) {
-                          setPosts(prev => prev.filter(p => p.id !== postId))
-                        } else {
-                          alert('Failed to delete post')
-                        }
-                      } catch (error) {
-                        console.error('Delete error:', error)
-                        alert('Error deleting post')
-                      }
-                    }}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8 text-[var(--text-muted)] bg-[var(--bg-secondary)]/50 rounded-2xl">
-                <p>No updates yet. Be the first to post!</p>
-              </div>
-            )}
-          </div>
         </div>
 
-        {/* Right Sidebar - Bottom on mobile/tablet, Right on Desktop */}
-        <div className="xl:col-span-3 space-y-6">
+        {/* Right Sidebar - Positioned via Grid Order on Mobile */}
+        {/* Mobile: Order 2 (After Metrics) */}
+        {/* Desktop: Col-span-3, Row-span-2 (Right side, tall) */}
+        <div className="xl:col-span-3 xl:row-span-2 space-y-6 order-2 xl:order-none">
           <RightSidebar />
+        </div>
+
+        {/* HSE Feed - Share Updates */}
+        {/* Mobile: Order 3 (Bottom) */}
+        {/* Desktop: Col-span-9 (Left side, below Metrics) */}
+        <div className="xl:col-span-9 space-y-4 order-3 xl:order-none">
+          <PostComposer
+            userName={userName}
+            userAvatar={userAvatar}
+            onPost={async (content, category, files) => {
+              try {
+                await streamService.connect()
+                await streamService.post({ content, category, files })
+
+                // Sync to Google Calendar for eligible categories
+                const syncCategories = ['observation', 'incident', 'near_miss', 'toolbox_talk']
+                if (syncCategories.includes(category)) {
+                  try {
+                    await fetch('/api/calendar/create', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        title: `${category.replace('_', ' ').toUpperCase()} Report`,
+                        description: content,
+                        category
+                      })
+                    })
+                  } catch {
+                    // Silent fail for calendar sync
+                  }
+                }
+
+                // Refresh feed immediately after posting
+                await new Promise(resolve => setTimeout(resolve, 800))
+                await fetchPosts()
+              } catch {
+                // Silent fail
+              }
+            }}
+          />
+
+          {/* Feed List */}
+          {isFeedLoading ? (
+            <div className="space-y-4">
+              {[1, 2].map(i => (
+                <SkeletonPulse key={i} className="h-48 rounded-2xl" />
+              ))}
+            </div>
+          ) : posts.length > 0 ? (
+            <div className="space-y-4">
+              {posts.map(post => (
+                <PostCard
+                  key={post.id}
+                  post={post}
+                  canDelete={user?.email === 'ade.basirwfrd@gmail.com' || post.author === userName}
+                  onDelete={async (postId) => {
+                    try {
+                      const success = await streamService.deleteActivity(postId)
+                      if (success) {
+                        setPosts(prev => prev.filter(p => p.id !== postId))
+                      } else {
+                        alert('Failed to delete post')
+                      }
+                    } catch (error) {
+                      console.error('Delete error:', error)
+                      alert('Error deleting post')
+                    }
+                  }}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8 text-[var(--text-muted)] bg-[var(--bg-secondary)]/50 rounded-2xl">
+              <p>No updates yet. Be the first to post!</p>
+            </div>
+          )}
         </div>
       </div>
     </AppShell>

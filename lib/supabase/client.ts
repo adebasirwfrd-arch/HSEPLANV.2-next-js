@@ -17,7 +17,7 @@ let supabaseClient: ReturnType<typeof createBrowserClient<Database>> | null = nu
  * const { data } = await supabase.from('master_programs').select('*')
  * ```
  */
-export function createClient() {
+export const createClient = () => {
     if (supabaseClient) {
         return supabaseClient
     }
