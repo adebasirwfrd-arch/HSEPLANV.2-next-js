@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { GlassCard } from "@/components/ui/glass-card"
 import { X, Camera, ExternalLink } from "lucide-react"
 import { PICLeaderboardSidebar } from "./pic-leaderboard-sidebar"
+import { UpcomingEventsCard } from "./upcoming-events-card"
 
 // Static safety moments data with Unsplash images
 const SAFETY_MOMENTS = [
@@ -46,6 +47,9 @@ export function RightSidebar() {
         <>
             {/* Sidebar */}
             <div className="w-[280px] space-y-4">
+                {/* Upcoming Events - NEW */}
+                <UpcomingEventsCard maxItems={5} />
+
                 {/* PIC Leaderboard */}
                 <PICLeaderboardSidebar
                     year={new Date().getFullYear()}
