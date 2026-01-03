@@ -3,8 +3,12 @@
 -- Run this in Supabase SQL Editor AFTER safety_moments tables exist
 -- =====================================================
 
+-- DROP existing table to recreate with correct schema
+-- WARNING: This will delete existing audit logs!
+DROP TABLE IF EXISTS audit_logs CASCADE;
+
 -- 1. AUDIT LOGS TABLE
-CREATE TABLE IF NOT EXISTS audit_logs (
+CREATE TABLE audit_logs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     
     -- Action info
@@ -30,11 +34,11 @@ CREATE TABLE IF NOT EXISTS audit_logs (
 );
 
 -- Indexes for efficient querying
-CREATE INDEX IF NOT EXISTS idx_audit_logs_action ON audit_logs(action);
-CREATE INDEX IF NOT EXISTS idx_audit_logs_entity ON audit_logs(entity_type, entity_id);
-CREATE INDEX IF NOT EXISTS idx_audit_logs_actor ON audit_logs(actor_id);
-CREATE INDEX IF NOT EXISTS idx_audit_logs_created ON audit_logs(created_at DESC);
-CREATE INDEX IF NOT EXISTS idx_audit_logs_email ON audit_logs(actor_email);
+CREATE INDEX idx_audit_logs_action ON audit_logs(action);
+CREATE INDEX idx_audit_logs_entity ON audit_logs(entity_type, entity_id);
+CREATE INDEX idx_audit_logs_actor ON audit_logs(actor_id);
+CREATE INDEX idx_audit_logs_created ON audit_logs(created_at DESC);
+CREATE INDEX idx_audit_logs_email ON audit_logs(actor_email);
 
 -- =====================================================
 -- ROW LEVEL SECURITY - Admin Only
