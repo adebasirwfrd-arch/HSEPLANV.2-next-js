@@ -449,6 +449,11 @@ export default function OTPPage() {
                     </label>
                 </div>
 
+                {/* Timeline View */}
+                {viewMode === 'timeline' && (
+                    <ProgramTimeline programs={filteredPrograms} year={year} />
+                )}
+
                 {/* Mobile Card View */}
                 <div className="block md:hidden space-y-3">
                     {isLoading ? (
@@ -478,11 +483,6 @@ export default function OTPPage() {
                         ))
                     )}
                 </div>
-
-                {/* Timeline View */}
-                {viewMode === 'timeline' && (
-                    <ProgramTimeline programs={filteredPrograms} year={year} />
-                )}
 
                 {/* Desktop Table View */}
                 <GlassCard className={cn("overflow-hidden hidden md:block", viewMode === 'timeline' && "!hidden")}>
