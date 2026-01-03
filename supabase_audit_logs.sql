@@ -176,6 +176,18 @@ BEGIN
     END IF;
 END $$;
 
+-- 3b. PROGRAM_PROGRESS (monthly progress data - critical for task updates!)
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'program_progress') THEN
+        DROP TRIGGER IF EXISTS audit_program_progress ON program_progress;
+        CREATE TRIGGER audit_program_progress
+            AFTER INSERT OR UPDATE OR DELETE ON program_progress
+            FOR EACH ROW
+            EXECUTE FUNCTION process_audit_log();
+    END IF;
+END $$;
+
 -- 4. SAFETY_MOMENTS
 DO $$
 BEGIN

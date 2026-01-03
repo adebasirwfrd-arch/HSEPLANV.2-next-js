@@ -4,8 +4,8 @@ import { useState, useRef } from "react"
 import { AppShell } from "@/components/layout/app-shell"
 import { GlassCard } from "@/components/ui/glass-card"
 import {
-    Palette, Globe, Building2, Bell, Monitor, Save, RotateCcw,
-    Upload, X, Check, Image as ImageIcon, User
+    Palette, Building2, Save, RotateCcw,
+    Upload, Check, Image as ImageIcon, User
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
@@ -126,40 +126,6 @@ export default function SettingsPage() {
                             ))}
                         </div>
                     </div>
-
-                    {/* Language Selection */}
-                    <div>
-                        <label className="block text-sm font-medium mb-2">
-                            <Globe className="w-4 h-4 inline mr-1" />
-                            Language
-                        </label>
-                        <div className="flex gap-2">
-                            <button
-                                onClick={() => updateLocalSetting('language', 'en')}
-                                className={cn(
-                                    "flex-1 p-3 rounded-xl border-2 transition-all flex items-center justify-center gap-2",
-                                    localSettings.language === 'en'
-                                        ? "border-[var(--accent-blue)] bg-[var(--accent-blue)]/5"
-                                        : "border-[var(--border-light)]"
-                                )}
-                            >
-                                <span className="text-xl">🇺🇸</span>
-                                <span className="font-medium">English</span>
-                            </button>
-                            <button
-                                onClick={() => updateLocalSetting('language', 'id')}
-                                className={cn(
-                                    "flex-1 p-3 rounded-xl border-2 transition-all flex items-center justify-center gap-2",
-                                    localSettings.language === 'id'
-                                        ? "border-[var(--accent-blue)] bg-[var(--accent-blue)]/5"
-                                        : "border-[var(--border-light)]"
-                                )}
-                            >
-                                <span className="text-xl">🇮🇩</span>
-                                <span className="font-medium">Bahasa Indonesia</span>
-                            </button>
-                        </div>
-                    </div>
                 </GlassCard>
 
                 {/* Company Branding */}
@@ -278,109 +244,6 @@ export default function SettingsPage() {
                     </div>
                 </GlassCard>
 
-                {/* Notifications */}
-                <GlassCard className="p-4">
-                    <div className="flex items-center gap-2 mb-4">
-                        <Bell className="w-5 h-5 text-[var(--warning-color)]" />
-                        <h2 className="font-semibold text-[var(--text-primary)]">Notifications</h2>
-                    </div>
-
-                    <div className="space-y-4">
-                        <label className="flex items-center justify-between cursor-pointer">
-                            <span className="text-sm">Email Notifications</span>
-                            <div
-                                onClick={() => updateLocalSetting('emailNotifications', !localSettings.emailNotifications)}
-                                className={cn(
-                                    "w-12 h-6 rounded-full transition-all relative",
-                                    localSettings.emailNotifications ? "bg-[var(--success-color)]" : "bg-[var(--border-light)]"
-                                )}
-                            >
-                                <div className={cn(
-                                    "absolute w-5 h-5 bg-white rounded-full top-0.5 transition-all shadow",
-                                    localSettings.emailNotifications ? "left-6" : "left-0.5"
-                                )} />
-                            </div>
-                        </label>
-
-                        <label className="flex items-center justify-between cursor-pointer">
-                            <span className="text-sm">Push Notifications</span>
-                            <div
-                                onClick={() => updateLocalSetting('pushNotifications', !localSettings.pushNotifications)}
-                                className={cn(
-                                    "w-12 h-6 rounded-full transition-all relative",
-                                    localSettings.pushNotifications ? "bg-[var(--success-color)]" : "bg-[var(--border-light)]"
-                                )}
-                            >
-                                <div className={cn(
-                                    "absolute w-5 h-5 bg-white rounded-full top-0.5 transition-all shadow",
-                                    localSettings.pushNotifications ? "left-6" : "left-0.5"
-                                )} />
-                            </div>
-                        </label>
-
-                        <div>
-                            <label className="block text-sm mb-2">Reminder Days Before Task</label>
-                            <div className="flex gap-2">
-                                {[3, 7, 14, 30].map(days => (
-                                    <button
-                                        key={days}
-                                        onClick={() => updateLocalSetting('reminderDays', days)}
-                                        className={cn(
-                                            "flex-1 py-2 rounded-lg text-sm font-medium transition-all",
-                                            localSettings.reminderDays === days
-                                                ? "bg-[var(--accent-blue)] text-white"
-                                                : "bg-[var(--bg-tertiary)] text-[var(--text-secondary)]"
-                                        )}
-                                    >
-                                        {days}d
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </GlassCard>
-
-                {/* Display */}
-                <GlassCard className="p-4">
-                    <div className="flex items-center gap-2 mb-4">
-                        <Monitor className="w-5 h-5 text-[var(--accent-purple)]" />
-                        <h2 className="font-semibold text-[var(--text-primary)]">Display</h2>
-                    </div>
-
-                    <div className="space-y-4">
-                        <label className="flex items-center justify-between cursor-pointer">
-                            <span className="text-sm">Compact Mode</span>
-                            <div
-                                onClick={() => updateLocalSetting('compactMode', !localSettings.compactMode)}
-                                className={cn(
-                                    "w-12 h-6 rounded-full transition-all relative",
-                                    localSettings.compactMode ? "bg-[var(--success-color)]" : "bg-[var(--border-light)]"
-                                )}
-                            >
-                                <div className={cn(
-                                    "absolute w-5 h-5 bg-white rounded-full top-0.5 transition-all shadow",
-                                    localSettings.compactMode ? "left-6" : "left-0.5"
-                                )} />
-                            </div>
-                        </label>
-
-                        <label className="flex items-center justify-between cursor-pointer">
-                            <span className="text-sm">Show Welcome Message</span>
-                            <div
-                                onClick={() => updateLocalSetting('showWelcomeMessage', !localSettings.showWelcomeMessage)}
-                                className={cn(
-                                    "w-12 h-6 rounded-full transition-all relative",
-                                    localSettings.showWelcomeMessage ? "bg-[var(--success-color)]" : "bg-[var(--border-light)]"
-                                )}
-                            >
-                                <div className={cn(
-                                    "absolute w-5 h-5 bg-white rounded-full top-0.5 transition-all shadow",
-                                    localSettings.showWelcomeMessage ? "left-6" : "left-0.5"
-                                )} />
-                            </div>
-                        </label>
-                    </div>
-                </GlassCard>
 
                 {/* Action Buttons */}
                 <div className="flex gap-3">
