@@ -1,0 +1,26 @@
+@File (app/layout.tsx)
+@File (app/page.tsx)
+@File (tailwind.config.ts)
+
+LANGKAH TERAKHIR: MOBILE NATIVE & RESPONSIVE OPTIMIZATION
+
+1. FIX RESPONSIVE LAYOUT (Mobile First):
+   - Di 'app/page.tsx', pastikan Grid Layout menggunakan 'grid-cols-1 lg:grid-cols-12'. Sidebar kanan harus pindah ke bawah secara otomatis di layar HP.
+   - Ganti semua ukuran lebar statis (seperti w-[400px]) menjadi responsif (w-full).
+   - Pastikan 'AppShell' memiliki padding yang aman untuk notch iPhone (viewport-fit=cover).
+
+2. LANDSCAPE & ORIENTATION SUPPORT:
+   - Tambahkan utility class Tailwind agar saat HP diputar (Landscape), layout berubah menjadi dua kolom yang efisien.
+   - Pastikan modal dan kartu (GlassCard) tidak menutupi seluruh layar saat posisi landscape.
+
+3. PWA & OFFLINE CAPABILITY:
+   - Konfigurasi 'next-pwa' untuk membuat service worker. 
+   - Tambahkan file manifest.json sederhana agar aplikasi bisa di-klik "Add to Home Screen" dan berjalan tanpa toolbar browser (Full Screen).
+
+4. PERFORMANCE & NO-DELAY:
+   - Implementasikan 'Skeleton Loading' saat data sedang diambil agar user tidak melihat layar kosong.
+   - Pastikan gambar dan video menggunakan lazy-loading agar hemat kuota dan RAM pada HP jadul.
+   - Gunakan 'Framer Motion' hanya untuk transisi esensial agar tidak membebani prosesor HP lama.
+
+5. FINAL BUILD CONFIG:
+   - Update 'next.config.js' untuk mengabaikan error TypeScript/ESLint kecil saat build production agar proses deployment ke Vercel 100% mulus.

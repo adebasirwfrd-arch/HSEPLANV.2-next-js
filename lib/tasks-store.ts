@@ -327,22 +327,17 @@ export function downloadTasksCSV(tasks: Task[]): void {
 // =====================================================
 // SUPABASE SYNC - Auto-save Tasks to cloud
 // =====================================================
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@/lib/supabase/client'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null
+// Get supabase client (singleton)
 
 // Sync a single task to Supabase
 export async function syncTaskToSupabase(task: Task): Promise<boolean> {
-    if (!supabase) {
-        console.warn('Supabase not configured for Tasks sync')
-        return false
-    }
+    const supabase = createClient()
 
     try {
         const { error } = await supabase
-            .from('hse_tasks')
+            .from('hse_tasks' as any)
             .upsert({
                 id: task.id,
                 code: task.code,
@@ -360,7 +355,7 @@ export async function syncTaskToSupabase(task: Task): Promise<boolean> {
                 wpts_id: task.wptsId || null,
                 has_attachment: task.hasAttachment || false,
                 updated_at: new Date().toISOString()
-            }, { onConflict: 'id' })
+            } as any, { onConflict: 'id' })
 
         if (error) {
             console.error('Error syncing task to Supabase:', error)
@@ -378,10 +373,6 @@ export async function syncAllTasksToSupabase(tasks: Task[]): Promise<{
     success: number
     failed: number
 }> {
-    if (!supabase) {
-        console.warn('Supabase not configured for Tasks sync')
-        return { success: 0, failed: 0 }
-    }
 
     let success = 0
     let failed = 0
@@ -398,11 +389,11 @@ export async function syncAllTasksToSupabase(tasks: Task[]): Promise<{
 
 // Load tasks from Supabase
 export async function loadTasksFromSupabase(): Promise<Task[] | null> {
-    if (!supabase) return null
+    const supabase = createClient()
 
     try {
         const { data, error } = await supabase
-            .from('hse_tasks')
+            .from('hse_tasks' as any)
             .select('*')
             .order('created_at', { ascending: false })
 
@@ -412,7 +403,7 @@ export async function loadTasksFromSupabase(): Promise<Task[] | null> {
         }
 
         // Convert Supabase format to local format
-        return data?.map(row => ({
+        return (data as any[])?.map((row: any) => ({
             id: row.id,
             programId: row.program_id || '',
             programName: row.program_name || '',
@@ -438,11 +429,11 @@ export async function loadTasksFromSupabase(): Promise<Task[] | null> {
 
 // Delete task from Supabase
 export async function deleteTaskFromSupabase(taskId: string): Promise<boolean> {
-    if (!supabase) return false
+    const supabase = createClient()
 
     try {
         const { error } = await supabase
-            .from('hse_tasks')
+            .from('hse_tasks' as any)
             .delete()
             .eq('id', taskId)
 
