@@ -7,7 +7,12 @@ import { createClient } from '@/lib/supabase/server'
 const DRIVE_FOLDER_ID = '1REObWt8IAvIATcWc9Hr2b546grVlPK6x'
 
 // Initialize Google Drive API with user OAuth credentials
-function getDriveClient(accessToken: string, refreshToken?: string) {
+async function getDriveClientWithRefresh(
+    accessToken: string,
+    refreshToken: string | undefined,
+    userId: string,
+    supabase: ReturnType<typeof import('@/lib/supabase/server').createClient> extends Promise<infer T> ? T : never
+) {
     const oauth2Client = new google.auth.OAuth2(
         process.env.GOOGLE_CLIENT_ID,
         process.env.GOOGLE_CLIENT_SECRET,
@@ -18,6 +23,32 @@ function getDriveClient(accessToken: string, refreshToken?: string) {
         access_token: accessToken,
         refresh_token: refreshToken,
     })
+
+    // Listen for token refresh events and save new tokens
+    oauth2Client.on('tokens', async (tokens) => {
+        console.log('Google tokens refreshed')
+        if (tokens.access_token) {
+            try {
+                await (supabase as any).from('user_settings').upsert({
+                    user_id: userId,
+                    google_access_token: tokens.access_token,
+                    google_refresh_token: tokens.refresh_token || refreshToken,
+                    updated_at: new Date().toISOString()
+                }, { onConflict: 'user_id' })
+                console.log('New tokens saved to database')
+            } catch (e) {
+                console.error('Failed to save refreshed tokens:', e)
+            }
+        }
+    })
+
+    // Force token refresh if needed
+    try {
+        await oauth2Client.getAccessToken()
+    } catch (e) {
+        console.error('Token refresh failed:', e)
+        throw new Error('Google token expired. Please reconnect your Google account.')
+    }
 
     return google.drive({ version: 'v3', auth: oauth2Client })
 }
@@ -82,7 +113,12 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Program name required' }, { status: 400 })
         }
 
-        const drive = getDriveClient(settings.google_access_token, settings.google_refresh_token ?? undefined)
+        const drive = await getDriveClientWithRefresh(
+            settings.google_access_token,
+            settings.google_refresh_token ?? undefined,
+            user.id,
+            supabase
+        )
 
         // Find or create program folder
         const programFolderId = await findOrCreateFolder(drive, programName, DRIVE_FOLDER_ID)
