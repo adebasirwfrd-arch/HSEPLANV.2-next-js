@@ -80,8 +80,75 @@ function MomentCard({ moment, index, onClick }: { moment: SafetyMoment; index: n
 // Modal Component
 // =====================================================
 
-function MomentModal({ moment, onClose }: { moment: SafetyMoment; onClose: () => void }) {
+function MomentModal({ moment, onClose, onLike, onComment }: {
+    moment: SafetyMoment
+    onClose: () => void
+    onLike?: (momentId: string) => void
+    onComment?: (momentId: string, comment: string) => void
+}) {
+    const [isLiked, setIsLiked] = useState(false)
+    const [likeCount, setLikeCount] = useState(moment.likes_count)
+    const [commentText, setCommentText] = useState('')
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [showCommentInput, setShowCommentInput] = useState(false)
     const mediaItem = moment.media?.[0]
+
+    const handleLike = async () => {
+        setIsLiked(!isLiked)
+        setLikeCount(prev => isLiked ? prev - 1 : prev + 1)
+
+        // Call parent handler if provided
+        if (onLike) {
+            onLike(moment.id)
+        } else {
+            // Direct Supabase call as fallback
+            const supabase = createClient()
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) return
+
+            if (!isLiked) {
+                await supabase
+                    .from('safety_moment_interactions' as any)
+                    .insert({ moment_id: moment.id, user_id: user.id, interaction_type: 'like' } as any)
+            } else {
+                await supabase
+                    .from('safety_moment_interactions' as any)
+                    .delete()
+                    .match({ moment_id: moment.id, user_id: user.id, interaction_type: 'like' })
+            }
+        }
+    }
+
+    const handleSubmitComment = async () => {
+        if (!commentText.trim()) return
+
+        setIsSubmitting(true)
+
+        if (onComment) {
+            onComment(moment.id, commentText)
+        } else {
+            // Direct Supabase call
+            const supabase = createClient()
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) {
+                setIsSubmitting(false)
+                return
+            }
+
+            await supabase
+                .from('safety_moment_comments' as any)
+                .insert({
+                    moment_id: moment.id,
+                    author_id: user.id,
+                    author_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'User',
+                    content: commentText
+                } as any)
+        }
+
+        setCommentText('')
+        setShowCommentInput(false)
+        setIsSubmitting(false)
+    }
 
     return (
         <motion.div
@@ -133,18 +200,55 @@ function MomentModal({ moment, onClose }: { moment: SafetyMoment; onClose: () =>
                     <p className="text-sm text-[var(--text-muted)] mt-1 line-clamp-3">{moment.content}</p>
 
                     <div className="flex items-center justify-between mt-4 pt-3 border-t border-[var(--border-light)]">
-                        <div className="flex items-center gap-3 text-xs text-[var(--text-muted)]">
-                            <span className="flex items-center gap-1">
-                                <Heart className="w-4 h-4" /> {moment.likes_count}
-                            </span>
-                            <span className="flex items-center gap-1">
-                                <MessageCircle className="w-4 h-4" /> {moment.comments_count}
-                            </span>
+                        <div className="flex items-center gap-3">
+                            {/* Like Button */}
+                            <button
+                                onClick={handleLike}
+                                className={`flex items-center gap-1 text-xs transition-colors ${isLiked ? 'text-red-500' : 'text-[var(--text-muted)] hover:text-red-500'
+                                    }`}
+                            >
+                                <Heart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
+                                {likeCount}
+                            </button>
+
+                            {/* Comment Button */}
+                            <button
+                                onClick={() => setShowCommentInput(!showCommentInput)}
+                                className="flex items-center gap-1 text-xs text-[var(--text-muted)] hover:text-[var(--accent-blue)] transition-colors"
+                            >
+                                <MessageCircle className="w-4 h-4" />
+                                {moment.comments_count}
+                            </button>
                         </div>
                         <span className="text-xs text-[var(--text-muted)]">
                             By {moment.author_name}
                         </span>
                     </div>
+
+                    {/* Comment Input */}
+                    {showCommentInput && (
+                        <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            className="mt-3 flex gap-2"
+                        >
+                            <input
+                                type="text"
+                                value={commentText}
+                                onChange={(e) => setCommentText(e.target.value)}
+                                placeholder="Add a comment..."
+                                className="flex-1 px-3 py-2 text-xs bg-[var(--bg-tertiary)] border border-[var(--border-light)] rounded-lg text-[var(--text-primary)] placeholder:text-[var(--text-muted)]"
+                                onKeyDown={(e) => e.key === 'Enter' && handleSubmitComment()}
+                            />
+                            <button
+                                onClick={handleSubmitComment}
+                                disabled={!commentText.trim() || isSubmitting}
+                                className="px-3 py-2 bg-[var(--accent-blue)] text-white rounded-lg text-xs disabled:opacity-50"
+                            >
+                                {isSubmitting ? <Loader2 className="w-3 h-3 animate-spin" /> : 'Post'}
+                            </button>
+                        </motion.div>
+                    )}
                 </div>
             </motion.div>
         </motion.div>
