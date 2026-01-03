@@ -323,3 +323,170 @@ export function downloadTasksCSV(tasks: Task[]): void {
     link.download = `HSE_Tasks_${new Date().toISOString().split('T')[0]}.csv`
     link.click()
 }
+
+// =====================================================
+// SUPABASE SYNC - Auto-save Tasks to cloud
+// =====================================================
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null
+
+// Sync a single task to Supabase
+export async function syncTaskToSupabase(task: Task): Promise<boolean> {
+    if (!supabase) {
+        console.warn('Supabase not configured for Tasks sync')
+        return false
+    }
+
+    try {
+        const { error } = await supabase
+            .from('hse_tasks')
+            .upsert({
+                id: task.id,
+                code: task.code,
+                title: task.title,
+                program_id: task.programId,
+                program_name: task.programName,
+                status: task.status,
+                region: task.region,
+                base: task.base,
+                year: task.year,
+                pic_name: task.picName,
+                pic_email: task.picEmail,
+                implementation_date: task.implementationDate,
+                frequency: task.frequency,
+                wpts_id: task.wptsId || null,
+                has_attachment: task.hasAttachment || false,
+                updated_at: new Date().toISOString()
+            }, { onConflict: 'id' })
+
+        if (error) {
+            console.error('Error syncing task to Supabase:', error)
+            return false
+        }
+        return true
+    } catch (e) {
+        console.error('Task Supabase sync error:', e)
+        return false
+    }
+}
+
+// Sync all tasks to Supabase
+export async function syncAllTasksToSupabase(tasks: Task[]): Promise<{
+    success: number
+    failed: number
+}> {
+    if (!supabase) {
+        console.warn('Supabase not configured for Tasks sync')
+        return { success: 0, failed: 0 }
+    }
+
+    let success = 0
+    let failed = 0
+
+    for (const task of tasks) {
+        const result = await syncTaskToSupabase(task)
+        if (result) success++
+        else failed++
+    }
+
+    console.log(`Tasks Supabase sync: ${success} succeeded, ${failed} failed`)
+    return { success, failed }
+}
+
+// Load tasks from Supabase
+export async function loadTasksFromSupabase(): Promise<Task[] | null> {
+    if (!supabase) return null
+
+    try {
+        const { data, error } = await supabase
+            .from('hse_tasks')
+            .select('*')
+            .order('created_at', { ascending: false })
+
+        if (error) {
+            console.error('Error loading tasks from Supabase:', error)
+            return null
+        }
+
+        // Convert Supabase format to local format
+        return data?.map(row => ({
+            id: row.id,
+            programId: row.program_id || '',
+            programName: row.program_name || '',
+            code: row.code,
+            title: row.title,
+            implementationDate: row.implementation_date || '',
+            frequency: row.frequency as TaskFrequency || 'once',
+            picName: row.pic_name || '',
+            picEmail: row.pic_email || '',
+            status: row.status as TaskStatus || 'Upcoming',
+            region: row.region as TaskRegion || 'indonesia',
+            base: row.base as TaskBase || 'narogong',
+            year: row.year || new Date().getFullYear(),
+            wptsId: row.wpts_id || undefined,
+            hasAttachment: row.has_attachment || false,
+            createdAt: row.created_at || new Date().toISOString()
+        })) || null
+    } catch (e) {
+        console.error('Tasks Supabase load error:', e)
+        return null
+    }
+}
+
+// Delete task from Supabase
+export async function deleteTaskFromSupabase(taskId: string): Promise<boolean> {
+    if (!supabase) return false
+
+    try {
+        const { error } = await supabase
+            .from('hse_tasks')
+            .delete()
+            .eq('id', taskId)
+
+        if (error) {
+            console.error('Error deleting task from Supabase:', error)
+            return false
+        }
+        return true
+    } catch (e) {
+        console.error('Task Supabase delete error:', e)
+        return false
+    }
+}
+
+// Save tasks with automatic Supabase sync
+export async function saveTasksWithSync(tasks: Task[]): Promise<void> {
+    // Save to localStorage first
+    saveTasks(tasks)
+
+    // Then sync to Supabase in background
+    syncAllTasksToSupabase(tasks).catch(console.error)
+}
+
+// Add task with Supabase sync
+export async function addTaskWithSync(task: Omit<Task, 'id' | 'createdAt'>): Promise<Task> {
+    const newTask = addTask(task)
+    syncTaskToSupabase(newTask).catch(console.error)
+    return newTask
+}
+
+// Update task with Supabase sync
+export async function updateTaskWithSync(id: string, updates: Partial<Task>): Promise<Task | null> {
+    const updatedTask = updateTask(id, updates)
+    if (updatedTask) {
+        syncTaskToSupabase(updatedTask).catch(console.error)
+    }
+    return updatedTask
+}
+
+// Delete task with Supabase sync
+export async function deleteTaskWithSync(id: string): Promise<boolean> {
+    const result = deleteTask(id)
+    if (result) {
+        deleteTaskFromSupabase(id).catch(console.error)
+    }
+    return result
+}

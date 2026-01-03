@@ -221,3 +221,124 @@ export const categoryIcons: Record<MatrixCategory, string> = {
 }
 
 export { months, monthLabels }
+
+// =====================================================
+// SUPABASE SYNC - Auto-save Matrix data to cloud
+// =====================================================
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null
+
+// Sync a single program to Supabase
+export async function syncProgramToSupabase(
+    program: MatrixProgram,
+    category: MatrixCategory,
+    base: string
+): Promise<boolean> {
+    if (!supabase) {
+        console.warn('Supabase not configured for Matrix sync')
+        return false
+    }
+
+    try {
+        // Generate unique ID for this program (category_base_localId)
+        const supabaseId = 2000 + program.id +
+            (category === 'audit' ? 0 : category === 'training' ? 63 : category === 'drill' ? 144 : 168) +
+            (base === 'narogong' ? 0 : base === 'balikpapan' ? 21 : base === 'duri' ? 42 : 0)
+
+        const { error } = await supabase
+            .from('matrix_programs')
+            .upsert({
+                id: supabaseId,
+                name: program.name,
+                program_type: 'matrix',
+                region: 'indonesia',
+                base: base,
+                category: category,
+                plan_type: program.plan_type || '',
+                reference_doc: program.reference || '',
+                updated_at: new Date().toISOString()
+            }, { onConflict: 'id' })
+
+        if (error) {
+            console.error('Error syncing Matrix program to Supabase:', error)
+            return false
+        }
+        return true
+    } catch (e) {
+        console.error('Matrix Supabase sync error:', e)
+        return false
+    }
+}
+
+// Sync all Matrix data to Supabase
+export async function syncAllMatrixToSupabase(allData: Record<string, MatrixData>): Promise<{
+    success: number
+    failed: number
+}> {
+    if (!supabase) {
+        console.warn('Supabase not configured for Matrix sync')
+        return { success: 0, failed: 0 }
+    }
+
+    let success = 0
+    let failed = 0
+
+    for (const [key, data] of Object.entries(allData)) {
+        const [category, base] = key.includes('_') ? key.split('_') : [key, 'all']
+
+        for (const program of data.programs) {
+            const result = await syncProgramToSupabase(
+                program,
+                category as MatrixCategory,
+                base
+            )
+            if (result) success++
+            else failed++
+        }
+    }
+
+    console.log(`Matrix Supabase sync: ${success} succeeded, ${failed} failed`)
+    return { success, failed }
+}
+
+// Load Matrix programs from Supabase
+export async function loadMatrixFromSupabase(
+    category: MatrixCategory,
+    base: string
+): Promise<MatrixProgram[] | null> {
+    if (!supabase) return null
+
+    try {
+        let query = supabase
+            .from('matrix_programs')
+            .select('*')
+            .eq('category', category)
+
+        if (base !== 'all') {
+            query = query.eq('base', base)
+        }
+
+        const { data, error } = await query
+
+        if (error) {
+            console.error('Error loading Matrix from Supabase:', error)
+            return null
+        }
+
+        // Convert Supabase format to local format
+        return data?.map(row => ({
+            id: row.id,
+            name: row.name,
+            reference: row.reference_doc || '',
+            plan_type: row.plan_type || '',
+            months: {}, // Monthly data is stored in localStorage
+            progress: 0
+        })) || null
+    } catch (e) {
+        console.error('Matrix Supabase load error:', e)
+        return null
+    }
+}
