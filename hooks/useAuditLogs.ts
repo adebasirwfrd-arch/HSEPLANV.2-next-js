@@ -55,6 +55,14 @@ export function useAuditLogs(options: UseAuditLogsOptions = {}) {
     const [total, setTotal] = useState(0)
     const [page, setPage] = useState(1)
 
+    // Memoize filter values to prevent infinite re-renders
+    const filterAction = filters.action
+    const filterEntityType = filters.entity_type
+    const filterActorEmail = filters.actor_email
+    const filterFromDate = filters.from_date
+    const filterToDate = filters.to_date
+    const filterSearch = filters.search
+
     // Fetch logs
     const fetchLogs = useCallback(async () => {
         if (!enabled || isAuthLoading) return
@@ -77,23 +85,23 @@ export function useAuditLogs(options: UseAuditLogsOptions = {}) {
                 .range((page - 1) * limit, page * limit - 1)
 
             // Apply filters
-            if (filters.action) {
-                query = query.eq('action', filters.action)
+            if (filterAction) {
+                query = query.eq('action', filterAction)
             }
-            if (filters.entity_type) {
-                query = query.eq('entity_type', filters.entity_type)
+            if (filterEntityType) {
+                query = query.eq('entity_type', filterEntityType)
             }
-            if (filters.actor_email) {
-                query = query.ilike('actor_email', `%${filters.actor_email}%`)
+            if (filterActorEmail) {
+                query = query.ilike('actor_email', `%${filterActorEmail}%`)
             }
-            if (filters.from_date) {
-                query = query.gte('created_at', filters.from_date)
+            if (filterFromDate) {
+                query = query.gte('created_at', filterFromDate)
             }
-            if (filters.to_date) {
-                query = query.lte('created_at', filters.to_date)
+            if (filterToDate) {
+                query = query.lte('created_at', filterToDate)
             }
-            if (filters.search) {
-                query = query.or(`description.ilike.%${filters.search}%,entity_id.ilike.%${filters.search}%`)
+            if (filterSearch) {
+                query = query.or(`description.ilike.%${filterSearch}%,entity_id.ilike.%${filterSearch}%`)
             }
 
             const { data, error: queryError, count } = await query
@@ -110,7 +118,7 @@ export function useAuditLogs(options: UseAuditLogsOptions = {}) {
         } finally {
             setIsLoading(false)
         }
-    }, [isAdmin, isAuthLoading, enabled, page, limit, filters])
+    }, [isAdmin, isAuthLoading, enabled, page, limit, filterAction, filterEntityType, filterActorEmail, filterFromDate, filterToDate, filterSearch])
 
     // Initial fetch
     useEffect(() => {
