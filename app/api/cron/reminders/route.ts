@@ -79,78 +79,60 @@ export async function GET(request: NextRequest) {
         }
 
         // ============================================
-        // 2. FETCH OTP PROGRAMS (master_programs with program_type = 'otp')
+        // 2. FETCH PROGRAM PROGRESS (plan_date from program_progress table)
+        // This fetches monthly entries that have plan_date and pic_email set
         // ============================================
-        const { data: otpPrograms, error: otpError } = await supabase
-            .from('master_programs')
-            .select('*')
-            .eq('program_type', 'otp')
-            .not('due_date', 'is', null)
+        const { data: programProgress, error: progressError } = await supabase
+            .from('program_progress')
+            .select(`
+                id,
+                program_id,
+                month,
+                year,
+                plan_date,
+                pic_email,
+                pic_name,
+                plan_value,
+                actual_value,
+                master_programs!inner(
+                    id, name, plan_type, program_type, base, region
+                )
+            `)
+            .not('plan_date', 'is', null)
+            .not('pic_email', 'is', null)
 
-        if (otpError) {
-            console.error('Error fetching OTP programs:', otpError)
-        } else if (otpPrograms) {
-            for (const prog of otpPrograms) {
-                if (!prog.due_date) continue
+        if (progressError) {
+            console.error('Error fetching program progress:', progressError)
+        } else if (programProgress) {
+            console.log(`Found ${programProgress.length} program progress entries with plan_date`)
 
-                const daysUntilDue = calculateDaysUntilDue(prog.due_date)
+            for (const prog of programProgress) {
+                if (!prog.plan_date || !prog.pic_email) continue
 
+                const daysUntilDue = calculateDaysUntilDue(prog.plan_date)
+                const parentProgram = prog.master_programs as any
+                const programType = parentProgram?.program_type || 'otp'
+                const frequency = parentProgram?.plan_type || 'Monthly'
+
+                // Only process if within 30 days
                 if (daysUntilDue >= 0 && daysUntilDue <= 30) {
-                    const frequency = prog.plan_type || 'Monthly'
-
                     if (shouldSendReminder(daysUntilDue, frequency)) {
-                        // For OTP programs without specific PIC, skip or use default
-                        // In production, you'd join with a PIC assignment table
-                        // For now, we'll skip programs without email
-                        if (prog.pic_email) {
-                            alerts.push({
-                                itemName: prog.name,
-                                picEmail: prog.pic_email,
-                                picName: prog.pic_name || 'HSE Team',
-                                planDate: prog.due_date,
-                                frequency: frequency,
-                                itemType: 'otp',
-                                base: prog.base,
-                                region: prog.region
-                            })
+                        // Determine item type based on program_type
+                        let itemType: 'otp' | 'matrix' | 'task' = 'otp'
+                        if (programType.includes('matrix')) {
+                            itemType = 'matrix'
                         }
-                    }
-                }
-            }
-        }
 
-        // ============================================
-        // 3. FETCH MATRIX PROGRAMS
-        // ============================================
-        const { data: matrixPrograms, error: matrixError } = await supabase
-            .from('matrix_programs')
-            .select('*')
-            .not('due_date', 'is', null)
-
-        if (matrixError) {
-            console.error('Error fetching Matrix programs:', matrixError)
-        } else if (matrixPrograms) {
-            for (const prog of matrixPrograms) {
-                if (!prog.due_date) continue
-
-                const daysUntilDue = calculateDaysUntilDue(prog.due_date)
-
-                if (daysUntilDue >= 0 && daysUntilDue <= 30) {
-                    const frequency = prog.plan_type || 'Monthly'
-
-                    if (shouldSendReminder(daysUntilDue, frequency)) {
-                        if (prog.pic_email) {
-                            alerts.push({
-                                itemName: prog.name,
-                                picEmail: prog.pic_email,
-                                picName: prog.pic_name || 'HSE Team',
-                                planDate: prog.due_date,
-                                frequency: frequency,
-                                itemType: 'matrix',
-                                base: prog.base,
-                                region: prog.region
-                            })
-                        }
+                        alerts.push({
+                            itemName: parentProgram?.name || 'HSE Program',
+                            picEmail: prog.pic_email,
+                            picName: prog.pic_name || 'HSE Team',
+                            planDate: prog.plan_date,
+                            frequency: frequency,
+                            itemType: itemType,
+                            base: parentProgram?.base,
+                            region: parentProgram?.region
+                        })
                     }
                 }
             }
