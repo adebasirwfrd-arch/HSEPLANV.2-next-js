@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import { AppShell } from "@/components/layout/app-shell"
 import { GlassCard } from "@/components/ui/glass-card"
@@ -12,6 +12,7 @@ import {
     Users,
     FileText,
     AlertTriangle,
+    CheckCircle,
     Heart,
     Send,
     Clock,
@@ -82,12 +83,17 @@ const CATEGORIES = [
     'Training'
 ]
 
-const TRENDING_TOPICS = [
-    { id: 1, title: "PPE Compliance", count: 24, icon: Shield },
-    { id: 2, title: "Incident Reports", count: 12, icon: AlertTriangle },
-    { id: 3, title: "Safety Training", count: 18, icon: Users },
-    { id: 4, title: "Toolbox Meetings", count: 31, icon: MessageSquare },
-]
+// Topic icons mapping - counts will be computed dynamically from moments
+const TOPIC_ICONS: Record<string, React.FC<{ className?: string }>> = {
+    'General': MessageSquare,
+    'Personal Safety': Shield,
+    'Emergency Response': AlertTriangle,
+    'Communication': MessageSquare,
+    'Workplace Safety': Shield,
+    'Near Miss': AlertTriangle,
+    'Good Practice': CheckCircle,
+    'Training': Users,
+}
 
 // =====================================================
 // Safety Moment Card Component
@@ -529,6 +535,26 @@ export default function CommunityPage() {
     const [isLoading, setIsLoading] = useState(true)
     const [userInteractions, setUserInteractions] = useState<Record<string, UserInteraction>>({})
 
+    // Compute trending topics from actual moments data
+    const trendingTopics = useMemo(() => {
+        // Count moments per category
+        const categoryCounts: Record<string, number> = {}
+        moments.forEach(m => {
+            categoryCounts[m.category] = (categoryCounts[m.category] || 0) + 1
+        })
+
+        // Convert to array, sort by count, take top 4
+        return Object.entries(categoryCounts)
+            .map(([title, count], idx) => ({
+                id: idx + 1,
+                title,
+                count,
+                icon: TOPIC_ICONS[title] || MessageSquare
+            }))
+            .sort((a, b) => b.count - a.count)
+            .slice(0, 4)
+    }, [moments])
+
     // Redirect non-admin users
     useEffect(() => {
         if (!isAuthLoading && !isAdmin) {
@@ -734,20 +760,26 @@ export default function CommunityPage() {
                                 Trending Topics
                             </h3>
                             <div className="space-y-2">
-                                {TRENDING_TOPICS.map((topic) => (
-                                    <div
-                                        key={topic.id}
-                                        className="flex items-center gap-3 p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors cursor-pointer"
-                                    >
-                                        <div className="w-8 h-8 bg-[var(--accent-blue)]/10 rounded-lg flex items-center justify-center">
-                                            <topic.icon className="w-4 h-4 text-[var(--accent-blue)]" />
+                                {trendingTopics.length > 0 ? (
+                                    trendingTopics.map((topic) => (
+                                        <div
+                                            key={topic.id}
+                                            className="flex items-center gap-3 p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors cursor-pointer"
+                                        >
+                                            <div className="w-8 h-8 bg-[var(--accent-blue)]/10 rounded-lg flex items-center justify-center">
+                                                <topic.icon className="w-4 h-4 text-[var(--accent-blue)]" />
+                                            </div>
+                                            <span className="flex-1 text-sm text-[var(--text-primary)]">{topic.title}</span>
+                                            <span className="text-xs text-[var(--text-muted)] bg-[var(--bg-tertiary)] px-2 py-0.5 rounded-full">
+                                                {topic.count}
+                                            </span>
                                         </div>
-                                        <span className="flex-1 text-sm text-[var(--text-primary)]">{topic.title}</span>
-                                        <span className="text-xs text-[var(--text-muted)] bg-[var(--bg-tertiary)] px-2 py-0.5 rounded-full">
-                                            {topic.count}
-                                        </span>
+                                    ))
+                                ) : (
+                                    <div className="text-sm text-[var(--text-muted)] text-center py-4">
+                                        No topics yet. Post content to see trending topics!
                                     </div>
-                                ))}
+                                )}
                             </div>
                         </GlassCard>
 
