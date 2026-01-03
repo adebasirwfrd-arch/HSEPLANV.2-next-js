@@ -195,81 +195,89 @@ export function ProgramTimeline({ programs, year }: ProgramTimelineProps) {
     }
 
     return (
-        <div className="rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 overflow-x-auto shadow-xl">
-            {/* Header with Month Labels */}
-            <div className="flex border-b border-white/10 min-w-[1000px]">
-                {/* Sidebar Header */}
-                <div
-                    className="flex-shrink-0 px-4 py-3 bg-[var(--bg-secondary)] border-r border-white/10 sticky left-0 z-20"
-                    style={{ width: sidebarWidth }}
-                >
-                    <span className="text-xs font-semibold text-[var(--text-primary)]">
-                        Programs ({programs.length})
-                    </span>
-                </div>
-                {/* Month Headers */}
-                <div className="flex-1 flex">
-                    {MONTH_LABELS.map((label, idx) => (
-                        <div
-                            key={idx}
-                            className="flex-1 px-2 py-3 text-center border-l border-white/5 first:border-l-0"
-                        >
-                            <span className="text-[10px] font-medium text-[var(--text-muted)] uppercase tracking-wider">
-                                {label}
-                            </span>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            {/* Timeline Body */}
+        <div className="rounded-2xl bg-[var(--bg-secondary)] border border-white/10 shadow-xl overflow-hidden">
+            {/* Main scroll container - handles both X and Y scrolling */}
             <div
                 ref={containerRef}
-                className="max-h-[450px] overflow-y-auto min-w-[1000px]"
+                className="overflow-auto max-h-[500px]"
+                style={{ WebkitOverflowScrolling: 'touch' }}
             >
-                {timelineData.map(({ program }) => (
-                    <div
-                        key={program.id}
-                        className="flex border-b border-white/5 last:border-b-0 hover:bg-white/[0.02] transition-colors"
-                    >
-                        {/* Sidebar Channel */}
+                {/* Inner container with min-width for horizontal scroll */}
+                <div className="min-w-[1000px]">
+                    {/* Header Row */}
+                    <div className="flex border-b border-white/10 sticky top-0 z-30 bg-[var(--bg-secondary)]">
+                        {/* Sticky Sidebar Header */}
                         <div
-                            className="flex-shrink-0 sticky left-0 z-10 bg-[var(--bg-secondary)] border-r border-white/10"
-                            style={{ width: sidebarWidth }}
+                            className="flex-shrink-0 px-4 py-3 bg-[var(--bg-secondary)] border-r border-white/10 sticky left-0 z-40"
+                            style={{ width: sidebarWidth, minWidth: sidebarWidth }}
                         >
-                            <CustomChannel program={program} />
+                            <span className="text-xs font-semibold text-[var(--text-primary)]">
+                                Programs ({programs.length})
+                            </span>
                         </div>
-
-                        {/* Timeline Grid */}
+                        {/* Month Headers */}
                         <div className="flex-1 flex">
-                            {MONTHS.map((month, idx) => {
-                                const monthData = program.months[month]
-                                const hasActivity = monthData && (monthData.plan > 0 || monthData.actual > 0)
-
-                                return (
-                                    <div
-                                        key={idx}
-                                        className="flex-1 h-14 flex items-center justify-center px-1 border-l border-white/5 first:border-l-0"
-                                    >
-                                        {hasActivity && monthData ? (
-                                            <CustomProgramBar
-                                                monthData={monthData}
-                                                monthLabel={MONTH_LABELS[idx]}
-                                                programName={program.name}
-                                            />
-                                        ) : (
-                                            <div className="w-full h-8 rounded-full bg-white/5 dark:bg-white/[0.02]" />
-                                        )}
-                                    </div>
-                                )
-                            })}
+                            {MONTH_LABELS.map((label, idx) => (
+                                <div
+                                    key={idx}
+                                    className="flex-1 px-2 py-3 text-center border-l border-white/5 first:border-l-0 bg-[var(--bg-secondary)]"
+                                    style={{ minWidth: '70px' }}
+                                >
+                                    <span className="text-[10px] font-medium text-[var(--text-muted)] uppercase tracking-wider">
+                                        {label}
+                                    </span>
+                                </div>
+                            ))}
                         </div>
                     </div>
-                ))}
+
+                    {/* Timeline Body */}
+                    <div>
+                        {timelineData.map(({ program }) => (
+                            <div
+                                key={program.id}
+                                className="flex border-b border-white/5 last:border-b-0 hover:bg-white/[0.02] transition-colors"
+                            >
+                                {/* Sidebar Channel */}
+                                <div
+                                    className="flex-shrink-0 sticky left-0 z-10 bg-[var(--bg-secondary)] border-r border-white/10"
+                                    style={{ width: sidebarWidth }}
+                                >
+                                    <CustomChannel program={program} />
+                                </div>
+
+                                {/* Timeline Grid */}
+                                <div className="flex-1 flex">
+                                    {MONTHS.map((month, idx) => {
+                                        const monthData = program.months[month]
+                                        const hasActivity = monthData && (monthData.plan > 0 || monthData.actual > 0)
+
+                                        return (
+                                            <div
+                                                key={idx}
+                                                className="flex-1 h-14 flex items-center justify-center px-1 border-l border-white/5 first:border-l-0"
+                                            >
+                                                {hasActivity && monthData ? (
+                                                    <CustomProgramBar
+                                                        monthData={monthData}
+                                                        monthLabel={MONTH_LABELS[idx]}
+                                                        programName={program.name}
+                                                    />
+                                                ) : (
+                                                    <div className="w-full h-8 rounded-full bg-white/5 dark:bg-white/[0.02]" />
+                                                )}
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
 
             {/* Legend */}
-            <div className="flex items-center justify-center gap-6 py-3 border-t border-white/10 bg-white/[0.02]">
+            <div className="flex items-center justify-center gap-6 py-3 border-t border-white/10 bg-[var(--bg-secondary)]">
                 <div className="flex items-center gap-2">
                     <div className="w-4 h-4 rounded-full bg-gradient-to-r from-emerald-500 to-teal-400" />
                     <span className="text-[10px] text-[var(--text-muted)]">Complete</span>
