@@ -1,0 +1,23 @@
+@File (app/community/page.tsx)
+@File (app/page.tsx) 
+@File (components/feed/post-composer.tsx)
+@File (components/feed/post-card.tsx)
+
+FINAL SYNC: COMMUNITY TO HOMEPAGE & REAL-TIME AUDIT FEED
+
+1. CONNECT COMMUNITY TO HOMEPAGE (Right Side):
+   - Di 'app/page.tsx', ganti dummy data pada 'Safety Moment' (sisi kanan) dengan fetch data asli dari tabel 'safety_moments'.
+   - Pastikan setiap kali Admin memposting di Community Page, postingan tersebut (Teks + Video/Foto) langsung muncul secara otomatis di sidebar kanan Homepage tanpa refresh.
+
+2. IMPLEMENT RECENT ACTIVITY FEED:
+   - Di 'app/page.tsx', tambahkan section 'Recent Activity' di bawah Safety Moment.
+   - Ambil data dari tabel 'audit_logs' (yang baru saja kita aktifkan trigger-nya).
+   - Tampilkan 5 aktivitas terbaru dengan format: "[Email] [Action] [Entity] - [Time]".
+   - Gunakan 'useAuditLogs' hook yang sudah ditingkatkan sebelumnya.
+
+3. UPLOADTHING & DATABASE INTEGRATION:
+   - Pastikan 'PostComposer' di Community Page mengirimkan 'media_url' dan 'media_type' ke tabel 'safety_moments'.
+   - Gunakan 'UPLOADTHING_TOKEN' untuk proses upload file.
+
+4. NATIVE FEEL:
+   - Tambahkan animasi 'framer-motion' pada setiap item baru yang masuk di Recent Activity agar terlihat seperti "Live Feed" profesional.
