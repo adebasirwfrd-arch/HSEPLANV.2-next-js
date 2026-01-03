@@ -208,13 +208,13 @@ export function useAuditLogs(options: UseAuditLogsOptions = {}) {
 export function formatAction(action: AuditAction): { label: string; color: string } {
     switch (action) {
         case 'INSERT':
-            return { label: 'Created', color: 'bg-green-500/20 text-green-400' }
+            return { label: 'Created', color: 'success' }
         case 'UPDATE':
-            return { label: 'Updated', color: 'bg-blue-500/20 text-blue-400' }
+            return { label: 'Updated', color: 'info' }
         case 'DELETE':
-            return { label: 'Deleted', color: 'bg-red-500/20 text-red-400' }
+            return { label: 'Deleted', color: 'danger' }
         default:
-            return { label: action, color: 'bg-gray-500/20 text-gray-400' }
+            return { label: action, color: 'muted' }
     }
 }
 

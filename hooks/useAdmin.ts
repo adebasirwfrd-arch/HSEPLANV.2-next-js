@@ -18,9 +18,10 @@ interface UseAdminReturn {
 export function useAdmin(): UseAdminReturn {
     const [user, setUser] = useState<User | null>(null)
     const [isLoading, setIsLoading] = useState(true)
-    const supabase = createClient()
 
     useEffect(() => {
+        const supabase = createClient()
+
         // Get initial session
         const getUser = async () => {
             try {
@@ -47,9 +48,10 @@ export function useAdmin(): UseAdminReturn {
         return () => {
             subscription.unsubscribe()
         }
-    }, [supabase.auth])
+    }, []) // Empty deps - supabase is now a singleton
 
     const signOut = async () => {
+        const supabase = createClient()
         await supabase.auth.signOut()
         setUser(null)
     }
