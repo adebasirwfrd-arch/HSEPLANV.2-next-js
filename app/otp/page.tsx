@@ -481,9 +481,7 @@ export default function OTPPage() {
 
                 {/* Timeline View */}
                 {viewMode === 'timeline' && (
-                    <div className="hidden md:block">
-                        <ProgramTimeline programs={filteredPrograms} year={year} />
-                    </div>
+                    <ProgramTimeline programs={filteredPrograms} year={year} />
                 )}
 
                 {/* Desktop Table View */}
