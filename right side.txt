@@ -1,0 +1,23 @@
+@File (components/dashboard/upcoming-events-card.tsx)
+@File (hooks/useHSEData.ts)
+
+IMPLEMENTASI MODERN UI UPCOMING EVENTS DENGAN URGENSI WARNA
+
+1. UPDATE UI DESIGN (components/dashboard/upcoming-events-card.tsx):
+   - Gunakan Framer Motion untuk efek 'staggered fade-in' pada setiap list item.
+   - Implementasikan Indikator Urgensi (Sisi Kiri Item):
+     * MERAH (H-1 s/d H-3): Sangat Urgent.
+     * KUNING (H-4 s/d H-7): Menengah.
+     * BIRU/HIJAU (H-8 ke atas): Aman/Terjadwal.
+   - Tambahkan 'Relative Time' di samping tanggal (misal: "In 2 days" atau "Tomorrow").
+
+2. LOGIKA PERHITUNGAN (hooks/useHSEData.ts):
+   - Buat helper 'calculateUrgency' yang membandingkan 'plan_date' dengan 'currentDate'.
+   - Pastikan data mencakup OTP, Matrix, dan Task dengan label kategori yang jelas.
+
+3. MODERN GLASSMORPHISM STYLING:
+   - Berikan efek 'Glass-shimmer' pada item yang masuk kategori Merah (Urgent) untuk menarik perhatian.
+   - Gunakan font-weight semi-bold untuk judul program agar mudah dibaca sekilas.
+
+4. INTERAKSI CLIKABLE:
+   - Bungkus setiap item dengan Link yang mengarah ke detail spesifik berdasarkan sumber datanya (Task/OTP/Matrix).
