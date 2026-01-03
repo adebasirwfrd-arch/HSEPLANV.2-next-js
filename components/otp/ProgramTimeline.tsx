@@ -195,12 +195,12 @@ export function ProgramTimeline({ programs, year }: ProgramTimelineProps) {
     }
 
     return (
-        <div className="rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 overflow-hidden shadow-xl">
+        <div className="rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 overflow-x-auto shadow-xl">
             {/* Header with Month Labels */}
-            <div className="flex border-b border-white/10">
+            <div className="flex border-b border-white/10 min-w-[1000px]">
                 {/* Sidebar Header */}
                 <div
-                    className="flex-shrink-0 px-4 py-3 bg-white/5 backdrop-blur-md border-r border-white/10"
+                    className="flex-shrink-0 px-4 py-3 bg-white/5 backdrop-blur-md border-r border-white/10 sticky left-0 z-20 backdrop-filter"
                     style={{ width: sidebarWidth }}
                 >
                     <span className="text-xs font-semibold text-[var(--text-primary)]">
@@ -225,7 +225,7 @@ export function ProgramTimeline({ programs, year }: ProgramTimelineProps) {
             {/* Timeline Body */}
             <div
                 ref={containerRef}
-                className="max-h-[450px] overflow-y-auto"
+                className="max-h-[450px] overflow-y-auto min-w-[1000px]"
             >
                 {timelineData.map(({ program }) => (
                     <div
@@ -234,7 +234,7 @@ export function ProgramTimeline({ programs, year }: ProgramTimelineProps) {
                     >
                         {/* Sidebar Channel */}
                         <div
-                            className="flex-shrink-0"
+                            className="flex-shrink-0 sticky left-0 z-10 bg-[#0f172a] border-r border-white/10"
                             style={{ width: sidebarWidth }}
                         >
                             <CustomChannel program={program} />
