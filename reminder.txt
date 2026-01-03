@@ -1,0 +1,25 @@
+@File (lib/notification-service.ts)
+@File (app/api/cron/reminders/route.ts)
+@File (lib/tasks-store.ts)
+@File (lib/otp-store.ts)
+@File (lib/matrix-store.ts)
+
+SISTEM PENGINGAT TERPADU (PROGRAM & TASK DERIVATIVE):
+
+1. UNIFIKASI LOGIKA PENGINGAT (lib/notification-service.ts):
+   - Gunakan aturan Ade Basir untuk SEMUA entitas (OTP, Matrix, dan Task):
+     * Kategori 'Monthly': Pengingat pada H-14, H-7, dan H-3.
+     * Kategori 'Annually', 'Quarterly', 'Semesterly': Pengingat pada H-30, H-14, H-7, dan H-3.
+   - Buat fungsi 'processHSEAlert' yang menerima data gabungan: nama_item, pic_email, pic_name, plan_date, dan frequency.
+
+2. SYNC TASK DENGAN PARENT PROGRAM (app/api/cron/reminders/route.ts):
+   - Ambil data dari tabel 'tasks'.
+   - Jika status Task masih 'Upcoming' atau 'In Progress', lakukan pengecekan tanggal terhadap 'implementationDate'.
+   - Gunakan 'frequency' dari Task tersebut untuk menentukan jadwal pengiriman (H-30 atau H-14 dst).
+
+3. KUSTOMISASI PESAN (EMAIL & WHATSAPP):
+   - Format Pesan Task: "Halo {pic_name}, ini pengingat {jarak_hari} hari untuk tugas: {title} (Bagian dari Program: {programName}). Rencana tanggal: {implementationDate}."
+   - Sertakan link ke halaman Task agar PIC bisa langsung mengunggah lampiran (attachments) setelah selesai.
+
+4. OPTIMASI DB QUERY:
+   - Pastikan API melakukan fetch ke tabel 'user_settings' untuk memastikan sinkronisasi Google Calendar juga tetap aktif saat notifikasi dikirim.
