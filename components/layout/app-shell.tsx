@@ -51,10 +51,14 @@ const mobileNavItems = [
     { href: "/settings", label: "Profile", icon: User },
 ]
 
+import { motion, AnimatePresence } from "framer-motion"
+import { NotificationDropdown } from "@/components/notifications/notification-dropdown"
+
 export function AppShell({ children }: { children: ReactNode }) {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false)
     const [showProfileMenu, setShowProfileMenu] = useState(false)
     const [showExportModal, setShowExportModal] = useState(false)
+    const [showNotifications, setShowNotifications] = useState(false)
     const pathname = usePathname()
     const router = useRouter()
 
@@ -285,14 +289,24 @@ export function AppShell({ children }: { children: ReactNode }) {
                         )}
                     </div>
                     {/* Notification Bell */}
-                    <button
-                        onClick={() => toast.info("Notifications feature coming soon!")}
-                        className="p-2 text-[var(--text-muted)] hover:text-[var(--accent-blue)] hover:bg-[var(--bg-tertiary)] rounded-lg transition-colors relative"
-                    >
-                        <Bell className="w-5 h-5" />
-                        {/* Unread badge - will be connected to Stream notifications */}
-                        <span className="absolute top-1 right-1 w-2 h-2 bg-[var(--danger-color)] rounded-full" />
-                    </button>
+                    <div className="relative">
+                        <button
+                            onClick={() => setShowNotifications(!showNotifications)}
+                            className="p-2 text-[var(--text-muted)] hover:text-[var(--accent-blue)] hover:bg-[var(--bg-tertiary)] rounded-lg transition-colors relative"
+                        >
+                            <Bell className="w-5 h-5" />
+                            {/* Unread badge */}
+                            <span className="absolute top-1 right-1 w-2 h-2 bg-[var(--danger-color)] rounded-full animate-pulse" />
+                        </button>
+                        <AnimatePresence>
+                            {showNotifications && (
+                                <NotificationDropdown
+                                    isOpen={showNotifications}
+                                    onClose={() => setShowNotifications(false)}
+                                />
+                            )}
+                        </AnimatePresence>
+                    </div>
                 </header>
 
                 {/* ===== MOBILE DRAWER OVERLAY ===== */}
