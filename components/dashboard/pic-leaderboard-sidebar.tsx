@@ -71,7 +71,7 @@ function AnimatedProgressBar({ percentage, delay = 0 }: { percentage: number; de
     const animatedPercentage = useCountUp(percentage, 1200)
 
     return (
-        <div className="relative w-full h-2 bg-white/10 rounded-full overflow-hidden">
+        <div className="relative w-full h-2 bg-[var(--bg-tertiary)] rounded-full overflow-hidden">
             <motion.div
                 className="h-full rounded-full"
                 style={{ background: getProgressGradient(percentage) }}
@@ -122,7 +122,7 @@ function RankBadge({ rank }: { rank: number }) {
 
     return (
         <motion.div
-            className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm font-bold text-white/70"
+            className="w-8 h-8 rounded-full bg-[var(--bg-tertiary)] flex items-center justify-center text-sm font-bold text-[var(--text-secondary)]"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: rank * 0.1 }}
@@ -274,19 +274,19 @@ export function PICLeaderboardSidebar({ year = new Date().getFullYear(), classNa
 
     if (leaderboard.length === 0) {
         return (
-            <div className={`glass-card p-4 rounded-2xl ${className}`}>
+            <div className={`bg-[var(--bg-secondary)] border border-[var(--border-light)] p-4 rounded-2xl shadow-lg ${className}`}>
                 <div className="flex items-center gap-2 mb-4">
-                    <Trophy className="w-5 h-5 text-yellow-400" />
-                    <h3 className="font-semibold text-white">PIC Leaderboard</h3>
+                    <Trophy className="w-5 h-5 text-yellow-500" />
+                    <h3 className="font-semibold text-[var(--text-primary)]">PIC Leaderboard</h3>
                 </div>
-                <p className="text-sm text-white/60">No data available for {year}</p>
+                <p className="text-sm text-[var(--text-muted)]">No data available for {year}</p>
             </div>
         )
     }
 
     return (
         <motion.div
-            className={`glass-card p-4 rounded-2xl overflow-hidden ${className}`}
+            className={`bg-[var(--bg-secondary)] border border-[var(--border-light)] p-4 rounded-2xl overflow-hidden shadow-lg ${className}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -298,13 +298,13 @@ export function PICLeaderboardSidebar({ year = new Date().getFullYear(), classNa
                         animate={{ rotate: [0, 10, -10, 0] }}
                         transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 3 }}
                     >
-                        <Trophy className="w-5 h-5 text-yellow-400" />
+                        <Trophy className="w-5 h-5 text-yellow-500" />
                     </motion.div>
-                    <h3 className="font-semibold text-white">PIC Leaderboard</h3>
-                    <Sparkles className="w-4 h-4 text-yellow-400/50" />
+                    <h3 className="font-semibold text-[var(--text-primary)]">PIC Leaderboard</h3>
+                    <Sparkles className="w-4 h-4 text-yellow-500/50" />
                 </div>
                 <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 bg-white/10 rounded-full text-xs text-white/70">
+                    <span className="px-2 py-0.5 bg-[var(--bg-tertiary)] rounded-full text-xs text-[var(--text-secondary)]">
                         Year: {year}
                     </span>
                 </div>
@@ -312,8 +312,8 @@ export function PICLeaderboardSidebar({ year = new Date().getFullYear(), classNa
 
             {/* Performance Year Label */}
             <div className="mb-3 px-2 py-1 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-lg">
-                <p className="text-xs text-white/70 text-center">
-                    📊 Performance Year: <span className="font-bold text-white">{year}</span>
+                <p className="text-xs text-[var(--text-secondary)] text-center">
+                    📊 Performance Year: <span className="font-bold text-[var(--text-primary)]">{year}</span>
                 </p>
             </div>
 
@@ -323,7 +323,7 @@ export function PICLeaderboardSidebar({ year = new Date().getFullYear(), classNa
                     {displayedItems.map((pic, index) => (
                         <motion.div
                             key={pic.email}
-                            className="relative p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-colors"
+                            className="relative p-3 bg-[var(--bg-tertiary)]/50 hover:bg-[var(--bg-tertiary)] rounded-xl transition-colors"
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: 20 }}
@@ -337,7 +337,7 @@ export function PICLeaderboardSidebar({ year = new Date().getFullYear(), classNa
                                 {/* Info */}
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-center gap-2">
-                                        <p className="font-medium text-white truncate">{pic.name}</p>
+                                        <p className="font-medium text-[var(--text-primary)] truncate">{pic.name}</p>
                                         {pic.rank === 1 && (
                                             <motion.span
                                                 animate={{ scale: [1, 1.2, 1] }}
@@ -348,7 +348,7 @@ export function PICLeaderboardSidebar({ year = new Date().getFullYear(), classNa
                                             </motion.span>
                                         )}
                                     </div>
-                                    <div className="flex items-center gap-2 text-xs text-white/50 mt-0.5">
+                                    <div className="flex items-center gap-2 text-xs text-[var(--text-muted)] mt-0.5">
                                         <span>Tasks: {pic.completedTasks}/{pic.totalTasks}</span>
                                         <span>•</span>
                                         <span>Programs: {pic.completedPrograms}/{pic.totalPrograms}</span>
@@ -363,12 +363,12 @@ export function PICLeaderboardSidebar({ year = new Date().getFullYear(), classNa
                                 {/* Score */}
                                 <div className="text-right">
                                     <motion.p
-                                        className="text-lg font-bold text-white"
+                                        className="text-lg font-bold text-[var(--accent-blue)]"
                                         key={pic.score}
                                     >
                                         {pic.score}%
                                     </motion.p>
-                                    <p className="text-xs text-white/50">score</p>
+                                    <p className="text-xs text-[var(--text-muted)]">score</p>
                                 </div>
                             </div>
                         </motion.div>
@@ -379,7 +379,7 @@ export function PICLeaderboardSidebar({ year = new Date().getFullYear(), classNa
             {/* Show More Button */}
             {leaderboard.length > maxItems && (
                 <motion.button
-                    className="w-full mt-3 py-2 flex items-center justify-center gap-1 text-sm text-white/70 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition-colors"
+                    className="w-full mt-3 py-2 flex items-center justify-center gap-1 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] bg-[var(--bg-tertiary)]/50 hover:bg-[var(--bg-tertiary)] rounded-lg transition-colors"
                     onClick={() => setIsExpanded(!isExpanded)}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -395,25 +395,25 @@ export function PICLeaderboardSidebar({ year = new Date().getFullYear(), classNa
             )}
 
             {/* Summary Stats */}
-            <div className="mt-4 pt-4 border-t border-white/10 grid grid-cols-3 gap-2">
+            <div className="mt-4 pt-4 border-t border-[var(--border-light)] grid grid-cols-3 gap-2">
                 <div className="text-center">
-                    <Users className="w-4 h-4 mx-auto text-blue-400 mb-1" />
-                    <p className="text-lg font-bold text-white">{leaderboard.length}</p>
-                    <p className="text-xs text-white/50">PICs</p>
+                    <Users className="w-4 h-4 mx-auto text-blue-500 mb-1" />
+                    <p className="text-lg font-bold text-[var(--text-primary)]">{leaderboard.length}</p>
+                    <p className="text-xs text-[var(--text-muted)]">PICs</p>
                 </div>
                 <div className="text-center">
-                    <TrendingUp className="w-4 h-4 mx-auto text-green-400 mb-1" />
-                    <p className="text-lg font-bold text-white">
+                    <TrendingUp className="w-4 h-4 mx-auto text-green-500 mb-1" />
+                    <p className="text-lg font-bold text-[var(--text-primary)]">
                         {leaderboard.length > 0 ? Math.round(leaderboard.reduce((sum, p) => sum + p.score, 0) / leaderboard.length) : 0}%
                     </p>
-                    <p className="text-xs text-white/50">Avg</p>
+                    <p className="text-xs text-[var(--text-muted)]">Avg</p>
                 </div>
                 <div className="text-center">
-                    <Award className="w-4 h-4 mx-auto text-yellow-400 mb-1" />
-                    <p className="text-lg font-bold text-white">
+                    <Award className="w-4 h-4 mx-auto text-yellow-500 mb-1" />
+                    <p className="text-lg font-bold text-[var(--text-primary)]">
                         {leaderboard.filter(p => p.score >= 80).length}
                     </p>
-                    <p className="text-xs text-white/50">Top Performers</p>
+                    <p className="text-xs text-[var(--text-muted)]">Top Performers</p>
                 </div>
             </div>
         </motion.div>
