@@ -346,63 +346,28 @@ function CreateMomentForm({ onSuccess }: { onSuccess: () => void }) {
     const [isUploading, setIsUploading] = useState(false)
     const fileInputRef = useRef<HTMLInputElement>(null)
 
-    // Handle file upload manually (we'll upload to UploadThing)
+    // Handle file upload - use data URLs for now (UploadThing can be added later)
     const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files || [])
         if (files.length === 0) return
 
         setIsUploading(true)
 
-        try {
-            // Upload each file
-            for (const file of files) {
-                const formData = new FormData()
-                formData.append('file', file)
-
-                // Determine file type
-                const mediaType = file.type.startsWith('video/') ? 'video' : 'image'
-
-                // Upload via our API
-                const response = await fetch('/api/uploadthing', {
-                    method: 'POST',
-                    body: formData,
-                })
-
-                if (response.ok) {
-                    const data = await response.json()
-                    if (data.url) {
-                        setUploadedMedia(prev => [...prev, { type: mediaType, url: data.url }])
-                    }
-                } else {
-                    // Fallback: Use data URL for preview (won't persist but allows demo)
-                    const reader = new FileReader()
-                    reader.onloadend = () => {
-                        setUploadedMedia(prev => [...prev, {
-                            type: mediaType,
-                            url: reader.result as string
-                        }])
-                    }
-                    reader.readAsDataURL(file)
-                }
+        // Process each file as data URL
+        for (const file of files) {
+            const mediaType = file.type.startsWith('video/') ? 'video' : 'image'
+            const reader = new FileReader()
+            reader.onloadend = () => {
+                setUploadedMedia(prev => [...prev, {
+                    type: mediaType,
+                    url: reader.result as string
+                }])
             }
-        } catch (error) {
-            console.error('Upload error:', error)
-            // Fallback to local preview
-            for (const file of files) {
-                const mediaType = file.type.startsWith('video/') ? 'video' : 'image'
-                const reader = new FileReader()
-                reader.onloadend = () => {
-                    setUploadedMedia(prev => [...prev, {
-                        type: mediaType,
-                        url: reader.result as string
-                    }])
-                }
-                reader.readAsDataURL(file)
-            }
-        } finally {
-            setIsUploading(false)
-            if (fileInputRef.current) fileInputRef.current.value = ''
+            reader.readAsDataURL(file)
         }
+
+        setIsUploading(false)
+        if (fileInputRef.current) fileInputRef.current.value = ''
     }
 
     const removeMedia = (index: number) => {
