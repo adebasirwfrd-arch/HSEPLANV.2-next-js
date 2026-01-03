@@ -79,78 +79,119 @@ export async function GET(request: NextRequest) {
         }
 
         // ============================================
-        // 2. FETCH OTP PROGRAMS (master_programs with program_type = 'otp')
+        // 2. FETCH OTP PROGRAM PROGRESS (monthly entries with plan_date)
         // ============================================
-        const { data: otpPrograms, error: otpError } = await supabase
-            .from('master_programs')
-            .select('*')
-            .eq('program_type', 'otp')
-            .not('due_date', 'is', null)
+        const { data: otpProgress, error: otpError } = await supabase
+            .from('program_progress')
+            .select(`
+                id,
+                plan_date,
+                pic_email,
+                pic_name,
+                month,
+                year,
+                plan_value,
+                actual_value,
+                program_id,
+                master_programs!inner(
+                    id, name, plan_type, program_type, base, region
+                )
+            `)
+            .eq('master_programs.program_type', 'otp')
+            .not('plan_date', 'is', null)
+            .not('pic_email', 'is', null)
 
         if (otpError) {
-            console.error('Error fetching OTP programs:', otpError)
-        } else if (otpPrograms) {
-            for (const prog of otpPrograms) {
-                if (!prog.due_date) continue
+            console.error('Error fetching OTP progress:', otpError)
+        } else if (otpProgress) {
+            for (const prog of otpProgress) {
+                if (!prog.plan_date || !prog.pic_email) continue
 
-                const daysUntilDue = calculateDaysUntilDue(prog.due_date)
+                const daysUntilDue = calculateDaysUntilDue(prog.plan_date)
 
                 if (daysUntilDue >= 0 && daysUntilDue <= 30) {
-                    const frequency = prog.plan_type || 'Monthly'
+                    const parentProgram = prog.master_programs as any
+                    const frequency = parentProgram?.plan_type || 'Monthly'
 
                     if (shouldSendReminder(daysUntilDue, frequency)) {
-                        // For OTP programs without specific PIC, skip or use default
-                        // In production, you'd join with a PIC assignment table
-                        // For now, we'll skip programs without email
-                        if (prog.pic_email) {
-                            alerts.push({
-                                itemName: prog.name,
-                                picEmail: prog.pic_email,
-                                picName: prog.pic_name || 'HSE Team',
-                                planDate: prog.due_date,
-                                frequency: frequency,
-                                itemType: 'otp',
-                                base: prog.base,
-                                region: prog.region
-                            })
-                        }
+                        alerts.push({
+                            itemName: parentProgram?.name || 'OTP Program',
+                            picEmail: prog.pic_email,
+                            picName: prog.pic_name || 'HSE Team',
+                            planDate: prog.plan_date,
+                            frequency: frequency,
+                            itemType: 'otp',
+                            base: parentProgram?.base,
+                            region: parentProgram?.region
+                        })
                     }
                 }
             }
         }
 
         // ============================================
-        // 3. FETCH MATRIX PROGRAMS
+        // 3. FETCH MATRIX PROGRAM PROGRESS (monthly entries with plan_date)
+        // Try program_progress first (if matrix uses same table), fallback to matrix_programs
         // ============================================
-        const { data: matrixPrograms, error: matrixError } = await supabase
-            .from('matrix_programs')
-            .select('*')
-            .not('due_date', 'is', null)
 
-        if (matrixError) {
-            console.error('Error fetching Matrix programs:', matrixError)
-        } else if (matrixPrograms) {
-            for (const prog of matrixPrograms) {
-                if (!prog.due_date) continue
+        // First, try fetching matrix entries from program_progress (unified table approach)
+        const { data: matrixProgress, error: matrixProgressError } = await supabase
+            .from('program_progress')
+            .select(`
+                id,
+                plan_date,
+                pic_email,
+                pic_name,
+                month,
+                year,
+                plan_value,
+                actual_value,
+                program_id,
+                master_programs!inner(
+                    id, name, plan_type, program_type, base, region
+                )
+            `)
+            .eq('master_programs.program_type', 'matrix')
+            .not('plan_date', 'is', null)
+            .not('pic_email', 'is', null)
 
-                const daysUntilDue = calculateDaysUntilDue(prog.due_date)
+        if (matrixProgressError) {
+            console.log('Matrix not in program_progress, trying matrix_programs table...', matrixProgressError.message)
+
+            // Fallback: Try matrix_programs table directly (old approach)
+            const { data: matrixPrograms, error: matrixError } = await supabase
+                .from('matrix_programs')
+                .select('*')
+
+            if (matrixError) {
+                console.error('Error fetching Matrix programs:', matrixError)
+            } else if (matrixPrograms) {
+                // For matrix_programs, we'd need to check each month's data
+                // But matrix_programs doesn't store monthly plan_date per entry
+                // This is a known limitation - matrix needs migration to program_progress
+                console.log(`Matrix fallback: ${matrixPrograms.length} programs (no monthly plan_date available)`)
+            }
+        } else if (matrixProgress && matrixProgress.length > 0) {
+            for (const prog of matrixProgress) {
+                if (!prog.plan_date || !prog.pic_email) continue
+
+                const daysUntilDue = calculateDaysUntilDue(prog.plan_date)
 
                 if (daysUntilDue >= 0 && daysUntilDue <= 30) {
-                    const frequency = prog.plan_type || 'Monthly'
+                    const parentProgram = prog.master_programs as any
+                    const frequency = parentProgram?.plan_type || 'Monthly'
 
                     if (shouldSendReminder(daysUntilDue, frequency)) {
-                        if (prog.pic_email) {
-                            alerts.push({
-                                itemName: prog.name,
-                                picEmail: prog.pic_email,
-                                picName: prog.pic_name || 'HSE Team',
-                                planDate: prog.due_date,
-                                frequency: frequency,
-                                itemType: 'matrix',
-                                base: prog.base,
-                                region: prog.region
-                            })
-                        }
+                        alerts.push({
+                            itemName: parentProgram?.name || 'Matrix Program',
+                            picEmail: prog.pic_email,
+                            picName: prog.pic_name || 'HSE Team',
+                            planDate: prog.plan_date,
+                            frequency: frequency,
+                            itemType: 'matrix',
+                            base: parentProgram?.base,
+                            region: parentProgram?.region
+                        })
                     }
                 }
             }
