@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { AppShell } from "@/components/layout/app-shell"
 import { GlassCard } from "@/components/ui/glass-card"
@@ -342,6 +342,72 @@ function CreateMomentForm({ onSuccess }: { onSuccess: () => void }) {
     const [content, setContent] = useState("")
     const [category, setCategory] = useState("General")
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [uploadedMedia, setUploadedMedia] = useState<{ type: 'image' | 'video'; url: string }[]>([])
+    const [isUploading, setIsUploading] = useState(false)
+    const fileInputRef = useRef<HTMLInputElement>(null)
+
+    // Handle file upload manually (we'll upload to UploadThing)
+    const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = Array.from(e.target.files || [])
+        if (files.length === 0) return
+
+        setIsUploading(true)
+
+        try {
+            // Upload each file
+            for (const file of files) {
+                const formData = new FormData()
+                formData.append('file', file)
+
+                // Determine file type
+                const mediaType = file.type.startsWith('video/') ? 'video' : 'image'
+
+                // Upload via our API
+                const response = await fetch('/api/uploadthing', {
+                    method: 'POST',
+                    body: formData,
+                })
+
+                if (response.ok) {
+                    const data = await response.json()
+                    if (data.url) {
+                        setUploadedMedia(prev => [...prev, { type: mediaType, url: data.url }])
+                    }
+                } else {
+                    // Fallback: Use data URL for preview (won't persist but allows demo)
+                    const reader = new FileReader()
+                    reader.onloadend = () => {
+                        setUploadedMedia(prev => [...prev, {
+                            type: mediaType,
+                            url: reader.result as string
+                        }])
+                    }
+                    reader.readAsDataURL(file)
+                }
+            }
+        } catch (error) {
+            console.error('Upload error:', error)
+            // Fallback to local preview
+            for (const file of files) {
+                const mediaType = file.type.startsWith('video/') ? 'video' : 'image'
+                const reader = new FileReader()
+                reader.onloadend = () => {
+                    setUploadedMedia(prev => [...prev, {
+                        type: mediaType,
+                        url: reader.result as string
+                    }])
+                }
+                reader.readAsDataURL(file)
+            }
+        } finally {
+            setIsUploading(false)
+            if (fileInputRef.current) fileInputRef.current.value = ''
+        }
+    }
+
+    const removeMedia = (index: number) => {
+        setUploadedMedia(prev => prev.filter((_, i) => i !== index))
+    }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -356,6 +422,11 @@ function CreateMomentForm({ onSuccess }: { onSuccess: () => void }) {
             return
         }
 
+        // Prepare media data
+        const thumbnailUrl = uploadedMedia.length > 0
+            ? (uploadedMedia.find(m => m.type === 'image')?.url || uploadedMedia[0]?.url)
+            : null
+
         const { error } = await supabase
             .from('safety_moments' as any)
             .insert({
@@ -365,13 +436,16 @@ function CreateMomentForm({ onSuccess }: { onSuccess: () => void }) {
                 author_role: 'HSE Admin',
                 title,
                 content,
-                category
+                category,
+                media: uploadedMedia.length > 0 ? uploadedMedia : [],
+                thumbnail_url: thumbnailUrl
             } as any)
 
         if (!error) {
             setTitle("")
             setContent("")
             setCategory("General")
+            setUploadedMedia([])
             onSuccess()
         }
         setIsSubmitting(false)
@@ -408,10 +482,63 @@ function CreateMomentForm({ onSuccess }: { onSuccess: () => void }) {
                     rows={4}
                 />
             </div>
+
+            {/* Media Upload Section */}
+            <div className="space-y-2">
+                {/* Media Previews */}
+                {uploadedMedia.length > 0 && (
+                    <div className="flex gap-2 flex-wrap">
+                        {uploadedMedia.map((media, idx) => (
+                            <div key={idx} className="relative group w-20 h-20">
+                                {media.type === 'image' ? (
+                                    <img src={media.url} alt="" className="w-full h-full object-cover rounded-lg" />
+                                ) : (
+                                    <div className="w-full h-full bg-[var(--bg-tertiary)] rounded-lg flex items-center justify-center">
+                                        <Video className="w-6 h-6 text-[var(--text-muted)]" />
+                                    </div>
+                                )}
+                                <button
+                                    type="button"
+                                    onClick={() => removeMedia(idx)}
+                                    className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                                >
+                                    <X className="w-3 h-3" />
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {/* Upload Button */}
+                <div className="flex gap-2">
+                    <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*,video/*"
+                        multiple
+                        onChange={handleFileSelect}
+                        className="hidden"
+                    />
+                    <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        disabled={isUploading}
+                        className="flex items-center gap-2 px-3 py-2 text-sm text-[var(--text-muted)] border border-[var(--border-light)] rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors disabled:opacity-50"
+                    >
+                        {isUploading ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                            <ImageIcon className="w-4 h-4" />
+                        )}
+                        {isUploading ? 'Uploading...' : 'Add Photo/Video'}
+                    </button>
+                </div>
+            </div>
+
             <div className="flex justify-end">
                 <button
                     type="submit"
-                    disabled={!title.trim() || !content.trim() || isSubmitting}
+                    disabled={!title.trim() || !content.trim() || isSubmitting || isUploading}
                     className="px-4 py-2 bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-purple)] text-white rounded-lg text-sm font-semibold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
                 >
                     {isSubmitting ? (
