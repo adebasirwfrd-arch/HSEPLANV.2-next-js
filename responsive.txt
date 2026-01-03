@@ -24,3 +24,16 @@ LANGKAH TERAKHIR: MOBILE NATIVE & RESPONSIVE OPTIMIZATION
 
 5. FINAL BUILD CONFIG:
    - Update 'next.config.js' untuk mengabaikan error TypeScript/ESLint kecil saat build production agar proses deployment ke Vercel 100% mulus.
+
+ADDITIONAL PERFORMANCE OPTIMIZATION (TURBO MODE):
+
+1. SCRIPT OPTIMIZATION:
+   - Gunakan 'next/dynamic' untuk me-load komponen berat (seperti Grafik atau Video Player) agar tidak menghambat loading pertama aplikasi.
+   - Pindahkan script pihak ketiga ke mode 'strategy="lazyOnload"'.
+
+2. BUNDLE CLEANUP:
+   - Hapus semua library yang tidak terpakai.
+   - Pastikan build menggunakan 'terser' untuk kompresi kode maksimal.
+
+3. IMAGE OPTIMIZATION:
+   - Paksa semua komponen Image untuk menggunakan placeholder 'blur' agar user tidak melihat kotak kosong saat loading.

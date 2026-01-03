@@ -134,6 +134,12 @@ function RankBadge({ rank }: { rank: number }) {
 
 export function PICLeaderboardSidebar({ year = new Date().getFullYear(), className = '', maxItems = 5 }: LeaderboardProps) {
     const [isExpanded, setIsExpanded] = useState(false)
+    const [isMounted, setIsMounted] = useState(false)
+
+    // Prevent hydration mismatch - only render content after mount
+    useEffect(() => {
+        setIsMounted(true)
+    }, [])
 
     // Calculate PIC performance from tasks and programs
     const leaderboard = useMemo(() => {
@@ -271,6 +277,23 @@ export function PICLeaderboardSidebar({ year = new Date().getFullYear(), classNa
     }, [year])
 
     const displayedItems = isExpanded ? leaderboard : leaderboard.slice(0, maxItems)
+
+    // SSR: Return skeleton to prevent hydration mismatch
+    if (!isMounted) {
+        return (
+            <div className={`bg-[var(--bg-secondary)] border border-[var(--border-light)] p-4 rounded-2xl shadow-lg ${className}`}>
+                <div className="flex items-center gap-2 mb-4">
+                    <Trophy className="w-5 h-5 text-yellow-500" />
+                    <h3 className="font-semibold text-[var(--text-primary)]">PIC Leaderboard</h3>
+                </div>
+                <div className="space-y-2">
+                    {[1, 2, 3].map(i => (
+                        <div key={i} className="h-10 bg-[var(--bg-tertiary)] rounded-lg animate-pulse" />
+                    ))}
+                </div>
+            </div>
+        )
+    }
 
     if (leaderboard.length === 0) {
         return (

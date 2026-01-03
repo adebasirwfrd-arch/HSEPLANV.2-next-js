@@ -196,9 +196,9 @@ export default function HomePage() {
 
   return (
     <AppShell>
-      <div className="flex gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 pb-20 md:pb-0">
         {/* Main Content */}
-        <div className="flex-1 space-y-6 min-w-0">
+        <div className="xl:col-span-9 space-y-6 min-w-0">
           {/* Hero Header with Company Branding */}
           <div className="relative rounded-2xl overflow-hidden bg-[var(--bg-secondary)] shadow-lg">
             {/* Hero Banner Image with Gradient Overlay */}
@@ -222,7 +222,7 @@ export default function HomePage() {
               <div className="flex items-center gap-4">
                 {/* Company Logo */}
                 {settings?.companyLogo && (
-                  <div className="w-16 h-16 md:w-20 md:h-20 bg-white/90 rounded-xl shadow-lg flex items-center justify-center p-2 backdrop-blur-sm">
+                  <div className="w-16 h-16 md:w-20 md:h-20 bg-white/90 rounded-xl shadow-lg flex items-center justify-center p-2 backdrop-blur-sm shrink-0">
                     <img
                       src={settings.companyLogo}
                       alt="Company Logo"
@@ -268,13 +268,13 @@ export default function HomePage() {
 
 
           {/* Tremor Metric Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             <BentoCard delay={0}>
-              <Card className="!bg-transparent !shadow-none !ring-0">
+              <Card className="!bg-transparent !shadow-none !ring-0 !p-3 md:!p-6">
                 <Flex alignItems="start">
                   <div>
-                    <Text>Compliance Score</Text>
-                    <Metric>{isLoading ? '...' : `${metrics.compliance}%`}</Metric>
+                    <Text className="text-xs md:text-sm">Compliance Score</Text>
+                    <Metric className="text-lg md:text-2xl">{isLoading ? '...' : `${metrics.compliance}%`}</Metric>
                   </div>
                   <BadgeDelta deltaType={metrics.trend >= 0 ? "increase" : "decrease"} size="xs">
                     {metrics.trend >= 0 ? '+' : ''}{metrics.trend}%
@@ -284,30 +284,30 @@ export default function HomePage() {
             </BentoCard>
 
             <BentoCard delay={0.05}>
-              <Card className="!bg-transparent !shadow-none !ring-0">
-                <Text>Total Programs</Text>
-                <Metric>{isLoading ? '...' : otpData?.programs.length || 0}</Metric>
-                <Text className="mt-1 text-xs">Active OTP programs</Text>
+              <Card className="!bg-transparent !shadow-none !ring-0 !p-3 md:!p-6">
+                <Text className="text-xs md:text-sm">Total Programs</Text>
+                <Metric className="text-lg md:text-2xl">{isLoading ? '...' : otpData?.programs.length || 0}</Metric>
+                <Text className="mt-1 text-[10px] md:text-xs">Active OTP programs</Text>
               </Card>
             </BentoCard>
 
             <BentoCard delay={0.1}>
-              <Card className="!bg-transparent !shadow-none !ring-0">
-                <Text>Completed</Text>
-                <Metric className="text-[#10b981]">
+              <Card className="!bg-transparent !shadow-none !ring-0 !p-3 md:!p-6">
+                <Text className="text-xs md:text-sm">Completed</Text>
+                <Metric className="text-[#10b981] text-lg md:text-2xl">
                   {isLoading ? '...' : otpData?.programs.filter(p => p.progress === 100).length || 0}
                 </Metric>
-                <Text className="mt-1 text-xs">100% progress</Text>
+                <Text className="mt-1 text-[10px] md:text-xs">100% progress</Text>
               </Card>
             </BentoCard>
 
             <BentoCard delay={0.15}>
-              <Card className="!bg-transparent !shadow-none !ring-0">
-                <Text>Action Required</Text>
-                <Metric className="text-[#ef4444]">
+              <Card className="!bg-transparent !shadow-none !ring-0 !p-3 md:!p-6">
+                <Text className="text-xs md:text-sm">Action Required</Text>
+                <Metric className="text-[#ef4444] text-lg md:text-2xl">
                   {isLoading ? '...' : metrics.overdue.length}
                 </Metric>
-                <Text className="mt-1 text-xs">Overdue items</Text>
+                <Text className="mt-1 text-[10px] md:text-xs">Overdue items</Text>
               </Card>
             </BentoCard>
           </div>
@@ -562,8 +562,8 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Right Sidebar - Hidden on mobile/tablet, visible on xl+ */}
-        <div className="hidden xl:block shrink-0">
+        {/* Right Sidebar - Bottom on mobile/tablet, Right on Desktop */}
+        <div className="xl:col-span-3 space-y-6">
           <RightSidebar />
         </div>
       </div>

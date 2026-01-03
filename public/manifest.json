@@ -1,12 +1,12 @@
 {
     "name": "HSE Dashboard Pro",
     "short_name": "HSE Pro",
-    "description": "HSE Management System - OTP, Matrix & Program Tracker",
+    "description": "Health, Safety & Environment Management Dashboard",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#f0f9ff",
+    "background_color": "#0f172a",
     "theme_color": "#3b82f6",
-    "orientation": "any",
+    "orientation": "portrait",
     "icons": [
         {
             "src": "/icons/icon-192.png",
@@ -20,11 +20,5 @@
             "type": "image/png",
             "purpose": "any maskable"
         }
-    ],
-    "categories": [
-        "business",
-        "productivity"
-    ],
-    "lang": "en",
-    "dir": "ltr"
+    ]
 }
