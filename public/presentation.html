@@ -728,11 +728,129 @@
             color: #4facfe;
         }
 
+        /* Feature Grid for Solution Tab */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-card h4 {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+
+        .feature-card p {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .feature-card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        /* Icon Animations */
+        .pulse-animation {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .bounce-animation {
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .float-animation {
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+
+        .shake-animation {
+            animation: shake 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes floatIcon {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-3px) rotate(3deg);
+            }
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            25% {
+                transform: rotate(5deg);
+            }
+
+            75% {
+                transform: rotate(-5deg);
+            }
+        }
+
         /* Clickable cards */
         .problem-card,
         .feature-item,
         .tech-card,
-        .security-card {
+        .security-card,
+        .feature-card {
             cursor: pointer;
         }
 
@@ -822,53 +940,102 @@
                     <div class="orb orb-2" style="background: var(--gradient-4);"></div>
                 </div>
                 <div class="slide-content">
-                    <div class="split-layout">
-                        <div data-aos="fade-right">
-                            <p class="text-sm uppercase tracking-widest text-cyan-400 mb-4">Introducing</p>
-                            <h1 class="hero-title">
-                                HSE <span class="gradient-text">PLAN V2</span>
-                            </h1>
-                            <p class="subtitle mb-8">
-                                Enterprise-grade Safety Management System built specifically for Oil & Gas operations.
-                            </p>
-                            <div class="feature-list">
-                                <div class="feature-item">
-                                    <div class="feature-icon" style="background: var(--gradient-4);">
-                                        <i class="fab fa-android text-white"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-semibold">Native Android 15</h4>
-                                        <p class="text-sm text-white/60">Offline-first, field-ready</p>
-                                    </div>
-                                </div>
-                                <div class="feature-item">
-                                    <div class="feature-icon" style="background: var(--gradient-3);">
-                                        <i class="fas fa-bolt text-white"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-semibold">Real-Time Sync</h4>
-                                        <p class="text-sm text-white/60">Instant data propagation</p>
-                                    </div>
-                                </div>
-                                <div class="feature-item">
-                                    <div class="feature-icon" style="background: var(--gradient-1);">
-                                        <i class="fas fa-shield-halved text-white"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-semibold">Immutable Audit Trail</h4>
-                                        <p class="text-sm text-white/60">Every action recorded forever</p>
-                                    </div>
-                                </div>
+                    <div class="text-center mb-8" data-aos="fade-up">
+                        <p class="text-sm uppercase tracking-widest text-cyan-400 mb-4">Introducing</p>
+                        <h1 class="hero-title">
+                            HSE <span class="gradient-text">PLAN V2</span>
+                        </h1>
+                        <p class="subtitle mx-auto text-center">
+                            Enterprise-grade Safety Management System with 12+ powerful features
+                        </p>
+                    </div>
+                    <div class="feature-grid" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-card" data-feature="ai-gpt">
+                            <div class="feature-card-icon pulse-animation" style="background: var(--gradient-1);">
+                                <i class="fas fa-robot"></i>
                             </div>
+                            <h4>AI Safety Consultant</h4>
+                            <p>GPT-4o powered insights</p>
                         </div>
-                        <div data-aos="fade-left" data-aos-delay="200">
-                            <div class="phone-mockup">
-                                <div class="phone-notch"></div>
-                                <div class="phone-screen">
-                                    <iframe src="/"
-                                        style="width: 100%; height: 100%; border: none; transform: scale(0.5); transform-origin: top left; width: 200%; height: 200%;"></iframe>
-                                </div>
+                        <div class="feature-card" data-feature="email-reminder">
+                            <div class="feature-card-icon bounce-animation" style="background: var(--gradient-2);">
+                                <i class="fas fa-envelope"></i>
                             </div>
+                            <h4>Email Reminders</h4>
+                            <p>Automated notifications</p>
+                        </div>
+                        <div class="feature-card" data-feature="statistics">
+                            <div class="feature-card-icon float-animation" style="background: var(--gradient-3);">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h4>Real-Time Statistics</h4>
+                            <p>Interactive dashboards</p>
+                        </div>
+                        <div class="feature-card" data-feature="leaderboard">
+                            <div class="feature-card-icon shake-animation" style="background: var(--gradient-5);">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <h4>Leaderboard</h4>
+                            <p>Gamified safety culture</p>
+                        </div>
+                        <div class="feature-card" data-feature="safety-moments">
+                            <div class="feature-card-icon pulse-animation" style="background: var(--gradient-4);">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h4>Safety Moments</h4>
+                            <p>Community sharing</p>
+                        </div>
+                        <div class="feature-card" data-feature="social-feed">
+                            <div class="feature-card-icon float-animation" style="background: var(--gradient-6);">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h4>Activity Feed</h4>
+                            <p>Real-time updates</p>
+                        </div>
+                        <div class="feature-card" data-feature="calendar-sync">
+                            <div class="feature-card-icon bounce-animation"
+                                style="background: linear-gradient(135deg, #ea4335, #fbbc05);">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <h4>Google Calendar</h4>
+                            <p>Automatic sync</p>
+                        </div>
+                        <div class="feature-card" data-feature="drive-storage">
+                            <div class="feature-card-icon pulse-animation"
+                                style="background: linear-gradient(135deg, #4285f4, #34a853);">
+                                <i class="fab fa-google-drive"></i>
+                            </div>
+                            <h4>Google Drive</h4>
+                            <p>Document storage</p>
+                        </div>
+                        <div class="feature-card" data-feature="pdf-report">
+                            <div class="feature-card-icon shake-animation"
+                                style="background: linear-gradient(135deg, #dc2626, #f97316);">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <h4>PDF Reports</h4>
+                            <p>Export & download</p>
+                        </div>
+                        <div class="feature-card" data-feature="task-management">
+                            <div class="feature-card-icon float-animation" style="background: var(--gradient-4);">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <h4>Task Management</h4>
+                            <p>Workflow automation</p>
+                        </div>
+                        <div class="feature-card" data-feature="audit-trail">
+                            <div class="feature-card-icon pulse-animation" style="background: var(--gradient-1);">
+                                <i class="fas fa-shield-halved"></i>
+                            </div>
+                            <h4>Audit Trail</h4>
+                            <p>Immutable records</p>
+                        </div>
+                        <div class="feature-card" data-feature="realtime-sync">
+                            <div class="feature-card-icon bounce-animation" style="background: var(--gradient-3);">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h4>Real-Time Sync</h4>
+                            <p>Instant propagation</p>
                         </div>
                     </div>
                 </div>
@@ -1156,8 +1323,9 @@
             }
         });
 
-        // Feature Detail Data
+        // Feature Detail Data - Each with UNIQUE image
         const featureData = {
+            // Problem Tab Features
             'data-manipulation': {
                 title: 'Data Manipulation Problem',
                 gradient: 'var(--gradient-2)',
@@ -1173,7 +1341,7 @@
             'lost-evidence': {
                 title: 'Lost Evidence Problem',
                 gradient: 'var(--gradient-5)',
-                image: '/img/data_manipulation.png',
+                image: '/img/lost_documents.png',
                 description: 'Paper forms get lost, photos are accidentally deleted, and critical compliance evidence disappears. This leads to failed audits and regulatory penalties.',
                 features: [
                     { icon: 'fa-file-circle-xmark', text: 'Paper forms damaged or misplaced' },
@@ -1185,7 +1353,7 @@
             'delayed-response': {
                 title: 'Delayed Response Problem',
                 gradient: 'var(--gradient-1)',
-                image: '/img/data_manipulation.png',
+                image: '/img/delayed_clock.png',
                 description: 'Weekly or monthly reporting cycles mean incidents go unreported for days. By the time management is aware, the damage is done.',
                 features: [
                     { icon: 'fa-clock', text: 'Weekly batch reporting delays awareness' },
@@ -1194,28 +1362,125 @@
                     { icon: 'fa-money-bill-trend-up', text: 'Delayed response increases incident costs' }
                 ]
             },
-            'android-15': {
-                title: 'Native Android 15',
-                gradient: 'var(--gradient-4)',
-                image: '/img/android_mobile.png',
-                description: 'Built from the ground up for Android 15, our app works offline in remote field locations and syncs when connectivity returns. True field-ready technology.',
+            // Solution Tab - All 12 App Features
+            'ai-gpt': {
+                title: 'AI Safety Consultant',
+                gradient: 'var(--gradient-1)',
+                image: '/img/ai_gpt.png',
+                description: 'Powered by GPT-4o, our AI Safety Consultant provides instant answers to HSE questions, generates safety reports, and offers intelligent recommendations.',
                 features: [
-                    { icon: 'fa-wifi-slash', text: 'Offline-first architecture for remote sites' },
-                    { icon: 'fa-battery-full', text: 'Optimized for long battery life' },
-                    { icon: 'fa-mobile-screen', text: 'Designed for rugged field conditions' },
-                    { icon: 'fa-cloud-arrow-up', text: 'Automatic sync when online' }
+                    { icon: 'fa-robot', text: 'GPT-4o powered safety assistant' },
+                    { icon: 'fa-comments', text: 'Natural language conversation' },
+                    { icon: 'fa-file-alt', text: 'Automatic report generation' },
+                    { icon: 'fa-brain', text: 'Intelligent safety recommendations' }
                 ]
             },
-            'realtime-sync': {
-                title: 'Real-Time Sync',
-                gradient: 'var(--gradient-3)',
-                image: '/img/realtime_sync.png',
-                description: 'Data propagates instantly across all devices. When a field worker submits a report, management sees it in seconds - not days.',
+            'email-reminder': {
+                title: 'Automated Email Reminders',
+                gradient: 'var(--gradient-2)',
+                image: '/img/email_reminder.png',
+                description: 'Never miss a deadline again. Automated email reminders notify team members about upcoming tasks, overdue items, and critical deadlines.',
                 features: [
-                    { icon: 'fa-bolt', text: 'Sub-second data propagation' },
-                    { icon: 'fa-arrows-rotate', text: 'Bidirectional syncing' },
-                    { icon: 'fa-satellite-dish', text: 'Websocket real-time connections' },
-                    { icon: 'fa-check-double', text: 'Conflict resolution built-in' }
+                    { icon: 'fa-envelope', text: 'Automated task reminders' },
+                    { icon: 'fa-clock', text: 'Configurable reminder schedules' },
+                    { icon: 'fa-bell', text: 'Deadline notifications' },
+                    { icon: 'fa-users', text: 'Team-wide notifications' }
+                ]
+            },
+            'statistics': {
+                title: 'Real-Time Statistics',
+                gradient: 'var(--gradient-3)',
+                image: '/img/statistics.png',
+                description: 'Interactive dashboards show real-time safety metrics. Track compliance rates, incident trends, and team performance at a glance.',
+                features: [
+                    { icon: 'fa-chart-line', text: 'Real-time data visualization' },
+                    { icon: 'fa-chart-pie', text: 'Interactive pie charts & graphs' },
+                    { icon: 'fa-filter', text: 'Custom date range filtering' },
+                    { icon: 'fa-download', text: 'Export to PDF/Excel' }
+                ]
+            },
+            'leaderboard': {
+                title: 'Gamified Leaderboard',
+                gradient: 'var(--gradient-5)',
+                image: '/img/leaderboard.png',
+                description: 'Motivate your team with gamification. The leaderboard ranks employees by safety compliance, completed tasks, and community contributions.',
+                features: [
+                    { icon: 'fa-trophy', text: 'Monthly/yearly rankings' },
+                    { icon: 'fa-medal', text: 'Achievement badges' },
+                    { icon: 'fa-star', text: 'Point-based scoring system' },
+                    { icon: 'fa-fire', text: 'Streak rewards for consistency' }
+                ]
+            },
+            'safety-moments': {
+                title: 'Safety Moments Page',
+                gradient: 'var(--gradient-4)',
+                image: '/img/safety_moments.png',
+                description: 'Share safety stories and lessons learned. The Safety Moments feature creates a culture of continuous safety improvement through peer sharing.',
+                features: [
+                    { icon: 'fa-lightbulb', text: 'Share safety tips & stories' },
+                    { icon: 'fa-heart', text: 'Like and comment system' },
+                    { icon: 'fa-image', text: 'Photo/video attachments' },
+                    { icon: 'fa-award', text: 'Featured safety moments' }
+                ]
+            },
+            'social-feed': {
+                title: 'Activity Feed',
+                gradient: 'var(--gradient-6)',
+                image: '/img/social_feed.png',
+                description: 'Stay updated with real-time activity feed. See what your team is doing, celebrate achievements, and stay connected across locations.',
+                features: [
+                    { icon: 'fa-rss', text: 'Real-time activity stream' },
+                    { icon: 'fa-at', text: 'Mention team members' },
+                    { icon: 'fa-hashtag', text: 'Topic categorization' },
+                    { icon: 'fa-bell', text: 'Push notifications' }
+                ]
+            },
+            'calendar-sync': {
+                title: 'Google Calendar Sync',
+                gradient: 'linear-gradient(135deg, #ea4335, #fbbc05)',
+                image: '/img/calendar_sync.png',
+                description: 'Seamless integration with Google Calendar. All tasks and deadlines automatically sync to your personal and team calendars.',
+                features: [
+                    { icon: 'fa-calendar-check', text: 'Two-way calendar sync' },
+                    { icon: 'fa-sync', text: 'Automatic event creation' },
+                    { icon: 'fa-users', text: 'Team calendar sharing' },
+                    { icon: 'fa-bell', text: 'Calendar reminders' }
+                ]
+            },
+            'drive-storage': {
+                title: 'Google Drive Integration',
+                gradient: 'linear-gradient(135deg, #4285f4, #34a853)',
+                image: '/img/drive_storage.png',
+                description: 'All documents and evidence photos automatically backup to Google Drive. Organized folder structure keeps everything accessible.',
+                features: [
+                    { icon: 'fa-cloud-upload', text: 'Automatic file backup' },
+                    { icon: 'fa-folder-tree', text: 'Organized folder structure' },
+                    { icon: 'fa-share', text: 'Easy file sharing' },
+                    { icon: 'fa-search', text: 'Quick file search' }
+                ]
+            },
+            'pdf-report': {
+                title: 'PDF Report Generation',
+                gradient: 'linear-gradient(135deg, #dc2626, #f97316)',
+                image: '/img/pdf_report.png',
+                description: 'Generate professional PDF reports with one click. Compliance reports, incident summaries, and KPI dashboards ready for stakeholders.',
+                features: [
+                    { icon: 'fa-file-pdf', text: 'One-click report generation' },
+                    { icon: 'fa-table', text: 'Custom report templates' },
+                    { icon: 'fa-chart-bar', text: 'Embedded charts & graphs' },
+                    { icon: 'fa-download', text: 'Download & share reports' }
+                ]
+            },
+            'task-management': {
+                title: 'Task Management System',
+                gradient: 'var(--gradient-4)',
+                image: '/img/task_management.png',
+                description: 'Comprehensive task management with Plan vs Actual tracking. Assign tasks, set deadlines, and monitor completion rates in real-time.',
+                features: [
+                    { icon: 'fa-tasks', text: 'Task assignment & tracking' },
+                    { icon: 'fa-chart-line', text: 'Plan vs Actual analytics' },
+                    { icon: 'fa-check-circle', text: 'Completion status updates' },
+                    { icon: 'fa-filter', text: 'Filter by status/priority' }
                 ]
             },
             'audit-trail': {
@@ -1230,6 +1495,19 @@
                     { icon: 'fa-file-contract', text: 'Audit-ready compliance reports' }
                 ]
             },
+            'realtime-sync': {
+                title: 'Real-Time Sync',
+                gradient: 'var(--gradient-3)',
+                image: '/img/realtime_sync.png',
+                description: 'Data propagates instantly across all devices. When a field worker submits a report, management sees it in seconds - not days.',
+                features: [
+                    { icon: 'fa-bolt', text: 'Sub-second data propagation' },
+                    { icon: 'fa-arrows-rotate', text: 'Bidirectional syncing' },
+                    { icon: 'fa-satellite-dish', text: 'Websocket real-time connections' },
+                    { icon: 'fa-check-double', text: 'Conflict resolution built-in' }
+                ]
+            },
+            // Architecture Tab Features
             'nextjs': {
                 title: 'Next.js 15 + React 19',
                 gradient: 'var(--gradient-3)',
@@ -1269,7 +1547,7 @@
             'google-cloud': {
                 title: 'Google Cloud Integration',
                 gradient: 'var(--gradient-1)',
-                image: '/img/nextjs_architecture.png',
+                image: '/img/calendar_sync.png',
                 description: 'Deep integration with Google Workspace including Calendar sync, Drive storage, and OAuth 2.0 authentication. Seamless enterprise connectivity.',
                 features: [
                     { icon: 'fa-calendar', text: 'Google Calendar task synchronization' },
@@ -1278,6 +1556,7 @@
                     { icon: 'fa-building', text: 'Google Workspace admin integration' }
                 ]
             },
+            // Security Tab Features
             'ssl-pinning': {
                 title: 'SSL Pinning',
                 gradient: 'var(--gradient-4)',
@@ -1293,7 +1572,7 @@
             'aes-256': {
                 title: 'AES-256 Encryption',
                 gradient: 'var(--gradient-3)',
-                image: '/img/ssl_encryption.png',
+                image: '/img/biometric_auth.png',
                 description: 'Military-grade AES-256 encryption for all data at rest and in transit. The same encryption standard used by governments worldwide.',
                 features: [
                     { icon: 'fa-lock', text: 'Data encrypted at rest in database' },
@@ -1305,7 +1584,7 @@
             'biometric': {
                 title: 'Biometric Authentication',
                 gradient: 'var(--gradient-1)',
-                image: '/img/biometric_auth.png',
+                image: '/img/drive_storage.png',
                 description: 'Fingerprint and Face ID access control ensures only authorized users can access the system. No passwords to forget or share.',
                 features: [
                     { icon: 'fa-fingerprint', text: 'Fingerprint scanner integration' },
@@ -1353,11 +1632,10 @@
                 card.onclick = () => showDetail(problemIds[i]);
             });
 
-            // Solution features
-            const featureItems = document.querySelectorAll('.feature-item');
-            const featureIds = ['android-15', 'realtime-sync', 'audit-trail'];
-            featureItems.forEach((item, i) => {
-                if (i < 3) item.onclick = () => showDetail(featureIds[i]);
+            // Feature cards (Solution Tab) - using data-feature attribute
+            const featureCards = document.querySelectorAll('.feature-card[data-feature]');
+            featureCards.forEach(card => {
+                card.onclick = () => showDetail(card.getAttribute('data-feature'));
             });
 
             // Tech cards
