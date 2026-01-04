@@ -630,6 +630,118 @@
             inset: 0;
             background: linear-gradient(135deg, rgba(12, 18, 34, 0.9), rgba(26, 26, 46, 0.8));
         }
+
+        /* Detail Modal */
+        .detail-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: var(--gradient-dark);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+            overflow-y: auto;
+        }
+
+        .detail-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .detail-modal-content {
+            min-height: 100vh;
+            padding: 6rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 2100;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+
+        .detail-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .detail-image {
+            width: 100%;
+            border-radius: 24px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+        }
+
+        .detail-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-description {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+        }
+
+        .detail-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .detail-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-feature i {
+            font-size: 1.5rem;
+            color: #4facfe;
+        }
+
+        /* Clickable cards */
+        .problem-card,
+        .feature-item,
+        .tech-card,
+        .security-card {
+            cursor: pointer;
+        }
+
+        .problem-card:active,
+        .feature-item:active,
+        .tech-card:active,
+        .security-card:active {
+            transform: scale(0.98);
+        }
     </style>
 </head>
 
@@ -1043,7 +1155,251 @@
                 from: 'random'
             }
         });
+
+        // Feature Detail Data
+        const featureData = {
+            'data-manipulation': {
+                title: 'Data Manipulation Problem',
+                gradient: 'var(--gradient-2)',
+                image: '/img/data_manipulation.png',
+                description: 'Manual Excel-based systems allow anyone to edit safety data without accountability. This creates compliance nightmares and potential legal liability.',
+                features: [
+                    { icon: 'fa-warning', text: 'No version control - changes overwrite history' },
+                    { icon: 'fa-users', text: 'Anyone with file access can modify records' },
+                    { icon: 'fa-gavel', text: 'Legal liability in case of audits or incidents' },
+                    { icon: 'fa-chart-line', text: 'Inaccurate reporting leads to poor decisions' }
+                ]
+            },
+            'lost-evidence': {
+                title: 'Lost Evidence Problem',
+                gradient: 'var(--gradient-5)',
+                image: '/img/data_manipulation.png',
+                description: 'Paper forms get lost, photos are accidentally deleted, and critical compliance evidence disappears. This leads to failed audits and regulatory penalties.',
+                features: [
+                    { icon: 'fa-file-circle-xmark', text: 'Paper forms damaged or misplaced' },
+                    { icon: 'fa-image', text: 'Photo evidence deleted from devices' },
+                    { icon: 'fa-folder-minus', text: 'No centralized document repository' },
+                    { icon: 'fa-ban', text: 'Compliance audits fail due to missing records' }
+                ]
+            },
+            'delayed-response': {
+                title: 'Delayed Response Problem',
+                gradient: 'var(--gradient-1)',
+                image: '/img/data_manipulation.png',
+                description: 'Weekly or monthly reporting cycles mean incidents go unreported for days. By the time management is aware, the damage is done.',
+                features: [
+                    { icon: 'fa-clock', text: 'Weekly batch reporting delays awareness' },
+                    { icon: 'fa-calendar-xmark', text: 'Missed deadlines become the norm' },
+                    { icon: 'fa-exclamation-triangle', text: 'Near-misses go unreported entirely' },
+                    { icon: 'fa-money-bill-trend-up', text: 'Delayed response increases incident costs' }
+                ]
+            },
+            'android-15': {
+                title: 'Native Android 15',
+                gradient: 'var(--gradient-4)',
+                image: '/img/android_mobile.png',
+                description: 'Built from the ground up for Android 15, our app works offline in remote field locations and syncs when connectivity returns. True field-ready technology.',
+                features: [
+                    { icon: 'fa-wifi-slash', text: 'Offline-first architecture for remote sites' },
+                    { icon: 'fa-battery-full', text: 'Optimized for long battery life' },
+                    { icon: 'fa-mobile-screen', text: 'Designed for rugged field conditions' },
+                    { icon: 'fa-cloud-arrow-up', text: 'Automatic sync when online' }
+                ]
+            },
+            'realtime-sync': {
+                title: 'Real-Time Sync',
+                gradient: 'var(--gradient-3)',
+                image: '/img/realtime_sync.png',
+                description: 'Data propagates instantly across all devices. When a field worker submits a report, management sees it in seconds - not days.',
+                features: [
+                    { icon: 'fa-bolt', text: 'Sub-second data propagation' },
+                    { icon: 'fa-arrows-rotate', text: 'Bidirectional syncing' },
+                    { icon: 'fa-satellite-dish', text: 'Websocket real-time connections' },
+                    { icon: 'fa-check-double', text: 'Conflict resolution built-in' }
+                ]
+            },
+            'audit-trail': {
+                title: 'Immutable Audit Trail',
+                gradient: 'var(--gradient-1)',
+                image: '/img/audit_trail.png',
+                description: 'Every action is recorded permanently. Who did what, when, and from which device. Tamper-proof records for complete compliance.',
+                features: [
+                    { icon: 'fa-fingerprint', text: 'User identity verification for all actions' },
+                    { icon: 'fa-clock-rotate-left', text: 'Complete historical record' },
+                    { icon: 'fa-shield-halved', text: 'Tamper-proof blockchain-style logging' },
+                    { icon: 'fa-file-contract', text: 'Audit-ready compliance reports' }
+                ]
+            },
+            'nextjs': {
+                title: 'Next.js 15 + React 19',
+                gradient: 'var(--gradient-3)',
+                image: '/img/nextjs_architecture.png',
+                description: 'Built on the latest Next.js 15 with React 19, featuring server-side rendering, the new App Router, and React Server Components for optimal performance.',
+                features: [
+                    { icon: 'fa-server', text: 'Server-side rendering for fast initial load' },
+                    { icon: 'fa-route', text: 'App Router for seamless navigation' },
+                    { icon: 'fa-code', text: 'React Server Components' },
+                    { icon: 'fa-gauge-high', text: 'Optimized Core Web Vitals' }
+                ]
+            },
+            'hermes': {
+                title: 'Hermes Engine',
+                gradient: 'var(--gradient-5)',
+                image: '/img/android_mobile.png',
+                description: 'The Hermes JavaScript engine provides 50% faster mobile startup times and reduced memory usage. Your app launches instantly, every time.',
+                features: [
+                    { icon: 'fa-rocket', text: '50% faster cold start' },
+                    { icon: 'fa-microchip', text: 'Reduced memory footprint' },
+                    { icon: 'fa-file-code', text: 'Bytecode pre-compilation' },
+                    { icon: 'fa-battery-three-quarters', text: 'Lower battery consumption' }
+                ]
+            },
+            'supabase': {
+                title: 'Supabase Enterprise',
+                gradient: 'var(--gradient-4)',
+                image: '/img/supabase_database.png',
+                description: 'Enterprise-grade PostgreSQL database with Row Level Security. Your data is protected at the database level, not just the application level.',
+                features: [
+                    { icon: 'fa-database', text: 'PostgreSQL enterprise reliability' },
+                    { icon: 'fa-lock', text: 'Row Level Security policies' },
+                    { icon: 'fa-arrows-left-right', text: 'Real-time subscriptions' },
+                    { icon: 'fa-hard-drive', text: 'Automatic backups and point-in-time recovery' }
+                ]
+            },
+            'google-cloud': {
+                title: 'Google Cloud Integration',
+                gradient: 'var(--gradient-1)',
+                image: '/img/nextjs_architecture.png',
+                description: 'Deep integration with Google Workspace including Calendar sync, Drive storage, and OAuth 2.0 authentication. Seamless enterprise connectivity.',
+                features: [
+                    { icon: 'fa-calendar', text: 'Google Calendar task synchronization' },
+                    { icon: 'fa-folder-open', text: 'Google Drive document storage' },
+                    { icon: 'fa-key', text: 'OAuth 2.0 secure authentication' },
+                    { icon: 'fa-building', text: 'Google Workspace admin integration' }
+                ]
+            },
+            'ssl-pinning': {
+                title: 'SSL Pinning',
+                gradient: 'var(--gradient-4)',
+                image: '/img/ssl_encryption.png',
+                description: 'Certificate pinning prevents man-in-the-middle attacks even on compromised networks. Your data is secure from device to server.',
+                features: [
+                    { icon: 'fa-certificate', text: 'Certificate validation on every request' },
+                    { icon: 'fa-shield-virus', text: 'MITM attack prevention' },
+                    { icon: 'fa-network-wired', text: 'Secure even on untrusted networks' },
+                    { icon: 'fa-arrows-to-circle', text: 'TLS 1.3 enforcement' }
+                ]
+            },
+            'aes-256': {
+                title: 'AES-256 Encryption',
+                gradient: 'var(--gradient-3)',
+                image: '/img/ssl_encryption.png',
+                description: 'Military-grade AES-256 encryption for all data at rest and in transit. The same encryption standard used by governments worldwide.',
+                features: [
+                    { icon: 'fa-lock', text: 'Data encrypted at rest in database' },
+                    { icon: 'fa-arrows-left-right', text: 'End-to-end encryption in transit' },
+                    { icon: 'fa-key', text: 'Unique encryption keys per tenant' },
+                    { icon: 'fa-shield-halved', text: 'FIPS 140-2 compliant' }
+                ]
+            },
+            'biometric': {
+                title: 'Biometric Authentication',
+                gradient: 'var(--gradient-1)',
+                image: '/img/biometric_auth.png',
+                description: 'Fingerprint and Face ID access control ensures only authorized users can access the system. No passwords to forget or share.',
+                features: [
+                    { icon: 'fa-fingerprint', text: 'Fingerprint scanner integration' },
+                    { icon: 'fa-face-smile', text: 'Face ID recognition' },
+                    { icon: 'fa-user-lock', text: 'Multi-factor authentication' },
+                    { icon: 'fa-clock', text: 'Session timeout controls' }
+                ]
+            }
+        };
+
+        // Detail Modal Functions
+        function showDetail(featureId) {
+            const data = featureData[featureId];
+            if (!data) return;
+
+            const modal = document.getElementById('detailModal');
+            document.getElementById('detailTitle').innerHTML = `<span style="background: ${data.gradient}; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">${data.title}</span>`;
+            document.getElementById('detailImage').src = data.image;
+            document.getElementById('detailDescription').textContent = data.description;
+
+            const featuresHtml = data.features.map(f => `
+                <div class="detail-feature">
+                    <i class="fas ${f.icon}"></i>
+                    <span>${f.text}</span>
+                </div>
+            `).join('');
+            document.getElementById('detailFeatures').innerHTML = featuresHtml;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDetail() {
+            const modal = document.getElementById('detailModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Add click handlers to cards
+        document.addEventListener('DOMContentLoaded', function () {
+            // Problem cards
+            const problemCards = document.querySelectorAll('.problem-card');
+            const problemIds = ['data-manipulation', 'lost-evidence', 'delayed-response'];
+            problemCards.forEach((card, i) => {
+                card.onclick = () => showDetail(problemIds[i]);
+            });
+
+            // Solution features
+            const featureItems = document.querySelectorAll('.feature-item');
+            const featureIds = ['android-15', 'realtime-sync', 'audit-trail'];
+            featureItems.forEach((item, i) => {
+                if (i < 3) item.onclick = () => showDetail(featureIds[i]);
+            });
+
+            // Tech cards
+            const techCards = document.querySelectorAll('.tech-card');
+            const techIds = ['nextjs', 'hermes', 'supabase', 'google-cloud'];
+            techCards.forEach((card, i) => {
+                if (i < 4) card.onclick = () => showDetail(techIds[i]);
+            });
+
+            // Security cards
+            const securityCards = document.querySelectorAll('.security-card');
+            const securityIds = ['ssl-pinning', 'aes-256', 'biometric'];
+            securityCards.forEach((card, i) => {
+                if (i < 3) card.onclick = () => showDetail(securityIds[i]);
+            });
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeDetail();
+        });
     </script>
+
+    <!-- Detail Modal -->
+    <div id="detailModal" class="detail-modal">
+        <button class="back-button" onclick="closeDetail()">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Presentation</span>
+        </button>
+        <div class="detail-modal-content">
+            <div class="detail-hero">
+                <div>
+                    <h1 id="detailTitle" class="detail-title"></h1>
+                    <p id="detailDescription" class="detail-description"></p>
+                    <div id="detailFeatures" class="detail-features"></div>
+                </div>
+                <div>
+                    <img id="detailImage" class="detail-image" src="" alt="Feature illustration">
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
