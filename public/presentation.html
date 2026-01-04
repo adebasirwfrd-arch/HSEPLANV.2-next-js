@@ -1115,24 +1115,24 @@
                     <div class="security-grid" data-aos="fade-up" data-aos-delay="200">
                         <div class="security-card">
                             <div class="security-icon" style="background: var(--gradient-4);">
-                                <i class="fas fa-lock"></i>
+                                <i class="fas fa-shield-halved"></i>
                             </div>
-                            <h3 class="text-xl font-bold mb-2">SSL Pinning</h3>
-                            <p class="text-sm text-white/60">Certificate validation prevents MITM attacks</p>
+                            <h3 class="text-xl font-bold mb-2">Security Headers</h3>
+                            <p class="text-sm text-white/60">HSTS, CSP, XSS Protection, X-Frame-Options</p>
                         </div>
                         <div class="security-card">
                             <div class="security-icon" style="background: var(--gradient-3);">
-                                <i class="fas fa-shield-halved"></i>
+                                <i class="fas fa-scroll"></i>
                             </div>
-                            <h3 class="text-xl font-bold mb-2">AES-256</h3>
-                            <p class="text-sm text-white/60">Military-grade encryption at rest & transit</p>
+                            <h3 class="text-xl font-bold mb-2">Audit Trail</h3>
+                            <p class="text-sm text-white/60">Immutable logs of every action with user tracking</p>
                         </div>
                         <div class="security-card">
                             <div class="security-icon" style="background: var(--gradient-1);">
-                                <i class="fas fa-fingerprint"></i>
+                                <i class="fas fa-ban"></i>
                             </div>
-                            <h3 class="text-xl font-bold mb-2">Biometric Auth</h3>
-                            <p class="text-sm text-white/60">Fingerprint & Face ID access control</p>
+                            <h3 class="text-xl font-bold mb-2">Access Control</h3>
+                            <p class="text-sm text-white/60">IP blocking, admin gateway, session management</p>
                         </div>
                     </div>
                 </div>
@@ -1556,41 +1556,41 @@
                     { icon: 'fa-building', text: 'Google Workspace admin integration' }
                 ]
             },
-            // Security Tab Features
-            'ssl-pinning': {
-                title: 'SSL Pinning',
+            // Security Tab Features - VERIFIED IMPLEMENTATIONS ONLY
+            'security-headers': {
+                title: 'Enterprise Security Headers',
                 gradient: 'var(--gradient-4)',
                 image: '/img/ssl_encryption.png',
-                description: 'Certificate pinning prevents man-in-the-middle attacks even on compromised networks. Your data is secure from device to server.',
+                description: 'Comprehensive security headers protect every request. HSTS enforces HTTPS, CSP prevents XSS attacks, and X-Frame-Options blocks clickjacking.',
                 features: [
-                    { icon: 'fa-certificate', text: 'Certificate validation on every request' },
-                    { icon: 'fa-shield-virus', text: 'MITM attack prevention' },
-                    { icon: 'fa-network-wired', text: 'Secure even on untrusted networks' },
-                    { icon: 'fa-arrows-to-circle', text: 'TLS 1.3 enforcement' }
+                    { icon: 'fa-lock', text: 'Strict-Transport-Security (HSTS) with 1-year max-age' },
+                    { icon: 'fa-code', text: 'Content-Security-Policy with strict script-src' },
+                    { icon: 'fa-shield-halved', text: 'X-XSS-Protection header enabled' },
+                    { icon: 'fa-window-restore', text: 'X-Frame-Options DENY prevents clickjacking' }
                 ]
             },
-            'aes-256': {
-                title: 'AES-256 Encryption',
+            'audit-logs': {
+                title: 'Immutable Audit Trail',
                 gradient: 'var(--gradient-3)',
-                image: '/img/biometric_auth.png',
-                description: 'Military-grade AES-256 encryption for all data at rest and in transit. The same encryption standard used by governments worldwide.',
+                image: '/img/audit_trail.png',
+                description: 'Every action is logged with user identity, timestamp, IP address, and device info. Old and new values are captured for complete traceability.',
                 features: [
-                    { icon: 'fa-lock', text: 'Data encrypted at rest in database' },
-                    { icon: 'fa-arrows-left-right', text: 'End-to-end encryption in transit' },
-                    { icon: 'fa-key', text: 'Unique encryption keys per tenant' },
-                    { icon: 'fa-shield-halved', text: 'FIPS 140-2 compliant' }
+                    { icon: 'fa-scroll', text: 'Complete action history with old/new values' },
+                    { icon: 'fa-user', text: 'Actor identification (email, IP, user agent)' },
+                    { icon: 'fa-clock', text: 'Timestamp and timezone tracking' },
+                    { icon: 'fa-filter', text: 'Searchable by action, entity, date range' }
                 ]
             },
-            'biometric': {
-                title: 'Biometric Authentication',
+            'access-control': {
+                title: 'Access Control System',
                 gradient: 'var(--gradient-1)',
-                image: '/img/drive_storage.png',
-                description: 'Fingerprint and Face ID access control ensures only authorized users can access the system. No passwords to forget or share.',
+                image: '/img/biometric_auth.png',
+                description: 'Multi-layer access control with IP blocking, admin gateway protection, session management, and maintenance mode bypass for admins.',
                 features: [
-                    { icon: 'fa-fingerprint', text: 'Fingerprint scanner integration' },
-                    { icon: 'fa-face-smile', text: 'Face ID recognition' },
-                    { icon: 'fa-user-lock', text: 'Multi-factor authentication' },
-                    { icon: 'fa-clock', text: 'Session timeout controls' }
+                    { icon: 'fa-ban', text: 'IP blocking via Edge Config' },
+                    { icon: 'fa-user-shield', text: 'Admin email whitelist protection' },
+                    { icon: 'fa-clock-rotate-left', text: 'Session timeout controls (60 min default)' },
+                    { icon: 'fa-tools', text: 'Maintenance mode with admin bypass' }
                 ]
             }
         };
@@ -1645,9 +1645,9 @@
                 if (i < 4) card.onclick = () => showDetail(techIds[i]);
             });
 
-            // Security cards
+            // Security cards - VERIFIED FEATURES
             const securityCards = document.querySelectorAll('.security-card');
-            const securityIds = ['ssl-pinning', 'aes-256', 'biometric'];
+            const securityIds = ['security-headers', 'audit-logs', 'access-control'];
             securityCards.forEach((card, i) => {
                 if (i < 3) card.onclick = () => showDetail(securityIds[i]);
             });
