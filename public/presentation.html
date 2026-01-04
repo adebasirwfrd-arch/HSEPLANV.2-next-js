@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSE PLAN V2 - Enterprise Command Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --neon-green: #10b981;
+            --neon-glow: 0 0 20px rgba(16, 185, 129, 0.5), 0 0 40px rgba(16, 185, 129, 0.3);
+        }
+        
+        * { box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f172a;
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .font-orbitron { font-family: 'Orbitron', monospace; }
+        
+        .glass {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+        }
+        
+        .neon-border {
+            border: 2px solid var(--neon-green);
+            box-shadow: var(--neon-glow);
+        }
+        
+        .neon-text {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(16, 185, 129, 0.1));
+            border-color: var(--neon-green);
+            box-shadow: var(--neon-glow);
+        }
+        
+        .section { display: none; opacity: 0; transition: opacity 0.5s ease; }
+        .section.active { display: block; opacity: 1; }
+        
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(16, 185, 129, 0.8), 0 0 60px rgba(16, 185, 129, 0.4); }
+        }
+        
+        .pulse-btn { animation: pulse-glow 2s ease-in-out infinite; }
+        
+        .phone-mockup {
+            width: 280px;
+            height: 560px;
+            background: #1e293b;
+            border-radius: 32px;
+            border: 4px solid #334155;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .phone-notch {
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 24px;
+            background: #0f172a;
+            border-radius: 12px;
+            z-index: 10;
+        }
+        
+        .phone-screen {
+            position: absolute;
+            top: 40px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            background: #0f172a;
+            border-radius: 24px;
+            overflow: hidden;
+        }
+        
+        .sim-sidebar {
+            width: 60px;
+            background: rgba(30, 41, 59, 0.9);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 0;
+            gap: 8px;
+        }
+        
+        .sim-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(51, 65, 85, 0.5);
+        }
+        
+        .sim-btn:hover, .sim-btn.active {
+            background: rgba(16, 185, 129, 0.3);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+        }
+        
+        .sim-content {
+            flex: 1;
+            padding: 12px;
+            overflow: hidden;
+        }
+        
+        .sim-screen { display: none; }
+        .sim-screen.active { display: block; }
+        
+        .video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+        
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.7));
+            z-index: 1;
+        }
+        
+        .gold-text {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b, #d97706);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Fixed Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass px-6 py-3">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-400 flex items-center justify-center">
+                    <i class="fas fa-shield-halved text-white"></i>
+                </div>
+                <span class="font-orbitron font-bold text-lg neon-text">HSE PLAN V2</span>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="showSection(0)" class="tab-btn px-4 py-2 rounded-lg border border-white/10 text-sm font-medium transition-all active" data-index="0">THE REALITY</button>
+                <button onclick="showSection(1)" class="tab-btn px-4 py-2 rounded-lg border border-white/10 text-sm font-medium transition-all" data-index="1">THE SOLUTION</button>
+                <button onclick="showSection(2)" class="tab-btn px-4 py-2 rounded-lg border border-white/10 text-sm font-medium transition-all" data-index="2">ARCHITECTURE</button>
+                <button onclick="showSection(3)" class="tab-btn px-4 py-2 rounded-lg border border-white/10 text-sm font-medium transition-all" data-index="3">SECURITY & AUDIT</button>
+                <button onclick="showSection(4)" class="tab-btn px-4 py-2 rounded-lg border border-white/10 text-sm font-medium transition-all" data-index="4">LIVE SIMULATION</button>
+                <button onclick="showSection(5)" class="tab-btn px-4 py-2 rounded-lg border border-white/10 text-sm font-medium transition-all" data-index="5">INVESTMENT</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Section 1: THE REALITY -->
+    <section id="section-0" class="section active min-h-screen pt-20 relative">
+        <video class="video-bg" autoplay muted loop>
+            <source src="video-intro.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+        <div class="relative z-10 flex flex-col items-center justify-center min-h-screen px-8">
+            <h1 class="font-orbitron text-5xl md:text-7xl font-black text-center mb-12 leading-tight">
+                THE <span class="neon-text">HIDDEN COST</span><br>OF MANUAL SAFETY
+            </h1>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl">
+                <div class="glass-card p-6 float-animation" style="animation-delay: 0s">
+                    <div class="w-16 h-16 rounded-2xl bg-red-500/20 flex items-center justify-center mb-4">
+                        <i class="fas fa-database text-red-400 text-2xl"></i>
+                    </div>
+                    <h3 class="font-orbitron text-xl font-bold mb-2">Data Manipulation</h3>
+                    <p class="text-slate-400 text-sm">Excel files can be edited by anyone. No audit trail. No accountability.</p>
+                </div>
+                <div class="glass-card p-6 float-animation" style="animation-delay: 0.2s">
+                    <div class="w-16 h-16 rounded-2xl bg-amber-500/20 flex items-center justify-center mb-4">
+                        <i class="fas fa-file-circle-xmark text-amber-400 text-2xl"></i>
+                    </div>
+                    <h3 class="font-orbitron text-xl font-bold mb-2">Lost Paperwork</h3>
+                    <p class="text-slate-400 text-sm">Physical forms disappear. Evidence gets destroyed. Compliance fails.</p>
+                </div>
+                <div class="glass-card p-6 float-animation" style="animation-delay: 0.4s">
+                    <div class="w-16 h-16 rounded-2xl bg-orange-500/20 flex items-center justify-center mb-4">
+                        <i class="fas fa-clock-rotate-left text-orange-400 text-2xl"></i>
+                    </div>
+                    <h3 class="font-orbitron text-xl font-bold mb-2">Delayed Reporting</h3>
+                    <p class="text-slate-400 text-sm">Weekly reports instead of real-time. Critical incidents go unnoticed.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: THE SOLUTION -->
+    <section id="section-1" class="section min-h-screen pt-20 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-8 py-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-screen">
+            <div>
+                <p class="text-emerald-400 font-medium mb-4 tracking-widest">INTRODUCING</p>
+                <h1 class="font-orbitron text-6xl font-black mb-6">HSE <span class="neon-text">PLAN V2</span></h1>
+                <p class="text-slate-400 text-xl mb-8">Enterprise-grade Safety Management System built for the Oil & Gas industry.</p>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center">
+                            <i class="fab fa-android text-emerald-400 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Native Android 15</h4>
+                            <p class="text-slate-400 text-sm">Optimized for offline-first operations</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center">
+                            <i class="fas fa-bolt text-blue-400 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Zero Latency</h4>
+                            <p class="text-slate-400 text-sm">Real-time sync with edge computing</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center">
+                            <i class="fas fa-cloud text-purple-400 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">100% Digital</h4>
+                            <p class="text-slate-400 text-sm">Paperless workflows with e-signatures</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-center">
+                <div class="phone-mockup neon-border">
+                    <div class="phone-notch"></div>
+                    <div class="phone-screen bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center">
+                        <img src="mockup-phone.png" alt="App Screenshot" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'text-center p-8\'><i class=\'fas fa-mobile-screen text-6xl text-emerald-400 mb-4\'></i><p class=\'text-slate-400\'>App Preview</p></div>'">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: ARCHITECTURE -->
+    <section id="section-2" class="section min-h-screen pt-20 relative" style="background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);">
+        <div class="absolute inset-0 opacity-20" style="background-image: url('blueprint.png'); background-size: cover;"></div>
+        <div class="relative z-10 max-w-7xl mx-auto px-8 py-16 flex items-center min-h-screen">
+            <div class="glass-card p-8 max-w-xl">
+                <h2 class="font-orbitron text-4xl font-bold mb-6">SYSTEM <span class="neon-text">ARCHITECTURE</span></h2>
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
+                            <i class="fab fa-react text-cyan-400 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg">Next.js 15 + React 19</h4>
+                            <p class="text-slate-400 text-sm">Server-side rendering with App Router for blazing-fast performance</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-fire text-orange-400 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg">Hermes Engine</h4>
+                            <p class="text-slate-400 text-sm">Optimized JavaScript runtime for mobile with 50% faster startup</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-database text-emerald-400 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg">Supabase Enterprise</h4>
+                            <p class="text-slate-400 text-sm">PostgreSQL with Row Level Security and real-time subscriptions</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
+                            <i class="fab fa-google text-blue-400 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg">Google Cloud Integration</h4>
+                            <p class="text-slate-400 text-sm">Calendar sync, Drive storage, and OAuth 2.0 authentication</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: SECURITY & AUDIT -->
+    <section id="section-3" class="section min-h-screen pt-20 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-8 py-16">
+            <div class="text-center mb-12">
+                <h2 class="font-orbitron text-5xl font-black mb-4">THE <span class="neon-text">TRUTH MACHINE</span></h2>
+                <p class="text-slate-400 text-xl">Every action is recorded. Every change is traceable. Forever.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="glass-card p-6 text-center">
+                    <div class="w-20 h-20 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-lock text-emerald-400 text-3xl"></i>
+                    </div>
+                    <h3 class="font-orbitron text-xl font-bold mb-2">SSL Pinning</h3>
+                    <p class="text-slate-400 text-sm">Certificate validation prevents man-in-the-middle attacks</p>
+                </div>
+                <div class="glass-card p-6 text-center">
+                    <div class="w-20 h-20 rounded-full bg-blue-500/20 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-halved text-blue-400 text-3xl"></i>
+                    </div>
+                    <h3 class="font-orbitron text-xl font-bold mb-2">Encrypted Gateway</h3>
+                    <p class="text-slate-400 text-sm">AES-256 encryption for all data in transit and at rest</p>
+                </div>
+                <div class="glass-card p-6 text-center">
+                    <div class="w-20 h-20 rounded-full bg-purple-500/20 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-fingerprint text-purple-400 text-3xl"></i>
+                    </div>
+                    <h3 class="font-orbitron text-xl font-bold mb-2">Biometric Auth</h3>
+                    <p class="text-slate-400 text-sm">Fingerprint and Face ID for secure access control</p>
+                </div>
+            </div>
+            <div class="mt-12 neon-border rounded-2xl overflow-hidden">
+                <div class="bg-slate-800/50 px-4 py-2 flex items-center gap-2 border-b border-white/10">
+                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    <span class="ml-4 text-sm text-slate-400">Audit Logs - Real-time Activity Monitor</span>
+                </div>
+                <img src="audit-log.png" alt="Audit Log Screenshot" class="w-full" onerror="this.outerHTML='<div class=\'p-8 bg-slate-800/50\'><div class=\'space-y-3\'><div class=\'flex items-center gap-4 p-3 bg-slate-700/50 rounded-lg\'><i class=\'fas fa-user-check text-emerald-400\'></i><span class=\'text-sm\'>admin@company.com updated program_progress</span><span class=\'ml-auto text-xs text-slate-400\'>2 min ago</span></div><div class=\'flex items-center gap-4 p-3 bg-slate-700/50 rounded-lg\'><i class=\'fas fa-plus text-blue-400\'></i><span class=\'text-sm\'>user@company.com created safety_moment</span><span class=\'ml-auto text-xs text-slate-400\'>15 min ago</span></div><div class=\'flex items-center gap-4 p-3 bg-slate-700/50 rounded-lg\'><i class=\'fas fa-edit text-amber-400\'></i><span class=\'text-sm\'>manager@company.com updated hse_task</span><span class=\'ml-auto text-xs text-slate-400\'>1 hour ago</span></div></div></div>'">
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: LIVE SIMULATION -->
+    <section id="section-4" class="section min-h-screen pt-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <div class="max-w-7xl mx-auto px-8 py-16">
+            <div class="text-center mb-12">
+                <h2 class="font-orbitron text-5xl font-black mb-4">LIVE <span class="neon-text">SIMULATION</span></h2>
+                <p class="text-slate-400 text-xl">Interactive demo of actual application modules</p>
+            </div>
+            <div class="flex gap-8 items-start justify-center">
+                <!-- Phone Mockup -->
+                <div class="phone-mockup neon-border" style="width: 320px; height: 640px;">
+                    <div class="phone-notch"></div>
+                    <div class="phone-screen flex">
+                        <div class="sim-sidebar">
+                            <div class="sim-btn active" onclick="showSimScreen('dashboard')" title="Dashboard">
+                                <i class="fas fa-home text-emerald-400"></i>
+                            </div>
+                            <div class="sim-btn" onclick="showSimScreen('otp')" title="OTP Programs">
+                                <i class="fas fa-clipboard-list text-blue-400"></i>
+                            </div>
+                            <div class="sim-btn" onclick="showSimScreen('matrix')" title="Matrix">
+                                <i class="fas fa-table-cells text-purple-400"></i>
+                            </div>
+                            <div class="sim-btn" onclick="showSimScreen('tasks')" title="Tasks">
+                                <i class="fas fa-tasks text-amber-400"></i>
+                            </div>
+                            <div class="sim-btn" onclick="showSimScreen('calendar')" title="Calendar">
+                                <i class="fas fa-calendar text-cyan-400"></i>
+                            </div>
+                            <div class="sim-btn" onclick="showSimScreen('community')" title="Community">
+                                <i class="fas fa-users text-pink-400"></i>
+                            </div>
+                            <div class="sim-btn" onclick="showSimScreen('audit')" title="Audit Logs">
+                                <i class="fas fa-shield-halved text-red-400"></i>
+                            </div>
+                            <div class="sim-btn" onclick="showSimScreen('statistics')" title="Statistics">
+                                <i class="fas fa-chart-line text-teal-400"></i>
+                            </div>
+                        </div>
+                        <div class="sim-content">
+                            <!-- Dashboard Screen -->
+                            <div id="sim-dashboard" class="sim-screen active">
+                                <h4 class="text-xs font-bold text-emerald-400 mb-2">DASHBOARD</h4>
+                                <div class="grid grid-cols-2 gap-2 mb-3">
+                                    <div class="bg-emerald-500/20 rounded-lg p-2 text-center">
+                                        <div class="text-lg font-bold">156</div>
+                                        <div class="text-[8px] text-slate-400">Programs</div>
+                                    </div>
+                                    <div class="bg-blue-500/20 rounded-lg p-2 text-center">
+                                        <div class="text-lg font-bold">89%</div>
+                                        <div class="text-[8px] text-slate-400">Progress</div>
+                                    </div>
+                                </div>
+                                <div class="bg-slate-700/50 rounded-lg p-2 h-24 flex items-end justify-around">
+                                    <div class="w-4 bg-emerald-400 rounded-t" style="height: 60%"></div>
+                                    <div class="w-4 bg-emerald-400 rounded-t" style="height: 80%"></div>
+                                    <div class="w-4 bg-emerald-400 rounded-t" style="height: 45%"></div>
+                                    <div class="w-4 bg-emerald-400 rounded-t" style="height: 90%"></div>
+                                    <div class="w-4 bg-emerald-400 rounded-t" style="height: 70%"></div>
+                                </div>
+                            </div>
+                            <!-- OTP Screen -->
+                            <div id="sim-otp" class="sim-screen">
+                                <h4 class="text-xs font-bold text-blue-400 mb-2">OTP PROGRAMS</h4>
+                                <div class="space-y-2">
+                                    <div class="bg-slate-700/50 rounded-lg p-2 flex items-center gap-2">
+                                        <div class="w-2 h-full bg-emerald-400 rounded"></div>
+                                        <div class="flex-1">
+                                            <div class="text-[10px] font-medium">Safety Training Q1</div>
+                                            <div class="text-[8px] text-slate-400">Jan - Mar 2026</div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-slate-700/50 rounded-lg p-2 flex items-center gap-2">
+                                        <div class="w-2 h-full bg-amber-400 rounded"></div>
+                                        <div class="flex-1">
+                                            <div class="text-[10px] font-medium">Emergency Drill</div>
+                                            <div class="text-[8px] text-slate-400">In Progress</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Matrix Screen -->
+                            <div id="sim-matrix" class="sim-screen">
+                                <h4 class="text-xs font-bold text-purple-400 mb-2">MATRIX VIEW</h4>
+                                <div class="bg-slate-700/50 rounded-lg p-2 overflow-hidden">
+                                    <div class="grid grid-cols-5 gap-1 text-[6px] text-center">
+                                        <div class="bg-slate-600 p-1">Site</div>
+                                        <div class="bg-slate-600 p-1">Jan</div>
+                                        <div class="bg-slate-600 p-1">Feb</div>
+                                        <div class="bg-slate-600 p-1">Mar</div>
+                                        <div class="bg-slate-600 p-1">Apr</div>
+                                        <div class="p-1 text-left">NRG</div>
+                                        <div class="bg-emerald-500/50 p-1">✓</div>
+                                        <div class="bg-emerald-500/50 p-1">✓</div>
+                                        <div class="bg-amber-500/50 p-1">●</div>
+                                        <div class="bg-slate-600/50 p-1">-</div>
+                                        <div class="p-1 text-left">BPP</div>
+                                        <div class="bg-emerald-500/50 p-1">✓</div>
+                                        <div class="bg-amber-500/50 p-1">●</div>
+                                        <div class="bg-slate-600/50 p-1">-</div>
+                                        <div class="bg-slate-600/50 p-1">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tasks Screen -->
+                            <div id="sim-tasks" class="sim-screen">
+                                <h4 class="text-xs font-bold text-amber-400 mb-2">TASKS</h4>
+                                <div class="space-y-2">
+                                    <div class="bg-slate-700/50 rounded-lg p-2">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-4 h-4 rounded border-2 border-amber-400 flex items-center justify-center">
+                                                <i class="fas fa-check text-[8px] text-amber-400"></i>
+                                            </div>
+                                            <span class="text-[10px]">Complete safety audit</span>
+                                        </div>
+                                        <div class="text-[8px] text-slate-400 mt-1">Due: Jan 15, 2026</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Calendar Screen -->
+                            <div id="sim-calendar" class="sim-screen">
+                                <h4 class="text-xs font-bold text-cyan-400 mb-2">CALENDAR</h4>
+                                <div class="bg-slate-700/50 rounded-lg p-2">
+                                    <div class="grid grid-cols-7 gap-1 text-[6px] text-center">
+                                        <div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
+                                        <div class="text-slate-500">29</div><div class="text-slate-500">30</div>
+                                        <div>1</div><div>2</div><div class="bg-emerald-500/50 rounded">3</div><div>4</div><div>5</div>
+                                        <div>6</div><div>7</div><div>8</div><div class="bg-blue-500/50 rounded">9</div><div>10</div><div>11</div><div>12</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Community Screen -->
+                            <div id="sim-community" class="sim-screen">
+                                <h4 class="text-xs font-bold text-pink-400 mb-2">SAFETY MOMENTS</h4>
+                                <div class="bg-slate-700/50 rounded-lg p-2">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <div class="w-6 h-6 rounded-full bg-pink-500/30"></div>
+                                        <div class="text-[9px]">John shared a tip</div>
+                                    </div>
+                                    <div class="text-[8px] text-slate-400">Always wear PPE when entering...</div>
+                                    <div class="flex gap-2 mt-2 text-[8px]">
+                                        <span><i class="fas fa-heart text-red-400"></i> 24</span>
+                                        <span><i class="fas fa-comment text-blue-400"></i> 8</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Audit Screen -->
+                            <div id="sim-audit" class="sim-screen">
+                                <h4 class="text-xs font-bold text-red-400 mb-2">AUDIT LOGS</h4>
+                                <div class="space-y-1">
+                                    <div class="bg-slate-700/50 rounded p-1 text-[8px] flex items-center gap-1">
+                                        <i class="fas fa-plus text-emerald-400 text-[6px]"></i>
+                                        <span>Created task #245</span>
+                                    </div>
+                                    <div class="bg-slate-700/50 rounded p-1 text-[8px] flex items-center gap-1">
+                                        <i class="fas fa-edit text-amber-400 text-[6px]"></i>
+                                        <span>Updated program</span>
+                                    </div>
+                                    <div class="bg-slate-700/50 rounded p-1 text-[8px] flex items-center gap-1">
+                                        <i class="fas fa-check text-blue-400 text-[6px]"></i>
+                                        <span>Completed audit</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Statistics Screen -->
+                            <div id="sim-statistics" class="sim-screen">
+                                <h4 class="text-xs font-bold text-teal-400 mb-2">STATISTICS</h4>
+                                <div class="bg-slate-700/50 rounded-lg p-2">
+                                    <div class="flex items-end justify-around h-20">
+                                        <div class="text-center">
+                                            <div class="w-6 bg-teal-400 rounded-t mx-auto" style="height: 50px"></div>
+                                            <div class="text-[6px] mt-1">Q1</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="w-6 bg-teal-400 rounded-t mx-auto" style="height: 65px"></div>
+                                            <div class="text-[6px] mt-1">Q2</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="w-6 bg-teal-400 rounded-t mx-auto" style="height: 40px"></div>
+                                            <div class="text-[6px] mt-1">Q3</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="w-6 bg-teal-400 rounded-t mx-auto" style="height: 75px"></div>
+                                            <div class="text-[6px] mt-1">Q4</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Description Panel -->
+                <div class="glass-card p-6 w-96">
+                    <h3 class="font-orbitron text-xl font-bold mb-4 neon-text">MODULE DETAILS</h3>
+                    <div id="module-info">
+                        <div class="mb-4">
+                            <p class="text-xs text-slate-400 mb-1">Current View</p>
+                            <p class="font-semibold text-lg" id="module-name">Dashboard</p>
+                        </div>
+                        <div class="mb-4">
+                            <p class="text-xs text-slate-400 mb-1">Route Path</p>
+                            <code class="text-emerald-400 text-sm bg-slate-800 px-2 py-1 rounded" id="module-route">/app/page.tsx</code>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400 mb-1">Features</p>
+                            <ul class="text-sm space-y-1" id="module-features">
+                                <li><i class="fas fa-check text-emerald-400 mr-2"></i>Real-time KPI widgets</li>
+                                <li><i class="fas fa-check text-emerald-400 mr-2"></i>Progress charts</li>
+                                <li><i class="fas fa-check text-emerald-400 mr-2"></i>Activity feed</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: INVESTMENT -->
+    <section id="section-5" class="section min-h-screen pt-20 relative">
+        <video class="video-bg" autoplay muted loop>
+            <source src="video-close.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+        <div class="relative z-10 flex items-center justify-center min-h-screen px-8">
+            <div class="glass-card p-10 max-w-lg text-center neon-border">
+                <div class="w-20 h-20 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-crown text-white text-3xl"></i>
+                </div>
+                <h2 class="font-orbitron text-3xl font-bold mb-2">ENTERPRISE LICENSE</h2>
+                <p class="text-slate-400 mb-6">Complete ownership for your organization</p>
+                <div class="text-5xl font-black gold-text mb-6">IDR 200.000.000</div>
+                <ul class="space-y-3 text-left max-w-xs mx-auto mb-8">
+                    <li class="flex items-center gap-3">
+                        <i class="fas fa-infinity text-emerald-400"></i>
+                        <span>Perpetual License</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fas fa-users text-blue-400"></i>
+                        <span>Unlimited Users</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fas fa-headset text-purple-400"></i>
+                        <span>6-Month Hypercare Support</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fas fa-code-branch text-amber-400"></i>
+                        <span>Full Source Code Access</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fas fa-server text-cyan-400"></i>
+                        <span>On-Premise Deployment Option</span>
+                    </li>
+                </ul>
+                <button class="w-full py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 font-orbitron font-bold text-lg pulse-btn hover:scale-105 transition-transform">
+                    INITIATE PARTNERSHIP
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Tab switching
+        function showSection(index) {
+            document.querySelectorAll('.section').forEach((s, i) => {
+                s.classList.remove('active');
+                if (i === index) s.classList.add('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach((b, i) => {
+                b.classList.remove('active');
+                if (i === index) b.classList.add('active');
+            });
+        }
+
+        // Simulation screen switching
+        const moduleData = {
+            dashboard: { name: 'Dashboard', route: '/app/page.tsx', features: ['Real-time KPI widgets', 'Progress charts', 'Activity feed'] },
+            otp: { name: 'OTP Programs', route: '/app/otp/page.tsx', features: ['Timeline visualization', 'Monthly tracking', 'Plan vs Actual'] },
+            matrix: { name: 'Matrix View', route: '/app/matrix/page.tsx', features: ['Multi-site overview', 'Progress grid', 'Status indicators'] },
+            tasks: { name: 'Task Management', route: '/app/tasks/page.tsx', features: ['Task assignments', 'Due date tracking', 'Status updates'] },
+            calendar: { name: 'Calendar', route: '/app/calendar/page.tsx', features: ['Google Calendar sync', 'Event scheduling', 'Reminders'] },
+            community: { name: 'Safety Moments', route: '/app/community/page.tsx', features: ['Social feed', 'Photo sharing', 'Likes & comments'] },
+            audit: { name: 'Audit Logs', route: '/app/audit-logs/page.tsx', features: ['Full activity history', 'User tracking', 'Immutable records'] },
+            statistics: { name: 'Statistics', route: '/app/statistics/page.tsx', features: ['Data visualization', 'Trend analysis', 'Export reports'] }
+        };
+
+        function showSimScreen(screen) {
+            document.querySelectorAll('.sim-screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('sim-' + screen).classList.add('active');
+            
+            document.querySelectorAll('.sim-btn').forEach(b => b.classList.remove('active'));
+            event.target.closest('.sim-btn').classList.add('active');
+            
+            const data = moduleData[screen];
+            document.getElementById('module-name').textContent = data.name;
+            document.getElementById('module-route').textContent = data.route;
+            document.getElementById('module-features').innerHTML = data.features.map(f => 
+                `<li><i class="fas fa-check text-emerald-400 mr-2"></i>${f}</li>`
+            ).join('');
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const current = [...document.querySelectorAll('.tab-btn')].findIndex(b => b.classList.contains('active'));
+            if (e.key === 'ArrowRight' && current < 5) showSection(current + 1);
+            if (e.key === 'ArrowLeft' && current > 0) showSection(current - 1);
+        });
+    </script>
+</body>
+</html>
