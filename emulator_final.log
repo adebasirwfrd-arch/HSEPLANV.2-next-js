@@ -128,3 +128,7 @@ INFO         | Warning: skipping QEventPoint(id=1 ts=0 pos=0,0 scn=108.341,202.4
 INFO         | Warning: skipping QEventPoint(id=1 ts=0 pos=0,0 scn=166.145,151.294 gbl=166.145,151.294 Released ellipse=(1x1 ∡ 0) vel=0,0 press=-166.145,-151.294 last=-166.145,-151.294 Δ 166.145,151.294) : no target window (:0, )
 INFO         | Warning: skipping QEventPoint(id=1 ts=0 pos=0,0 scn=405.436,504.463 gbl=405.436,504.463 Released ellipse=(1x1 ∡ 0) vel=0,0 press=-405.436,-504.463 last=-405.436,-504.463 Δ 405.436,504.463) : no target window (:0, )
 INFO         | Warning: skipping QEventPoint(id=1 ts=0 pos=0,0 scn=392.961,688.13 gbl=392.961,688.13 Released ellipse=(1x1 ∡ 0) vel=0,0 press=-392.961,-688.13 last=-392.961,-688.13 Δ 392.961,688.13) : no target window (:0, )
+INFO         | Wait for emulator (pid 74378) 20 seconds to shutdown gracefully before kill;you can set environment variable ANDROID_EMULATOR_WAIT_TIME_BEFORE_KILL(in seconds) to change the default value (20 seconds)
+
+INFO         | Saving with gfxstream=1
+INFO         | Saving snapshot 'default_boot' using 6989 ms

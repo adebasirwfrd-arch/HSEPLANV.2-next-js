@@ -1,0 +1,89 @@
+@Antigravity, I need to build a "Futuristic Command Center Presentation" web app for selling an Enterprise HSE System.
+
+Please create a single file named `presentation.html`.
+Use **Tailwind CSS** (via CDN) and **FontAwesome** for icons.
+The design style must be **"Cyberpunk Corporate"**: Dark backgrounds (slate-900), Neon Emerald accents, Glassmorphism panels.
+
+**Structure Requirements:**
+1.  **Fixed Top Navigation Bar:**
+    * A sleek, glass-effect bar at the top.
+    * 5 Buttons (Tabs): "THE REALITY", "THE SOLUTION", "ARCHITECTURE", "SECURITY & AUDIT", "INVESTMENT".
+    * The active tab should glow green.
+
+2.  **Content Container (Dynamic Switching):**
+    * Below the nav bar, create 5 separate `<section>` divs.
+    * Use JavaScript to show only ONE section at a time based on the clicked tab (Tabbed Interface).
+    * Add a smooth "Fade In" animation when switching tabs.
+
+**Content Detail per Section:**
+
+* **SECTION 1: THE REALITY (Issue)**
+    * Background: Fullscreen Video (`video-intro.mp4`) with dark overlay.
+    * Content: Large animated text centered. "THE HIDDEN COST OF MANUAL SAFETY".
+    * 3 Floating Cards (Glass effect): "Data Manipulation", "Lost Paperwork", "Delayed Reporting".
+
+* **SECTION 2: THE SOLUTION (Product)**
+    * Layout: Split Screen (Left Text, Right Image).
+    * Left: Title "HSE PLAN V2". Features list: Native Android 15, Zero Latency, 100% Digital.
+    * Right: Place for a phone mockup image (`mockup-phone.png`).
+
+* **SECTION 3: ARCHITECTURE (Blueprint)**
+    * Background: Image (`blueprint.png`) cover.
+    * Content: A semi-transparent side panel on the left explaining the tech stack: Next.js, Hermes Engine, Supabase Enterprise.
+
+* **SECTION 4: SECURITY & AUDIT (Evidence)**
+    * Layout: Grid.
+    * Top: Title "THE TRUTH MACHINE".
+    * Bottom: A container for the Audit Log screenshot (`audit-log.png`) with a glowing green border.
+    * Icons: Add icons for SSL Pinning and Encrypted Gateway.
+
+ 
+
+**SECTION 5: LIVE SIMULATION (Demo)**
+ insert a specific interactive Demo Section.
+
+Please add a NEW TAB button in the navigation bar labeled **"LIVE SIMULATION"**. Place it **before** the "INVESTMENT" tab.
+Details for the "LIVE SIMULATION" Section:**
+@Antigravity, I want the "LIVE SIMULATION" section in my `presentation.html` to perfectly mirror my actual app structure.
+
+**STEP 1: ANALYZE MY CODEBASE**
+Please scan my `/app` directory (or my main Navigation structure).
+Identify all the main features/modules based on my folder names and routes (e.g., Matrix, Safety Moments, Audit, Profile, etc.).
+
+**STEP 2: GENERATE THE DEMO HTML**
+Based on the features you found, update the "LIVE SIMULATION" section in `presentation.html`:
+
+1.  **Sidebar Navigation (Inside the HTML Phone):**
+    Instead of generic buttons, create a Sidebar/Drawer menu inside the phone mockup that lists the EXACT modules you found in my code.
+
+2.  **Screen Content Logic:**
+    For each module found, create a corresponding "Screen View" in the HTML.
+    * If you find `matrix` -> Show a Matrix/Table layout placeholder.
+    * If you find `feed` -> Show a Social Feed layout placeholder.
+    * If you find `audit-log` -> Show a List layout placeholder.
+    * (Do this for ALL major routes you identify).
+
+3.  **Interactive Flow:**
+    Write JavaScript so that clicking the sidebar items in the HTML phone switches the screen view to the correct feature.
+
+4.  **Description Panel:**
+    On the right side of the phone, display the "Technical Feature Name" based on the actual route name (e.g., "Route: /app/(tabs)/matrix/index.tsx") so the clients know this is mapped to real code.
+
+**OUTPUT:**
+Rewrite the `presentation.html` code with this dynamic, code-based simulation structure.
+
+
+* **SECTION 5: INVESTMENT (Closing)**
+    * Background: Video (`video-close.mp4`).
+    * Centerpiece: A Premium "Enterprise License" Pricing Card.
+    * Price: "IDR 200.000.000" (Make this text large and gold).
+    * List: Perpetual License, Unlimited Users, 6-Month Hypercare.
+    * Bottom: A pulsing button "INITIATE PARTNERSHIP".
+
+
+**Functionality:**
+* Write the Javascript to handle the Tab switching logic.
+* Ensure videos utilize `autoplay muted loop`.
+* Make sure the layout is responsive but optimized for a 16:9 Laptop Screen (Fullscreen presentation mode).
+
+Generate the complete, ready-to-run HTML code now.

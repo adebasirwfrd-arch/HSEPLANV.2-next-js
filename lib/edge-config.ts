@@ -154,12 +154,13 @@ export function getSecurityHeaders(): Record<string, string> {
         // Content Security Policy
         'Content-Security-Policy': [
             "default-src 'self'",
-            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://*.vercel-scripts.com blob:",
-            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-            "font-src 'self' https://fonts.gstatic.com",
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://*.vercel-scripts.com https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com blob:",
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com",
+            "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com",
             "img-src 'self' data: blob: https://*.unsplash.com https://*.supabase.co https://*.googleusercontent.com https://*.stream-io-cdn.com https://*.uploadthing.com https://uploadthing.com https://utfs.io",
             "connect-src 'self' https://*.supabase.co https://*.vercel.app wss://*.supabase.co https://api.brevo.com https://getstream.io https://*.stream-io-api.com https://*.stream-io-cdn.com https://*.uploadthing.com https://uploadthing.com https://api.uploadthing.com data: blob:",
-            "frame-ancestors 'none'",
+            "frame-src 'self'",
+            "frame-ancestors 'self'",
             "form-action 'self'",
             "base-uri 'self'"
         ].join('; '),
